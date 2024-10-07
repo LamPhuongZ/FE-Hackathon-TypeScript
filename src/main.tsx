@@ -2,13 +2,15 @@ import "./styles/_all.scss";
 import { FloatButton } from "antd";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/lib/integration/react";
-import { Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import store, { persistor } from "./redux/store";
 import Loading from "./components/loading";
-import HomeTemplate from "./templates/HomeTemplate";
-import HomePage from "./pages/HomePage";
+
+const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));
+const HomePage = lazy(() => import("./pages/HomePage"));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -23,7 +25,7 @@ root.render(
               <Route path="/" element={<HomePage />} />
             </Route>
 
-            {/* <Route path="*" element={<NotFoundPage />} /> */}
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
       </Suspense>

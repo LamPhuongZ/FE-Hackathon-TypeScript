@@ -5,8 +5,8 @@ services:
     restart: unless-stopped
     ports:
       - '80:80'      # Ánh xạ cổng 80
-      - '81:81'      # Ánh xạ cổng 81
-      - '3000:443'   # Ánh xạ cổng 443 sang cổng 3000
+      - '80:81'      # Ánh xạ cổng 81
+      - '443:443'    # Ánh xạ cổng 443 sang cổng 3000
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt

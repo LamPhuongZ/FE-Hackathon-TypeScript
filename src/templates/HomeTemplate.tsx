@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import Footer from "../components/footer";
 import Banner from "../pages/HomePage/components/banner";
 // import Benefits from "../pages/HomePage/components/benefits";
@@ -12,6 +13,7 @@ export default function HomeTemplate() {
         <Banner />
         {/* <Benefits /> */}
         <ListJobPage></ListJobPage>
+        <Outlet />
       </div>
       <Footer />
     </div>

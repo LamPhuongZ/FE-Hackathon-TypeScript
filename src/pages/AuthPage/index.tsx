@@ -13,6 +13,9 @@ export default function AuthPage() {
     setClientReady(true);
   }, []);
 
+  console.log(clientReady);
+  
+
   const onFinish = (values: string) => {
     console.log("Finish:", values);
   };

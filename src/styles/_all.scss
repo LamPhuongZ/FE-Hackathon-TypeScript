@@ -5,4 +5,9 @@
 @import './utils/mixin';
 @import './utils/variable';
 
-@import './base/reset'
+@import './base/reset';
+
+
+body{
+  background-color: #F4F9FD;
+}

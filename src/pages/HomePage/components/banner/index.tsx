@@ -3,7 +3,7 @@ import banner2 from "../../../../assets/images/banner2.png";
 
 export default function Banner() {
   return (
-    <div className="bg-[#6da2f139] py-4 shadow-2xl flex items-center justify-evenly gap-0 mt-[29px]">
+    <div className="bg-[#6da2f139] py-4 shadow-2xl flex items-center justify-evenly gap-0 ">
       <div className="w-52 h-52">
         <img src={banner1} alt="" className="w-full h-full" />
       </div>

@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import store, { persistor } from "./redux/store";
 import Loading from "./components/loading";
+import ListJobPage from "./pages/ListJobPage/ListJobPage";
 
 const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -23,6 +24,7 @@ root.render(
           <Routes>
             <Route path="" element={<HomeTemplate />}>
               <Route path="/" element={<HomePage />} />
+              <Route path="/listjob" element={<ListJobPage/>}></Route>
             </Route>
 
             <Route path="*" element={<NotFoundPage />} />

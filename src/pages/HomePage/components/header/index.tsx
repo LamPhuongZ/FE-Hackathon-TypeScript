@@ -3,7 +3,7 @@ import AuthPage from "../../../AuthPage";
 
 export default function Header() {
   return (
-    <div className="px-[112px] py-[24px]">
+    <div className="px-[112px] py-[24px] bg-white">
       <div className="flex items-center capitalize justify-evenly">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10">
@@ -16,7 +16,7 @@ export default function Header() {
             <h1 className="">Tìm việc</h1>
           </div>
           <div>
-            <h1 className="">Chính sáchhhhh</h1>
+            <h1 className="">Chính sách</h1>
           </div>
           <div>
             <h1 className="">Về chúng tôi</h1>

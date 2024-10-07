@@ -5,16 +5,17 @@ on:
 
 jobs:
   run_pull:
-    name: run pull
+    name: Run Pull on EC2 Server
     runs-on: ubuntu-latest
 
     steps:
-      - name: install ssh keys
-        # check this thread to understand why it needed:
-        # https://stackoverflow.com/a/70447517
+      - name: Install SSH Key and Known Hosts
         run: |
-          install -m 600 -D /dev/null ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          ssh-keyscan -p ${{ secrets.PORT }} -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
-      - name: connect and pull
-        run: ssh -p ${{ secrets.PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "sudo -i && cd ${{ secrets.WORK_DIR }} && git pull && chmod +x ./script.sh && ./script.sh"
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -p ${{ secrets.PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Pull Code and Run Script on EC2
+        run: |
+          ssh -p ${{ secrets.PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "sudo -i && cd ${{ secrets.WORK_DIR }} && git pull && chmod +x ./script.sh && ./script.sh"

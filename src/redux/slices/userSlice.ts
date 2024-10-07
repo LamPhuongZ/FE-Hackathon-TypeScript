@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { SLICE_NAMESPACE } from "../../utils/settings";
 
 type User = {
@@ -30,7 +30,7 @@ export const fetchLoginAction = createAsyncThunk(
       // lưu accessToken từ api trả về vào localStorage
     //   const { accessToken } = response.data;
     //   localStorage.setItem("accessToken", accessToken);
-    //   return response.data;
+      return values;
     } catch (error) {
       return thunkApi.rejectWithValue(error);
     }
@@ -58,13 +58,13 @@ const userSlice = createSlice({
     builder.addCase(fetchLoginAction.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(
-        fetchLoginAction.fulfilled,
-      (state, action: PayloadAction<User>) => {
-        state.user = action.payload;
-        state.isLoading = false;
-      }
-    );
+    // builder.addCase(
+    //     fetchLoginAction.fulfilled,
+    //   (state, action: PayloadAction<User>) => {
+    //     state.user = action.payload;
+    //     state.isLoading = false;
+    //   }
+    // );
     builder.addCase(fetchLoginAction.rejected, (state) => {
       state.isLoading = false;
       state.isError = true;

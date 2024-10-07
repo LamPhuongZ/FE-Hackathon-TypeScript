@@ -1,8 +1,8 @@
-import imgHero from "../../../../../assets/images/image-hero.png";
+import imgHero from "../../../../assets/images/image-hero.png";
 
-export function Hero() {
+export default function Hero() {
   return (
-    <section className="flex justify-center items-center gap-16">
+    <section className="flex justify-center items-center gap-16 bg-[#f1f2fd]">
       <div className="w-[697px] h-[295px] text-7xl font-semibold tracking-tight capitalize ml-16 leading-[98.5px] text-custom-blue">
         <p>Kết Nối Việc Làm,</p>
         <p>Cơ Hội Mới, </p>

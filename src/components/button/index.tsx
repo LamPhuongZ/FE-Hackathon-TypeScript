@@ -13,9 +13,9 @@ type ButtonProps = {
 export default function Button({
   title,
   loading,
-  color,
-  bgColor,
-  borderColor,
+  color = "rgba(63, 140, 255, 0.63)",
+  bgColor = "#6da2f139",
+  borderColor = "transparent",
   margin,
   onClick,
 }: ButtonProps) {
@@ -27,7 +27,7 @@ export default function Button({
         borderColor: borderColor,
         margin: margin,
       }}
-      className=""
+      className="p-2 text-base border border-solid rounded-md cursor-pointer transition-all duration-1000 hover:scale-90"
       onClick={onClick}
       disabled={loading}
     >

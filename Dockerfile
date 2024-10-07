@@ -7,7 +7,7 @@ WORKDIR /usr/share/nginx/html
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
-COPY build/ .
+COPY dist/ .
 
 
 # docker build . -t img-fe-hokkaido

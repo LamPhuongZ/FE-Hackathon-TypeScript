@@ -25,6 +25,7 @@ root.render(
           <Routes>
             <Route path="" element={<HomeTemplate />}>
               <Route path="/" element={<HomePage />} />
+              <Route path="/list_job" element={<ListJobPage/>}></Route>
               <Route path="/landing-page" element={<LandingPage />} />
             </Route>
 

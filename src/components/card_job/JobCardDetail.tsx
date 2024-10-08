@@ -15,7 +15,7 @@ export default function JobCardDetail({}: Props) {
           <p className="font-medium">Đã xác thực</p>
         </div>
       </div>
-      <button className="btn w-full h-16 rounded-2xl bg-[#3F8CFF] shadow-lg text-white text-2xl font-bold mt-9 hover:bg-[#3F8CFF]">
+      <button className="w-full h-16 rounded-2xl bg-[#3F8CFF] shadow-lg text-white text-2xl font-bold mt-9 hover:bg-[#3F8CFF]">
         Ứng tuyển
       </button>
       <div>

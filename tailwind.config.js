@@ -320,5 +320,4 @@ export default {
       "align-items": "center",
     },
   },
-  plugins: [require("daisyui")], // Add DaisyUI
 };

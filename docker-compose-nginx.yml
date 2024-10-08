@@ -4,8 +4,9 @@ services:
     image: 'jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
     ports:
-      - '80:81'       # Ánh xạ cổng 81 (Giao diện quản trị)
-      - '443:443'     # Ánh xạ cổng 443 sang cổng 3000
+      - '80:80'       # Ánh xạ cổng 80 cho HTTP
+      - '81:81'       # Ánh xạ cổng 81 (Giao diện quản trị)
+      - '443:443'     # Ánh xạ cổng 443 chi HTTPS
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt

@@ -309,6 +309,7 @@ export default {
       addUtilities(newUtilities);
     },
   ],
+
   // To use custom utilities, add them to the 'utilities' section in your Tailwind config
   // Then you can use them in your HTML or JSX like regular Tailwind classes
   // For example: <div className="flex-center">...</div>
@@ -319,5 +320,5 @@ export default {
       "align-items": "center",
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")], // Add DaisyUI
 };

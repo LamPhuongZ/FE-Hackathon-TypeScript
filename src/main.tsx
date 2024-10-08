@@ -24,7 +24,7 @@ root.render(
           <Routes>
             <Route path="" element={<HomeTemplate />}>
               <Route path="/" element={<HomePage />} />
-              <Route path="/listjob" element={<ListJobPage/>}></Route>
+              <Route path="/list_job" element={<ListJobPage/>}></Route>
             </Route>
 
             <Route path="*" element={<NotFoundPage />} />

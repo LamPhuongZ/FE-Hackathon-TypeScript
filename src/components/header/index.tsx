@@ -15,7 +15,7 @@ export default function Header() {
             <Link to="/find-job">Tìm việc</Link>
           </li>
           <li>
-            <Link to="/">Chính sáchh</Link>
+            <Link to="/">Chính sách</Link>
           </li>
           <li>
             <Link to="/landing-page">Về chúng tôi</Link>

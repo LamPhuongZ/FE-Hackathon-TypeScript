@@ -9,8 +9,8 @@ import Google from "../../../../assets/images/Google.png";
 
 const HowItWorks = () => {
   return (
-    <div>
-      <div className="flex flex-col bg-[#FFFDFD] 2xl:mx-[210px] py-20">
+    <div className="">
+      <div className="flex flex-col 2xl:mx-[210px] py-20">
         <div className="flex items-center flex-col">
           <h1 className="capitalize text-5xl font-medium">
             quy trình của chúng tôi
@@ -31,7 +31,13 @@ const HowItWorks = () => {
                 </div>
                 <div className="flex gap-5 justify-center w-[450px] flex-col pb-10">
                   <p className=" text-4xl font-bold leading-[50px]">
-                    Đăng ký hoặc đăng nhập bằng <img src={Google} alt="" className="inline-block w-10 h-10"/>mail
+                    Đăng ký hoặc đăng nhập bằng{" "}
+                    <img
+                      src={Google}
+                      alt=""
+                      className="inline-block w-10 h-10"
+                    />
+                    mail
                   </p>
                   <div className="border-2 border-[#37A3FF] w-20"></div>
                 </div>

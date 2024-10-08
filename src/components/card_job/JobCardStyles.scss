@@ -1,11 +1,11 @@
 .selectCard {
-    border: 1px solid #3f8cff;
+    border: 2px solid #3f8cff;
     position: relative;
 
     &::before {
         content: ''; 
         position: absolute;
-        top: 25; 
+        top: 15px; 
         left: 0px; 
         width: 8px; 
         height: 90%; 
@@ -24,5 +24,12 @@
         border-left: 10px solid #3f8cff; 
         border-top: 10px solid transparent; 
         border-bottom: 10px solid transparent;
+    }
+  }
+
+  .btn{
+    &:hover{
+         background-color: #3f8cff !important;
+         color: white !important;
     }
   }

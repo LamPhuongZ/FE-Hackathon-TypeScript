@@ -48,7 +48,7 @@ function AuthPage() {
           <div className="text-4xl font-normal text-center font-bold flex flex-col gap-5">
             { isShowOTP ? (isLogin ? <Title>Chào mừng trở lại</Title> : <Title>Đăng ký ngay</Title>) : <Title>Hãy nhập mã OTP</Title>}
             <div className="flex justify-center mb-5 gap-4">
-              <Text type="secondary">{isShowOTP ? (isLogin ? 'Chưa có tài khoản?' : 'Đã có tài khoản rồi') : ''}</Text>
+              <Text className="" type="secondary">{isShowOTP ? (isLogin ? 'Chưa có tài khoản?' : 'Đã có tài khoản rồi') : ''}</Text>
               <Link onClick={() => setIsLogin(!isLogin)}>
                 {isShowOTP ?(isLogin? "Đăng ký ngay" : "Đăng nhập") : ''}
               </Link>

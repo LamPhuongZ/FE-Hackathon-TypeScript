@@ -1,4 +1,3 @@
-import React from "react";
 import checked from "../../assets/images/checked.png";
 import location from "../../assets/images/location.png";
 import calendar from "../../assets/images/calender.png";

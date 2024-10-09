@@ -7,8 +7,8 @@ export default function HomeTemplate() {
   return (
     <div className="content-wrapper">
       <Header />
+      <Banner />
       <div style={{ minHeight: "80vh" }}>
-        <Banner></Banner>
         <Outlet />
       </div>
       <Footer />

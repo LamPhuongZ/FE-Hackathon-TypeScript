@@ -1,10 +1,7 @@
-import React from "react";
 import checked from "../../assets/images/checked.png";
 import Button from "../button/Button";
 
-type Props = {};
-
-export default function JobCardDetail({}: Props) {
+export default function JobCardDetail() {
   return (
     <div className="bg-white rounded-2xl shadow-md py-12 px-7">
       <div className="flex gap-16">

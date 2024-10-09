@@ -9,6 +9,7 @@ export default {
       },
       screens: {
         "max-md": { max: "700px" }, // max-width 700px
+        "max-xl": { max: "1250px" }, // max-width 1250px
         phone: "320px",
         tablet: "640px",
         laptop: "1024px",

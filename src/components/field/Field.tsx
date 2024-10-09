@@ -1,6 +1,4 @@
-import React, { PropsWithChildren } from "react";
-
-type Props = {};
+import { PropsWithChildren } from "react";
 
 export default function Field({ children }: PropsWithChildren) {
   return (

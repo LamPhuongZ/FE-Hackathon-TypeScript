@@ -17,6 +17,7 @@ export default {
       },
       shadow:
         "box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset",
+      columnsGrid: "500px minmax(0, 1fr)",
     },
   },
   plugins: [
@@ -309,6 +310,7 @@ export default {
       addUtilities(newUtilities);
     },
   ],
+
   // To use custom utilities, add them to the 'utilities' section in your Tailwind config
   // Then you can use them in your HTML or JSX like regular Tailwind classes
   // For example: <div className="flex-center">...</div>
@@ -319,5 +321,4 @@ export default {
       "align-items": "center",
     },
   },
-  plugins: [],
 };

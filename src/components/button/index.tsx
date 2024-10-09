@@ -8,7 +8,22 @@ type ButtonProps = {
   borderColor?: string;
   margin?: string;
   onClick?: () => void;
+  icon?: ReactNode;
+  iconPosition?: "left" | "right";
 };
+
+/**
+ *
+ * @type  title: string | ReactNode;
+  loading?: boolean;
+  color?: string;
+  bgColor?: string;
+  borderColor?: string;
+  margin?: string;
+  onClick?: () => void;
+  icon?: ReactNode;
+  iconPosition?: "left" | "right";
+ */
 
 export default function Button({
   title,
@@ -18,6 +33,8 @@ export default function Button({
   borderColor = "transparent",
   margin,
   onClick,
+  icon,
+  iconPosition = "left",
 }: ButtonProps) {
   return (
     <button
@@ -31,7 +48,9 @@ export default function Button({
       onClick={onClick}
       disabled={loading}
     >
+      {icon && iconPosition === "left" && <span className="mr-2">{icon}</span>}
       {title}
+      {icon && iconPosition === "right" && <span className="ml-2">{icon}</span>}
     </button>
   );
 }

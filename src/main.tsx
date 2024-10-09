@@ -12,6 +12,8 @@ const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 const LandingPage = lazy(() => import("./pages/LandingPage"));
+const ListJobPage = lazy(() => import("./pages/ListJobPage"));
+const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -24,7 +26,9 @@ root.render(
           <Routes>
             <Route path="" element={<HomeTemplate />}>
               <Route path="/" element={<HomePage />} />
+              <Route path="/list-job" element={<ListJobPage/>} />
               <Route path="/landing-page" element={<LandingPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
             </Route>
 
             <Route path="*" element={<NotFoundPage />} />

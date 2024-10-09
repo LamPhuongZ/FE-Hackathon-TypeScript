@@ -1,12 +1,16 @@
 import React from "react";
 import Label from "../../components/label/Label";
 import Input from "../../components/input/Input";
-import Field from "../../components/field/field";
+import Field from "../../components/field/Field";
 import Button from "../../components/button/Button";
 
 type Props = {};
 
 export default function ProfilePage({}: Props) {
+  // const onSelectImage = (e:React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files[0]
+  //   if(!file) return
+  // }
   return (
     <div className="py-20 px-[72px]">
       <div className="bg-white py-4 shadow-md px-11">
@@ -19,52 +23,55 @@ export default function ProfilePage({}: Props) {
           </div>
         </div>
         <form>
-          <div className="w-[200px] h-[200px] rounded-full mx-auto mb-10"></div>
-          <div className="border border-solid border-[#D5D5D5] rounded-3xl">
-            <div className="pt-14 px-8">
-              <div className="form-layout ">
-                <Field>
-                  <Label htmlFor="fullname">Họ tên đầy đủ</Label>
-                  <Input
-                    name="fullname"
-                    placeholder="Nhập họ tên đầy đủ"
-                  ></Input>
-                </Field>
-                <Field>
-                  <Label htmlFor="date">Ngày sinh</Label>
-                  <Input
-                    name="date"
-                    placeholder="Nhập ngày tháng năm sinh"
-                  ></Input>
-                </Field>
-              </div>
-              <div className="form-layout ">
-                <Field>
-                  <Label htmlFor="phone">Số điện thoại</Label>
-                  <Input name="phone" placeholder="Nhập số điện thoại"></Input>
-                </Field>
-                <Field>
-                  <Label htmlFor="join">Tham gia từ</Label>
-                  <Input name="join" placeholder=""></Input>
-                </Field>
-              </div>
-              <div className="form-layout ">
-                <Field>
-                  <Label htmlFor="address">Địa chỉ</Label>
-                  <Input name="address" placeholder="Nhập địa chỉ"></Input>
-                </Field>
-                <Field>
-                  <Label htmlFor="email">Email (nếu có)</Label>
-                  <Input
-                    name="email"
-                    placeholder="Nhập email"
-                    type="email"
-                  ></Input>
-                </Field>
-              </div>
+          <div className="w-[200px] h-[200px] rounded-full mx-auto mb-10">
+            <input type="file" name="image" onChange={onSelectImage} />
+          </div>
+          <div className="border border-solid border-[#D5D5D5] rounded-3xl pt-14 px-8">
+            <div className="form-layout ">
+              <Field>
+                <Label htmlFor="fullname">Họ tên đầy đủ</Label>
+                <Input name="fullname" placeholder="Nhập họ tên đầy đủ"></Input>
+              </Field>
+              <Field>
+                <Label htmlFor="date">Ngày sinh</Label>
+                <Input
+                  name="date"
+                  placeholder="Nhập ngày tháng năm sinh"
+                ></Input>
+              </Field>
+            </div>
+            <div className="form-layout ">
+              <Field>
+                <Label htmlFor="phone">Số điện thoại</Label>
+                <Input name="phone" placeholder="Nhập số điện thoại"></Input>
+              </Field>
+              <Field>
+                <Label htmlFor="join">Tham gia từ</Label>
+                <Input
+                  name="join"
+                  placeholder=""
+                  className="text-center border-none focus:ring-0"
+                ></Input>
+              </Field>
+            </div>
+            <div className="form-layout ">
+              <Field>
+                <Label htmlFor="address">Địa chỉ</Label>
+                <Input name="address" placeholder="Nhập địa chỉ"></Input>
+              </Field>
+              <Field>
+                <Label htmlFor="email">Email (nếu có)</Label>
+                <Input
+                  name="email"
+                  placeholder="Nhập email"
+                  type="email"
+                ></Input>
+              </Field>
             </div>
           </div>
-        <Button type="submit" className="mt-20">Cập nhật</Button>
+          <Button type="submit" className="mt-20">
+            Cập nhật
+          </Button>
         </form>
       </div>
     </div>

@@ -1,160 +1,101 @@
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Modal, Flex, Checkbox } from "antd";
-import { useEffect, useState } from "react";
 
-export default function AuthPage() {
+import { Button, Form, Modal,  notification, Typography  } from "antd";
+import {  useState,  } from "react";
+import './AuthPage.css'
+import Login from './Login'
+import Register from './Register'
+import { OTP } from "./OTP";
+
+
+function AuthPage() {
   const [form] = Form.useForm();
-
+  const [api, contextHolder] = notification.useNotification();
   const [modalOpen, setModalOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
-  const [clientReady, setClientReady] = useState(false);
-
-  useEffect(() => {
-    setClientReady(true);
-  }, []);
-
+  const [isShowOTP, setIsShowOTP] = useState(true);
+  const { Text, Link, Title } = Typography;
   const onFinish = (values: string) => {
     console.log("Finish:", values);
+    // openNotification('topRight')
+    api.success({
+      message: `Bạn đã đăng nhập thành công !!!`,
+      placement:'topRight',
+      showProgress: true,
+      pauseOnHover:true,
+      duration: 1.5
+    });
   };
+  const onRegister = (values:string)=>{
+    console.log("Register:", values);
+    api.success({
+      message: `Bạn đã đăng ký thành công!!!`,
+      placement:'topRight',
+      showProgress: true,
+      pauseOnHover:true,
+      duration: 1.5
+    });
+  }
 
   return (
     <>
+    {contextHolder}
       <Button type="primary" onClick={() => { setModalOpen(true); setIsLogin(true); }}>
         Đăng nhập
       </Button>
-
+    
       <Modal
         title={
-          <div className="text-4xl font-bold text-center">
-            {isLogin ? "Login" : "Register"}
+          <div className="text-4xl font-normal text-center font-bold flex flex-col gap-5">
+            { isShowOTP ? (isLogin ? <Title>Chào mừng trở lại</Title> : <Title>Đăng ký ngay</Title>) : <Title>Hãy nhập mã OTP</Title>}
+            <div className="flex justify-center mb-5 gap-4">
+              <Text type="secondary">{isShowOTP ? (isLogin ? 'Chưa có tài khoản?' : 'Đã có tài khoản rồi') : ''}</Text>
+              <Link onClick={() => setIsLogin(!isLogin)}>
+                {isShowOTP ?(isLogin? "Đăng ký ngay" : "Đăng nhập") : ''}
+              </Link>
+
+            </div>
           </div>
+          
         }
         centered
         open={modalOpen}
         onOk={() => setModalOpen(false)}
         onCancel={() => setModalOpen(false)}
         footer={null}
-        style={{
-          maxWidth: 360,
-        }}
+        width={556}
       >
         <Form
           form={form}
           name="horizontal_login"
-          onFinish={onFinish}
+          onFinish={ isLogin ? onFinish : onRegister}
         >
-          {isLogin ? (
-            <>
-              <Form.Item
-                name="username"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your username!",
-                  },
-                ]}
-              >
-                <Input prefix={<UserOutlined />} placeholder="Username" className="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
-              </Form.Item>
+         { isShowOTP ? (isLogin ? 
+          <div className="sign-in">
+              <Login />
+              {/* <div className="flex flex-col justify-center text-center">
+                <Title level={3}>Xin chào người dùng !</Title>
+                <Text type="secondary">Nếu bạn đã có tài khoản rồi</Text>
+              </div> */}
+            </div>
+         : 
+         <div className="signup">
+            <Register setIsShowOTP={setIsShowOTP} />
+            {/* <div className="flex flex-col justify-center text-center">
+                <Title level={3}>Xin chào người dùng !</Title>
+                <Text type="secondary">Nếu bạn đã có tài khoản rồi</Text>
+              </div> */}
+            </div>) : <OTP /> }
+         
+            
+            
+        
+           
 
-              <Form.Item
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
-                ]}
-              >
-                <Input
-                  prefix={<LockOutlined />}
-                  type="password"
-                  placeholder="Password"
-                  className="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                />
-              </Form.Item>
-
-              <Form.Item>
-                <Flex justify="space-between" align="center">
-                  <Form.Item name="remember" valuePropName="checked" noStyle>
-                    <Checkbox>Remember me</Checkbox>
-                  </Form.Item>
-                  <a href="#">Forgot password</a>
-                </Flex>
-              </Form.Item>
-
-              <Form.Item>
-                <Button block type="primary" htmlType="submit">
-                  Log in
-                </Button>
-                or <a href="#" onClick={() => setIsLogin(false)}>Register now!</a>
-              </Form.Item>
-            </>
-          ) : (
-            <>
-              <Form.Item
-                name="username"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your username!",
-                  },
-                ]}
-              >
-                <Input prefix={<UserOutlined />} placeholder="Username" className="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
-              </Form.Item>
-
-              <Form.Item
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
-                ]}
-              >
-                <Input
-                  prefix={<LockOutlined />}
-                  type="password"
-                  placeholder="Password"
-                  className="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                />
-              </Form.Item>
-
-              <Form.Item
-
-                name="confirmPassword"
-                dependencies={['password']}
-                hasFeedback
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please confirm your password!',
-                  },
-                  ({ getFieldValue }) => ({
-                    validator(_, value) {
-                      if (!value || getFieldValue('password') === value) {
-                        return Promise.resolve();
-                      }
-                      return Promise.reject(new Error('The two passwords that you entered do not match!'));
-                    },
-                  }),
-                ]}
-              >
-                <Input.Password placeholder="Confirm your Password" className="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
-              </Form.Item>
-
-              <Form.Item 
-                >
-                <Button block type="primary" htmlType="submit">
-                  Register
-                </Button>
-                or <a href="#" onClick={() => setIsLogin(true)}>Log in now!</a>
-              </Form.Item>
-            </>
-          )}
+         
+         
         </Form>
       </Modal>
     </>
   );
 }
+export default AuthPage;

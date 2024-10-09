@@ -64,8 +64,8 @@ export default function ProfilePage({}: Props) {
               </div>
             </div>
           </div>
+        <Button type="submit" className="mt-20">Cập nhật</Button>
         </form>
-        <Button></Button>
       </div>
     </div>
   );

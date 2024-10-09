@@ -1,6 +1,6 @@
 import React from "react";
 import checked from "../../assets/images/checked.png";
-import { Button } from "antd";
+import Button from "../button/Button";
 
 type Props = {};
 
@@ -16,9 +16,7 @@ export default function JobCardDetail({}: Props) {
           <p className="font-medium">Đã xác thực</p>
         </div>
       </div>
-      <button className=" w-full h-16 rounded-2xl bg-[#3F8CFF] shadow-lg text-white text-2xl font-bold mt-9 hover:bg-[#3F8CFF]">
-        Ứng tuyển
-      </button>
+      <Button className="mt-9">Ứng tuyển</Button>
       <div>
         <textarea
           name=""

@@ -11,3 +11,7 @@
 body{
   background-color: #F4F9FD;
 }
+
+.form-layout {
+  @apply grid grid-cols-1 lg:grid-cols-2 lg:gap-x-10 mb-5 lg:mb-10;
+}

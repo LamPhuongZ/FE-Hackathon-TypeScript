@@ -31,7 +31,7 @@ export default function Card({
   border = "1px solid",
   borderColor = "#6da2f139",
   borderRadius = "8px",
-  boxShadow = "0px 4px 12px rgba(0, 0, 0, 0.1)",
+  boxShadow,
   padding = "16px",
   children,
 }: CardProps) {

@@ -1,16 +1,64 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Label from "../../components/label/Label";
 import Input from "../../components/input/Input";
 import Field from "../../components/field/Field";
 import Button from "../../components/button/Button";
 import ImageUpload from "../../components/imageUpload/ImageUpload";
+import ImageUpload2 from "../../components/imageUpload2/imageUpload2";
 import close from "../../assets/icons/Close.svg";
 import plus from "../../assets/icons/Plus.svg";
 import arrow from "../../assets/icons/arrow.svg";
 import star from "../../assets/icons/star.svg";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+
+const schema = yup.object({
+  file: yup.mixed().required("Vui lòng tải lên tệp"),
+  fullname: yup.string().required("Vui lòng nhập họ tên đầy đủ"),
+  email: yup
+    .string()
+    .email("Vui lòng nhập đúng email")
+    .required("Vui lòng nhập email đầy đủ"),
+  date: yup.date().required("Vui lòng nhập ngày sinh"),
+  phone: yup.string().required("Vui lòng nhập số điện thoại"),
+  address: yup.string().required("Vui lòng nhập địa chỉ"),
+  file2: yup.mixed().required("Vui lòng tải CCCD/CMND"),
+});
 
 export default function ProfilePage() {
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onChange",
+    resolver: yupResolver(schema),
+  });
+
+  const handleUpdateProfile = (values) => {
+    console.log(values);
+  };
+
+  useEffect(() => {
+    const arrErrors = Object.values(errors);
+    if (arrErrors.length > 0) {
+      toast.error(arrErrors[0]?.message);
+    }
+  }, [errors]);
+
+  const handleFile = (file: File) => {
+    console.log("🚀 ~ handleFile ~ file: ngoai", file);
+    setValue("file", file);
+  };
+  const handleFile2 = (file2: File) => {
+    console.log("🚀 ~ handleFile ~ file: ngoai", file2);
+    setValue("file2", file2);
+  };
+
   return (
     <div className="py-20 px-[72px]">
       <div className="bg-white py-4 shadow-md px-11">
@@ -22,9 +70,13 @@ export default function ProfilePage() {
             </p>
           </div>
         </div>
-        <form>
+        <form onSubmit={handleSubmit(handleUpdateProfile)}>
           <div className="w-[244px] h-[244px] rounded-full mx-auto mb-7">
-            <ImageUpload className="!rounded-full h-full"></ImageUpload>
+            <ImageUpload
+              name="file"
+              className="!rounded-full h-full"
+              handleFile={handleFile}
+            ></ImageUpload>
           </div>
           <div className="flex items-end justify-center mb-10 pr-5">
             <div className="w-14 h-14">
@@ -36,20 +88,29 @@ export default function ProfilePage() {
             <div className="form-layout ">
               <Field>
                 <Label htmlFor="fullname">Họ tên đầy đủ</Label>
-                <Input name="fullname" placeholder="Nhập họ tên đầy đủ"></Input>
+                <Input
+                  name="fullname"
+                  placeholder="Nhập họ tên đầy đủ"
+                  control={control}
+                ></Input>
               </Field>
               <Field>
                 <Label htmlFor="date">Ngày sinh</Label>
                 <Input
                   name="date"
                   placeholder="Nhập ngày tháng năm sinh"
+                  control={control}
                 ></Input>
               </Field>
             </div>
             <div className="form-layout ">
               <Field>
                 <Label htmlFor="phone">Số điện thoại</Label>
-                <Input name="phone" placeholder="Nhập số điện thoại"></Input>
+                <Input
+                  name="phone"
+                  placeholder="Nhập số điện thoại"
+                  control={control}
+                ></Input>
               </Field>
               <Field>
                 <Label htmlFor="join">Tham gia từ</Label>
@@ -57,13 +118,18 @@ export default function ProfilePage() {
                   name="join"
                   placeholder=""
                   className="text-center border-none focus:ring-0"
+                  control={control}
                 ></Input>
               </Field>
             </div>
             <div className="form-layout ">
               <Field>
                 <Label htmlFor="address">Địa chỉ</Label>
-                <Input name="address" placeholder="Nhập địa chỉ"></Input>
+                <Input
+                  name="address"
+                  placeholder="Nhập địa chỉ"
+                  control={control}
+                ></Input>
               </Field>
               <Field>
                 <Label htmlFor="email">Email (nếu có)</Label>
@@ -71,6 +137,7 @@ export default function ProfilePage() {
                   name="email"
                   placeholder="Nhập email"
                   type="email"
+                  control={control}
                 ></Input>
               </Field>
             </div>
@@ -79,9 +146,12 @@ export default function ProfilePage() {
           <div className="mt-24">
             <Label htmlFor="">Tải ảnh CCCD / CMND</Label>
             <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5">
-              <div className="form-layout lg:mb-0">
-                <ImageUpload></ImageUpload>
-                <ImageUpload></ImageUpload>
+              <div className="lg:mb-0">
+                <ImageUpload2
+                  name="file2"
+                  handleFile2={handleFile2}
+                ></ImageUpload2>
+               
               </div>
             </div>
           </div>

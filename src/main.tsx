@@ -7,6 +7,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import store, { persistor } from "./redux/store";
 import Loading from "./components/loading";
+import { ToastContainer } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -35,6 +37,7 @@ root.render(
 
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
+          <ToastContainer></ToastContainer>
         </BrowserRouter>
       </Suspense>
     </PersistGate>

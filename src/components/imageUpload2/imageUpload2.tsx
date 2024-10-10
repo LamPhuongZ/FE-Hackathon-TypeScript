@@ -4,24 +4,24 @@ import upIMG from "../../assets/images/img-upload.png";
 type Props = {
   className?: string;
   name: string;
-  handleFile: (file: File) => void;
+  handleFile2: (file2:File)=> void
 };
 
-export default function ImageUpload({ className, name, handleFile }: Props) {
+export default function ImageUpload2({ className, name, handleFile2 }: Props) {
   const [imageSelect, setImageSelect] = useState<File>();
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    console.log("🚀 ~ handleImageSelect ~ file:", file);
-    if (file) {
-      setImageSelect(file);
-      handleFile(file);
+    const file2 = e.target.files?.[0];
+    // console.log("🚀 ~ handleImageSelect ~ file:", file);
+    if (file2) {
+      setImageSelect(file2);
+      handleFile2(file2)
     }
   };
 
   const handleImageRemove = () => {
     setImageSelect(undefined);
+    
   };
-
 
   return (
     <label

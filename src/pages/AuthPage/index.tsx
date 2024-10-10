@@ -1,12 +1,11 @@
-
-import { Button, Form, Modal,  notification, Typography  } from "antd";
-import {  useState,  } from "react";
-import './AuthPage.css'
-import Login from './Login'
-import Register from './Register'
+import { Button, Form, Modal, notification, Typography, Tabs } from "antd";
+import { useState } from "react";
+import "./AuthPage.css";
+import Login from "./Login";
+import Register from "./Register";
 import { OTP } from "./OTP";
-
-
+import logoGoogle from "../../assets/icons/Google.svg";
+import type { TabsProps } from "antd";
 function AuthPage() {
   const [form] = Form.useForm();
   const [api, contextHolder] = notification.useNotification();
@@ -14,48 +13,99 @@ function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [isShowOTP, setIsShowOTP] = useState(true);
   const { Text, Link, Title } = Typography;
+
   const onFinish = (values: string) => {
     console.log("Finish:", values);
     // openNotification('topRight')
     api.success({
       message: `Bạn đã đăng nhập thành công !!!`,
-      placement:'topRight',
+      placement: "topRight",
       showProgress: true,
-      pauseOnHover:true,
-      duration: 1.5
+      pauseOnHover: true,
+      duration: 1.5,
     });
   };
-  const onRegister = (values:string)=>{
+
+  const onRegister = (values: string) => {
     console.log("Register:", values);
     api.success({
       message: `Bạn đã đăng ký thành công!!!`,
-      placement:'topRight',
+      placement: "topRight",
       showProgress: true,
-      pauseOnHover:true,
-      duration: 1.5
+      pauseOnHover: true,
+      duration: 1.5,
     });
-  }
+  };
+
+  const items: TabsProps["items"] = [
+    {
+      key: "1",
+      label: "Đăng nhập",
+      children: <Login />,
+    },
+    {
+      key: "2",
+      label: "Đăng ký ",
+      children: <Register setIsShowOTP={setIsShowOTP} />,
+    },
+  ];
 
   return (
     <>
-    {contextHolder}
-      <Button type="primary" onClick={() => { setModalOpen(true); setIsLogin(true); }}>
+      {contextHolder}
+
+      <Button
+        type="primary"
+        onClick={() => {
+          setModalOpen(true);
+          setIsLogin(true);
+        }}
+      >
         Đăng nhập
       </Button>
-    
+
       <Modal
         title={
-          <div className="text-4xl font-normal text-center font-bold flex flex-col gap-5">
-            { isShowOTP ? (isLogin ? <Title>Chào mừng trở lại</Title> : <Title>Đăng ký ngay</Title>) : <Title>Hãy nhập mã OTP</Title>}
-            <div className="flex justify-center mb-5 gap-4">
-              <Text className="" type="secondary">{isShowOTP ? (isLogin ? 'Chưa có tài khoản?' : 'Đã có tài khoản rồi') : ''}</Text>
-              <Link onClick={() => setIsLogin(!isLogin)}>
-                {isShowOTP ?(isLogin? "Đăng ký ngay" : "Đăng nhập") : ''}
-              </Link>
-
+          <div className="text-4xl font-normal text-center font-bold flex flex-col ">
+            {isShowOTP ? (
+              isLogin ? (
+                <Title>Chào mừng trở lại</Title>
+              ) : (
+                <Title>Đăng ký ngay</Title>
+              )
+            ) : (
+              <Title>Hãy nhập mã OTP</Title>
+            )}
+            <div className="flex justify-center gap-5">
+              <Typography.Title level={5} type="secondary">
+                {isShowOTP
+                  ? isLogin
+                    ? "Chưa có tài khoản?"
+                    : "Đã có tài khoản rồi"
+                  : ""}
+              </Typography.Title>
+              {/* <Link
+                style={{ fontSize: "16px" }}
+                onClick={() => setIsLogin(!isLogin)}
+              >
+                {isShowOTP ? (isLogin ? "Đăng ký ngay" : "Đăng nhập") : ""}
+              </Link> */}
             </div>
+
+            {isShowOTP ? (
+              <div>
+                <Button
+                  style={{ width: "100%", marginBottom: "2vh" }}
+                  size="large"
+                >
+                  <img src={logoGoogle} alt="google" />
+                  {isLogin ? "Đăng nhập bằng Google" : "Đăng ký bằng Google"}
+                </Button>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
-          
         }
         centered
         open={modalOpen}
@@ -67,32 +117,32 @@ function AuthPage() {
         <Form
           form={form}
           name="horizontal_login"
-          onFinish={ isLogin ? onFinish : onRegister}
+          onFinish={isLogin ? onFinish : onRegister}
         >
-         { isShowOTP ? (isLogin ? 
+          {/* { isShowOTP ? (isLogin ? 
           <div className="sign-in">
               <Login />
-              {/* <div className="flex flex-col justify-center text-center">
-                <Title level={3}>Xin chào người dùng !</Title>
-                <Text type="secondary">Nếu bạn đã có tài khoản rồi</Text>
-              </div> */}
+              
             </div>
          : 
          <div className="signup">
             <Register setIsShowOTP={setIsShowOTP} />
-            {/* <div className="flex flex-col justify-center text-center">
-                <Title level={3}>Xin chào người dùng !</Title>
-                <Text type="secondary">Nếu bạn đã có tài khoản rồi</Text>
-              </div> */}
-            </div>) : <OTP /> }
-         
             
-            
-        
-           
-
-         
-         
+            </div>) : <OTP /> } */}
+          <Tabs
+          
+          centered
+          animated={{inkBar:true,tabPane: true}}
+            defaultActiveKey="1"
+            items={items}
+            onChange={(activeKey) => {
+              if (activeKey === "1") {
+                setIsLogin(true);
+              } else if (activeKey === "2") {
+                setIsLogin(false);
+              }
+            }}
+          />
         </Form>
       </Modal>
     </>

@@ -7,6 +7,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import store, { persistor } from "./redux/store";
 import Loading from "./components/loading";
+import { ToastContainer } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -14,6 +16,7 @@ const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 const LandingPage = lazy(() => import("./pages/LandingPage"));
 const ListJobPage = lazy(() => import("./pages/ListJobPage"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const ListCardPage = lazy(() => import("./pages/ListCardPage"));
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -29,10 +32,12 @@ root.render(
               <Route path="/list-job" element={<ListJobPage/>} />
               <Route path="/landing-page" element={<LandingPage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/more_card" element={<ListCardPage />} />
             </Route>
 
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
+          <ToastContainer></ToastContainer>
         </BrowserRouter>
       </Suspense>
     </PersistGate>

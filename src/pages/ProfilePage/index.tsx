@@ -5,6 +5,7 @@ import Field from "../../components/field/Field";
 import Button from "../../components/button/Button";
 import ImageUpload from "../../components/imageUpload/ImageUpload";
 import ImageUpload2 from "../../components/imageUpload2/imageUpload2";
+import ImageUpload3 from "../../components/imageUpload3/imageUpload3";
 import close from "../../assets/icons/Close.svg";
 import plus from "../../assets/icons/Plus.svg";
 import arrow from "../../assets/icons/arrow.svg";
@@ -16,7 +17,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 const schema = yup.object({
-  file: yup.mixed().required("Vui lòng tải lên tệp"),
+  
   fullname: yup.string().required("Vui lòng nhập họ tên đầy đủ"),
   email: yup
     .string()
@@ -25,7 +26,9 @@ const schema = yup.object({
   date: yup.date().required("Vui lòng nhập ngày sinh"),
   phone: yup.string().required("Vui lòng nhập số điện thoại"),
   address: yup.string().required("Vui lòng nhập địa chỉ"),
-  file2: yup.mixed().required("Vui lòng tải CCCD/CMND"),
+  file: yup.mixed().required("Vui lòng tải lên tệp"),
+  file2: yup.mixed().required("Vui lòng tải CCCD/CMND mặt trước"),
+  file3: yup.mixed().required("Vui lòng tải CCCD/CMND mặt sau"),
 });
 
 export default function ProfilePage() {
@@ -50,13 +53,16 @@ export default function ProfilePage() {
     }
   }, [errors]);
 
+  console.log(Object.values(errors));
+
   const handleFile = (file: File) => {
-    console.log("🚀 ~ handleFile ~ file: ngoai", file);
     setValue("file", file);
   };
   const handleFile2 = (file2: File) => {
-    console.log("🚀 ~ handleFile ~ file: ngoai", file2);
     setValue("file2", file2);
+  };
+  const handleFile3 = (file3: File) => {
+    setValue("file3", file3);
   };
 
   return (
@@ -146,12 +152,15 @@ export default function ProfilePage() {
           <div className="mt-24">
             <Label htmlFor="">Tải ảnh CCCD / CMND</Label>
             <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5">
-              <div className="lg:mb-0">
+              <div className="form-layout lg:mb-0">
                 <ImageUpload2
                   name="file2"
                   handleFile2={handleFile2}
                 ></ImageUpload2>
-               
+                <ImageUpload3
+                  name="file3"
+                  handleFile3={handleFile3}
+                ></ImageUpload3>
               </div>
             </div>
           </div>

@@ -20,7 +20,7 @@ export default function ImageUpload2({ className, name, handleFile2 }: Props) {
 
   const handleImageRemove = () => {
     setImageSelect(undefined);
-    
+    handleFile2(undefined)
   };
 
   return (

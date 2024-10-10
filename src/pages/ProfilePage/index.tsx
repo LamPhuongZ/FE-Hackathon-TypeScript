@@ -10,9 +10,7 @@ import arrow from "../../assets/icons/arrow.svg";
 import star from "../../assets/icons/star.svg";
 import { Link, NavLink } from "react-router-dom";
 
-type Props = {};
-
-export default function ProfilePage({}: Props) {
+export default function ProfilePage() {
   return (
     <div className="py-20 px-[72px]">
       <div className="bg-white py-4 shadow-md px-11">

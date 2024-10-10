@@ -27,7 +27,7 @@ root.render(
           <Routes>
             <Route path="" element={<HomeTemplate />}>
               <Route path="/" element={<HomePage />} />
-              <Route path="/list_job" element={<ListJobPage/>} />
+              <Route path="/list-job" element={<ListJobPage/>} />
               <Route path="/landing-page" element={<LandingPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/more_card" element={<ListCardPage />} />

@@ -7,7 +7,8 @@ import ImageUpload from "../../components/imageUpload/ImageUpload";
 import close from "../../assets/icons/Close.svg";
 import plus from "../../assets/icons/Plus.svg";
 import arrow from "../../assets/icons/arrow.svg";
-import star from "../../assets/images/star.png";
+import star from "../../assets/icons/star.svg";
+import { Link, NavLink } from "react-router-dom";
 
 type Props = {};
 
@@ -27,7 +28,7 @@ export default function ProfilePage({}: Props) {
           <div className="w-[244px] h-[244px] rounded-full mx-auto mb-7">
             <ImageUpload className="!rounded-full h-full"></ImageUpload>
           </div>
-          <div className="flex items-end justify-center mb-10">
+          <div className="flex items-end justify-center mb-10 pr-5">
             <div className="w-14 h-14">
               <img src={star} alt="" className="w-full h-full" />
             </div>
@@ -103,7 +104,9 @@ export default function ProfilePage({}: Props) {
                   <div className="w-6 h-6">
                     <img src={plus} alt="" className="w-full h-full" />
                   </div>
-                  <p className="font-semibold text-2xl text-[rgba(10,_22,_41,_0.50)]">Thêm kỹ năng</p>
+                  <p className="font-semibold text-2xl text-[rgba(10,_22,_41,_0.50)]">
+                    Thêm kỹ năng
+                  </p>
                 </div>
               </div>
             </div>
@@ -112,25 +115,43 @@ export default function ProfilePage({}: Props) {
           <div className="mt-24">
             <Label htmlFor="">Danh sách công việc</Label>
             <div className="flex justify-between">
-              <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5 w-[462px] 2xl:w-[800px]">
+              <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5 w-[550px] 2xl:w-[800px]">
                 <div className="flex items-center justify-between">
-                  <p className="text-3xl font-bold">Đã hoàn thành</p>
-                  <div className="bg-[#2EE498] rounded-2xl flex items-center justify-between p-3">
-                    <p className="text-white text-xl">xem thêm</p>
-                    <div className="w-6 h-6">
-                      <img src={arrow} alt="" className="w-full h-full" />
-                    </div>
+                  <div className="flex items-center gap-6">
+                    <p className="text-2xl font-bold">Đã hoàn thành</p>
+                    <div className="rounded-full w-3 h-3 bg-[#2EE498]"></div>
+                    <h1 className="text-2xl font-medium">3</h1>
+                  </div>
+                  <div className="bg-[#2EE498] rounded-2xl p-3">
+                    <NavLink
+                      to="/more_card"
+                      className="text-white flex items-center justify-between gap-10"
+                    >
+                      xem thêm
+                      <div className="w-6 h-6">
+                        <img src={arrow} alt="" className="w-full h-full" />
+                      </div>
+                    </NavLink>
                   </div>
                 </div>
               </div>
-              <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5 w-[462px] 2xl:w-[800px]">
+              <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5 w-[550px] 2xl:w-[800px]">
                 <div className="flex items-center justify-between">
-                  <p className="text-3xl font-bold">Đang nộp</p>
-                  <div className="bg-[#FF5758] rounded-2xl flex items-center justify-between p-3">
-                    <p className="text-white text-xl">xem thêm</p>
-                    <div className="w-6 h-6">
-                      <img src={arrow} alt="" className="w-full h-full" />
-                    </div>
+                  <div className="flex items-center gap-6">
+                    <p className="text-2xl font-bold">Đang nộp</p>
+                    <div className="rounded-full w-3 h-3 bg-[#FF5758]"></div>
+                    <h1 className="text-2xl font-medium">5</h1>
+                  </div>
+                  <div className="bg-[#FF5758] rounded-2xl p-3">
+                    <NavLink
+                      to="/more_card"
+                      className="text-white flex items-center justify-between gap-10"
+                    >
+                      xem thêm
+                      <div className="w-6 h-6">
+                        <img src={arrow} alt="" className="w-full h-full" />
+                      </div>
+                    </NavLink>
                   </div>
                 </div>
               </div>

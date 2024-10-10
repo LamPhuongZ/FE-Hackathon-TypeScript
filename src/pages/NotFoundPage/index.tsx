@@ -6,7 +6,7 @@ export default function NotFoundPage() {
   const navigate = useNavigate();
   return (
     <div
-      className="container-wrapper mt-4 relative h-[600px] bg-no-repeat bg-center"
+      className="container-wrapper bg-white mt-4 relative h-[600px] bg-no-repeat bg-center"
       style={{ backgroundImage: `url(${bgImage})`, backgroundSize: "inherit" }}
     >
       <div className="error absolute left-1/2 top-10 text-center transform -translate-x-1/2 rotate-10 ">

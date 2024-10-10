@@ -11,7 +11,7 @@ export default function Header() {
           </div>
           <h1 className="text-3xl font-bold">Việc làm dễ</h1>
         </div>
-        <div className="flex items-center gap-10 text-2xl font-medium px-48">
+        <div className="flex items-center gap-10 text-2xl font-medium">
           <div>
             <h1 className="">Tìm việc</h1>
           </div>

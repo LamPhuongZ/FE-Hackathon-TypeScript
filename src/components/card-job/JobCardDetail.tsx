@@ -1,5 +1,7 @@
 import checked from "../../assets/images/checked.png";
 import Button from "../button/Button";
+import React from "react";
+
 
 export default function JobCardDetail() {
   return (

@@ -32,7 +32,7 @@ export function Feedback() {
           alt="icon-star-four-fill"
         />
       </h2>
-      <div className="flex flex-col md:flex-row md:gap-4">
+      <div className="flex flex-col md:flex-row md:gap-[61px]">
         {feedbackData.map((item, index) => (
           <Card
             key={index}
@@ -40,17 +40,17 @@ export function Feedback() {
             height="376px"
             borderRadius="24px"
             padding="18px 22px 34px 22px"
-            boxShadow="0px 6px 58px 0px rgba(196, 203, 214, 0.10)"
+            boxShadow="0px 6px 58px 0px rgba(196, 203, 214, 0.50)"
           >
-            <div className="flex flex-col">
-              <p>{item.text}</p>
+            <div className="flex flex-col gap-4">
+              <p className="font-normal text-base">{item.text}</p>
               <div className="flex flex-row justify-start items-center">
                 <img
                   src={item.image}
                   alt={item.author}
                   className="w-16 h-16 rounded-[73px] mr-4"
                 />
-                <p className="mt-2 font-semibold">{item.author}</p>
+                <p className="mt-2 font-bold text-base">{item.author}</p>
               </div>
             </div>
           </Card>

@@ -6,6 +6,7 @@ export default {
       colors: {
         "custom-white": "#f1f2fd",
         "custom-blue": "rgba(63, 140, 255, 0.63)",
+        "custom-background": "#F4F9FD",
       },
       screens: {
         "max-md": { max: "700px" }, // max-width 700px

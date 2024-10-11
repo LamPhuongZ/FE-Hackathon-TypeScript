@@ -1,9 +1,6 @@
-import React from "react";
 import JobCardComplete from "../../components/card-job/JobCardComplete";
 
-type Props = {};
-
-export default function ListCardPage({}: Props) {
+export default function ListCardPage() {
 
   return (
     <div className="py-20 px-[72px]">

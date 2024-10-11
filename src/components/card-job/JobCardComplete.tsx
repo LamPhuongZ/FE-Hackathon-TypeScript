@@ -1,10 +1,7 @@
-import React from "react";
 import location from "../../assets/images/location.png";
 import star from "../../assets/icons/star.svg";
 
-type Props = {};
-
-export default function JobCardComplete({}: Props) {
+export default function JobCardComplete() {
   return (
     <div className="shadow-lg w-full rounded-3xl border border-solid">
       <div className="p-5 flex gap-9">

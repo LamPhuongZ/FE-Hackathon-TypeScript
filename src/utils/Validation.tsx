@@ -1,8 +1,4 @@
-import React from 'react'
-
-type Props = {}
-
-export default function Validation({}: Props) {
+export default function Validation() {
   return (
     <div>validation</div>
   )

@@ -1,31 +1,42 @@
 import React, { useState } from "react";
 import upIMG from "../../assets/images/img-upload.png";
+import clsx from "clsx";
 
-type Props = {
-  className?: string;
-  name: string;
-  handleFile: (file: File) => void;
-};
+interface ImageUploadProps extends Partial<HTMLInputElement> {
+  listType?: "picture-cirle" | "text" | "picture";
+  onFileSelect: (file?: File) => void;
+}
 
-export default function ImageUpload({ className, name, handleFile }: Props) {
+export default function ImageUploadProps({
+  listType = "picture",
+  className,
+  name,
+  onFileSelect: handleFileSelect,
+}: ImageUploadProps) {
   const [imageSelect, setImageSelect] = useState<File>();
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     // console.log("🚀 ~ handleImageSelect ~ file:", file);
     if (file) {
       setImageSelect(file);
-      handleFile(file);
+      handleFileSelect(file);
     }
   };
 
   const handleImageRemove = () => {
     setImageSelect(undefined);
-    handleFile(undefined);
+    handleFileSelect(undefined);
   };
 
   return (
     <label
-      className={`cursor-pointer flex items-center justify-center bg-gray-100 border border-dashed w-full min-h-[200px] rounded-lg ${className} relative overflow-hidden group`}
+      className={clsx(
+        `cursor-pointer flex items-center justify-center bg-gray-100 border border-dashed w-full min-h-[200px] rounded-lg relative overflow-hidden group`,
+        className,
+        {
+          ["!rounded-full h-full"]: listType === "picture-cirle",
+        }
+      )}
     >
       <input
         id={name}

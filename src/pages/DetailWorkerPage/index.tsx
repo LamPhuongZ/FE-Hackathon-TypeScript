@@ -16,7 +16,8 @@ export default function DetailWorkerPage() {
           width="100%"
           height="100%"
           padding="16px"
-          border="1px solid #d5d5d5"
+          border="1px solid"
+          borderColor="#cacaca"
           borderRadius="24px"
         >
           <div className="flex flex-row items-center gap-6">
@@ -46,20 +47,23 @@ export default function DetailWorkerPage() {
           width="100%"
           height="100%"
           padding="24px"
-          border="1px solid #d5d5d5"
+         border="1px solid"
+          borderColor="#cacaca"
           borderRadius="24px"
         >
           <div className="flex flex-col gap-5">
             <div className="row1 flex gap-4">
               <div className="w-1/3">
-                <h3 className="font-semibold text-xl">Ngày sinh</h3>
-                <Card width="100%" height="50%">
-                  <p className="font-light text-xl">10-10-2024</p>
+                <h3 className="font-semibold text-xl	">Ngày sinh</h3>
+                <Card width="100%" height="50%" border="1px solid"
+          borderColor="#cacaca">
+                  <p className="font-light text-xl ">10-10-2024</p>
                 </Card>
               </div>
               <div className="w-2/3">
                 <h3 className="font-semibold text-xl">Địa chỉ</h3>
-                <Card width="100%" height="50%">
+                <Card width="100%" height="50%" border="1px solid"
+          borderColor="#cacaca">
                   <p className="font-light text-xl">
                     123 Likelion, Q7, HoChiMinh
                   </p>
@@ -69,7 +73,8 @@ export default function DetailWorkerPage() {
             <div className="row2 flex gap-4">
               <div className="w-1/3">
                 <h3 className="font-semibold text-xl">Đánh giá</h3>
-                <Card width="100%" height="50%">
+                <Card width="100%" height="50%" border="1px solid"
+          borderColor="#cacaca">
                   <div className="flex flex-row gap-2 items-baseline">
                     <img src={Star} alt="Đánh giá" className="w-5 h-5" />
                     <p className="font-light text-xl">4.0</p>
@@ -78,7 +83,8 @@ export default function DetailWorkerPage() {
               </div>
               <div className="w-2/3">
                 <h3 className="font-semibold text-xl">Kỹ năng</h3>
-                <Card width="100%" height="50%">
+                <Card width="100%" height="50%" border="1px solid"
+          borderColor="#cacaca">
                   <div className="flex flex-row gap-3">
                     <p className="font-light text-base px-4 py-1 border bg-gray-200 rounded-2xl">
                       Dọn vệ sinh
@@ -99,7 +105,8 @@ export default function DetailWorkerPage() {
           width="100%"
           height="100%"
           padding="24px"
-          border="1px solid #d5d5d5"
+          border="1px solid"
+          borderColor="#cacaca"
           borderRadius="24px"
         >
           <h3 className="font-semibold text-xl mb-3">Đã hoàn thành</h3>
@@ -108,7 +115,8 @@ export default function DetailWorkerPage() {
               width="48%"
               height="100%"
               padding="16px"
-              border="1px solid #d5d5d5"
+              border="1px solid"
+          borderColor="#cacaca"
               borderRadius="24px"
             >
               <div className="title-job flex justify-between">
@@ -124,40 +132,11 @@ export default function DetailWorkerPage() {
                   Giao hàng
                 </p>
                 <div className="flex flex-row gap-2 items-baseline">
-                  <img src={Address} alt="" className="w-4 h-4"/>
+                  <img src={Address} alt="" className="w-4 h-4" />
                   <p className="mb-1">Phường 5, Quận 5</p>
                 </div>
                 <div className="flex flex-row gap-1 items-baseline">
-                  <img src={Calendar} alt="" className="w-4 h-4"/>
-                  <p>10/10/2024-11/10/2024</p>
-                </div>
-              </div>
-            </Card>
-           <Card
-              width="48%"
-              height="100%"
-              padding="16px"
-              border="1px solid #d5d5d5"
-              borderRadius="24px"
-            >
-              <div className="title-job flex justify-between">
-                <h1 className="font-semibold text-2xl">Giao hàng</h1>
-                <div className="rate-job flex flex-row gap-1 items-baseline">
-                  <img src={Star} alt="Đánh giá" className="w-6 h-6" />
-                  <p className="font-semibold text-2xl">4.0</p>
-                </div>
-              </div>
-              <hr className="my-1" />
-              <div className="content-job flex flex-col mt-2">
-                <p className="font-light text-base px-4 py-1 border bg-gray-200 rounded-2xl w-1/4 mb-2">
-                  Giao hàng
-                </p>
-                <div className="flex flex-row gap-2 items-baseline">
-                  <img src={Address} alt="" className="w-4 h-4"/>
-                  <p className="mb-1">Phường 5, Quận 5</p>
-                </div>
-                <div className="flex flex-row gap-1 items-baseline">
-                  <img src={Calendar} alt="" className="w-4 h-4"/>
+                  <img src={Calendar} alt="" className="w-4 h-4" />
                   <p>10/10/2024-11/10/2024</p>
                 </div>
               </div>
@@ -166,7 +145,8 @@ export default function DetailWorkerPage() {
               width="48%"
               height="100%"
               padding="16px"
-              border="1px solid #d5d5d5"
+              border="1px solid"
+          borderColor="#cacaca"
               borderRadius="24px"
             >
               <div className="title-job flex justify-between">
@@ -182,18 +162,48 @@ export default function DetailWorkerPage() {
                   Giao hàng
                 </p>
                 <div className="flex flex-row gap-2 items-baseline">
-                  <img src={Address} alt="" className="w-4 h-4"/>
+                  <img src={Address} alt="" className="w-4 h-4" />
                   <p className="mb-1">Phường 5, Quận 5</p>
                 </div>
                 <div className="flex flex-row gap-1 items-baseline">
-                  <img src={Calendar} alt="" className="w-4 h-4"/>
+                  <img src={Calendar} alt="" className="w-4 h-4" />
+                  <p>10/10/2024-11/10/2024</p>
+                </div>
+              </div>
+            </Card>
+            <Card
+              width="48%"
+              height="100%"
+              padding="16px"
+             border="1px solid"
+          borderColor="#cacaca"
+              borderRadius="24px"
+            >
+              <div className="title-job flex justify-between">
+                <h1 className="font-semibold text-2xl">Giao hàng</h1>
+                <div className="rate-job flex flex-row gap-1 items-baseline">
+                  <img src={Star} alt="Đánh giá" className="w-6 h-6" />
+                  <p className="font-semibold text-2xl">4.0</p>
+                </div>
+              </div>
+              <hr className="my-1" />
+              <div className="content-job flex flex-col mt-2">
+                <p className="font-light text-base px-4 py-1 border bg-gray-200 rounded-2xl w-1/4 mb-2">
+                  Giao hàng
+                </p>
+                <div className="flex flex-row gap-2 items-baseline">
+                  <img src={Address} alt="" className="w-4 h-4" />
+                  <p className="mb-1">Phường 5, Quận 5</p>
+                </div>
+                <div className="flex flex-row gap-1 items-baseline">
+                  <img src={Calendar} alt="" className="w-4 h-4" />
                   <p>10/10/2024-11/10/2024</p>
                 </div>
               </div>
             </Card>
           </div>
         </Card>
-        <Button className="w-2/4 m-auto">Chọn ứng viên</Button>
+        <Button className="w-2/4 mx-auto">Chọn ứng viên</Button>
       </div>
     </div>
   );

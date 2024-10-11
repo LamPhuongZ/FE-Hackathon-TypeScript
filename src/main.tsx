@@ -29,7 +29,7 @@ root.render(
           <Routes>
             <Route path="" element={<HomeTemplate />}>
               <Route path="/" element={<HomePage />} />
-              <Route path="/list-job" element={<ListJobPage/>} />
+              <Route path="/list-job" element={<ListJobPage />} />
               <Route path="/landing-page" element={<LandingPage />} />
               {/* <Route path="/profile" element={<ProfilePage />} /> */}
               <Route path="/card-detail-job" element={<JobCardDetailPage />} />

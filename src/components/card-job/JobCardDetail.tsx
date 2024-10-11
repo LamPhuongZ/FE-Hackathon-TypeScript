@@ -1,4 +1,5 @@
 import checked from "../../assets/images/checked.png";
+import imgJob from 'https://vakilsearch.com/blog/wp-content/uploads/2022/06/What-is-meant-by-Pvt-Ltd-company_-.jpg';
 import Button from "../button/Button";
 
 export default function JobCardDetail() {
@@ -83,7 +84,7 @@ export default function JobCardDetail() {
       <div className="mt-[30px]">
         <div className="min-w-[800px] h-[350px] 2xl:w-full">
           <img
-            src="https://vakilsearch.com/blog/wp-content/uploads/2022/06/What-is-meant-by-Pvt-Ltd-company_-.jpg"
+            src={imgJob}
             alt=""
             className="w-full h-full rounded-[20px]"
           />
@@ -91,21 +92,21 @@ export default function JobCardDetail() {
         <div className="flex justify-evenly gap-8 mt-7 mb-9">
           <div className="w-[250px] h-[128px] 2xl:w-full">
             <img
-              src="https://vakilsearch.com/blog/wp-content/uploads/2022/06/What-is-meant-by-Pvt-Ltd-company_-.jpg"
+              src={imgJob}
               alt=""
               className="w-full h-full rounded-[20px]"
             />
           </div>
           <div className="w-[250px] h-[128px] 2xl:w-full">
             <img
-              src="https://vakilsearch.com/blog/wp-content/uploads/2022/06/What-is-meant-by-Pvt-Ltd-company_-.jpg"
+              src={imgJob}
               alt=""
               className="w-full h-full rounded-[20px]"
             />
           </div>
           <div className="w-[250px] h-[128px] 2xl:w-full">
             <img
-              src="https://vakilsearch.com/blog/wp-content/uploads/2022/06/What-is-meant-by-Pvt-Ltd-company_-.jpg"
+              src={imgJob}
               alt=""
               className="w-full h-full rounded-[20px]"
             />

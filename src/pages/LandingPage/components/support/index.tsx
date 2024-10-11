@@ -27,12 +27,12 @@ export default function Support() {
         <div>
           <img src={iconVector} alt="vector" />
         </div>
-        <div className="flex gap-[50px] items-center mt-10">
+        <div className=" flex gap-[50px] items-center mt-10">
           {content.map((item) => {
             return (
               <div
                 key={item.id}
-                className="bg-white  shadow w-[400px] h-[300px] rounded-[20px] flex flex-col items-center"
+                className="bg-white hover:bg-[#666] transition hover:text-white shadow w-[400px] h-[300px] rounded-[20px] flex flex-col items-center"
               >
                 <div className="Icons mt-10">
                   <img src={item.src} alt="icon-support" />

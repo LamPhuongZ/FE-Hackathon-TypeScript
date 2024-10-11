@@ -16,7 +16,7 @@ export default function JobCardDetailPage() {
             <p className="font-medium">Đã xác thực</p>
           </div>
         </div>
-        <Button className="mt-9">Ứng tuyển</Button>
+        <Button title="Ứng Tuyển" className="mt-9"/>
         <div>
           <textarea
             name=""
@@ -87,7 +87,11 @@ export default function JobCardDetailPage() {
         <div className="border border-solid"></div>
         <div className="mt-[30px]">
           <div className="min-w-[800px] h-[350px] 2xl:w-full">
-            <img src="https://vakilsearch.com/blog/wp-content/uploads/2022/06/What-is-meant-by-Pvt-Ltd-company_-.jpg" alt="" className="w-full h-full rounded-[20px]" />
+            <img
+              src="https://vakilsearch.com/blog/wp-content/uploads/2022/06/What-is-meant-by-Pvt-Ltd-company_-.jpg"
+              alt=""
+              className="w-full h-full rounded-[20px]"
+            />
           </div>
           <div className="flex justify-evenly gap-8 mt-7 mb-9">
             <div className="w-[250px] h-[128px] 2xl:w-full">

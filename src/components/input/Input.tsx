@@ -14,11 +14,11 @@ export default function Input({
   type = "text",
   placeholder,
   content,
-  // control,
+  control,
   className,
 }: Props) {
   const { field } = useController({
-    // control,
+    control,
     name,
     defaultValue: "",
   });

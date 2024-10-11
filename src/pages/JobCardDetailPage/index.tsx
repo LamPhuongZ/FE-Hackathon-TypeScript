@@ -1,11 +1,9 @@
-import React from "react";
+import imgJob from 'https://vakilsearch.com/blog/wp-content/uploads/2022/06/What-is-meant-by-Pvt-Ltd-company_-.jpg';
 import checked from "../../assets/images/checked.png";
 import Button from "../../components/button/Button";
 
 
-type Props = {};
-
-export default function JobCardDetailPage({}: Props) {
+export default function JobCardDetailPage() {
   return (
     <div className="py-20 px-[280px]">
       <div className="bg-white rounded-2xl shadow-md py-12 px-7">
@@ -92,7 +90,7 @@ export default function JobCardDetailPage({}: Props) {
         <div className="mt-[30px]">
           <div className="min-w-[800px] h-[350px] 2xl:w-full">
             <img
-              src="https://vakilsearch.com/blog/wp-content/uploads/2022/06/What-is-meant-by-Pvt-Ltd-company_-.jpg"
+              src={imgJob}
               alt=""
               className="w-full h-full rounded-[20px]"
             />
@@ -100,21 +98,21 @@ export default function JobCardDetailPage({}: Props) {
           <div className="flex justify-evenly gap-8 mt-7 mb-9">
             <div className="w-[250px] h-[128px] 2xl:w-full">
               <img
-                src="https://vakilsearch.com/blog/wp-content/uploads/2022/06/What-is-meant-by-Pvt-Ltd-company_-.jpg"
+                src={imgJob}
                 alt=""
                 className="w-full h-full rounded-[20px]"
               />
             </div>
             <div className="w-[250px] h-[128px] 2xl:w-full">
               <img
-                src="https://vakilsearch.com/blog/wp-content/uploads/2022/06/What-is-meant-by-Pvt-Ltd-company_-.jpg"
+                src={imgJob}
                 alt=""
                 className="w-full h-full rounded-[20px]"
               />
             </div>
             <div className="w-[250px] h-[128px] 2xl:w-full">
               <img
-                src="https://vakilsearch.com/blog/wp-content/uploads/2022/06/What-is-meant-by-Pvt-Ltd-company_-.jpg"
+                src={imgJob}
                 alt=""
                 className="w-full h-full rounded-[20px]"
               />

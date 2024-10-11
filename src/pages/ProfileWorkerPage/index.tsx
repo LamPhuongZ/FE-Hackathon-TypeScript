@@ -134,30 +134,32 @@ const App: React.FC = () => {
   } = theme.useToken();
 
   return (
-    
     <Layout hasSider>
       <div className="col1-infor flex flex-row gap-2">
-           <div className="w-14 h-14 overflow-hidden rounded-full">
-             <img
-               src={Ava}
-                alt="Ảnh đại diện"
-               className="w-full h-full object-cover"             />
-           </div>
+        <div className="w-14 h-14 overflow-hidden rounded-full">
+          <img
+            src={Ava}
+            alt="Ảnh đại diện"
+            className="w-full h-full object-cover"
+          />
+        </div>
 
-           <div className="col1-infor-name flex flex-col gap-2">
-           <h3 className="font-medium text-xl">Nguyễn Văn A</h3>
-           <button className="flex gap-1 ">
-             <img src={Edit} alt="Chỉnh sửa icon" />
-              <p className="text-sm font-medium text-gray-700">Sửa Hồ Sơ</p>             </button>
-            </div>
-         </div>
+        <div className="col1-infor-name flex flex-col gap-2">
+          <h3 className="font-medium text-xl">Nguyễn Văn A</h3>
+          <button className="flex gap-1 ">
+            <img src={Edit} alt="Chỉnh sửa icon" />
+            <p className="text-sm font-medium text-gray-700">Sửa Hồ Sơ</p>{" "}
+          </button>
+        </div>
+      </div>
       <Sider style={siderStyle}>
         <div className="demo-logo-vertical" />
         <Menu
-          theme="dark"
+          theme="light"
           mode="inline"
           defaultSelectedKeys={["4"]}
           items={items}
+          
         />
       </Sider>
       <Layout style={{ marginInlineStart: 200 }}>

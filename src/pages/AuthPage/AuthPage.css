@@ -25,7 +25,7 @@
     width: 100%;
   }
   
-  .inputbox input {
+  /* .inputbox input {
     position: relative;
     width: 100%;
     padding: 20px 10px 10px;
@@ -38,8 +38,10 @@
     letter-spacing: 0.05em;
     transition: 0.5s;
     z-index: 10;
+  } */
+  .ant-input{
+    font-size: 16px;
   }
-  
   .inputbox span {
     position: absolute;
     left: 0;
@@ -55,7 +57,7 @@
   .inputbox input:valid ~span,
   .inputbox input:focus ~span {
     color: black;
-    transform: translateX(-10px) translateY(-34px);
+    transform: translateX(-10px) translateY(-40px);
     font-size: 0,75em;
     
   }

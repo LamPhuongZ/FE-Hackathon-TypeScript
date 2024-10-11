@@ -6,6 +6,8 @@ import Register from "./Register";
 import { OTP } from "./OTP";
 import logoGoogle from "../../assets/icons/Google.svg";
 import type { TabsProps } from "antd";
+
+
 function AuthPage() {
   const [form] = Form.useForm();
   const [api, contextHolder] = notification.useNotification();
@@ -13,10 +15,10 @@ function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [isShowOTP, setIsShowOTP] = useState(true);
   const { Text, Link, Title } = Typography;
-
-  console.log(clientReady);
+  const [activeKey, setActiveKey] = useState<string>('1');
+  // console.log(clientReady);
   
-
+  const {TabPane} = Tabs
   const onFinish = (values: string) => {
     console.log("Finish:", values);
     // openNotification('topRight')
@@ -40,19 +42,11 @@ function AuthPage() {
     });
   };
 
-  const items: TabsProps["items"] = [
-    {
-      key: "1",
-      label: "Đăng nhập",
-      children: <Login />,
-    },
-    {
-      key: "2",
-      label: "Đăng ký ",
-      children: <Register setIsShowOTP={setIsShowOTP} />,
-    },
-  ];
+  const handleTabChange = (key: string) => {
+    setActiveKey(key);
+  };
 
+ 
   return (
     <>
       {contextHolder}
@@ -70,29 +64,28 @@ function AuthPage() {
       <Modal
         title={
           <div className="text-4xl font-normal text-center font-bold flex flex-col ">
-            {isShowOTP ? (
-              isLogin ? (
+              {
+              activeKey === '1' ? 
                 <Title>Chào mừng trở lại</Title>
-              ) : (
-                <Title>Đăng ký ngay</Title>
-              )
-            ) : (
-              <Title>Hãy nhập mã OTP</Title>
-            )}
+              : <Title>Đăng ký ngay</Title>
+             
+            }
             <div className="flex justify-center gap-5">
               <Typography.Title level={5} type="secondary">
-                {isShowOTP
-                  ? isLogin
+                {
+                  activeKey === '1'
                     ? "Chưa có tài khoản?"
                     : "Đã có tài khoản rồi"
-                  : ""}
+                }
               </Typography.Title>
-              {/* <Link
+              <Link
                 style={{ fontSize: "16px" }}
-                onClick={() => setIsLogin(!isLogin)}
+                onClick={() => 
+                  activeKey !== '1' ? handleTabChange('1') : handleTabChange('2')
+                }
               >
-                {isShowOTP ? (isLogin ? "Đăng ký ngay" : "Đăng nhập") : ""}
-              </Link> */}
+               {(activeKey === '1' ? "Đăng ký ngay" : "Đăng nhập")}
+              </Link>
             </div>
 
             {isShowOTP ? (
@@ -102,7 +95,7 @@ function AuthPage() {
                   size="large"
                 >
                   <img src={logoGoogle} alt="google" />
-                  {isLogin ? "Đăng nhập bằng Google" : "Đăng ký bằng Google"}
+                  {activeKey === '1' ? "Đăng nhập bằng Google" : "Đăng ký bằng Google"}
                 </Button>
               </div>
             ) : (
@@ -132,20 +125,14 @@ function AuthPage() {
             <Register setIsShowOTP={setIsShowOTP} />
             
             </div>) : <OTP /> } */}
-          <Tabs
-          
-          centered
-          animated={{inkBar:true,tabPane: true}}
-            defaultActiveKey="1"
-            items={items}
-            onChange={(activeKey) => {
-              if (activeKey === "1") {
-                setIsLogin(true);
-              } else if (activeKey === "2") {
-                setIsLogin(false);
-              }
-            }}
-          />
+          <Tabs type={"line"} activeKey={activeKey} onChange={handleTabChange} centered animated >
+        <TabPane  key="1">
+          <Login />
+        </TabPane>
+        <TabPane  key="2">
+          <Register setIsShowOTP={setIsShowOTP} />
+        </TabPane>
+      </Tabs>
         </Form>
       </Modal>
     </>

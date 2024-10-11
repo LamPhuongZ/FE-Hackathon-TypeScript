@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Flex, Form, Input, message } from "antd";
 
 type RegisterProps = {
@@ -28,6 +27,7 @@ const Register: React.FC<RegisterProps> = ({ setIsShowOTP }) => {
 
   return (
     <>
+    
       <Form
         form={form}
         name="signup"
@@ -35,23 +35,20 @@ const Register: React.FC<RegisterProps> = ({ setIsShowOTP }) => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
+        <div className="flex flex-col gap-5">
         <Form.Item
           name="username"
           rules={[
             {
+              type: "email",
               required: true,
               message: "Please input your email!",
             },
           ]}
         >
-          
-          <div className="inputbox mb-5">
-            <input required type="email" />
-            <span>
-              <Flex justify="space-between" align="center">
-                <p>Nhập email</p>
-              </Flex>
-            </span>
+          <div className="inputbox">
+            <Input className="text-[14px] relative w-full p-5 pt-2.5 bg-transparent outline-none shadow-none border-none text-[#23242a] text-base tracking-wide transition duration-500 z-10 focus:bg-transparent focus:ring-0 focus:border-none hover:bg-transparent" required type="text" />
+            <span>Nhập email của bạn</span>
             <i></i>
           </div>
         </Form.Item>
@@ -65,13 +62,12 @@ const Register: React.FC<RegisterProps> = ({ setIsShowOTP }) => {
             },
           ]}
         >
-          
           <div className="inputbox ">
-            <input required type="password" />
+            <Input  className="text-[14px] relative w-full p-5 pt-2.5 bg-transparent outline-none shadow-none border-none text-[#23242a] text-base tracking-wide transition duration-500 z-10 focus:bg-transparent focus:ring-0 focus:border-none hover:bg-transparent" required type="password" />
             <span>
-              <Flex justify="space-between" align="center">
+              
                 <p>Mật khẩu</p>
-              </Flex>
+              
             </span>
             <i></i>
           </div>
@@ -98,12 +94,10 @@ const Register: React.FC<RegisterProps> = ({ setIsShowOTP }) => {
             }),
           ]}
         >
-          <div className="inputbox mt-5">
-            <input required type="password" />
+          <div className="inputbox">
+            <input className=" relative w-full p-5 pt-2.5 bg-transparent outline-none shadow-none border-none text-[#23242a] text-base tracking-wide transition duration-500 z-10 focus:bg-transparent focus:ring-0 focus:border-none hover:bg-transparent" required type="password" />
             <span>
-              <Flex justify="space-between" align="center">
-                <p>Mật khẩu</p>
-              </Flex>
+                <p>Xác nhận mật khẩu</p>
             </span>
             <i></i>
           </div>
@@ -121,107 +115,9 @@ const Register: React.FC<RegisterProps> = ({ setIsShowOTP }) => {
             Register
           </Button>
         </Form.Item>
+</div>
       </Form>
     </>
   );
 };
-export default Register;
-
-// import { useState } from 'react';
-// import {
-//   Button,
-//   Checkbox,
-//   Form,
-//   Input,
-//   message,
-//   Typography,
-// } from 'antd';
-// import { GoogleOutlined } from '@ant-design/icons';
-
-// const { Title } = Typography;
-
-// const Register = () => {
-//   const [form] = Form.useForm();
-//   const [loading, setLoading] = useState(false);
-
-//   const onFinish = async (values) => {
-//     setLoading(true);
-//     try {
-//       // Simulate API call to create a user
-//       await new Promise((resolve) => setTimeout(resolve, 1000));
-//       message.success('Signup successful!');
-//       form.resetFields();
-//     } catch (error) {
-//       message.error('Failed to signup');
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const onFinishFailed = (errorInfo) => {
-//     console.log('Failed:', errorInfo);
-//   };
-
-//   return (
-//     <div className="container mx-auto p-8">
-//       <Title level={2} className="text-center mb-8">
-//         Sign Up
-//       </Title>
-//       <Form
-//         form={form}
-//         name="signup"
-//         layout="vertical"
-//         onFinish={onFinish}
-//         onFinishFailed={onFinishFailed}
-//         autoComplete="off"
-//       >
-//         <Form.Item
-//           label="Full Name"
-//           name="fullName"
-//           rules={[{ required: true, message: 'Please input your name!' }]}
-//         >
-//           <Input placeholder="Jhon Doe" />
-//         </Form.Item>
-//         <Form.Item
-//           label="Email"
-//           name="email"
-//           rules={[{ required: true, message: 'Please input your email!' }]}
-//         >
-//           <Input placeholder="example@gmail.com" />
-//         </Form.Item>
-//         <Form.Item
-//           label="Password"
-//           name="password"
-//           rules={[{ required: true, message: 'Please input your password!' }]}
-//         >
-//           <Input.Password placeholder="Create a password" />
-//         </Form.Item>
-//         <Form.Item>
-//           <Checkbox >Remember me</Checkbox>
-//         </Form.Item>
-//         <Form.Item>
-//           <Button
-//             type="primary"
-//             htmlType="submit"
-//             loading={loading}
-//             className="w-full"
-//           >
-//             Sign Up
-//           </Button>
-//         </Form.Item>
-//         <Form.Item>
-//           <Button
-//             type="link"
-//             htmlType="button"
-//             icon={<GoogleOutlined />}
-//             className="w-full"
-//           >
-//             Sign Up with Google
-//           </Button>
-//         </Form.Item>
-//       </Form>
-//     </div>
-//   );
-// };
-
-// export default Register;
+export default Register

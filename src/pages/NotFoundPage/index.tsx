@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import bgImage from "../../assets/gifs/404.gif";
-import Button from "../../components/button";
+import Button from "../../components/button/Button";
 
 export default function NotFoundPage() {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ export default function NotFoundPage() {
       </div>
       <div className="content absolute left-1/2 top-[80%] text-center transform -translate-x-1/2">
         <h1 className="text-slate-900 text-3xl font-bold">Thông tin đang được cập nhật</h1>
-        <Button margin="20px" title="Về Trang Chủ" onClick={() => navigate("/")} />
+        <Button className="w-full h-16 mt-3" title="Về Trang Chủ" onClick={() => navigate("/")} />
       </div>
     </div>
   );

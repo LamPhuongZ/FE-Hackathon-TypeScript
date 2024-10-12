@@ -9,7 +9,7 @@ import Arrow from "../../assets/icons/double-arrow-right.svg";
 import Star from "../../assets/icons/star.svg";
 import { toast } from "react-toastify";
 import { NavLink } from "react-router-dom";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProfileSchema } from "../../utils/validation";
@@ -25,19 +25,9 @@ export default function ProfilePage() {
     resolver: yupResolver(ProfileSchema),
   });
 
-  const handleUpdateProfile: SubmitHandler<{
-    fullName: string;
-    email: string;
-    date: Date;
-    phone: string;
-    join: string;
-    address: string;
-    avatar: File | null; 
-    frontCard: File | null; 
-    backCard: File | null; 
-  }> = async (values) => {
+  const handleUpdateProfile = async () => {
     try {
-      console.log("Values:", values);
+      // console.log("Values:", values);
       toast.success("Đã cập nhật thông tin thành công!");
     } catch (error) {
       toast.error("Cập nhật thất bại!");

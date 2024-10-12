@@ -33,16 +33,13 @@ export default function ProfilePage() {
     control,
     handleSubmit,
     setValue,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     mode: "onChange",
     resolver: yupResolver(schema),
   });
 
-  const handleUpdateProfile = (values) => {
-    if (isValid) {
-      console.log("Values:", values);
-    }
+  const handleUpdateProfile = () => {
     toast.success("Đã cập nhật thông tin thành công!");
   };
 

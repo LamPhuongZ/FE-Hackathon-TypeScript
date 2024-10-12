@@ -1,0 +1,1 @@
+import{an as t}from"./index-C3v7e8eJ.js";function u({title:a,loading:n,className:r,type:l="button",onClick:m,icon:s,iconPosition:e="left"}){return t.jsxs("button",{type:l,className:`btn-component ${r}`,onClick:m,disabled:n,children:[s&&e==="left"&&t.jsx("span",{className:"mr-2",children:s}),a,s&&e==="right"&&t.jsx("span",{className:"ml-2",children:s})]})}export{u as B};

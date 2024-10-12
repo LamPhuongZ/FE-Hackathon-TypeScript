@@ -23,7 +23,7 @@ const schema = yup.object({
   date: yup.date().required("Vui lòng nhập ngày sinh"),
   phone: yup.string().required("Vui lòng nhập số điện thoại"),
   address: yup.string().required("Vui lòng nhập địa chỉ"),
-  file: yup.mixed().required("Vui lòng tải lên tệp"),
+  avatar: yup.mixed().required("Vui lòng tải ảnh khuôn mặt của bạn"),
   frontCard: yup.mixed().required("Vui lòng tải CCCD/CMND mặt trước"),
   backCard: yup.mixed().required("Vui lòng tải CCCD/CMND mặt sau"),
 });
@@ -33,14 +33,16 @@ export default function ProfilePage() {
     control,
     handleSubmit,
     setValue,
-    formState: { errors},
+    formState: { errors, isValid },
   } = useForm({
     mode: "onChange",
     resolver: yupResolver(schema),
   });
 
   const handleUpdateProfile = (values) => {
-    console.log(values);
+    if (isValid) {
+      console.log("Values:", values);
+    }
   };
 
   useEffect(() => {
@@ -49,8 +51,7 @@ export default function ProfilePage() {
       toast.error(arrErrors[0]?.message);
     }
   }, [errors]);
-
-  console.log(Object.values(errors));
+  console.log("🚀 ~ useEffect ~ arrErrors:", Object.values(errors));
 
   return (
     <div className="py-20 px-[72px]">
@@ -68,7 +69,13 @@ export default function ProfilePage() {
             <ImageUpload
               listType="picture-cirle"
               name="file"
-              onFileSelect={(file) => setValue("file", file || "")}
+              onFileSelect={(file) => {
+                if (file) {
+                  setValue("avatar", file);
+                } else {
+                  setValue("avatar", undefined);
+                }
+              }}
             />
           </div>
           <div className="flex items-end justify-center mb-10 pr-5">
@@ -90,6 +97,7 @@ export default function ProfilePage() {
               <Field>
                 <Label htmlFor="date">Ngày sinh</Label>
                 <Input
+                  type="date"
                   name="date"
                   placeholder="Nhập ngày tháng năm sinh"
                   control={control}
@@ -110,7 +118,7 @@ export default function ProfilePage() {
                 <Input
                   name="join"
                   placeholder=""
-                  className="text-center border-none focus:ring-0"
+                  className="text-center border-none focus:ring-0 invisible"
                   control={control}
                 ></Input>
               </Field>
@@ -142,11 +150,23 @@ export default function ProfilePage() {
               <div className="form-layout lg:mb-0">
                 <ImageUpload
                   name="frontCard"
-                  onFileSelect={(file) => setValue("frontCard", file || "")}
+                  onFileSelect={(file) => {
+                    if (file) {
+                      setValue("frontCard", file);
+                    } else {
+                      setValue("frontCard", undefined);
+                    }
+                  }}
                 />
                 <ImageUpload
                   name="backCard"
-                  onFileSelect={(file) => setValue("backCard", file || "")}
+                  onFileSelect={(file) => {
+                    if (file) {
+                      setValue("backCard", file);
+                    } else {
+                      setValue("backCard", undefined);
+                    }
+                  }}
                 />
               </div>
             </div>

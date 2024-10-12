@@ -16,7 +16,6 @@ export default function ImageUploadProps({
   const [imageSelect, setImageSelect] = useState<File>();
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    // console.log("🚀 ~ handleImageSelect ~ file:", file);
     if (file) {
       setImageSelect(file);
       handleFileSelect(file);
@@ -59,7 +58,7 @@ export default function ImageUploadProps({
           <button
             type="button"
             className="w-16 h-16 bg-white rounded-full flex items-center justify-center cursor-pointer absolute z-10 text-red-500 opacity-0 invisible transition-all group-hover:opacity-100 group-hover:visible"
-            onClick={handleImageRemove}
+            onClick={() => handleImageRemove()}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -78,8 +77,6 @@ export default function ImageUploadProps({
           </button>
         </>
       )}
-
-      {/* {imageSelect && } */}
     </label>
   );
 }

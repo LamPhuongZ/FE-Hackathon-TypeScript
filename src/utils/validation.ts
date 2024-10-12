@@ -8,7 +8,7 @@ export const ProfileSchema = yup.object({
     .required("Vui lòng nhập email đầy đủ"),
   date: yup.date().required("Vui lòng nhập ngày sinh"),
   phone: yup.string().required("Vui lòng nhập số điện thoại"),
-  join: yup.string().required("Vui lòng kiểm tra lại ngày tham gia"),
+  // join: yup.string().required("Vui lòng kiểm tra lại ngày tham gia"),
   address: yup.string().required("Vui lòng nhập địa chỉ"),
 
   avatar: yup

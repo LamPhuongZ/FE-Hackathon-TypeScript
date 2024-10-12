@@ -6,8 +6,8 @@ import { PersistGate } from "redux-persist/lib/integration/react";
 import { ToastContainer } from "react-toastify";
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ReactDOM from "react-dom/client";
 import store, { persistor } from "./redux/store";
+import ReactDOM from "react-dom/client";
 import Loading from "./components/loading";
 
 const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));

@@ -4,10 +4,10 @@ import clsx from "clsx";
 
 interface ImageUploadProps extends Partial<HTMLInputElement> {
   listType?: "picture-circle" | "text" | "picture";
-  onFileSelect: (file?: File) => void;
+  onFileSelect: (file: File | null) => void; 
 }
 
-export default function ImageUpload({
+export default function ImageUploadProps({
   listType = "picture",
   className,
   name,
@@ -16,7 +16,6 @@ export default function ImageUpload({
   const [imageSelect, setImageSelect] = useState<File>();
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    // console.log("🚀 ~ handleImageSelect ~ file:", file);
     if (file) {
       setImageSelect(file);
       handleFileSelect(file);
@@ -25,7 +24,7 @@ export default function ImageUpload({
 
   const handleImageRemove = () => {
     setImageSelect(undefined);
-    handleFileSelect(undefined);
+    handleFileSelect(null);
   };
 
   return (
@@ -59,7 +58,7 @@ export default function ImageUpload({
           <button
             type="button"
             className="w-16 h-16 bg-white rounded-full flex items-center justify-center cursor-pointer absolute z-10 text-red-500 opacity-0 invisible transition-all group-hover:opacity-100 group-hover:visible"
-            onClick={handleImageRemove}
+            onClick={() => handleImageRemove()}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

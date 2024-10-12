@@ -13,7 +13,7 @@ export default function JobCardDetail() {
           <p className="font-medium">Đã xác thực</p>
         </div>
       </div>
-      <Button className="mt-9">Ứng tuyển</Button>
+      <Button title="Ứng Tuyển" className="w-full h-16 mt-9" />
       <div>
         <textarea
           name=""

@@ -1,50 +1,56 @@
-import React, { useEffect } from "react";
 import Label from "../../components/label/Label";
 import Input from "../../components/input/Input";
 import Field from "../../components/field/Field";
 import Button from "../../components/button/Button";
-import ImageUpload from "../../components/imageUpload/ImageUpload";
-import close from "../../assets/icons/Close.svg";
-import plus from "../../assets/icons/Plus.svg";
-import arrow from "../../assets/icons/arrow.svg";
-import star from "../../assets/icons/star.svg";
-import { NavLink } from "react-router-dom";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import ImageUpload from "../../components/image-upload/ImageUpload";
+import Close from "../../assets/icons/close.svg";
+import Plus from "../../assets/icons/plus.svg";
+import Arrow from "../../assets/icons/double-arrow-right.svg";
+import Star from "../../assets/icons/star.svg";
 import { toast } from "react-toastify";
-
-const schema = yup.object({
-  fullname: yup.string().required("Vui lòng nhập họ tên đầy đủ"),
-  email: yup
-    .string()
-    .email("Vui lòng nhập đúng email")
-    .required("Vui lòng nhập email đầy đủ"),
-  date: yup.date().required("Vui lòng nhập ngày sinh"),
-  phone: yup.string().required("Vui lòng nhập số điện thoại"),
-  address: yup.string().required("Vui lòng nhập địa chỉ"),
-  avatar: yup.mixed().required("Vui lòng tải ảnh khuôn mặt của bạn"),
-  frontCard: yup.mixed().required("Vui lòng tải CCCD/CMND mặt trước"),
-  backCard: yup.mixed().required("Vui lòng tải CCCD/CMND mặt sau"),
-});
+import { NavLink } from "react-router-dom";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { ProfileSchema } from "../../utils/validation";
 
 export default function ProfilePage() {
   const {
     control,
     handleSubmit,
     setValue,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     mode: "onChange",
-    resolver: yupResolver(schema),
+    resolver: yupResolver(ProfileSchema),
   });
 
-  const handleUpdateProfile = (values) => {
-    if (isValid) {
+  const handleUpdateProfile: SubmitHandler<{
+    fullName: string;
+    email: string;
+    date: Date;
+    phone: string;
+    join: string;
+    address: string;
+    avatar: File | null; 
+    frontCard: File | null; 
+    backCard: File | null; 
+  }> = async (values) => {
+    try {
       console.log("Values:", values);
+      toast.success("Đã cập nhật thông tin thành công!");
+    } catch (error) {
+      toast.error("Cập nhật thất bại!");
+      console.error("Update error:", error);
     }
-    toast.success("Đã cập nhật thông tin thành công!");
   };
+
+  useEffect(() => {
+    const arrErrors = Object.values(errors);
+    if (arrErrors.length > 0) {
+      toast.error(arrErrors[0]?.message);
+    }
+  }, [errors]);
 
   useEffect(() => {
     const arrErrors = Object.values(errors);
@@ -68,29 +74,27 @@ export default function ProfilePage() {
         <form onSubmit={handleSubmit(handleUpdateProfile)}>
           <div className="w-[244px] h-[244px] rounded-full mx-auto mb-7">
             <ImageUpload
-              listType="picture-cirle"
-              name="file"
-              onFileSelect={(file) => {
+              listType="picture-circle"
+              name="avatar"
+              onFileSelect={(file: File | null) => {
                 if (file) {
                   setValue("avatar", file);
-                } else {
-                  setValue("avatar", undefined);
                 }
               }}
             />
           </div>
           <div className="flex items-end justify-center mb-10 pr-5">
             <div className="w-14 h-14">
-              <img src={star} alt="" className="w-full h-full" />
+              <img src={Star} alt="" className="w-full h-full" />
             </div>
             <h1 className="text-4xl font-medium">4.0</h1>
           </div>
           <div className="border border-solid border-[#D5D5D5] rounded-3xl pt-14 px-8 ">
             <div className="form-layout ">
               <Field>
-                <Label htmlFor="fullname">Họ tên đầy đủ</Label>
+                <Label htmlFor="fullName">Họ tên đầy đủ</Label>
                 <Input
-                  name="fullname"
+                  name="fullName"
                   placeholder="Nhập họ tên đầy đủ"
                   control={control}
                 ></Input>
@@ -118,7 +122,7 @@ export default function ProfilePage() {
                 <Label htmlFor="join">Tham gia từ</Label>
                 <Input
                   name="join"
-                  placeholder=""
+                  placeholder="Thời gian tham gia"
                   className="text-center border-none focus:ring-0 invisible"
                   control={control}
                 ></Input>
@@ -134,7 +138,7 @@ export default function ProfilePage() {
                 ></Input>
               </Field>
               <Field>
-                <Label htmlFor="email">Email (nếu có)</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
                   name="email"
                   placeholder="Nhập email"
@@ -151,21 +155,17 @@ export default function ProfilePage() {
               <div className="form-layout lg:mb-0">
                 <ImageUpload
                   name="frontCard"
-                  onFileSelect={(file) => {
+                  onFileSelect={(file: File | null) => {
                     if (file) {
                       setValue("frontCard", file);
-                    } else {
-                      setValue("frontCard", undefined);
                     }
                   }}
                 />
                 <ImageUpload
                   name="backCard"
-                  onFileSelect={(file) => {
+                  onFileSelect={(file: File | null) => {
                     if (file) {
                       setValue("backCard", file);
-                    } else {
-                      setValue("backCard", undefined);
                     }
                   }}
                 />
@@ -180,14 +180,18 @@ export default function ProfilePage() {
                 <div className="flex items-center gap-2">
                   <p className="font-semibold text-2xl">Dọn vệ sinh</p>
                   <div className="w-6 h-6">
-                    <img src={close} alt="" className="w-full h-full" />
+                    <img
+                      src={Close}
+                      alt="icon-close"
+                      className="w-full h-full"
+                    />
                   </div>
                 </div>
               </div>
               <div className="inline-block rounded-[20px] bg-[#E8E8E8] px-7 py-5">
                 <div className="flex items-center gap-2">
                   <div className="w-6 h-6">
-                    <img src={plus} alt="" className="w-full h-full" />
+                    <img src={Plus} alt="" className="w-full h-full" />
                   </div>
                   <p className="font-semibold text-2xl text-[rgba(10,_22,_41,_0.50)]">
                     Thêm kỹ năng
@@ -209,12 +213,16 @@ export default function ProfilePage() {
                   </div>
                   <div className="bg-[#2EE498] rounded-2xl p-3">
                     <NavLink
-                      to="/more_card"
+                      to="/more-card"
                       className="text-white flex items-center justify-between gap-10"
                     >
                       xem thêm
                       <div className="w-6 h-6">
-                        <img src={arrow} alt="" className="w-full h-full" />
+                        <img
+                          src={Arrow}
+                          alt="icon-arrow"
+                          className="w-full h-full"
+                        />
                       </div>
                     </NavLink>
                   </div>
@@ -234,7 +242,11 @@ export default function ProfilePage() {
                     >
                       xem thêm
                       <div className="w-6 h-6">
-                        <img src={arrow} alt="" className="w-full h-full" />
+                        <img
+                          src={Arrow}
+                          alt="icon-arrow"
+                          className="w-full h-full"
+                        />
                       </div>
                     </NavLink>
                   </div>
@@ -242,9 +254,11 @@ export default function ProfilePage() {
               </div>
             </div>
           </div>
-          <Button type="submit" className="mt-20 h-[105px]">
-            Cập nhật
-          </Button>
+          <Button
+            type="submit"
+            title="Cập Nhật"
+            className="w-full mt-20 h-16"
+          />
         </form>
       </div>
     </div>

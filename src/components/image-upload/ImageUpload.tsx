@@ -3,8 +3,8 @@ import upIMG from "../../assets/images/img-upload.png";
 import clsx from "clsx";
 
 interface ImageUploadProps extends Partial<HTMLInputElement> {
-  listType?: "picture-cirle" | "text" | "picture";
-  onFileSelect: (file?: File) => void;
+  listType?: "picture-circle" | "text" | "picture";
+  onFileSelect: (file: File | null) => void; 
 }
 
 export default function ImageUploadProps({
@@ -24,7 +24,7 @@ export default function ImageUploadProps({
 
   const handleImageRemove = () => {
     setImageSelect(undefined);
-    handleFileSelect(undefined);
+    handleFileSelect(null);
   };
 
   return (
@@ -33,7 +33,7 @@ export default function ImageUploadProps({
         `cursor-pointer flex items-center justify-center bg-gray-100 border border-dashed w-full min-h-[200px] rounded-lg relative overflow-hidden group`,
         className,
         {
-          ["!rounded-full h-full"]: listType === "picture-cirle",
+          ["!rounded-full h-full"]: listType === "picture-circle",
         }
       )}
     >

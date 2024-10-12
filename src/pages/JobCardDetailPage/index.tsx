@@ -16,7 +16,7 @@ export default function JobCardDetailPage() {
             <p className="font-medium">Đã xác thực</p>
           </div>
         </div>
-        <Button title="Ứng Tuyển" className="mt-9"/>
+        <Button title="Ứng Tuyển" className="w-full h-16 mt-9"/>
         <div>
           <textarea
             name=""

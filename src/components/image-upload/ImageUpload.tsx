@@ -3,8 +3,8 @@ import upIMG from "../../assets/images/img-upload.png";
 import clsx from "clsx";
 
 interface ImageUploadProps extends Partial<HTMLInputElement> {
-  listType?: "picture-cirle" | "text" | "picture";
-  onFileSelect: (file?: File) => void;
+  listType?: "picture-circle" | "text" | "picture";
+  onFileSelect: (file: File | null) => void; 
 }
 
 export default function ImageUploadProps({
@@ -16,7 +16,6 @@ export default function ImageUploadProps({
   const [imageSelect, setImageSelect] = useState<File>();
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    // console.log("🚀 ~ handleImageSelect ~ file:", file);
     if (file) {
       setImageSelect(file);
       handleFileSelect(file);
@@ -25,7 +24,7 @@ export default function ImageUploadProps({
 
   const handleImageRemove = () => {
     setImageSelect(undefined);
-    handleFileSelect(undefined);
+    handleFileSelect(null);
   };
 
   return (
@@ -34,7 +33,7 @@ export default function ImageUploadProps({
         `cursor-pointer flex items-center justify-center bg-gray-100 border border-dashed w-full min-h-[200px] rounded-lg relative overflow-hidden group`,
         className,
         {
-          ["!rounded-full h-full"]: listType === "picture-cirle",
+          ["!rounded-full h-full"]: listType === "picture-circle",
         }
       )}
     >
@@ -59,7 +58,7 @@ export default function ImageUploadProps({
           <button
             type="button"
             className="w-16 h-16 bg-white rounded-full flex items-center justify-center cursor-pointer absolute z-10 text-red-500 opacity-0 invisible transition-all group-hover:opacity-100 group-hover:visible"
-            onClick={handleImageRemove}
+            onClick={() => handleImageRemove()}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -78,8 +77,6 @@ export default function ImageUploadProps({
           </button>
         </>
       )}
-
-      {/* {imageSelect && } */}
     </label>
   );
 }

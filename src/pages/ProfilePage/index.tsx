@@ -43,6 +43,7 @@ export default function ProfilePage() {
     if (isValid) {
       console.log("Values:", values);
     }
+    toast.success("Đã cập nhật thông tin thành công!");
   };
 
   useEffect(() => {

@@ -67,7 +67,7 @@ export default function JobCardDetailPage() {
   ];
 
   return (
-    <div className=" grid grid-cols-[867px_minmax(0,_1fr)] gap-x-7 py-20 px-[72px] 2xl:grid-cols-[1250px_minmax(0,_1fr)]">
+    <div className=" grid grid-cols-[867px_minmax(0,_1fr)] gap-x-7 py-20 px-[72px] 2xl:grid-cols-[1300px_minmax(0,_1fr)]">
       <JobCardDetail />
 
       <div className="flex flex-col gap-6">

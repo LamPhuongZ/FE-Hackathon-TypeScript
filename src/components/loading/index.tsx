@@ -3,23 +3,10 @@ import gifLoading from "../../assets/gifs/gg.gif";
 export default function Loading() {
   return (
     <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100vh",
-        backgroundColor: "#6da2f139",
-        zIndex: "1000",
-      }}
+      className="fixed t-0 l-0 w-full h-screen bg-[#6da2f139] z-[1000]"
     >
       <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-        }}
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
       >
         <img src={gifLoading} alt="loading" loading="lazy" />
       </div>

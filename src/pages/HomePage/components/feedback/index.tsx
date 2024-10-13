@@ -1,6 +1,6 @@
 import iconFeedback from "../../../../assets/icons/star-four-fill.svg";
 import authorImage from "../../../../assets/images/avatar-1.png";
-import Card from "../../../../components/card";
+import Card from "../../../../components/card/Card";
 
 const feedbackData = [
   {
@@ -37,11 +37,7 @@ export function Feedback() {
           {feedbackData.map((item, index) => (
             <Card
               key={index}
-              width="411px"
-              height="376px"
-              borderRadius="24px"
-              padding="18px 22px 34px 22px"
-              boxShadow="0px 6px 58px 0px rgba(196, 203, 214, 0.50)"
+              className="w-[411px] h-[376px] rounded-[24px] p-[18px_22px_34px_22px] shadow-[0px_6px_58px_0px_rgba(196,203,214,0.5)]"
             >
               <div className="flex flex-col gap-4">
                 <p className="font-normal text-base">{item.text}</p>

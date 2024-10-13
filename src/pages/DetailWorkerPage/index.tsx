@@ -1,25 +1,18 @@
 import "../../pages/DetailWorkerPage/detailWorkerPage.scss";
 import Ava from "../../assets/images/ava.jpg";
-import Card from "../../components/card";
-import Star from "../../assets/icons/star.svg"
-import Address from "../../assets/icons/icon-red-address.svg"
-import Calendar from "../../assets/icons/calendar.svg"
+import Star from "../../assets/icons/star.svg";
+import Address from "../../assets/icons/icon-red-address.svg";
+import Calendar from "../../assets/icons/calendar.svg";
 import Button from "../../components/button/Button";
 import Checked from "../../assets/images/checked.png";
 import Phone from "../../assets/icons/phone.svg";
+import Card from "../../components/card/Card";
 
 export default function DetailWorkerPage() {
   return (
     <div className="page-detail-worker w-11/12 bg-white	m-auto mt-10 mb-32">
       <div className="content-detail-worker w-11/12 m-auto pt-10 pb-10 flex flex-col gap-5">
-        <Card
-          width="100%"
-          height="100%"
-          padding="16px"
-          border="1px solid"
-          borderColor="#cacaca"
-          borderRadius="24px"
-        >
+        <Card className="w-full h-full p-4 border border-[#cacaca] rounded-[24px]">
           <div className="flex flex-row items-center gap-6">
             <div className="col1 w-28 h-28 overflow-hidden rounded-full">
               <img
@@ -43,27 +36,18 @@ export default function DetailWorkerPage() {
             </div>
           </div>
         </Card>
-        <Card
-          width="100%"
-          height="100%"
-          padding="24px"
-         border="1px solid"
-          borderColor="#cacaca"
-          borderRadius="24px"
-        >
+        <Card className="w-full h-full p-4 border border-[#cacaca] rounded-[24px]">
           <div className="flex flex-col gap-5">
             <div className="row1 flex gap-4">
               <div className="w-1/3">
                 <h3 className="font-semibold text-xl	">Ngày sinh</h3>
-                <Card width="100%" height="50%" border="1px solid"
-          borderColor="#cacaca">
+                <Card className="w-full h-1/2 border border-[#cacaca]">
                   <p className="font-light text-xl ">10-10-2024</p>
                 </Card>
               </div>
               <div className="w-2/3">
                 <h3 className="font-semibold text-xl">Địa chỉ</h3>
-                <Card width="100%" height="50%" border="1px solid"
-          borderColor="#cacaca">
+                <Card className="w-full h-1/2 border border-[#cacaca]">
                   <p className="font-light text-xl">
                     123 Likelion, Q7, HoChiMinh
                   </p>
@@ -73,8 +57,7 @@ export default function DetailWorkerPage() {
             <div className="row2 flex gap-4">
               <div className="w-1/3">
                 <h3 className="font-semibold text-xl">Đánh giá</h3>
-                <Card width="100%" height="50%" border="1px solid"
-          borderColor="#cacaca">
+                <Card className="w-full h-1/2 border border-[#cacaca]">
                   <div className="flex flex-row gap-2 items-baseline">
                     <img src={Star} alt="Đánh giá" className="w-5 h-5" />
                     <p className="font-light text-xl">4.0</p>
@@ -83,8 +66,7 @@ export default function DetailWorkerPage() {
               </div>
               <div className="w-2/3">
                 <h3 className="font-semibold text-xl">Kỹ năng</h3>
-                <Card width="100%" height="50%" border="1px solid"
-          borderColor="#cacaca">
+                <Card className="w-full h-1/2 border border-[#cacaca]">
                   <div className="flex flex-row gap-3">
                     <p className="font-light text-base px-4 py-1 border bg-gray-200 rounded-2xl">
                       Dọn vệ sinh
@@ -101,24 +83,10 @@ export default function DetailWorkerPage() {
             </div>
           </div>
         </Card>
-        <Card
-          width="100%"
-          height="100%"
-          padding="24px"
-          border="1px solid"
-          borderColor="#cacaca"
-          borderRadius="24px"
-        >
+        <Card className="w-full h-full p-6 border border-[#cacaca] rounded-[24px]">
           <h3 className="font-semibold text-xl mb-3">Đã hoàn thành</h3>
           <div className="flex flex-row gap-4 flex-wrap">
-            <Card
-              width="48%"
-              height="100%"
-              padding="16px"
-              border="1px solid"
-          borderColor="#cacaca"
-              borderRadius="24px"
-            >
+            <Card className="w-[48%] h-full p-4 border border-[#cacaca] rounded-[24px]">
               <div className="title-job flex justify-between">
                 <h1 className="font-semibold text-2xl">Giao hàng</h1>
                 <div className="rate-job flex flex-row gap-1 items-baseline">
@@ -141,14 +109,7 @@ export default function DetailWorkerPage() {
                 </div>
               </div>
             </Card>
-            <Card
-              width="48%"
-              height="100%"
-              padding="16px"
-              border="1px solid"
-          borderColor="#cacaca"
-              borderRadius="24px"
-            >
+            <Card className="w-[48%] h-full p-4 border border-[#cacaca] rounded-[24px]">
               <div className="title-job flex justify-between">
                 <h1 className="font-semibold text-2xl">Giao hàng</h1>
                 <div className="rate-job flex flex-row gap-1 items-baseline">
@@ -171,14 +132,7 @@ export default function DetailWorkerPage() {
                 </div>
               </div>
             </Card>
-            <Card
-              width="48%"
-              height="100%"
-              padding="16px"
-             border="1px solid"
-          borderColor="#cacaca"
-              borderRadius="24px"
-            >
+            <Card className="w-[48%] h-full p-4 border border-[#cacaca] rounded-[24px]">
               <div className="title-job flex justify-between">
                 <h1 className="font-semibold text-2xl">Giao hàng</h1>
                 <div className="rate-job flex flex-row gap-1 items-baseline">
@@ -203,7 +157,7 @@ export default function DetailWorkerPage() {
             </Card>
           </div>
         </Card>
-        <Button className="w-2/4 mx-auto">Chọn ứng viên</Button>
+        <Button title="Chọn Ứng Viên" className="w-2/4 h-16 mx-auto" />
       </div>
     </div>
   );

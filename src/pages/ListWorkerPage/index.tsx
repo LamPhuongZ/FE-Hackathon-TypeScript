@@ -1,5 +1,4 @@
-import Banner from "../HomePage/components/banner/index";
-import "../../pages/ListWorkerPage/listWorkerPage.scss";
+import "./listWorkerPage.scss";
 import Ava from "../../assets/images/ava.jpg";
 import logoStar from "../../assets/icons/star.svg";
 import logoHaftStar from "../../assets/icons/half-star.svg";
@@ -8,7 +7,6 @@ import logoCheck from "../../assets/icons/check.svg";
 export default function ListWorkerPage() {
   return (
     <div className="page-content">
-      <Banner />
       <div className="listworker mt-20 ">
         <h1 className="text-center text-3xl font-medium max-md:text-2xl">
           DANH SÁCH NGƯỜI LÀM ỨNG TUYỂN

@@ -27,6 +27,9 @@ export default function ListJobPage() {
   }, []);
 
   const renderJobs = (): JSX.Element[] => {
+    if (!arrJob || !Array.isArray(arrJob)) {
+      return []; // Trả về mảng rỗng nếu arrJob là undefined hoặc không phải là một mảng
+    }
     return arrJob.map((item: Job) => {
       return (
         <JobCard
@@ -37,6 +40,7 @@ export default function ListJobPage() {
       );
     });
   };
+  
 
   return (
     <div className="grid grid-cols-[447px_minmax(0,_1fr)] gap-x-7 py-4 px-[72px]">

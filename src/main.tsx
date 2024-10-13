@@ -6,9 +6,10 @@ import { PersistGate } from "redux-persist/lib/integration/react";
 import { ToastContainer } from "react-toastify";
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import store, { persistor } from "./redux/store";
 import ReactDOM from "react-dom/client";
 import Loading from "./components/loading";
+import { store } from "./redux/configStore";
+
 
 const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -24,7 +25,6 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
       <Suspense fallback={<Loading />}>
         <BrowserRouter>
           <Routes>
@@ -42,7 +42,6 @@ root.render(
           <ToastContainer />
         </BrowserRouter>
       </Suspense>
-    </PersistGate>
     <FloatButton.BackTop tooltip={<div>Back to top</div>} />
   </Provider>
 );

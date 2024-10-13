@@ -1,11 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit"
-import productReducer from "./reducers/productReducer"
+import { configureStore } from "@reduxjs/toolkit";
+import jobReducer from "./reducers/jobReducer";
 
 export const store = configureStore({
-    reducer:{
-        productReducer:productReducer
-    }
-})
+  reducer: {
+    jobReducer: jobReducer,
+  },
+});
 
-export type RootState = ReturnType<typeof store.getState>
-export type DispatchType = typeof store.dispatch 
+export type RootState = ReturnType<typeof store.getState>;
+export type DispatchType = typeof store.dispatch;

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DispatchType } from "../configStore";
 import axios from "axios";
+import { httpClient } from "../../utils/config";
 
 export interface Job {
   jobId: number;
@@ -56,12 +57,9 @@ export default jobReducer.reducer;
 
 export const getDataJobAPI = () => {
   return async (dispatch: DispatchType) => {
-    const res = await axios({
-      url: "https://api.easyjob.io.vn/api/v1/job?page=0&size=1&sort=string",
-      method: "GET",
-    });
+    const res = await httpClient.get('/api/v1/job?page=0&size=1&sort=string')
 
-    const action: PayloadAction<Job[]> = getJobsAction(res.data?.content);
+    const action: PayloadAction<Job[]> = getJobsAction(res.data.content);
     dispatch(action);
   };
 };

@@ -8,6 +8,7 @@ interface ButtonProps {
   onClick?: () => void;
   icon?: ReactNode;
   iconPosition?: "left" | "right";
+  color?: "primary" | "secondary" | "delete" | "update";
 }
 
 /**
@@ -20,6 +21,7 @@ interface ButtonProps {
   onClick?: () => void;
   icon?: ReactNode;
   iconPosition?: "left" | "right";
+  color?: "primary" | "secondary" | "delete" | "update";
 
   *Note: width and height width and height are self-defined
  */
@@ -32,11 +34,21 @@ export default function Button({
   onClick,
   icon,
   iconPosition = "left",
+  color = "primary",
 }: ButtonProps) {
+  const bgColor =
+    color === "secondary"
+      ? "btn-secondary"
+      : color === "delete"
+      ? "btn-delete"
+      : color === "update"
+      ? "btn-update"
+      : "btn-primary";
+
   return (
     <button
       type={type as "button" | "submit" | "reset"}
-      className={`btn-component ${className}`}
+      className={`btn-component ${bgColor} ${className}`}
       onClick={onClick}
       disabled={loading}
     >

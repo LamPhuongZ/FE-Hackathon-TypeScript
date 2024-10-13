@@ -7,7 +7,7 @@ type Props = {
   content?: string;
   placeholder: string;
   className?: string;
-  control: object;
+  control?: object;
 };
 
 export default function Input({

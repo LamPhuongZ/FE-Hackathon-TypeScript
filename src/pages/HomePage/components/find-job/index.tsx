@@ -1,61 +1,10 @@
 import { Link } from "react-router-dom";
 import Card from "../../../../components/card/Card";
 import redAddress from "../../../../assets/icons/icon-red-address.svg";
-import imgJob from "../../../../assets/images/img-job.png";
 import arrowRight from "../../../../assets/icons/icon-arrow-right.svg";
+import { JobData } from "../../interfaces";
 
-const jobData = [
-  {
-    id: "1",
-    title: "Vệ sinh căn hộ, gia đình",
-    address: "Số 5 đường 5, phường 5",
-    description:
-      "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ ...",
-    image: imgJob,
-  },
-  {
-    id: "2",
-    title: "Vệ sinh căn hộ, gia đình",
-    address: "Số 5 đường 5, phường 5",
-    description:
-      "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ ...",
-    image: imgJob,
-  },
-  {
-    id: "3",
-    title: "Vệ sinh căn hộ, gia đình",
-    address: "Số 5 đường 5, phường 5",
-    description:
-      "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ ...",
-    image: imgJob,
-  },
-  {
-    id: "4",
-    title: "Vệ sinh căn hộ, gia đình",
-    address: "Số 5 đường 5, phường 5",
-    description:
-      "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ này cần thêm thông tin. Vui lòng xem thêm",
-    image: imgJob,
-  },
-  {
-    id: "5",
-    title: "Vệ sinh căn hộ, gia đình",
-    address: "Số 5 đường 5, phường 5",
-    description:
-      "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ ...",
-    image: imgJob,
-  },
-  {
-    id: "6",
-    title: "Vệ sinh căn hộ, gia đình",
-    address: "Số 5 đường 5, phường 5",
-    description:
-      "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ ...",
-    image: imgJob,
-  },
-];
-
-export default function FindJob() {
+export default function FindJob({ data }: { data: JobData[] }) {
   return (
     <section className="find-job flex flex-col justify-center gap-11 px-[81px] pt-[70px] pb-[120px]">
       <div className="find-job-top flex flex-row justify-between items-center">
@@ -71,7 +20,7 @@ export default function FindJob() {
         </Link>
       </div>
       <div className="find-job-content grid grid-cols-2 gap-6">
-        {jobData.map((job, index) => (
+        {data?.map((job, index) => (
           <Card
             key={index}
             className="w-full h-auto p-[23px_43px_39px_31px]  rounded-3xl bg-white shadow-[0px_18px_18px_0px_rgba(0,0,0,0.18)] "

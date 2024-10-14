@@ -22,6 +22,7 @@ const JobCardDetailPage = lazy(() => import("./pages/JobCardDetailPage"));
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
@@ -36,13 +37,12 @@ root.render(
               <Route path="/more-card" element={<ListCardPage />} />
               <Route path="/card-detail-job" element={<JobCardDetailPage />} />
             </Route>
-
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
-          <ToastContainer />
         </BrowserRouter>
       </Suspense>
     </PersistGate>
+    <ToastContainer />
     <FloatButton.BackTop tooltip={<div>Back to top</div>} />
   </Provider>
 );

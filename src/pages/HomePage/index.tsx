@@ -1,11 +1,11 @@
 import Benefits from "./components/benefits";
 import { Feedback } from "./components/feedback";
-import FindJob from "./components/find-job";
+import TopFeature from "./components/top-feature";
 
 export default function HomePage() {
   return (
     <>
-      <FindJob />
+      <TopFeature />
       <Benefits />
       <Feedback />
     </>

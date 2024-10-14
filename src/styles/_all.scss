@@ -7,6 +7,8 @@
 
 @import "./base/reset";
 
+@import "./page/auth";
+
 body {
   background-color: #f4f9fd;
 }
@@ -22,8 +24,29 @@ input::-moz-input-placeholder {
   @apply grid grid-cols-1 lg:grid-cols-2 lg:gap-x-10 mb-5 lg:mb-10;
 }
 
+.form-layout-col3 {
+  @apply grid grid-cols-1 lg:grid-cols-3 lg:gap-x-10 mb-5 lg:mb-10;
+}
+
+
 .btn-component {
-  @apply cursor-pointer transition-all bg-[#3F8CFF] text-white px-6 py-2 rounded-xl border-blue-600 border-b-[4px] hover:brightness-110 hover:-translate-y-[1px] hover:border-b-[6px] active:border-b-[2px] active:brightness-90 active:translate-y-[2px] text-2xl font-bold;
+  @apply cursor-pointer transition-all px-6 py-2 rounded-xl border-b-[4px]  active:border-b-[2px] active:brightness-90 active:translate-y-[2px] text-2xl font-bold;
+}
+
+.btn-primary {
+  @apply bg-[#3F8CFF] hover:bg-[#3A7BFF] text-white hover:text-white border-blue-600
+}
+
+.btn-secondary {
+  @apply bg-gray-500 hover:bg-gray-600 text-white hover:text-black border-gray-700
+}
+
+.btn-delete {
+  @apply bg-red-500 hover:bg-red-600 text-white hover:text-black border-red-700
+}
+
+.btn-update {
+  @apply bg-yellow-500 hover:bg-yellow-600 text-black hover:text-white border-yellow-600
 }
 
 .hidden-input {

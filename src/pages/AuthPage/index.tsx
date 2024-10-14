@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { Form, Modal, Tabs, Typography } from "antd";
+import { Form, Modal, notification, Tabs, Typography } from "antd";
 import Login from "./Login";
 import Button from "../../components/button/Button";
 import Google from "../../assets/icons/icon-google.svg";
+import Register from "./Register";
 
 export default function AuthPage() {
+  const [form] = Form.useForm();
+  const [api, contextHolder] = notification.useNotification();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [isShowOTP, setIsShowOTP] = useState<boolean>(true);
@@ -12,6 +15,27 @@ export default function AuthPage() {
   const { Link, Title } = Typography;
 
   const { TabPane } = Tabs;
+  const onFinish = (values: string) => {
+    console.log("Finish:", values);
+    api.success({
+      message: `Bạn đã đăng nhập thành công !!!`,
+      placement: "topRight",
+      showProgress: true,
+      pauseOnHover: true,
+      duration: 1.5,
+    });
+  };
+
+  const onRegister = (values: string) => {
+    console.log("Register:", values);
+    api.success({
+      message: `Bạn đã đăng ký thành công!!!`,
+      placement: "topRight",
+      showProgress: true,
+      pauseOnHover: true,
+      duration: 1.5,
+    });
+  };
 
   const handleTabChange = (key: string) => {
     setActiveKey(key);
@@ -19,6 +43,7 @@ export default function AuthPage() {
 
   return (
     <div className="auth">
+      {contextHolder}
       <Button
         title="Đăng Nhập"
         onClick={() => {
@@ -29,7 +54,7 @@ export default function AuthPage() {
 
       <Modal
         title={
-          <div className="text-4xl font-normal text-center font-bold flex flex-col ">
+          <div className="text-4xl text-center font-bold flex flex-col ">
             {activeKey === "1" ? (
               <Title>Chào mừng trở lại</Title>
             ) : (
@@ -55,25 +80,18 @@ export default function AuthPage() {
 
             {isShowOTP ? (
               <div>
-                {/* <Button
+                <Button
                   title={
                     activeKey === "1"
                       ? "Đăng nhập bằng Google"
                       : "Đăng ký bằng Google"
                   }
-                  className="w-full h-16 mb-[2vh]"
-                  icon={}
-                /> */}
-
-                <Button
-                  style={{ width: "100%", marginBottom: "2vh" }}
-                  size="large"
-                >
-                  <img src={Google} alt="icon-google" />
-                  {activeKey === "1"
-                    ? "Đăng nhập bằng Google"
-                    : "Đăng ký bằng Google"}
-                </Button>
+                  color="custom"
+                  icon={<img src={Google} alt="icon-google" />}
+                  className=" w-full h-16 mb-8 flex items-center justify-center gap-[10px] bg-white border"
+                  iconPosition="left"
+                  onClick={() => {}}
+                />
               </div>
             ) : (
               ""
@@ -102,9 +120,9 @@ export default function AuthPage() {
             <TabPane key="1">
               <Login />
             </TabPane>
-            {/* <TabPane key="2">
+            <TabPane key="2">
               <Register setIsShowOTP={setIsShowOTP} />
-            </TabPane> */}
+            </TabPane>
           </Tabs>
         </Form>
       </Modal>

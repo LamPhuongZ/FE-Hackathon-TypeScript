@@ -1,6 +1,6 @@
 // KEY
-export const DOMAIN = ``;
-export const TOKEN_KEY = `token`;
+export const DOMAIN = `https://api.easyjob.io.vn/api/v1`;
+export const TOKEN_KEY = `access-token`;
 
 // TOOLKIT
-export const SLICE_NAMESPACE = "user";
+export const SLICE_NAMESPACE = "userReducer";

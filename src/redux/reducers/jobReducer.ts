@@ -22,12 +22,12 @@ export interface Content {
   phone:         string;
   contactPerson: string;
   startDate:     Date;
-  endDate:       null;
+  endDate:       Date;
   duration:      number;
   jobType:       JobType;
   images:        Image[];
   description:   string;
-  postedDate:    null;
+  postedDate:    Date;
   verified:      boolean;
 }
 

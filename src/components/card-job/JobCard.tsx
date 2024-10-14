@@ -2,7 +2,7 @@ import checked from "../../assets/images/checked.png";
 import location from "../../assets/images/location.png";
 import calendar from "../../assets/images/calender.png";
 import "./JobCardStyles.scss";
-import { Content, Job } from "../../redux/reducers/jobReducer";
+import { Content } from "../../redux/reducers/jobReducer";
 
 type Props = {
   item: Content;
@@ -19,12 +19,18 @@ export default function JobCard({ item, isSelected, onSelect }: Props) {
       onClick={onSelect}
     >
       <div className="flex flex-col gap-y-5">
-        <p className="text-[#CCC] text-xl font-medium">Đăng: {item.postedDate} </p>
+        <p className="text-[#CCC] text-xl font-medium">
+          Đăng: {new Date(item.postedDate).toLocaleDateString("vi-VN")}{" "}
+        </p>
         <div className="flex gap-4 items-center">
           <h1 className="text-2xl font-bold">{item.title}</h1>
-          <div className="w-6 h-6">
-            <img src={checked} alt="" className="w-full h-full" />
-          </div>
+          {item.verified ? (
+            <div className="w-6 h-6">
+              <img src={checked} alt="" className="w-full h-full" />
+            </div>
+          ) : (
+            <div></div>
+          )}
         </div>
         <div className="flex gap-4">
           <div className="w-5 h-5">
@@ -46,7 +52,7 @@ export default function JobCard({ item, isSelected, onSelect }: Props) {
         <div className="flex justify-center">
           <div className="w-[340px] h-[70px] rounded-[20px] border border-solid">
             <p className="text-2xl font-semibold flex justify-center py-5">
-            {new Date(item.startDate).toLocaleDateString('vi-VN')}
+              {new Date(item.startDate).toLocaleDateString("vi-VN")}
             </p>
           </div>
         </div>

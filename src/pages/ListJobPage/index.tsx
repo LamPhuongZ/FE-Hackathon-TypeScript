@@ -7,10 +7,7 @@ import { Content, getDataJobAPI } from "../../redux/reducers/jobReducer";
 
 export default function ListJobPage() {
   const [selectedJobCard, setSelectedJobCard] = useState<number>(0);
-
-  const handleSelectJobCard = (id: number) => {
-    setSelectedJobCard(id);
-  };
+  const [jobDetails, setJobDetails] = useState<Content>();
 
   const { objJob } = useSelector((state: RootState) => state.jobReducer);
   const dispatch: DispatchType = useDispatch();
@@ -23,6 +20,24 @@ export default function ListJobPage() {
   useEffect(() => {
     getDataJobList();
   }, []);
+
+  //
+  const fetchJobDetails = async (id: number) => {
+    try {
+      const response = await fetch(`https://api.easyjob.io.vn/api/v1/job/${id}`);
+      const data = await response.json();
+      console.log("🚀 ~ fetchJobDetails ~ data:", data)
+      setJobDetails(data.data);
+    } catch (error) {
+      console.error('Error fetching job details:', error);
+    }
+  };
+
+  //
+  const handleSelectJobCard = (id: number) => {
+    setSelectedJobCard(id);
+    fetchJobDetails(id);
+  };
 
   const renderJobs = (): JSX.Element[] => {
     // Use nullish coalescing to ensure `renderJobs` always returns an array
@@ -39,11 +54,11 @@ export default function ListJobPage() {
     });
   };
 
+  //
   return (
     <div className="grid grid-cols-[447px_minmax(0,_1fr)] gap-x-7 py-4 px-[72px]">
-      <div className="flex flex-col gap-8">{renderJobs()}</div>
-
-      <JobCardDetail />
-    </div>
+    <div className="flex flex-col gap-8">{renderJobs()}</div>
+    {jobDetails && <JobCardDetail item={jobDetails} />}
+  </div>
   );
 }

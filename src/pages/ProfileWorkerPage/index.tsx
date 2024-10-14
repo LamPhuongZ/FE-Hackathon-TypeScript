@@ -252,7 +252,7 @@ const ProfileWorkerPage: React.FC = () => {
 
                     <Button
                       title="Người ứng tuyển"
-                      type="delete"
+                      color="delete"
                       className="absolute right-8 top-5"
                       onClick={handleApplicantsClick}
                     />
@@ -328,8 +328,10 @@ const ApplicantsList: React.FC<{
       <div className="flex items-center mb-4 relative">      
         <Button
           icon={<ArrowLeftOutlined />}
+          iconPosition="left"
           onClick={onBack}
           className="absolute left-0"
+          color="custom"
         />
         <h2 className="text-xl font-medium w-full text-center">
           Danh sách người ứng tuyển

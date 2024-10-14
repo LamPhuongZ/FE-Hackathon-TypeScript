@@ -8,7 +8,7 @@ interface ButtonProps {
   onClick?: () => void;
   icon?: ReactNode;
   iconPosition?: "left" | "right";
-  color?: "primary" | "secondary" | "delete" | "update";
+  color?: "primary" | "secondary" | "delete" | "update" | "custom";
 }
 
 /**
@@ -21,7 +21,7 @@ interface ButtonProps {
   onClick?: () => void;
   icon?: ReactNode;
   iconPosition?: "left" | "right";
-  color?: "primary" | "secondary" | "delete" | "update";
+  color?: "primary" | "secondary" | "delete" | "update" | "custom";
 
   *Note: width and height width and height are self-defined
  */
@@ -43,6 +43,8 @@ export default function Button({
       ? "btn-delete"
       : color === "update"
       ? "btn-update"
+      : color === "custom"
+      ? "btn-custom"
       : "btn-primary";
 
   return (

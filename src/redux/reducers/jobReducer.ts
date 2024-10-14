@@ -1,36 +1,48 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DispatchType } from "../configStore";
-import axios from "axios";
 import { httpClient } from "../../utils/config";
 
-export interface Job {
-  jobId: number;
-  title: string;
-  address: string;
-  phone: string;
+
+export interface Job{
+  totalElements:    number;
+  totalPages:       number;
+  size:             number;
+  number:           number;
+  content:          Content[];
+  first:            boolean;
+  last:             boolean;
+  numberOfElements: number;
+  empty:            boolean;
+}
+
+export interface Content {
+  jobId:         number;
+  title:         string;
+  address:       string;
+  phone:         string;
   contactPerson: string;
-  startDate: Date;
-  endDate: null;
-  duration: number;
-  jobType: JobType;
-  images: Image[];
-  description: string;
-  postedDate: null;
-  verified: boolean;
+  startDate:     Date;
+  endDate:       null;
+  duration:      number;
+  jobType:       JobType;
+  images:        Image[];
+  description:   string;
+  postedDate:    null;
+  verified:      boolean;
 }
 
 export interface Image {
-  url: string;
+  url:                string;
   cloudiaryPuclicUrl: string;
-  typeOfImg: string;
+  typeOfImg:          string;
 }
 
 export interface JobType {
-  id: number;
-  name: string;
+  id:          number;
+  name:        string;
   description: string;
-  minPrice: number;
-  maxPrice: number;
+  minPrice:    number;
+  maxPrice:    number;
 }
 
 export interface JobState {
@@ -59,7 +71,7 @@ export const getDataJobAPI = () => {
   return async (dispatch: DispatchType) => {
     const res = await httpClient.get('/api/v1/job?page=0&size=1&sort=string')
 
-    const action: PayloadAction<Job[]> = getJobsAction(res.data.content);
+    const action: PayloadAction<Job[]> = getJobsAction(res.data.data);
     dispatch(action);
   };
 };

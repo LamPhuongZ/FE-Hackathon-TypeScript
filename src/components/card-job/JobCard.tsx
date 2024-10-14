@@ -2,10 +2,10 @@ import checked from "../../assets/images/checked.png";
 import location from "../../assets/images/location.png";
 import calendar from "../../assets/images/calender.png";
 import "./JobCardStyles.scss";
-import { Job } from "../../redux/reducers/jobReducer";
+import { Content, Job } from "../../redux/reducers/jobReducer";
 
 type Props = {
-  item: Job;
+  item: Content;
   isSelected: boolean;
   onSelect: () => void;
 };

@@ -3,7 +3,7 @@ import JobCard from "../../components/card-job/JobCard";
 import JobCardDetail from "../../components/card-job/JobCardDetail";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
-import { getDataJobAPI, Job } from "../../redux/reducers/jobReducer";
+import { Content, getDataJobAPI, Job } from "../../redux/reducers/jobReducer";
 
 export default function ListJobPage() {
   const [selectedJobCard, setSelectedJobCard] = useState<number>(0);
@@ -11,11 +11,12 @@ export default function ListJobPage() {
   const handleSelectJobCard = (id: number) => {
     setSelectedJobCard(id);
   };
-
+  
   const { arrJob } = useSelector((state: RootState) => state.jobReducer);
-  // console.log(arrJob);
-  const dispatch: DispatchType = useDispatch();
-
+  const dispatch: DispatchType = useDispatch(); 
+  
+  const jobs = arrJob?.content || []
+  
   const getDataJobList = async () => {
     // type ActionType = ReturnType<typeof getDataJobAPI>
     const actionAPI = getDataJobAPI();
@@ -27,10 +28,10 @@ export default function ListJobPage() {
   }, []);
 
   const renderJobs = (): JSX.Element[] => {
-    if (!arrJob || !Array.isArray(arrJob)) {
+    if (!jobs || !Array.isArray(jobs)) {
       return [];
     }
-    return arrJob.map((item: Job) => {
+    return jobs.map((item: Content) => {
       return (
         <div key={item.jobId}>
           <JobCard

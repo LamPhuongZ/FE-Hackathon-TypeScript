@@ -1,10 +1,5 @@
 import Button from "../../../components/button/Button";
-import { useDispatch, useSelector } from "react-redux";
-import { DispatchType, RootState } from "../../../redux/store";
-import { Navigate } from "react-router-dom";
-import { cleanUpUser, fetchLoginAction } from "../../../redux/slices/userSlice";
-import { useEffect } from "react";
-import { toast } from "react-toastify";
+
 
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
@@ -22,11 +17,6 @@ const schema = yup.object({
 });
 
 const Login: React.FC = () => {
-  const dispatch: DispatchType = useDispatch();
-  const { user, isError } = useSelector((state: RootState) => {
-    return state.userReducer;
-  });
-
   const {
     register,
     handleSubmit,
@@ -39,25 +29,8 @@ const Login: React.FC = () => {
 
   const onSubmit = (values: { username: string; password: string }) => {
     console.log(values);
-
-    dispatch(fetchLoginAction(values));
   };
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(
-        "Đăng nhập không thành công, vui lòng kiểm tra lại thông tin"
-      );
-      dispatch(cleanUpUser());
-    }
-  }, [isError]);
-
-  console.log(user);
-  
-
-  if (user) {
-    return <Navigate to="/" />;
-  }
+ 
 
   return (
     <section className="w-1/2 flex flex-col justify-center self-stretch relative text-black">

@@ -41,13 +41,6 @@ export default function ProfilePage() {
       toast.error(arrErrors[0]?.message);
     }
   }, [errors]);
-
-  useEffect(() => {
-    const arrErrors = Object.values(errors);
-    if (arrErrors.length > 0) {
-      toast.error(arrErrors[0]?.message);
-    }
-  }, [errors]);
   console.log("🚀 ~ useEffect ~ arrErrors:", Object.values(errors));
 
   return (

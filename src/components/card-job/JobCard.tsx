@@ -19,7 +19,7 @@ export default function JobCard({ item, isSelected, onSelect }: Props) {
       onClick={onSelect}
     >
       <div className="flex flex-col gap-y-5">
-        <p className="text-[#CCC] text-xl font-medium">Đăng: 05-10-2024 </p>
+        <p className="text-[#CCC] text-xl font-medium">Đăng: {item.postedDate} </p>
         <div className="flex gap-4 items-center">
           <h1 className="text-2xl font-bold">{item.title}</h1>
           <div className="w-6 h-6">

@@ -1,11 +1,13 @@
 import Benefits from "./components/benefits";
-import FindJob from "./components/find-job";
+import { Feedback } from "./components/feedback";
+import TopFeature from "./components/top-feature";
 
 export default function HomePage() {
   return (
     <>
-      <FindJob />
+      <TopFeature />
       <Benefits />
+      <Feedback />
     </>
   );
 }

@@ -1,45 +1,51 @@
-import React, { useState, useRef } from 'react';
-import { UserOutlined, UsergroupAddOutlined, MoneyCollectOutlined, ArrowLeftOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Menu, Card, Button, Tabs } from 'antd';
-import "./ProfileWorkerPage.scss"
-import Ava from "../../assets/images/ava.jpg"
-import Edit from "../../assets/icons/edit.svg"
-import logoStar from "../../assets/icons/star.svg"
-import logoCheck from "../../assets/icons/check.svg"
-import Phone from "../../assets/icons/phone.svg"
-import Address from "../../assets/icons/address.svg"
-import Calendar from "../../assets/icons/calendar.svg"
+import "./ProfileWorkerPage.scss";
+import React, { useState, useRef } from "react";
+import type { MenuProps } from "antd";
+import { Menu, Tabs } from "antd";
+import {
+  UserOutlined,
+  UsergroupAddOutlined,
+  MoneyCollectOutlined,
+  ArrowLeftOutlined,
+} from "@ant-design/icons";
+import Ava from "../../assets/images/ava.jpg";
+import Edit from "../../assets/icons/edit.svg";
+import logoStar from "../../assets/icons/star.svg";
+import logoCheck from "../../assets/icons/check.svg";
+import Phone from "../../assets/icons/phone.svg";
+import Address from "../../assets/icons/address.svg";
+import Calendar from "../../assets/icons/calendar.svg";
+import Card from "../../components/card/Card";
+import Button from "../../components/button/Button";
 
-
-type MenuItem = Required<MenuProps>['items'][number];
+type MenuItem = Required<MenuProps>["items"][number];
 
 const items: MenuItem[] = [
   {
-    key: '1',
+    key: "1",
     icon: <UserOutlined />,
-    label: 'Tài Khoản Của Tôi',
+    label: "Tài Khoản Của Tôi",
   },
   {
-    key: '2',
+    key: "2",
     icon: <UsergroupAddOutlined />,
-    label: 'Quản Lí Công Việc',
+    label: "Quản Lí Công Việc",
   },
   {
-    key: '3',
+    key: "3",
     icon: <MoneyCollectOutlined />,
-    label: 'Quản Lí Ngân Sách',
-  }
+    label: "Quản Lí Ngân Sách",
+  },
 ];
 
 const ProfileWorkerPage: React.FC = () => {
-  const [activeMenuItem, setActiveMenuItem] = useState('2');
-  const [activeTab, setActiveTab] = useState('1');
-  const [showApplicants, setShowApplicants] = useState(false);
+  const [activeMenuItem, setActiveMenuItem] = useState<string>("2");
+  const [activeTab, setActiveTab] = useState<string>("1");
+  const [showApplicants, setShowApplicants] = useState<boolean>(false);
   const [selectedWorkerId, setSelectedWorkerId] = useState<string | null>(null);
   const applicantsListRef = useRef<HTMLDivElement>(null);
 
-  const handleMenuClick: MenuProps['onClick'] = (e) => {
+  const handleMenuClick: MenuProps["onClick"] = (e) => {
     setActiveMenuItem(e.key);
   };
 
@@ -59,7 +65,7 @@ const ProfileWorkerPage: React.FC = () => {
     setSelectedWorkerId(null);
     // Scroll to top of the applicants list after a short delay
     setTimeout(() => {
-      applicantsListRef.current?.scrollIntoView({ behavior: 'smooth' });
+      applicantsListRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
   };
 
@@ -164,18 +170,18 @@ const ProfileWorkerPage: React.FC = () => {
                   </div>
                 </div>
               </Card>
-             
             </div>
           </Card>
-          <div className='flex gap-2'>
+          <div className="flex gap-2">
             <Button
-            title="Quay lại"
-            className="w-2/4 h-12"
-            onClick={handleGoBack}
-          >
-            QUAY LẠI
-          </Button>
-            <Button title="Chọn Ứng Viên" className="w-2/4 h-12 bg-blue-500 text-white font-bold">CHỌN ỨNG VIÊN</Button>
+              title="Quay Lại"
+              className="w-2/4 h-12"
+              onClick={handleGoBack}
+            />
+            <Button
+              title="Chọn Ứng Viên"
+              className="w-2/4 h-12 bg-blue-500 text-white font-bold"
+            />
           </div>
         </div>
       </div>
@@ -184,69 +190,88 @@ const ProfileWorkerPage: React.FC = () => {
 
   const renderContent = () => {
     switch (activeMenuItem) {
-      case '1':
+      case "1":
         return <div>Nội dung Tài Khoản Của Tôi</div>;
-      case '2':
+      case "2":
         return (
-          <Tabs style={{ backgroundColor: 'white', paddingBottom: '40px', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px', borderRadius: '8px', marginBottom:'50px'}}
+          <Tabs
+            style={{
+              backgroundColor: "white",
+              paddingBottom: "40px",
+              boxShadow:
+                "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
+              borderRadius: "8px",
+              marginBottom: "50px",
+            }}
             activeKey={activeTab}
             onChange={handleTabChange}
             centered={true}
             items={[
               {
-                key: '1',
-                label: <span className="custom-tab-label">Công việc đang hoạt động</span>,
-                children: selectedWorkerId ? renderWorkerDetail() : (
-                  showApplicants ? (
-                    <div ref={applicantsListRef}>
-                      <ApplicantsList
-                        onBack={() => setShowApplicants(false)}
-                        onSelectWorker={handleSelectWorker}
+                key: "1",
+                label: (
+                  <span className="custom-tab-label">
+                    Công việc đang hoạt động
+                  </span>
+                ),
+                children: selectedWorkerId ? (
+                  renderWorkerDetail()
+                ) : showApplicants ? (
+                  <div ref={applicantsListRef}>
+                    <ApplicantsList
+                      onBack={() => setShowApplicants(false)}
+                      onSelectWorker={handleSelectWorker}
+                    />
+                  </div>
+                ) : (
+                  <Card className="w-11/12 m-auto relative mt-6 shadow ">
+                    <div className="infor-work flex gap-4">
+                      <img
+                        src={Ava}
+                        alt="Ảnh công việc"
+                        className="rounded-xl w-32 h-32"
                       />
-                    </div>
-                  ) : (
-                    <Card className="w-11/12 m-auto relative mt-6 shadow ">
-                      <div className="infor-work flex gap-4">
-                        <img
-                          src={Ava}
-                          alt="Ảnh công việc"
-                          className="rounded-xl w-32 h-32"
-                        />
-                        <div className="infor-work-detail flex flex-col gap-2">
-                          <h1 className="text-xl font-medium">Phục vụ ngoài trời</h1>
-                          <p className='text-base'>SL: 2</p>
-                          <p className='text-base'>Địa điểm: Q7, TP.HCM</p>
-                          <p className='text-base'>Thời gian: 15h-22h, ngày 10/10/2024</p>
-                        </div>
-                      </div>
-                      <hr className='mt-3 ' />
-                      <div className="infor-work-detail2 flex gap-2 mt-4">
-                        <h3 className="text-base font-medium">Mô tả:</h3>
-                        <p className="text-base font-light">
-                          phục vụ bàn, lên món, đón khách, dọn vệ sinh...
+                      <div className="infor-work-detail flex flex-col gap-2">
+                        <h1 className="text-xl font-medium">
+                          Phục vụ ngoài trời
+                        </h1>
+                        <p className="text-base">SL: 2</p>
+                        <p className="text-base">Địa điểm: Q7, TP.HCM</p>
+                        <p className="text-base">
+                          Thời gian: 15h-22h, ngày 10/10/2024
                         </p>
                       </div>
-                      <Button
-                        type="primary"
-                        danger
-                        className="absolute right-8 top-5"
-                        onClick={handleApplicantsClick}
-                      >
-                        Người ứng tuyển
-                      </Button>
-                    </Card>
-                  )
+                    </div>
+                    <hr className="mt-3 " />
+                    <div className="infor-work-detail2 flex gap-2 mt-4">
+                      <h3 className="text-base font-medium">Mô tả:</h3>
+                      <p className="text-base font-light">
+                        phục vụ bàn, lên món, đón khách, dọn vệ sinh...
+                      </p>
+                    </div>
+
+                    <Button
+                      title="Người ứng tuyển"
+                      type="delete"
+                      className="absolute right-8 top-5"
+                      onClick={handleApplicantsClick}
+                    />
+                  </Card>
                 ),
               },
               {
-                key: '2',
-                label: <span className="custom-tab-label">Công việc đã hoàn tất</span>,
-                children: 'Nội dung công việc đã hoàn tất',
+                key: "2",
+                label: (
+                  <span className="custom-tab-label">
+                    Công việc đã hoàn tất
+                  </span>
+                ),
+                children: "Nội dung công việc đã hoàn tất",
               },
             ]}
           />
         );
-      case '3':
+      case "3":
         return <div>Nội dung Quản Lí Ngân Sách</div>;
       default:
         return null;
@@ -281,7 +306,7 @@ const ProfileWorkerPage: React.FC = () => {
           style={{
             width: 256,
             backgroundColor: "#F4F9FD",
-            border: 'none',
+            border: "none",
           }}
           selectedKeys={[activeMenuItem]}
           mode="inline"
@@ -289,24 +314,26 @@ const ProfileWorkerPage: React.FC = () => {
         />
       </div>
 
-      <div className="col2 w-3/4 flex flex-col gap-10">
-        {renderContent()}
-      </div>
+      <div className="col2 w-3/4 flex flex-col gap-10">{renderContent()}</div>
     </div>
   );
 };
 
-const ApplicantsList: React.FC<{ onBack: () => void, onSelectWorker: (workerId: string) => void }> = ({ onBack, onSelectWorker }) => {
+const ApplicantsList: React.FC<{
+  onBack: () => void;
+  onSelectWorker: (workerId: string) => void;
+}> = ({ onBack, onSelectWorker }) => {
   return (
     <div className="w-11/12 m-auto mt-6">
-      <div className="flex items-center mb-4 relative">
+      <div className="flex items-center mb-4 relative">      
         <Button
           icon={<ArrowLeftOutlined />}
           onClick={onBack}
           className="absolute left-0"
-          type="text"
         />
-        <h2 className="text-xl font-medium w-full text-center">Danh sách người ứng tuyển</h2>
+        <h2 className="text-xl font-medium w-full text-center">
+          Danh sách người ứng tuyển
+        </h2>
       </div>
       <div className="listworker-detail flex flex-wrap justify-between gap-y-6">
         {[1, 2, 3].map((id) => (
@@ -336,7 +363,9 @@ const ApplicantsList: React.FC<{ onBack: () => void, onSelectWorker: (workerId: 
               </div>
               <div className="col-right w-3/5 flex flex-col justify-between">
                 <div>
-                  <div className="font-bold text-xl mb-3">Nguyen Van {String.fromCharCode(64 + id)}</div>
+                  <div className="font-bold text-xl mb-3">
+                    Nguyen Van {String.fromCharCode(64 + id)}
+                  </div>
                   <div>
                     <h5 className="font-semibold text-sm pb-1">Kỹ năng</h5>
                     <div className="flex gap-2 flex-wrap">

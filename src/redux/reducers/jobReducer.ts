@@ -46,19 +46,19 @@ export interface JobType {
 }
 
 export interface JobState {
-  arrJob: Job[];
+  objJob: Job | null;
 }
 
 const initialState: JobState = {
-  arrJob: [],
+  objJob: null,
 };
 
 const jobReducer = createSlice({
   name: "jobReducer",
   initialState,
   reducers: {
-    getJobsAction: (state: JobState, action: PayloadAction<Job[]>) => {
-      state.arrJob = action.payload;
+    getJobsAction: (state: JobState, action: PayloadAction<Job>) => {
+      state.objJob = action.payload;
     },
   },
 });
@@ -71,7 +71,7 @@ export const getDataJobAPI = () => {
   return async (dispatch: DispatchType) => {
     const res = await httpClient.get('/api/v1/job?page=0&size=1&sort=string')
 
-    const action: PayloadAction<Job[]> = getJobsAction(res.data.data);
+    const action: PayloadAction<Job> = getJobsAction(res.data.data);
     dispatch(action);
   };
 };

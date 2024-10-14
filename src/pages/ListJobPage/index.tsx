@@ -3,7 +3,7 @@ import JobCard from "../../components/card-job/JobCard";
 import JobCardDetail from "../../components/card-job/JobCardDetail";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
-import { Content, getDataJobAPI, Job } from "../../redux/reducers/jobReducer";
+import { Content, getDataJobAPI } from "../../redux/reducers/jobReducer";
 
 export default function ListJobPage() {
   const [selectedJobCard, setSelectedJobCard] = useState<number>(0);
@@ -11,14 +11,11 @@ export default function ListJobPage() {
   const handleSelectJobCard = (id: number) => {
     setSelectedJobCard(id);
   };
-  
-  const { arrJob } = useSelector((state: RootState) => state.jobReducer);
-  const dispatch: DispatchType = useDispatch(); 
-  
-  const jobs = arrJob?.content || []
-  
+
+  const { objJob } = useSelector((state: RootState) => state.jobReducer);
+  const dispatch: DispatchType = useDispatch();
+
   const getDataJobList = async () => {
-    // type ActionType = ReturnType<typeof getDataJobAPI>
     const actionAPI = getDataJobAPI();
     dispatch(actionAPI);
   };
@@ -28,10 +25,8 @@ export default function ListJobPage() {
   }, []);
 
   const renderJobs = (): JSX.Element[] => {
-    if (!jobs || !Array.isArray(jobs)) {
-      return [];
-    }
-    return jobs.map((item: Content) => {
+    // Use nullish coalescing to ensure `renderJobs` always returns an array
+    return (objJob?.content ?? []).map((item: Content) => {
       return (
         <div key={item.jobId}>
           <JobCard

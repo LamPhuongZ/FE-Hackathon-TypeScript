@@ -59,7 +59,7 @@ export const getDataJobAPI = () => {
   return async (dispatch: DispatchType) => {
     const res = await httpClient.get('/api/v1/job?page=0&size=1&sort=string')
 
-    const action: PayloadAction<Job[]> = getJobsAction(res.data.content);
+    const action: PayloadAction<Job[]> = getJobsAction(res.data.data.content);
     dispatch(action);
   };
 };

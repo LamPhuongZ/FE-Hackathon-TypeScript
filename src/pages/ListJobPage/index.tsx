@@ -13,7 +13,7 @@ export default function ListJobPage() {
   };
 
   const { arrJob } = useSelector((state: RootState) => state.jobReducer);
-  console.log(arrJob);
+  // console.log(arrJob);
   const dispatch: DispatchType = useDispatch();
 
   const getDataJobList = async () => {
@@ -28,19 +28,20 @@ export default function ListJobPage() {
 
   const renderJobs = (): JSX.Element[] => {
     if (!arrJob || !Array.isArray(arrJob)) {
-      return []; // Trả về mảng rỗng nếu arrJob là undefined hoặc không phải là một mảng
+      return [];
     }
     return arrJob.map((item: Job) => {
       return (
-        <JobCard
-          key={item.jobId}
-          isSelected={selectedJobCard === item.jobId}
-          onSelect={() => handleSelectJobCard(item.jobId)}
-        />
+        <div key={item.jobId}>
+          <JobCard
+            item={item}
+            isSelected={selectedJobCard === item.jobId}
+            onSelect={() => handleSelectJobCard(item.jobId)}
+          />
+        </div>
       );
     });
   };
-  
 
   return (
     <div className="grid grid-cols-[447px_minmax(0,_1fr)] gap-x-7 py-4 px-[72px]">

@@ -1,11 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
+import {
+  getDataJsonStorage,
+  setCookie,
+  setDataJsonStorage,
+  setDataTextStorage,
+} from "../../utils/utilMethod";
+import { ACCESS_TOKEN, httpClient, USER_LOGIN } from "../../utils/config";
+import { DispatchType } from "../configStore";
+import { UserLoginType } from "../../pages/AuthPage/Login";
+import { routeLink } from "../../main";
 
 export interface LoginState {
   username: string;
   accessToken: string;
 }
 
-export interface User {
+export interface UserProfileType {
   fullname: string;
   age: string;
   avatar: string;
@@ -26,27 +37,45 @@ export interface JobSkill {
 }
 
 export interface UserState {
-  user: User | null;
+  userLogin: LoginState | null;
 }
 
 const initialState: UserState = {
-    user: null
-}
+  userLogin: getDataJsonStorage(USER_LOGIN),
+};
 
 const userReducer = createSlice({
-    name: "userReducer",
-    initialState,
-    reducers: {
-        getUsersAction: (state: UserState, action: PayloadAction<User>) => {
-            state.user = action.payload;
-        }
-    }
+  name: "userReducer",
+  initialState,
+  reducers: {
+    setLoginAction: (state: UserState, action: PayloadAction<LoginState>) => {
+      state.userLogin = action.payload;
+    },
+  },
 });
 
-export const {getUsersAction} = userReducer.actions;
+export const { setLoginAction } = userReducer.actions;
 
 export default userReducer.reducer;
 
-export const loginAPI = () => {
-    
-}
+export const loginAPI = (userLogin: UserLoginType) => {
+  return async (dispatch: DispatchType) => {
+    try {
+      const response = await httpClient.post("/api/v1/auth/sign-in", userLogin);
+
+      console.log(response.data);
+      
+
+
+      setDataJsonStorage(USER_LOGIN, response.data);
+      setDataTextStorage(ACCESS_TOKEN, response.data["access-token"]);
+      setCookie(ACCESS_TOKEN, response.data["access-token"], 30);
+      const action: PayloadAction<LoginState> = setLoginAction(response.data);
+      dispatch(action);
+      routeLink.push("/");
+    } catch (error) {
+      toast.error("Đăng nhập thất bại!");
+      throw error;
+    }
+  };
+};

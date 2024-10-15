@@ -1,54 +1,31 @@
 import { useState } from "react";
-import { Form, Modal, notification, Tabs, Typography } from "antd";
+import { Form, Modal, Tabs, Typography } from "antd";
 import Login from "./Login";
 import Button from "../../components/button/Button";
 import Google from "../../assets/icons/icon-google.svg";
-import Register from "./Register";
+// import Register from "./Register";
 
 export default function AuthPage() {
   const [form] = Form.useForm();
-  const [api, contextHolder] = notification.useNotification();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isLogin, setIsLogin] = useState<boolean>(true);
-  const [isShowOTP, setIsShowOTP] = useState<boolean>(true);
+  // const [isLogin, setIsLogin] = useState<boolean>(true);
+  // const [isShowOTP, setIsShowOTP] = useState<boolean>(true);
   const [activeKey, setActiveKey] = useState<string>("1");
   const { Link, Title } = Typography;
 
   const { TabPane } = Tabs;
-  const onFinish = (values: string) => {
-    console.log("Finish:", values);
-    api.success({
-      message: `Bạn đã đăng nhập thành công !!!`,
-      placement: "topRight",
-      showProgress: true,
-      pauseOnHover: true,
-      duration: 1.5,
-    });
-  };
-
-  const onRegister = (values: string) => {
-    console.log("Register:", values);
-    api.success({
-      message: `Bạn đã đăng ký thành công!!!`,
-      placement: "topRight",
-      showProgress: true,
-      pauseOnHover: true,
-      duration: 1.5,
-    });
-  };
-
+ 
   const handleTabChange = (key: string) => {
     setActiveKey(key);
   };
 
   return (
     <div className="auth">
-      {contextHolder}
       <Button
         title="Đăng Nhập"
         onClick={() => {
           setIsModalOpen(true);
-          setIsLogin(true);
+          // setIsLogin(true);
         }}
       />
 
@@ -78,7 +55,7 @@ export default function AuthPage() {
               </Link>
             </div>
 
-            {isShowOTP ? (
+            {/* {isShowOTP ? (
               <div>
                 <Button
                   title={
@@ -95,7 +72,7 @@ export default function AuthPage() {
               </div>
             ) : (
               ""
-            )}
+            )} */}
           </div>
         }
         centered
@@ -108,7 +85,6 @@ export default function AuthPage() {
         <Form
           form={form}
           name="horizontal_login"
-          onFinish={isLogin ? onFinish : onRegister}
         >
           <Tabs
             type={"line"}
@@ -120,9 +96,9 @@ export default function AuthPage() {
             <TabPane key="1">
               <Login />
             </TabPane>
-            <TabPane key="2">
+            {/* <TabPane key="2">
               <Register setIsShowOTP={setIsShowOTP} />
-            </TabPane>
+            </TabPane> */}
           </Tabs>
         </Form>
       </Modal>

@@ -1,36 +1,47 @@
 import Button from "../../../components/button/Button";
-
-
 import * as yup from "yup";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { loginAPI } from "../../../redux/reducers/userReducer";
+import { useDispatch } from "react-redux";
+import { DispatchType } from "../../../redux/configStore";
+
+export type UserLoginType = {
+  username: string;
+  password: string;
+};
 
 const schema = yup.object({
   username: yup
     .string()
-    .email("Please enter valid email address")
+    .email("Please enter a valid email address")
     .required("Please enter your email address"),
   password: yup
     .string()
     .min(8, "Password must be at least 8 characters")
+    // .matches(
+    //   /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/,
+    //   "Password must contain at least one letter and one number"
+    // )
     .required("Please enter your password"),
 });
 
 const Login: React.FC = () => {
+  const dispatch: DispatchType = useDispatch();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<UserLoginType>({
     mode: "onChange",
     resolver: yupResolver(schema),
   });
 
-
-  const onSubmit = (values: { username: string; password: string }) => {
-    console.log(values);
+  const onSubmit: SubmitHandler<UserLoginType> = (userLogin) => {
+    const actionAsync = loginAPI(userLogin);
+    dispatch(actionAsync);
   };
- 
 
   return (
     <section className="w-1/2 flex flex-col justify-center self-stretch relative text-black">
@@ -46,35 +57,18 @@ const Login: React.FC = () => {
         <input
           type="text"
           placeholder="Tài Khoản *"
-          {...register("username", {
-            required: {
-              value: true,
-              message: "Tài khoản không được để trống",
-            },
-            pattern: {
-              value: /^\S+$/,
-              message: "Tài khoản không được chứa khoảng trắng",
-            },
-          })}
+          {...register("username")}
         />
         {errors.username && <p>{errors.username.message}</p>}
 
         <input
-          type={"password"}
+          type="password"
           placeholder="Mật Khẩu *"
-          {...register("password", {
-            required: {
-              value: true,
-              message: "Mật khẩu không được để trống",
-            },
-            pattern: {
-              value: /^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/,
-              message: "Mật khẩu phải chứa ít nhất 1 chữ cái và 1 chữ số",
-            },
-          })}
+          {...register("password")}
         />
         {errors.password && <p>{errors.password.message}</p>}
-        <Button title="Dang nhap" type="submit" />
+        
+        <Button title="Đăng nhập" type="submit" />
       </form>
     </section>
   );

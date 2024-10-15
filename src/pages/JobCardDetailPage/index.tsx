@@ -1,7 +1,4 @@
-// import checked from "../../assets/images/checked.png";
-// import Button from "../../components/button/Button";
-
-import JobCardDetail from "../../components/card-job/JobCardDetail";
+// import JobCardDetail from "../../components/card-job/JobCardDetail";
 import Card from "../../components/card/Card";
 import imgJob from "../../assets/images/img-job.png";
 import redAddress from "../../assets/icons/icon-red-address.svg";
@@ -68,7 +65,7 @@ export default function JobCardDetailPage() {
 
   return (
     <div className=" grid grid-cols-[867px_minmax(0,_1fr)] gap-x-7 py-20 px-[72px] 2xl:grid-cols-[1300px_minmax(0,_1fr)]">
-      <JobCardDetail />
+      {/* <JobCardDetail /> */}
 
       <div className="flex flex-col gap-6">
         <div className="flex flex-col items-end">

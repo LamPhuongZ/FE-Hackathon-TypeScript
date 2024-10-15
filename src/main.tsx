@@ -1,16 +1,14 @@
 import "./styles/_all.scss";
 import "react-toastify/dist/ReactToastify.css";
+import { store } from "./redux/configStore";
 import { Provider } from "react-redux";
 import { FloatButton } from "antd";
-import { PersistGate } from "redux-persist/lib/integration/react";
 import { ToastContainer } from "react-toastify";
 import { lazy, Suspense } from "react";
+import { createBrowserHistory } from "history";
+import { unstable_HistoryRouter as HistoryRouter, Route, Routes } from 'react-router-dom'
 import ReactDOM from "react-dom/client";
 import Loading from "./components/loading";
-import { store } from "./redux/configStore";
-
-import { unstable_HistoryRouter as HistoryRouter, Navigate, Route, Routes } from 'react-router-dom'
-import { createBrowserHistory } from "history";
 
 
 const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));

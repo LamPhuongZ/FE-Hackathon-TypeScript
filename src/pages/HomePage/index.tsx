@@ -1,4 +1,3 @@
-import axios from "axios";
 import Benefits from "./components/benefits";
 import Category from "./components/category";
 import Feedback from "./components/feedback";

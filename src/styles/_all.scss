@@ -26,6 +26,10 @@ input::-moz-input-placeholder {
   @apply grid grid-cols-1 lg:grid-cols-3 lg:gap-x-10 mb-5 lg:mb-10;
 }
 
+.form-layout-col4 {
+  @apply grid grid-cols-1 lg:grid-cols-4 lg:gap-10 mb-5 lg:mb-10;
+}
+
 .btn-component {
   @apply cursor-pointer transition-all px-6 py-2 rounded-xl border-b-[4px]  active:border-b-[2px] active:brightness-90 active:translate-y-[2px] text-2xl font-bold;
 }

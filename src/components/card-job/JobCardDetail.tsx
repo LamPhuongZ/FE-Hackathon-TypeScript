@@ -8,31 +8,31 @@ type Props = {
 export default function JobCardDetail({ item }: Props) {
   return (
     <div className="bg-white rounded-2xl shadow-md py-12 px-7">
-      <div className="flex gap-16">
-        <h1 className="text-[40px] font-semibold">{item.title}</h1>
-        <div className="flex gap-2 items-center">
-          {item.verified ? (
-            <div className="flex gap-2 items-center">
-              <div className="w-8 h-8">
-                <img src={checked} alt="" className="w-full h-full" />
+      <div className="sticky top-0 bg-white">
+        <div className="flex gap-16">
+          <h1 className="text-[40px] font-semibold">{item.title}</h1>
+          <div className="flex gap-2 items-center">
+            {item.verified ? (
+              <div className="flex gap-2 items-center">
+                <div className="w-8 h-8">
+                  <img src={checked} alt="" className="w-full h-full" />
+                </div>
+                <p className="font-medium">Đã xác thực</p>
               </div>
-              <p className="font-medium">Đã xác thực</p>
-            </div>
-          ) : (
-            <div className="flex gap-2 items-center">
-              <p className="font-medium text-gray-400">Chưa xác thực</p>
-            </div>
-          )}
+            ) : (
+              <div className="flex gap-2 items-center">
+                <p className="font-medium text-gray-400">Chưa xác thực</p>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-      <Button title="Ứng Tuyển" className="w-full h-16 mt-9" />
-      <div>
-        <textarea
-          name=""
-          id=""
-          placeholder="Ghi chú ..."
-          className="w-full h-[90px] mt-6 border border-solid rounded-xl px-4 pt-3"
-        ></textarea>
+        <Button title="Ứng Tuyển" className="w-full h-16 mt-9" />
+          <textarea
+            name=""
+            id=""
+            placeholder="Ghi chú ..."
+            className="w-full h-[70px] mt-6 border border-solid rounded-xl px-4 pt-3"
+          ></textarea>
       </div>
       <div className="border border-solid mt-4"></div>
       <div className="flex flex-col gap-7 mt-7">

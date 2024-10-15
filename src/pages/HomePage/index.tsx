@@ -1,13 +1,15 @@
 import axios from "axios";
 import Benefits from "./components/benefits";
-import { Feedback } from "./components/feedback";
-import FindJob from "./components/find-job";
+import Category from "./components/category";
+import Feedback from "./components/feedback";
+import TopFeature from "./components/top-feature";
 
 export default function HomePage() {
 
   return (
     <>
-      <FindJob />
+      <TopFeature />
+      <Category />
       <Benefits />
       <Feedback />
     </>

@@ -1,13 +1,14 @@
 import { ReactNode } from "react";
 
 interface ButtonProps {
-  title: string | ReactNode;
+  title?: string | ReactNode;
   loading?: boolean;
   className?: string;
   type?: string;
   onClick?: () => void;
   icon?: ReactNode;
   iconPosition?: "left" | "right";
+  color?: "primary" | "secondary" | "delete" | "update" | "custom";
 }
 
 /**
@@ -20,6 +21,7 @@ interface ButtonProps {
   onClick?: () => void;
   icon?: ReactNode;
   iconPosition?: "left" | "right";
+  color?: "primary" | "secondary" | "delete" | "update" | "custom";
 
   *Note: width and height width and height are self-defined
  */
@@ -32,11 +34,23 @@ export default function Button({
   onClick,
   icon,
   iconPosition = "left",
+  color = "primary",
 }: ButtonProps) {
+  const bgColor =
+    color === "secondary"
+      ? "btn-secondary"
+      : color === "delete"
+      ? "btn-delete"
+      : color === "update"
+      ? "btn-update"
+      : color === "custom"
+      ? "btn-custom"
+      : "btn-primary";
+
   return (
     <button
       type={type as "button" | "submit" | "reset"}
-      className={`btn-component ${className}`}
+      className={`btn-component ${bgColor} ${className}`}
       onClick={onClick}
       disabled={loading}
     >

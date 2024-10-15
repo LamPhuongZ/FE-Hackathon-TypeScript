@@ -17,6 +17,7 @@ const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 const LandingPage = lazy(() => import("./pages/LandingPage"));
+const ProfileWorkerPage = lazy(() => import("./pages/ProfileWorkerPage"));
 const ListJobPage = lazy(() => import("./pages/ListJobPage"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const ListCardPage = lazy(() => import("./pages/ListCardPage"));
@@ -39,6 +40,7 @@ root.render(
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/more-card" element={<ListCardPage />} />
               <Route path="/card-detail-job" element={<JobCardDetailPage />} />
+              <Route path="/profile-worker-page" element={<ProfileWorkerPage />} />
             </Route>
 
             <Route path="*" element={<NotFoundPage />} />

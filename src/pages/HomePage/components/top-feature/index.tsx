@@ -1,61 +1,8 @@
 import FindJob from "../find-job";
-import imgJob from "../../../../assets/images/img-job.png";
 import Field from "../../../../components/field/Field";
 import Label from "../../../../components/label/Label";
 import Button from "../../../../components/button/Button";
-import { JobData } from "../../interfaces";
 import { SearchOutlined, FilterOutlined } from "@ant-design/icons";
-
-const jobData: JobData[] = [
-  {
-    id: "1",
-    title: "Vệ sinh căn hộ, gia đình",
-    address: "Số 5 đường 5, phường 5",
-    description:
-      "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ ...",
-    image: imgJob,
-  },
-  {
-    id: "2",
-    title: "Vệ sinh căn hộ, gia đình",
-    address: "Số 5 đường 5, phường 5",
-    description:
-      "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ ...",
-    image: imgJob,
-  },
-  {
-    id: "3",
-    title: "Vệ sinh căn hộ, gia đình",
-    address: "Số 5 đường 5, phường 5",
-    description:
-      "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ ...",
-    image: imgJob,
-  },
-  {
-    id: "4",
-    title: "Vệ sinh căn hộ, gia đình",
-    address: "Số 5 đường 5, phường 5",
-    description:
-      "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ này cần thêm thông tin. Vui lòng xem thêm",
-    image: imgJob,
-  },
-  {
-    id: "5",
-    title: "Vệ sinh căn hộ, gia đình",
-    address: "Số 5 đường 5, phường 5",
-    description:
-      "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ ...",
-    image: imgJob,
-  },
-  {
-    id: "6",
-    title: "Vệ sinh căn hộ, gia đình",
-    address: "Số 5 đường 5, phường 5",
-    description:
-      "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ ...",
-    image: imgJob,
-  },
-];
 
 export default function TopFeature() {
   return (
@@ -105,7 +52,7 @@ export default function TopFeature() {
         </div>
         <Button title="Chọn Ứng Viên" className="w-full h-16 mt-4" />
       </div>
-      <FindJob data={jobData} />
+      <FindJob />
     </section>
   );
 }

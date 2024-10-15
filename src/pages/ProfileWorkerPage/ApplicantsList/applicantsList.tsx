@@ -1,10 +1,10 @@
 import React from "react";
-import { ArrowLeftOutlined } from "@ant-design/icons";
 import Card from "../../../components/card/Card";
 import Button from "../../../components/button/Button";
 import Ava from "../../../assets/images/ava.jpg";
 import logoCheck from "../../../assets/icons/check.svg";
 import logoStar from "../../../assets/icons/star.svg";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 
 interface ApplicantsListProps {
   onBack: () => void;

@@ -1,8 +1,8 @@
+import "./activeJobs.scss"
 import React from "react";
 import Card from "../../../components/card/Card";
 import Button from "../../../components/button/Button";
 import Ava from "../../../assets/images/ava.jpg";
-import "./activeJobs.scss"
 
 interface ActiveJobsProps {
   onApplicantsClick: () => void;

@@ -1,4 +1,3 @@
-import React from "react";
 import { UserOutlined, UsergroupAddOutlined, MoneyCollectOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 

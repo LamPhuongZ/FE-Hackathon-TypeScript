@@ -1,15 +1,13 @@
-import React, { useState, useRef } from "react";
-import { Menu, Tabs } from "antd";
+import "./profileWorkerPage.scss"
 import type { MenuProps } from "antd";
-// import { UserOutlined, UsergroupAddOutlined, MoneyCollectOutlined } from "@ant-design/icons";
-import Ava from "../../assets/images/ava.jpg";
-import Edit from "../../assets/icons/edit.svg";
-// import Card from "../../components/card/Card";
+import { Menu, Tabs } from "antd";
 import { MenuItems } from "./MenuItems/menuItems";
 import { WorkerDetail } from "./WorkerDetail/workerDetail";
 import { ApplicantsList } from "./ApplicantsList/applicantsList";
 import { ActiveJobs } from "./ActiveJobs/activeJobs";
-import "./profileWorkerPage.scss"
+import React, { useState, useRef } from "react";
+import Ava from "../../assets/images/ava.jpg";
+import Edit from "../../assets/icons/edit.svg";
 
 const ProfileWorkerPage: React.FC = () => {
   const [activeMenuItem, setActiveMenuItem] = useState<string>("2");
@@ -24,10 +22,6 @@ const ProfileWorkerPage: React.FC = () => {
 
   const handleTabChange = (key: string) => {
     setActiveTab(key);
-  };
-
-  const handleApplicantsClick = () => {
-    setShowApplicants(true);
   };
 
   const handleSelectWorker = (workerId: string) => {
@@ -73,7 +67,7 @@ const ProfileWorkerPage: React.FC = () => {
                     />
                   </div>
                 ) : (
-                  <ActiveJobs onApplicantsClick={handleApplicantsClick} />
+                  <ActiveJobs onApplicantsClick={() => setShowApplicants(true)} />
                 ),
               },
               {

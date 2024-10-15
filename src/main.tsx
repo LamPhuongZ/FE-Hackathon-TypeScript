@@ -1,14 +1,15 @@
 import "./styles/_all.scss";
 import "react-toastify/dist/ReactToastify.css";
+import { store } from "./redux/configStore";
 import { Provider } from "react-redux";
 import { FloatButton } from "antd";
-import { PersistGate } from "redux-persist/lib/integration/react";
 import { ToastContainer } from "react-toastify";
 import { lazy, Suspense } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import store, { persistor } from "./redux/store";
+import { createBrowserHistory } from "history";
+import { unstable_HistoryRouter as HistoryRouter, Route, Routes } from 'react-router-dom'
 import ReactDOM from "react-dom/client";
 import Loading from "./components/loading";
+
 
 const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -20,14 +21,15 @@ const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const ListCardPage = lazy(() => import("./pages/ListCardPage"));
 const JobCardDetailPage = lazy(() => import("./pages/JobCardDetailPage"));
 
+export const routeLink: any = createBrowserHistory();
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
       <Suspense fallback={<Loading />}>
-        <BrowserRouter>
+      <HistoryRouter history={routeLink}>
           <Routes>
             <Route path="" element={<HomeTemplate />}>
               <Route path="/" element={<HomePage />} />
@@ -42,9 +44,8 @@ root.render(
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
           <ToastContainer />
-        </BrowserRouter>
+      </HistoryRouter>
       </Suspense>
-    </PersistGate>
     <FloatButton.BackTop tooltip={<div>Back to top</div>} />
   </Provider>
 );

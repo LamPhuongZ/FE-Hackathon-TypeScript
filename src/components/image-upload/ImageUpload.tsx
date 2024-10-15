@@ -4,7 +4,7 @@ import clsx from "clsx";
 
 interface ImageUploadProps extends Partial<HTMLInputElement> {
   listType?: "picture-circle" | "text" | "picture";
-  onFileSelect: (file: File | null) => void; 
+  onFileSelect: (file: File | null) => void;
 }
 
 export default function ImageUploadProps({
@@ -14,6 +14,7 @@ export default function ImageUploadProps({
   onFileSelect: handleFileSelect,
 }: ImageUploadProps) {
   const [imageSelect, setImageSelect] = useState<File>();
+
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {

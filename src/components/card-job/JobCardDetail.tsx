@@ -1,44 +1,61 @@
 import checked from "../../assets/images/checked.png";
+import { Content } from "../../redux/reducers/jobReducer";
 import Button from "../button/Button";
 
-export default function JobCardDetail() {
+type Props = {
+  item: Content;
+};
+export default function JobCardDetail({ item }: Props) {
   return (
     <div className="bg-white rounded-2xl shadow-md py-12 px-7">
-      <div className="flex gap-16">
-        <h1 className="text-[40px] font-semibold">Vệ sinh căn hộ, gia đình</h1>
-        <div className="flex gap-2 items-center">
-          <div className="w-8 h-8">
-            <img src={checked} alt="" className="w-full h-full" />
+      <div className="sticky top-0 bg-white">
+        <div className="flex gap-16">
+          <h1 className="text-[40px] font-semibold">{item.title}</h1>
+          <div className="flex gap-2 items-center">
+            {item.verified ? (
+              <div className="flex gap-2 items-center">
+                <div className="w-8 h-8">
+                  <img src={checked} alt="" className="w-full h-full" />
+                </div>
+                <p className="font-medium">Đã xác thực</p>
+              </div>
+            ) : (
+              <div className="flex gap-2 items-center">
+                <p className="font-medium text-gray-400">Chưa xác thực</p>
+              </div>
+            )}
           </div>
-          <p className="font-medium">Đã xác thực</p>
         </div>
-      </div>
-      <Button title="Ứng Tuyển" className="w-full h-16 mt-9" />
-      <div>
-        <textarea
-          name=""
-          id=""
-          placeholder="Ghi chú ..."
-          className="w-full h-[90px] mt-6 border border-solid rounded-xl px-4 pt-3"
-        ></textarea>
+        <Button title="Ứng Tuyển" className="w-full h-16 mt-9" />
+          <textarea
+            name=""
+            id=""
+            placeholder="Ghi chú ..."
+            className="w-full h-[70px] mt-6 border border-solid rounded-xl px-4 pt-3"
+          ></textarea>
       </div>
       <div className="border border-solid mt-4"></div>
       <div className="flex flex-col gap-7 mt-7">
         <div className="flex gap-x-2">
           <h1 className="font-medium">Loại công việc:</h1>
           <div className="px-4 rounded-[10px] border border-solid flex">
-            <p className="font-medium">Vệ sinh</p>
+            <p className="font-medium">{item.jobType.name}</p>
           </div>
         </div>
         <div className="flex gap-x-2 items-center">
           <h1 className="font-medium">Đăng:</h1>
           <div className="px-4 py-2 rounded-[10px] border border-solid">
-            <p className="font-medium">05-10-2024 - 6:00</p>
+            <p className="font-medium">
+              {new Date(item.postedDate).toLocaleDateString("vi-VN", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </p>
           </div>
           <div className="border border-solid border-black w-16 mx-11"></div>
           <h1 className="font-medium">Hạn ứng tuyển:</h1>
           <div className="px-4 py-2 rounded-[10px] border border-solid">
-            <p className="font-medium">05-10-2024 - 20:00</p>
+            <p className="font-medium"></p>
           </div>
         </div>
         <div className="border border-solid"></div>
@@ -46,20 +63,20 @@ export default function JobCardDetail() {
       <div className="my-7">
         <h1 className="text-xl mb-2 font-medium">Địa chỉ làm việc:</h1>
         <div className="h-14 flex items-center justify-center border border-solid rounded-[20px]">
-          <p className="text-xl font-medium">Số 5 đường 5, phường 5, quận 5</p>
+          <p className="text-xl font-medium">{item.address}</p>
         </div>
       </div>
       <div className="flex justify-between my-7">
         <div className="w-[350px] 2xl:w-[600px]">
           <h1 className="text-xl mb-2 font-medium">Số điện thoại:</h1>
           <div className="h-14 flex items-center justify-center border border-solid rounded-[20px] ">
-            <p className="text-xl font-medium">1234-567-890</p>
+            <p className="text-xl font-medium">{item.phone}</p>
           </div>
         </div>
         <div className="w-[350px] 2xl:w-[600px]">
           <h1 className="text-xl mb-2 font-medium">Người liên hệ:</h1>
           <div className="h-14 flex items-center justify-center border border-solid rounded-[20px] ">
-            <p className="text-xl font-medium">Nguyễn Sơn</p>
+            <p className="text-xl font-medium">{item.contactPerson}</p>
           </div>
         </div>
       </div>
@@ -67,7 +84,9 @@ export default function JobCardDetail() {
         <div className="w-[350px] 2xl:w-[600px]">
           <h1 className="text-xl mb-2 font-medium">Ngày bắt đầu làm việc:</h1>
           <div className="h-14 flex items-center justify-center border border-solid rounded-[20px] ">
-            <p className="text-xl font-medium">07-10-2024 - 14:00</p>
+            <p className="text-xl font-medium">
+              {new Date(item.startDate).toLocaleDateString("vi-VN")}
+            </p>
           </div>
         </div>
         <div className="w-[350px] 2xl:w-[600px]">
@@ -75,7 +94,7 @@ export default function JobCardDetail() {
             Thời gian làm việc (Đơn vị: <strong>Giờ</strong>):
           </h1>
           <div className="h-14 flex items-center justify-center border border-solid rounded-[20px] ">
-            <p className="text-xl font-medium">3</p>
+            <p className="text-xl font-medium">{item.duration / 60}</p>
           </div>
         </div>
       </div>
@@ -83,48 +102,38 @@ export default function JobCardDetail() {
       <div className="mt-[30px]">
         <div className="min-w-[800px] h-[350px] 2xl:w-full">
           <img
-            src="https://vakilsearch.com/blog/wp-content/uploads/2022/06/What-is-meant-by-Pvt-Ltd-company_-.jpg"
+            src={item.images[0].url}
             alt=""
-            className="w-full h-full rounded-[20px]"
+            className="w-full h-full rounded-[20px] object-cover"
           />
         </div>
         <div className="flex justify-evenly gap-8 mt-7 mb-9">
           <div className="w-[250px] h-[128px] 2xl:w-full">
             <img
-              src="https://vakilsearch.com/blog/wp-content/uploads/2022/06/What-is-meant-by-Pvt-Ltd-company_-.jpg"
+              src={item.images[1].url}
               alt=""
-              className="w-full h-full rounded-[20px]"
+              className="w-full h-full rounded-[20px] object-cover"
             />
           </div>
           <div className="w-[250px] h-[128px] 2xl:w-full">
             <img
-              src="https://vakilsearch.com/blog/wp-content/uploads/2022/06/What-is-meant-by-Pvt-Ltd-company_-.jpg"
+              src={item.images[2].url}
               alt=""
-              className="w-full h-full rounded-[20px]"
+              className="w-full h-full rounded-[20px] object-cover"
             />
           </div>
           <div className="w-[250px] h-[128px] 2xl:w-full">
             <img
-              src="https://vakilsearch.com/blog/wp-content/uploads/2022/06/What-is-meant-by-Pvt-Ltd-company_-.jpg"
+              src={item.images[3].url}
               alt=""
-              className="w-full h-full rounded-[20px]"
+              className="w-full h-full rounded-[20px] object-cover"
             />
           </div>
         </div>
         <div>
           <h1 className="text-[20px] font-semibold mb-2">Mô tả</h1>
           <div className="border border-solid rounded-[20px] px-[26px] py-[18px]">
-            <p className=" font-medium text-[#91929E]">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since Lorem Ipsum is simply dummy text of the printing and
-              typesetting industry
-              {}
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Consequatur accusantium excepturi ducimus deserunt aliquid dolores
-              provident a eveniet, cum aut rem iure doloribus asperiores.
-              Pariatur iusto nulla maxime voluptate porro?
-            </p>
+            <p className=" font-medium text-[#91929E]">{item.description}</p>
           </div>
         </div>
       </div>

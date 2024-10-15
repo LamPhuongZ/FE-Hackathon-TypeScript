@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
+import { JobData } from "../../interfaces";
 import Card from "../../../../components/card/Card";
 import redAddress from "../../../../assets/icons/icon-red-address.svg";
 import arrowRight from "../../../../assets/icons/icon-arrow-right.svg";
-import { JobData } from "../../interfaces";
 import Button from "../../../../components/button/Button";
 
 export default function FindJob({ data }: { data: JobData[] }) {

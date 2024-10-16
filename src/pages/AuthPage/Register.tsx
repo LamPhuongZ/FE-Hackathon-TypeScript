@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form, Input, message, Radio } from "antd";
+import { Button, Form, Input, message, notification, Radio } from "antd";
 import "./AuthPage.css";
 type RegisterProps = {
   setIsShowOTP: (show: boolean) => void;
@@ -8,6 +8,7 @@ type RegisterProps = {
 const Register: React.FC<RegisterProps> = ({ setIsShowOTP }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [api, contextHolder] = notification.useNotification();
 
   const onFinish = async (values: any) => {
     console.log(values);
@@ -37,21 +38,31 @@ const Register: React.FC<RegisterProps> = ({ setIsShowOTP }) => {
       const data = await response.json();
       console.log(data);
 
-      message.success("Signup successful!");
+      api.success({
+        message: `Bạn đã đăng ký thành công !!! Chao ban ${values.username}`,
+        placement: "topRight",
+        showProgress: true,
+        pauseOnHover: true,
+        duration: 1.5,
+      });
       form.resetFields();
     } catch (error) {
-      console.error("Error:", error);
-      message.error("Signup failed. Please try again.");
-    } finally {
+      console.log(error)
+    } finally { 
       setLoading(false);
     }
   };
 
   const onFinishFailed = () => {
-    console.log("Failed:");
+    api.error({
+      message: `Đăng ký thất bại. Vui lòng thử lại.`,
+      placement: "topRight",
+      duration: 1.5,
+    });
   };
   return (
     <>
+    {contextHolder}
       <Form
         form={form}
         name="signup"
@@ -59,7 +70,7 @@ const Register: React.FC<RegisterProps> = ({ setIsShowOTP }) => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
-        <div className="flex flex-col gap-5">
+        
           <Form.Item
             name="username"
             rules={[
@@ -67,10 +78,6 @@ const Register: React.FC<RegisterProps> = ({ setIsShowOTP }) => {
                 type: "string",
                 required: true,
                 message: "Hãy nhập tên của bạn!",
-              },
-              {
-                pattern: /^[a-zA-Z\s]+$/,
-                message: "Chỉ nhập chữ",
               },
             ]}
           >
@@ -82,7 +89,7 @@ const Register: React.FC<RegisterProps> = ({ setIsShowOTP }) => {
               {
                 type: "email",
                 required: true,
-                message: "Please input your email!",
+                message: "Vui lòng nhập email!",
               },
             ]}
           >
@@ -94,7 +101,7 @@ const Register: React.FC<RegisterProps> = ({ setIsShowOTP }) => {
             rules={[
               {
                 required: true,
-                message: "Please input your password!",
+                message: "Vui lòng nhập mật khẩu!",
               },
               {
                 pattern:
@@ -119,7 +126,7 @@ const Register: React.FC<RegisterProps> = ({ setIsShowOTP }) => {
             rules={[
               {
                 required: true,
-                message: "Please confirm your password!",
+                message: "Hãy nhập lại mật khẩu!",
               },
               ({ getFieldValue }) => ({
                 validator(_, value) {
@@ -128,14 +135,14 @@ const Register: React.FC<RegisterProps> = ({ setIsShowOTP }) => {
                   }
                   return Promise.reject(
                     new Error(
-                      "The two passwords that you entered do not match!"
+                      "Xác nhận mật khẩu không đúng!"
                     )
                   );
                 },
               }),
             ]}
           >
-            <Input.Password
+            <Input
               placeholder="Xác nhận mật khẩu"
               required
               type="password"
@@ -161,7 +168,6 @@ const Register: React.FC<RegisterProps> = ({ setIsShowOTP }) => {
               Register
             </Button>
           </Form.Item>
-        </div>
       </Form>
     </>
   );

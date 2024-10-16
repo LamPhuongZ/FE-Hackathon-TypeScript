@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import {
   Button,
@@ -6,13 +6,10 @@ import {
   Input,
   Flex,
   Checkbox,
-  Typography,
   notification,
 } from "antd";
 import "./AuthPage.css";
-import { useDispatch } from "react-redux";
 
-const { Title } = Typography;
 const Login: React.FC = () => {
   const [form] = Form.useForm();
   const [api, contextHolder] = notification.useNotification();

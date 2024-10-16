@@ -1,18 +1,17 @@
-.ant-modal-wrap{
-    background: linear-gradient(to right,#e2e2e2c2,#F1F2FD);
-    font-family: "Epilogue", sans-serif;
-}
-.ant-modal-content{
-    border-radius: 10px;
-    background-color: white;
-    padding: 30px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);  
-    overflow: hidden;
-
+.ant-modal-wrap {
+  background: linear-gradient(to right, #e2e2e2c2, #F1F2FD);
+  font-family: "Epilogue", sans-serif;
 }
 
+.ant-modal-content {
+  border-radius: 10px;
+  background-color: white;
+  padding: 30px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 
+}
 
-  .ant-tabs-nav{
-    display: none;
-  }
+.ant-tabs > .ant-tabs-nav {
+  display: none;
+}

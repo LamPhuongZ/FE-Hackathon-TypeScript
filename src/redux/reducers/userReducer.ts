@@ -68,8 +68,8 @@ export const loginAPI = (userLogin: UserLoginType) => {
 
 
       setDataJsonStorage(USER_LOGIN, response.data);
-      setDataTextStorage(ACCESS_TOKEN, response.data["access-token"]);
-      setCookie(ACCESS_TOKEN, response.data["access-token"], 30);
+      setDataTextStorage(ACCESS_TOKEN, response.data.data["access-token"]);
+      setCookie(ACCESS_TOKEN, response.data.data["access-token"], 30);
       const action: PayloadAction<LoginState> = setLoginAction(response.data);
       dispatch(action);
       routeLink.push("/");

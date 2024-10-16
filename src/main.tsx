@@ -9,6 +9,7 @@ import { createBrowserHistory } from "history";
 import { unstable_HistoryRouter as HistoryRouter, Route, Routes } from 'react-router-dom'
 import ReactDOM from "react-dom/client";
 import Loading from "./components/loading";
+import Login from "./pages/AuthPage/Login";
 
 
 const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));

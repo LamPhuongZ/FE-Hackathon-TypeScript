@@ -20,7 +20,7 @@ const feedbackData = [
   },
 ];
 
-export function Feedback() {
+export default function Feedback() {
   return (
     <section className="pt-[61px] pb-[47px] px-[71px] my-[72px] flex flex-col items-center gap-4 bg-white">
       <div className="flex flex-col items-start">

@@ -9,12 +9,13 @@ import { createBrowserHistory } from "history";
 import { unstable_HistoryRouter as HistoryRouter, Route, Routes } from 'react-router-dom'
 import ReactDOM from "react-dom/client";
 import Loading from "./components/loading";
-import Login from "./pages/AuthPage/Login";
+
 
 const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 const LandingPage = lazy(() => import("./pages/LandingPage"));
+const ProfileWorkerPage = lazy(() => import("./pages/ProfileWorkerPage"));
 const ListJobPage = lazy(() => import("./pages/ListJobPage"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const ListCardPage = lazy(() => import("./pages/ListCardPage"));
@@ -37,7 +38,8 @@ root.render(
               <Route path="/landing-page" element={<LandingPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/more-card" element={<ListCardPage />} />
-              <Route path="/card-detail-job" element={<JobCardDetailPage />} />
+              <Route path="/card-detail-job/:idJob" element={<JobCardDetailPage />} />
+              <Route path="/profile-worker-page" element={<ProfileWorkerPage />} />
             </Route>
 
             <Route path="/login" element={<Login />} />

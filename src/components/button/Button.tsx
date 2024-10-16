@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 interface ButtonProps {
-  title: string | ReactNode;
+  title?: string | ReactNode;
   loading?: boolean;
   className?: string;
   type?: string;

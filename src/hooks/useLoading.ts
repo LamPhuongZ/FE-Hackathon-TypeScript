@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
+import { RootState } from "../redux/configStore";
 
 const useLoading = () => {
-  const { isLoading: userLoading } = useSelector(
-    (state: RootState) => state.userReducer
+  const { isLoading: jobLoading } = useSelector(
+    (state: RootState) => state.jobReducer
   );
 
-  return userLoading;
+  return jobLoading;
 };
 
 export default useLoading;

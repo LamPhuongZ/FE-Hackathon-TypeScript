@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 interface CardProps {
   children: ReactNode;
   className: string;
+  onClick?: () => void;
 }
 
 /** 
@@ -10,9 +11,9 @@ interface CardProps {
   className: string;
 */
 
-export default function Card({ children, className }: CardProps) {
+export default function Card({ children, className, onClick }: CardProps) {
   return (
-    <div className={`flex flex-col justify-center ${className} `}>
+    <div className={`flex flex-col justify-center ${className} `} onClick={onClick}>
       {children}
     </div>
   );

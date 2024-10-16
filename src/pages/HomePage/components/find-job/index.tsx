@@ -29,7 +29,7 @@ export default function FindJob() {
   }
 
   return (
-    <section className="find-job flex flex-col justify-center gap-11 px-[81px] pt-[70px] pb-[120px]">
+    <section className="find-job flex flex-col justify-center gap-11 px-[81 px] pt-[70px] pb-[120px]">
       <div className="find-job-top flex flex-row justify-between items-center">
         <h1 className="text-2xl font-bold border-b-4 border-custom-blue border-solid pb-1">
           Tìm việc

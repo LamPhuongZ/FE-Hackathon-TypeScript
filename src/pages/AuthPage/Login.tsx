@@ -1,13 +1,108 @@
-import React, { useState } from "react";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Flex, Checkbox, Typography } from "antd";
+import React, { useEffect, useState } from "react";
+import { EyeInvisibleOutlined, EyeTwoTone, LockOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Flex, Checkbox, Typography, notification } from "antd";
 import "./AuthPage.css";
+import { useDispatch } from "react-redux";
 
 const {Title} = Typography
 const Login: React.FC = () => {
+  // const [form] = Form.useForm();
+  // const dispatch = useDispatch();
+  // const [api, contextHolder] = notification.useNotification();
+
+  // const onFinish = (values: string) => {
+  
+  //   console.log("Finish:", values);
+  //   // openNotification('topRight')
+  //   api.success({
+  //     message: `Bạn đã đăng nhập thành công !!! Chao ban ${values.username}`,
+  //     placement: "topRight",
+  //     showProgress: true,
+  //     pauseOnHover: true,
+  //     duration: 1.5,
+  //   });
+  // };
+
+  const [email,setEmail] = useState('')
+  const [password,setPassword] = useState('')
+  const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch('https://api.easyjob.io.vn/api/v1/auth/sign-in',
+  //         {
+  //           method: 'POST',
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //             'Authorization': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0cmFuZ3RydW9uZ2dpYW5nMjAxNUBnbWFpbC5jb20iLCJpYXQiOjE3Mjg5OTg4MzMsImV4cCI6MTcyODk5OTczM30.EPXtvC1vQOBsQwePPaAgNU7_sS7Pz4CU2p0sQnuROdI`
+  //           },
+  //           body: JSON.stringify({
+  //             "username": email,
+  //             "password": password,
+  //           })
+  //         })
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! status: ${response.status}`);
+  //       }
+  //       const data = await response.json();
+  //       console.log(data);
+  //     } catch (error) {
+  //       console.error('Error:', error);
+  //     }
+  //   }
+  //   fetchData()
+  // }, )
+  const [form] = Form.useForm();
+  const [api, contextHolder] = notification.useNotification();
+
+  const onFinish = async (values: { username: string, password: string }) => {
+    try {
+      const response = await fetch('https://api.easyjob.io.vn/api/v1/auth/sign-in', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          
+        },
+        body: JSON.stringify({
+          "username": values.username,
+          "password": values.password,
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log(data);
+      
+      api.success({
+        message: `Bạn đã đăng nhập thành công !!! Chao ban ${values.username}`,
+        placement: "topRight",
+        showProgress: true,
+        pauseOnHover: true,
+        duration: 1.5,
+      });
+      form.resetFields();
+    } catch (error) {
+      console.error('Error:', error);
+      api.error({
+        message: 'Đăng nhập thất bại. Vui lòng thử lại.',
+        placement: "topRight",
+        duration: 1.5,
+      });
+    }
+  };
+  
+
   return (
     <>
-      <Form>
+    {contextHolder}
+      <Form form={form}
+          name="horizontal_login"
+          onFinish={ onFinish}>
         <div className="flex flex-col gap-5">
           <Form.Item
             name="username"
@@ -19,12 +114,12 @@ const Login: React.FC = () => {
               },
             ]}
           >
-            <div className="inputbox">
-              <Input className="relative w-full p-5 pt-2.5 bg-transparent outline-none shadow-none border-none text-[#23242a] text-base tracking-wide transition duration-500 z-10 focus:ring-0 focus:border-none hover:bg-transparent" required type="text" />
+              <Input placeholder="Nhập email"  required type="text" />
+            {/* <div className="inputbox">
 
               <span>Nhập email của bạn</span>
               <i></i>
-            </div>
+            </div> */}
           </Form.Item>
 
           <Form.Item
@@ -36,15 +131,19 @@ const Login: React.FC = () => {
               },
             ]}
           >
-            <div className="inputbox">
-              <Input className="relative w-full p-5 pt-2.5 bg-transparent outline-none shadow-none border-none text-[#23242a] text-base tracking-wide transition duration-500 z-10 focus:ring-0 focus:border-none hover:bg-transparent" required type="password" />
+              <Input.Password
+        placeholder="input password"
+        iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+      />
+            {/* <div className="inputbox">
+              
               <span>
                 <Flex justify="space-between" align="center">
                   <p>Mật khẩu</p>
                 </Flex>
               </span>
               <i></i>
-            </div>
+            </div> */}
             {/* <Input
           variant="filled"
           prefix={<LockOutlined />}

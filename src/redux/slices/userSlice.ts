@@ -9,6 +9,11 @@ type User = {
   phone: string;
 };
 
+type Login = {
+  userName: string;
+  password: string;
+}
+
 type InitialStateTypes = {
   user: User | null;
   isLoading: boolean;

@@ -1,12 +1,14 @@
 import axios from "axios";
 import { DOMAIN, TOKEN_KEY } from "../utils/settings";
-
-const instance = axios.create({
+ 
+ const instance = axios.create({
   baseURL: DOMAIN,
   headers: {
-    "ngrok-skip-browser-warning": "69420",
+      'Content-Type': 'application/json',
   },
 });
+
+export default instance
 
 // Cấu hình headers trước khi gửi lên server:
 instance.interceptors.request.use((config) => {

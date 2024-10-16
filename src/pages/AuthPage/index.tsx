@@ -1,12 +1,13 @@
 import { Button, Form, Modal, notification, Typography, Tabs } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./AuthPage.css";
 import Login from "./Login";
 import Register from "./Register";
 import { OTP } from "./OTP";
 import logoGoogle from "../../assets/icons/Google.svg";
 import type { TabsProps } from "antd";
-
+import axios, { AxiosResponse } from 'axios';
+import loginApi from "../../services";
 
 function AuthPage() {
   const [form] = Form.useForm();
@@ -46,6 +47,52 @@ function AuthPage() {
     setActiveKey(key);
   };
 
+  useEffect(() => {
+    // loginApi()
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await fetch('https://api.easyjob.io.vn/api/v1/auth/sign-in',
+    //       {
+    //         method: 'POST',
+    //         headers: {
+    //           'Content-Type': 'application/json',
+    //           'Authorization': `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0cmFuZ3RydW9uZ2dpYW5nMjAxNUBnbWFpbC5jb20iLCJpYXQiOjE3Mjg4Nzk2MDgsImV4cCI6MTcyODg4MDUwOH0.lio7JnHH_m_QrA4GcOrdzJuFIBZUHzeAdXEYU8l-NNw`
+    //         },
+    //         body: JSON.stringify({
+    //           "username": 'trangtruonggiang2015@gmail.com',
+    //           "password": '0909949741@bcD',
+    //         })
+    //       })
+    //     if (!response.ok) {
+    //       throw new Error(`HTTP error! status: ${response.status}`);
+    //     }
+    //     const data = await response.json();
+    //     console.log(data);
+    //   } catch (error) {
+    //     console.error('Error:', error);
+    //   }
+    // }
+  
+    // fetchData();
+//     interface JobData {
+//       // Add expected properties of the job data response here
+//       id: number;
+//       title: string;
+//       description: string;
+//       // Add other fields as needed
+//     }
+//     const apiURL = 'https://api.easyjob.io.vn/api/v1/auth/sign-in';
+
+// axios.get<JobData[]>(apiURL)
+//   .then((response: AxiosResponse<JobData[]>) => {
+//     console.log('Dữ liệu API:', response.data);
+//   })
+//   .catch(error => {
+//     console.error('Lỗi khi gọi API:', error);
+//   });
+
+  }, [])
+  
  
   return (
     <>
@@ -110,11 +157,11 @@ function AuthPage() {
         footer={null}
         width={556}
       >
-        <Form
+        {/* <Form
           form={form}
           name="horizontal_login"
           onFinish={isLogin ? onFinish : onRegister}
-        >
+        > */}
           {/* { isShowOTP ? (isLogin ? 
           <div className="sign-in">
               <Login />
@@ -127,13 +174,13 @@ function AuthPage() {
             </div>) : <OTP /> } */}
           <Tabs type={"line"} activeKey={activeKey} onChange={handleTabChange} centered animated >
         <TabPane  key="1">
-          <Login />
+          <Login  />
         </TabPane>
         <TabPane  key="2">
           <Register setIsShowOTP={setIsShowOTP} />
         </TabPane>
       </Tabs>
-        </Form>
+        {/* </Form> */}
       </Modal>
     </>
   );

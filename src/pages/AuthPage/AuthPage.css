@@ -1,0 +1,22 @@
+.ant-modal-wrap {
+  background: linear-gradient(to right, #e2e2e2c2, #F1F2FD);
+  font-family: "Epilogue", sans-serif;
+}
+
+.ant-modal-content {
+  border-radius: 10px;
+  background-color: white;
+  padding: 30px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+
+}
+
+.ant-tabs > .ant-tabs-nav {
+  display: none;
+}
+/* .ant-radio-group-solid :where(.css-dev-only-do-not-override-ccdg5a).ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled){
+  background-color: #F1F2FD;
+  border-color:rgba(63, 140, 255, 0.63);
+  color: black;
+} */

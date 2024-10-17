@@ -55,7 +55,7 @@ const Login: React.FC = () => {
     <>
       {contextHolder}
       <Form form={form} name="horizontal_login" onFinish={onFinish}>
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col ">
           <Form.Item
             name="username"
             rules={[
@@ -66,6 +66,7 @@ const Login: React.FC = () => {
               },
             ]}
           >
+            <label >Email</label>
             <Input placeholder="Nhập email" required type="text" />
           </Form.Item>
 
@@ -75,9 +76,13 @@ const Login: React.FC = () => {
               {
                 required: true,
                 message: "Nhập mật khẩu của bạn !!!",
-              },
+              },{
+                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                message: "Nhập sai định dạng mật khẩu!!!"
+              }
             ]}
           >
+            <label >Mật khẩu</label>
             <Input.Password
               placeholder="Nhập mật khẩu"
               iconRender={(visible) =>

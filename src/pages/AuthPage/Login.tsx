@@ -1,19 +1,15 @@
 // import React, { useEffect, useState } from "react";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import {
-  Button,
-  Form,
-  Input,
-  Flex,
-  Checkbox,
-  notification,
-} from "antd";
+import { Button, Form, Input, Flex, Checkbox, notification, Typography } from "antd";
 import "./AuthPage.css";
+import logoGoogle from "../../assets/icons/Google.svg";
 
-const Login: React.FC = () => {
+
+
+const Login: React.FC<LoginProps> = () => {
   const [form] = Form.useForm();
   const [api, contextHolder] = notification.useNotification();
-
+  // const {  Link, Title, Text  } = Typography;
   const onFinish = async (values: { username: string; password: string }) => {
     try {
       const response = await fetch(
@@ -58,6 +54,23 @@ const Login: React.FC = () => {
   return (
     <>
       {contextHolder}
+
+      {/* <div className="flex flex-col items-center gap-3 mb-10">
+        <div>
+          <Title level={1} className="text-[20px] !mb-0">Chào mừng quay trở lại</Title>
+        </div>
+        <div className="flex gap-2">
+          <Text type="secondary" className="text-[14px]">Chưa có tài khoản ?</Text>
+          <Link>Đăng ký</Link>
+        </div>
+        <Button style={{ width: "100%", marginBottom: "2vh" }} size="large">
+          <img src={logoGoogle} alt="google" />
+          Đăng nhập bằng Google
+        </Button>
+      </div> */}
+
+      
+
       <Form form={form} name="horizontal_login" onFinish={onFinish}>
         <div className="flex flex-col gap-5">
           <Form.Item
@@ -88,7 +101,7 @@ const Login: React.FC = () => {
             ]}
           >
             <Input.Password
-              placeholder="input password"
+              placeholder="Nhập mật khẩu"
               iconRender={(visible) =>
                 visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
               }

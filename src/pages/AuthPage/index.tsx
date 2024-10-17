@@ -1,17 +1,14 @@
-import { Button, Form, Modal, notification, Typography, Tabs } from "antd";
-import { useEffect, useState } from "react";
+import { Button, Modal, Typography, Tabs } from "antd";
+import { useState } from "react";
 import "./AuthPage.css";
 import Login from "./Login";
 import Register from "./Register";
-import { OTP } from "./OTP";
+import logo from "../../assets/images/logo-company.png";
 import logoGoogle from "../../assets/icons/Google.svg";
 
 function AuthPage() {
-  const [api, contextHolder] = notification.useNotification();
-  const [modalOpen, setModalOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
-  const [isShowOTP, setIsShowOTP] = useState(true);
-  const { Text, Link, Title } = Typography;
+ 
+  const { Link, Title, Text } = Typography;
   const [activeKey, setActiveKey] = useState<string>("1");
   // console.log(clientReady);
 
@@ -23,32 +20,35 @@ function AuthPage() {
 
   return (
     <>
-      {contextHolder}
+      <div className="pr-[112px] py-[24px]">
+        <div className="flex items-center capitalize justify-start">
+          <Link className="flex  items-center gap-2">
+            <img src={logo} alt="" className="w-10 h-10" loading="lazy" />
+            <h1 className="text-[28px] !m-0 w-60 h-full  font-bold">
+              Việc làm dễ
+            </h1>
+          </Link>
+        </div>
+      </div>
 
-      <Button
-        type="primary"
-        onClick={() => {
-          setModalOpen(true);
-          setIsLogin(true);
-        }}
-      >
-        Đăng nhập
-      </Button>
-
-      <Modal
-        title={
-          <div className="text-4xl font-normal text-center font-bold flex flex-col ">
-            {activeKey === "1" ? (
+      <section className="w-full h-full flex justify-center items-center mt-[2%]">
+        <div style={{ padding: "30px" }} className="w-[500px] bg-white rounded shadow-[0_19px_38px_rgba(0,0,0,0.3),_0_15px_12px_rgba(0,0,0,0.22)]">
+          <div  className="flex flex-col items-center gap-3">
+            <div>
+              <Title level={1} className="text-[20px] !mb-0">
+              {activeKey === "1" ? (
               <Title>Chào mừng trở lại</Title>
             ) : (
               <Title>Đăng ký ngay</Title>
             )}
-            <div className="flex justify-center gap-5">
-              <Typography.Title level={5} type="secondary">
-                {activeKey === "1"
+              </Title>
+            </div>
+            <div className="flex gap-2">
+              <Text type="secondary" className="text-[14px]">
+              {activeKey === "1"
                   ? "Chưa có tài khoản?"
                   : "Đã có tài khoản rồi"}
-              </Typography.Title>
+              </Text>
               <Link
                 style={{ fontSize: "16px" }}
                 onClick={() =>
@@ -60,47 +60,28 @@ function AuthPage() {
                 {activeKey === "1" ? "Đăng ký ngay" : "Đăng nhập"}
               </Link>
             </div>
-
-            {isShowOTP ? (
-              <div>
-                <Button
-                  style={{ width: "100%", marginBottom: "2vh" }}
-                  size="large"
-                >
-                  <img src={logoGoogle} alt="google" />
-                  {activeKey === "1"
-                    ? "Đăng nhập bằng Google"
-                    : "Đăng ký bằng Google"}
-                </Button>
-              </div>
-            ) : (
-              ""
-            )}
+            <Button style={{ width: "100%", marginBottom: "2vh" }} size="large">
+              <img src={logoGoogle} alt="google" />
+              Đăng nhập bằng Google
+            </Button>
           </div>
-        }
-        centered
-        open={modalOpen}
-        onOk={() => setModalOpen(false)}
-        onCancel={() => setModalOpen(false)}
-        footer={null}
-        width={556}
-      >
-        <Tabs
-          type={"line"}
-          activeKey={activeKey}
-          onChange={handleTabChange}
-          centered
-          animated
-        >
-          <TabPane key="1">
-            <Login />
-          </TabPane>
-          <TabPane key="2">
-            <Register setIsShowOTP={setIsShowOTP} />
-          </TabPane>
-        </Tabs>
-        {/* </Form> */}
-      </Modal>
+
+          <Tabs
+            
+            defaultActiveKey="1"
+            onChange={handleTabChange}
+            activeKey={activeKey}
+          >
+            <TabPane  key="1">
+              <Login />
+            </TabPane>
+            <TabPane  key="2">
+              <Register />
+            </TabPane>
+          </Tabs>
+        </div>
+      </section>
+      
     </>
   );
 }

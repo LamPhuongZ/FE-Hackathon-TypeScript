@@ -20,7 +20,7 @@ const ListJobPage = lazy(() => import("./pages/ListJobPage"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const ListCardPage = lazy(() => import("./pages/ListCardPage"));
 const JobCardDetailPage = lazy(() => import("./pages/JobCardDetailPage"));
-
+const LoginAndRegister = lazy(()=> import("./pages/AuthPage/index"));
 export const routeLink: any = createBrowserHistory();
 
 const root = ReactDOM.createRoot(
@@ -40,7 +40,7 @@ root.render(
               <Route path="/card-detail-job/:idJob" element={<JobCardDetailPage />} />
               <Route path="/profile-worker-page" element={<ProfileWorkerPage />} />
             </Route>
-
+            <Route path="/AuthPage" element={<LoginAndRegister />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
           <ToastContainer />

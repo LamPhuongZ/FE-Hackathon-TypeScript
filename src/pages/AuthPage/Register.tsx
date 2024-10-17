@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { Button, Form, Input, message, notification, Radio } from "antd";
 import "./AuthPage.css";
-type RegisterProps = {
-  setIsShowOTP: (show: boolean) => void;
-};
 
-const Register: React.FC<RegisterProps> = ({ setIsShowOTP }) => {
+
+const Register: React.FC = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [api, contextHolder] = notification.useNotification();
@@ -150,9 +148,9 @@ const Register: React.FC<RegisterProps> = ({ setIsShowOTP }) => {
           </Form.Item>
 
           <Form.Item label="Bạn tham gia với vai trò: " name="role">
-            <Radio.Group>
-              <Radio value="ROLE_EMPLOYER"> Người tìm việc </Radio>
-              <Radio value="ROLE_APPLIER"> Người thuê </Radio>
+            <Radio.Group buttonStyle="solid">
+              <Radio.Button value="ROLE_EMPLOYER"> Người tìm việc </Radio.Button>
+              <Radio.Button value="ROLE_APPLIER"> Người thuê </Radio.Button>
             </Radio.Group>
           </Form.Item>
 
@@ -161,9 +159,6 @@ const Register: React.FC<RegisterProps> = ({ setIsShowOTP }) => {
               block
               type="primary"
               htmlType="submit"
-              onClick={() => {
-                setIsShowOTP(true);
-              }}
             >
               Register
             </Button>

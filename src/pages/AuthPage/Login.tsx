@@ -6,7 +6,7 @@ import logoGoogle from "../../assets/icons/Google.svg";
 
 
 
-const Login: React.FC<LoginProps> = () => {
+const Login: React.FC = () => {
   const [form] = Form.useForm();
   const [api, contextHolder] = notification.useNotification();
   // const {  Link, Title, Text  } = Typography;
@@ -54,23 +54,6 @@ const Login: React.FC<LoginProps> = () => {
   return (
     <>
       {contextHolder}
-
-      {/* <div className="flex flex-col items-center gap-3 mb-10">
-        <div>
-          <Title level={1} className="text-[20px] !mb-0">Chào mừng quay trở lại</Title>
-        </div>
-        <div className="flex gap-2">
-          <Text type="secondary" className="text-[14px]">Chưa có tài khoản ?</Text>
-          <Link>Đăng ký</Link>
-        </div>
-        <Button style={{ width: "100%", marginBottom: "2vh" }} size="large">
-          <img src={logoGoogle} alt="google" />
-          Đăng nhập bằng Google
-        </Button>
-      </div> */}
-
-      
-
       <Form form={form} name="horizontal_login" onFinish={onFinish}>
         <div className="flex flex-col gap-5">
           <Form.Item
@@ -84,11 +67,6 @@ const Login: React.FC<LoginProps> = () => {
             ]}
           >
             <Input placeholder="Nhập email" required type="text" />
-            {/* <div className="inputbox">
-
-              <span>Nhập email của bạn</span>
-              <i></i>
-            </div> */}
           </Form.Item>
 
           <Form.Item
@@ -106,22 +84,7 @@ const Login: React.FC<LoginProps> = () => {
                 visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
               }
             />
-            {/* <div className="inputbox">
-              
-              <span>
-                <Flex justify="space-between" align="center">
-                  <p>Mật khẩu</p>
-                </Flex>
-              </span>
-              <i></i>
-            </div> */}
-            {/* <Input
-          variant="filled"
-          prefix={<LockOutlined />}
-          type="password"
-          placeholder="Password"
-          className="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-        /> */}
+           
           </Form.Item>
         </div>
 

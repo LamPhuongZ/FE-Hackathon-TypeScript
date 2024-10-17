@@ -65,9 +65,8 @@ function AuthPage() {
               Đăng nhập bằng Google
             </Button>
           </div>
-
+          
           <Tabs
-            
             defaultActiveKey="1"
             onChange={handleTabChange}
             activeKey={activeKey}

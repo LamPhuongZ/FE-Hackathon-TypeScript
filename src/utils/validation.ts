@@ -1,5 +1,20 @@
 import * as yup from "yup";
 
+export const LoginSchema = yup.object({
+  username: yup
+    .string()
+    .email("Vui lòng kiểm tra lại địa chỉ email")
+    .required("Vui lòng nhập địa chỉ email"),
+  password: yup
+    .string()
+    .min(8, "Mật khẩu ít nhất 8 ký tự")
+    .matches(
+      /(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])/,
+      "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 ký tự và 1 số"
+    )
+    .required("Vui lòng nhập mật khẩu"),
+});
+
 export const ProfileSchema = yup.object({
   fullName: yup.string().required("Vui lòng nhập họ tên đầy đủ"),
   email: yup

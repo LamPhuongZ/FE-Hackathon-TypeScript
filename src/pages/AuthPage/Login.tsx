@@ -3,14 +3,16 @@ import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Button, Form, Input, Flex, Checkbox, notification, Typography } from "antd";
 import "./AuthPage.css";
 import logoGoogle from "../../assets/icons/Google.svg";
-
+import { useNavigate  } from "react-router-dom";
 
 
 const Login: React.FC = () => {
   const [form] = Form.useForm();
   const [api, contextHolder] = notification.useNotification();
+  const navigate = useNavigate();
   // const {  Link, Title, Text  } = Typography;
   const onFinish = async (values: { username: string; password: string }) => {
+    console.log(values)
     try {
       const response = await fetch(
         "https://api.easyjob.io.vn/api/v1/auth/sign-in",
@@ -40,6 +42,8 @@ const Login: React.FC = () => {
         pauseOnHover: true,
         duration: 1.5,
       });
+
+      navigate("/");
       form.resetFields();
     } catch (error) {
       console.error("Error:", error);
@@ -50,6 +54,7 @@ const Login: React.FC = () => {
       });
     }
   };
+  
 
   return (
     <>
@@ -66,7 +71,6 @@ const Login: React.FC = () => {
               },
             ]}
           >
-            <label >Email</label>
             <Input placeholder="Nhập email" required type="text" />
           </Form.Item>
 
@@ -76,13 +80,9 @@ const Login: React.FC = () => {
               {
                 required: true,
                 message: "Nhập mật khẩu của bạn !!!",
-              },{
-                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                message: "Nhập sai định dạng mật khẩu!!!"
               }
             ]}
           >
-            <label >Mật khẩu</label>
             <Input.Password
               placeholder="Nhập mật khẩu"
               iconRender={(visible) =>

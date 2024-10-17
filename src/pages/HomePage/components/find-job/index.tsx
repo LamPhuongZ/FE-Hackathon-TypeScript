@@ -10,7 +10,7 @@ import { Content } from "../../../../redux/reducers/jobReducer";
 
 export default function FindJob() {
   const page = 1;
-  const size = 6;
+  const size = 8;
   const navigate = useNavigate();
   const dispatch: DispatchType = useDispatch();
   const { objJob } = useSelector((state: RootState) => state.jobReducer);

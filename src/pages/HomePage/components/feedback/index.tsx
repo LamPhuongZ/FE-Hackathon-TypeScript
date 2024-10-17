@@ -22,8 +22,8 @@ const feedbackData = [
 
 export default function Feedback() {
   return (
-    <section className="pt-[61px] pb-[47px] px-[71px] my-[72px] flex flex-col items-center gap-4 bg-white">
-      <div className="flex flex-col items-start">
+    <section className="pt-[61px] pb-[47px] px-[45px] my-[72px] flex flex-col items-center gap-4 bg-white lg:px-[71px]">
+      <div className="flex flex-col items-center lg:items-start">
         <h2 className="flex justify-start items-center gap-3 text-2xl font-bold mb-[18px]">
           Họ nói về chúng tôi
           <span className="w-[183px] h-[3px] bg-black"></span>
@@ -33,11 +33,11 @@ export default function Feedback() {
             alt="icon-star-four-fill"
           />
         </h2>
-        <div className="flex flex-col md:flex-row md:gap-[61px]">
+        <div className="flex flex-col gap-14 lg:flex-row lg:gap-[61px]">
           {feedbackData.map((item, index) => (
             <Card
               key={index}
-              className="w-[411px] h-[376px] rounded-[24px] p-[18px_22px_34px_22px] shadow-[0px_6px_58px_0px_rgba(196,203,214,0.5)]"
+              className="w-full h-[300px] lg:w-[411px] lg:h-[376px] rounded-[24px] p-[18px_22px_34px_22px] shadow-[0px_6px_58px_0px_rgba(196,203,214,0.5)]"
             >
               <div className="flex flex-col gap-4">
                 <p className="font-normal text-base">{item.text}</p>

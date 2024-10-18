@@ -9,6 +9,7 @@ import { createBrowserHistory } from "history";
 import { unstable_HistoryRouter as HistoryRouter, Route, Routes } from 'react-router-dom'
 import ReactDOM from "react-dom/client";
 import Loading from "./components/loading";
+import Login from "./pages/AuthPage/Login";
 
 
 const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));
@@ -26,6 +27,7 @@ export const routeLink: any = createBrowserHistory();
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <Provider store={store}>
       <Suspense fallback={<Loading />}>
@@ -40,6 +42,8 @@ root.render(
               <Route path="/card-detail-job/:idJob" element={<JobCardDetailPage />} />
               <Route path="/profile-worker-page" element={<ProfileWorkerPage />} />
             </Route>
+
+            <Route path="/login" element={<Login />} />
 
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

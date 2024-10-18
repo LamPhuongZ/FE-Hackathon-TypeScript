@@ -1,125 +1,66 @@
-import React from "react";
-import { Form, Input, message } from "antd";
 import Button from "../../../components/button/Button";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { registerAPI } from "../../../redux/reducers/userReducer";
+import { useDispatch } from "react-redux";
+import { DispatchType } from "../../../redux/configStore";
+import { RegisterSchema } from "../../../utils/validation";
+import Card from "../../../components/card/Card";
 
-type RegisterProps = {
-  setIsShowOTP: (show: boolean) => void;
+export type UserRegisterType = {
+  fullname: string;
+  email: string;
+  password: string;
+  role: string;
 };
 
-const Register: React.FC<RegisterProps> = ({ setIsShowOTP }) => {
-  const [form] = Form.useForm();
-//   const [loading, setLoading] = useState(false);
+const Register: React.FC = () => {
+  const dispatch: DispatchType = useDispatch();
 
-  const onFinish = async () => {
-    // setLoading(true);
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      message.success("Đăng ký thành công!");
-      form.resetFields();
-    } finally {
-    //   setLoading(false);
-    }
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UserRegisterType>({
+    mode: "onChange",
+    resolver: yupResolver(RegisterSchema),
+  });
 
-  const onFinishFailed = () => {
-    console.log("Failed:");
+  const onSubmit: SubmitHandler<UserRegisterType> = (UserRegisterType) => {
+    const actionAsync = registerAPI(UserRegisterType);
+    dispatch(actionAsync);
   };
 
   return (
-    <>
-      <Form
-        form={form}
-        name="signUp"
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
-      >
-        <div className="flex flex-col gap-5">
-          <Form.Item
-            name="username"
-            rules={[
-              {
-                type: "email",
-                required: true,
-                message: "Please input your email!",
-              },
-            ]}
-          >
-            <div className="inputbox">
-              <Input
-                className="text-[14px] relative w-full p-5 pt-2.5 bg-transparent outline-none shadow-none border-none text-[#23242a] text-base tracking-wide transition duration-500 z-10 focus:bg-transparent focus:ring-0 focus:border-none hover:bg-transparent"
-                required
-                type="text"
-              />
-              <span>Email</span>
-              <i></i>
-            </div>
-          </Form.Item>
+    <div className="flex flex-col justify-center min-h-screen">
+      <Card className="items-center self-stretch">
+        <h1 className="heading uppercase font-bold text-3xl flex justify-center text-primary md:text-2xl">
+          Đăng ký
+        </h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="">
+            <h1>Đăng ký</h1>
+            <span>hoặc sử dụng tài khoản đã đăng ký của bạn</span>
+          </div>
 
-          <Form.Item
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: "Please input your password!",
-              },
-            ]}
-          >
-            <div className="inputbox ">
-              <Input
-                className="text-[14px] relative w-full p-5 pt-2.5 bg-transparent outline-none shadow-none border-none text-[#23242a] text-base tracking-wide transition duration-500 z-10 focus:bg-transparent focus:ring-0 focus:border-none hover:bg-transparent"
-                required
-                type="password"
-              />
-              <span>
-                <p>Mật khẩu</p>
-              </span>
-              <i></i>
-            </div>
-          </Form.Item>
+          <input
+            type="text"
+            placeholder="Tài Khoản *"
+            {...register("username")}
+          />
+          {errors.username && <p>{errors.username.message}</p>}
 
-          <Form.Item
-            name="confirmPassword"
-            dependencies={["password"]}
-            hasFeedback
-            rules={[
-              {
-                required: true,
-                message: "Please confirm your password!",
-              },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue("password") === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(
-                    new Error(
-                      "The two passwords that you entered do not match!"
-                    )
-                  );
-                },
-              }),
-            ]}
-          >
-            <div className="inputbox">
-              <input
-                className=" relative w-full p-5 pt-2.5 bg-transparent outline-none shadow-none border-none text-[#23242a] text-base tracking-wide transition duration-500 z-10 focus:bg-transparent focus:ring-0 focus:border-none hover:bg-transparent"
-                required
-                type="password"
-              />
-              <span>
-                <p>Xác nhận mật khẩu</p>
-              </span>
-              <i></i>
-            </div>
-          </Form.Item>
+          <input
+            type="password"
+            placeholder="Mật Khẩu *"
+            {...register("password")}
+          />
+          {errors.password && <p>{errors.password.message}</p>}
 
-          <Form.Item>
-            <Button title="Đăng Ký" type="submit" className="w-full" onClick={() => setIsShowOTP(true)} />
-          </Form.Item>
-        </div>
-      </Form>
-    </>
+          <Button title="Đăng nhập" type="submit" />
+        </form>
+      </Card>
+    </div>
   );
 };
 export default Register;

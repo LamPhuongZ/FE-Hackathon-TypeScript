@@ -4,6 +4,8 @@ import { Button, Form, Input, Flex, Checkbox, notification, Typography } from "a
 import "./AuthPage.css";
 import logoGoogle from "../../assets/icons/Google.svg";
 import { useNavigate  } from "react-router-dom";
+import { setToken } from "../../services/localStorageService";
+import { OAuthConfig } from "../../configs/configuration";
 
 
 const Login: React.FC = () => {
@@ -12,7 +14,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   // const {  Link, Title, Text  } = Typography;
   const onFinish = async (values: { username: string; password: string }) => {
-    console.log(values)
+    // console.log(values)
     try {
       const response = await fetch(
         "https://api.easyjob.io.vn/api/v1/auth/sign-in",
@@ -42,7 +44,7 @@ const Login: React.FC = () => {
         pauseOnHover: true,
         duration: 1.5,
       });
-
+      setToken(data.data['access-token']);
       navigate("/");
       form.resetFields();
     } catch (error) {
@@ -53,6 +55,23 @@ const Login: React.FC = () => {
         duration: 1.5,
       });
     }
+  };
+
+  //Google auth
+  const handleClickGoogle = () => {
+    const callbackUrl = OAuthConfig.redirectUri;
+    const authUrl = OAuthConfig.authUri;
+    const googleClientId = OAuthConfig.clientId;
+
+    //Redirect to Google form auth
+    const targetUrl = `${authUrl}?redirect_uri=${encodeURIComponent(
+      callbackUrl
+    )}&response_type=code&client_id=${googleClientId}&scope=openid%20email%20profile`;
+
+    console.log(targetUrl);
+    // localStorage.setItem("role", role);
+
+    window.location.href = targetUrl;
   };
   
 

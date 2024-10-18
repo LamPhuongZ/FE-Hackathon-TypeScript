@@ -33,38 +33,7 @@ function AuthPage() {
 
       <section className="w-full h-full flex justify-center items-center mt-[2%]">
         <div style={{ padding: "30px" }} className="w-[500px] bg-white rounded shadow-[0_19px_38px_rgba(0,0,0,0.3),_0_15px_12px_rgba(0,0,0,0.22)]">
-          <div  className="flex flex-col items-center gap-3">
-            <div>
-              <Title level={1} className="text-[20px] !mb-0">
-              {activeKey === "1" ? (
-              <Title>Chào mừng trở lại</Title>
-            ) : (
-              <Title>Đăng ký ngay</Title>
-            )}
-              </Title>
-            </div>
-            <div className="flex gap-2">
-              <Text type="secondary" className="text-[14px]">
-              {activeKey === "1"
-                  ? "Chưa có tài khoản?"
-                  : "Đã có tài khoản rồi"}
-              </Text>
-              <Link
-                style={{ fontSize: "16px" }}
-                onClick={() =>
-                  activeKey !== "1"
-                    ? handleTabChange("1")
-                    : handleTabChange("2")
-                }
-              >
-                {activeKey === "1" ? "Đăng ký ngay" : "Đăng nhập"}
-              </Link>
-            </div>
-            <Button style={{ width: "100%", marginBottom: "2vh" }} size="large">
-              <img src={logoGoogle} alt="google" />
-              Đăng nhập bằng Google
-            </Button>
-          </div>
+          
 
           <Tabs
           animated
@@ -73,10 +42,10 @@ function AuthPage() {
             activeKey={activeKey}
           >
             <TabPane  key="1">
-              <Login />
+              <Login handleTabChange={handleTabChange} activeKey={activeKey}/>
             </TabPane>
             <TabPane  key="2">
-              <Register />
+              <Register handleTabChange={handleTabChange} activeKey={activeKey}/>
             </TabPane>
           </Tabs>
         </div>

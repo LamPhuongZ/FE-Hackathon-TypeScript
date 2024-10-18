@@ -7,12 +7,16 @@ import { useNavigate  } from "react-router-dom";
 import { setToken } from "../../services/localStorageService";
 import { OAuthConfig } from "../../configs/configuration";
 
+type LoginProps = {
+  handleTabChange: (key: string) => void;
+  activeKey: string;
+};
 
-const Login: React.FC = () => {
+const Login: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
   const [form] = Form.useForm();
   const [api, contextHolder] = notification.useNotification();
   const navigate = useNavigate();
-  // const {  Link, Title, Text  } = Typography;
+  const {  Link, Title, Text  } = Typography;
   const onFinish = async (values: { username: string; password: string }) => {
     // console.log(values)
     try {
@@ -78,6 +82,36 @@ const Login: React.FC = () => {
   return (
     <>
       {contextHolder}
+      <div  className="flex flex-col items-center gap-3">
+            <div>
+              <Title level={1} className="text-[20px] !mb-0">
+              
+              <Title>Chào mừng trở lại</Title>
+           
+              </Title>
+            </div>
+            <div className="flex gap-2">
+              <Text type="secondary" className="text-[14px]">
+              
+                  "Chưa có tài khoản?"
+                  
+              </Text>
+              <Link
+                style={{ fontSize: "16px" }}
+                onClick={() =>
+                  activeKey !== "1"
+                    ? handleTabChange("1")
+                    : handleTabChange("2")
+                }
+              >
+                Đăng ký ngay
+              </Link>
+            </div>
+            <Button style={{ width: "100%", marginBottom: "2vh" }} size="large">
+              <img src={logoGoogle} alt="google" />
+              Đăng nhập bằng Google
+            </Button>
+          </div>
       <Form form={form} name="horizontal_login" onFinish={onFinish}>
         <div className="flex flex-col ">
           <Form.Item

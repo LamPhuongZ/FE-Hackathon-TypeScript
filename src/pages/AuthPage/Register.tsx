@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { Button, Form, Input, message, notification, Radio } from "antd";
+import { Button, Form, Input, notification, Radio, Typography } from "antd";
 import "./AuthPage.css";
 
+type LoginProps = {
+  handleTabChange: (key: string) => void;
+  activeKey: string;
+};
 
-const Register: React.FC = () => {
+const Register: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [api, contextHolder] = notification.useNotification();
+  const {  Link, Title, Text  } = Typography;
 
   const onFinish = async (values: any) => {
     console.log(values);
@@ -61,6 +66,32 @@ const Register: React.FC = () => {
   return (
     <>
     {contextHolder}
+    <div  className="flex flex-col items-center gap-3">
+            <div>
+              <Title level={1} className="text-[20px] !mb-0">
+              
+              <Title>Tạo tài khoản</Title>
+           
+              </Title>
+            </div>
+            <div className="flex gap-2">
+              <Text type="secondary" className="text-[14px]">
+              
+                  "Đã có tài khoản?"
+                  
+              </Text>
+              <Link
+                style={{ fontSize: "16px" }}
+                onClick={() =>
+                  activeKey !== "1"
+                    ? handleTabChange("1")
+                    : handleTabChange("2")
+                }
+              >
+                Đăng nhập
+              </Link>
+            </div>
+          </div>
       <Form
         form={form}
         name="signup"

@@ -21,9 +21,9 @@ export default function Header() {
             <Link to="/landing-page">Về chúng tôi</Link>
           </li>
         </ul>
-        <div className="flex items-center text-2xl font-medium">
+        {/* <div className="flex items-center text-2xl font-medium">
           <AuthPage />
-        </div>
+        </div> */}
       </div>
     </div>
   );

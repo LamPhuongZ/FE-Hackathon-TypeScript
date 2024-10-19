@@ -1,0 +1,31 @@
+.header {
+  @apply w-full bg-white py-8 px-10;
+
+  & > .header__group {
+    @apply flex capitalize justify-between;
+
+    & > .link__logo {
+      @apply flex-center gap-2;
+
+      & > .title {
+        @apply text-[28px] font-bold;
+      }
+    }
+
+    & > .nav {
+      @apply flex items-center;
+
+      & > ul {
+        @apply flex gap-10 text-xl font-medium pr-[48px];
+      }
+      
+      & > .btn__auth {
+        @apply flex-center;
+
+        & > .btn__login {
+          @apply text-xl lg:text-base font-bold bg-[#DC2E55] text-white w-[235px] h-[50px] hover:bg-[#f03760];
+        }
+      }
+    }
+  }
+}

@@ -3,7 +3,7 @@ import ImgCenter from "../../../../assets/images/Benefit_Homepage.png";
 
 export default function Benefits() {
   return (
-    <div className="benefits">
+    <section className="benefits">
       <h1 className="benefits__title">Tiện Ích Của Các Bạn</h1>
       <div className="benefits__content">
         <div className="benefits__left">
@@ -36,6 +36,6 @@ export default function Benefits() {
           </p>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

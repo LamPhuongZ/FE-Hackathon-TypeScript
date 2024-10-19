@@ -1,70 +1,68 @@
-import "./footer.scss";
 import logoCompany from "../../assets/images/logo-company.png";
 import logoFacebook from "../../assets/images/FacebookLogo.png";
 import logoInstagram from "../../assets/images/InstagramLogo.png";
 import logoTwitter from "../../assets/images/TwitterLogo.png";
 import iconPhone from "../../assets/icons/phone.svg";
 import iconAddress from "../../assets/icons/address.svg";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="max-md:p-4">
-      <div className="footer-detail px-10 pt-8 pb-14">
-        <div className="footer-line flex justify-between max-md:flex-col max-md:text-center ">
-          <div className="footer-line-left flex gap-2 items-center max-md:justify-center">
+    <footer className="footer">
+      <div className="footer__detail">
+        <div className="footerLine">
+          <div className="footerLine__left">
             <img src={logoCompany} alt="Company Logo" className="h-10" />
-            <h1 className="font-bold pt-2 max-md:mt-0">Việc Làm Dễ</h1>
+            <h1 className="title">Việc Làm Dễ</h1>
           </div>
-          <div className="footer-line-right flex gap-2 max-md:justify-center max-md:mt-4">
-            <a href="">
+          <div className="footerLine__right">
+            <Link to={""}>
               <img src={logoFacebook} alt="Facebook Logo" className="h-8" />
-            </a>
-            <a href="">
+            </Link>
+            <Link to={""}>
               <img src={logoInstagram} alt="Instagram Logo" className="h-8" />
-            </a>
-            <a href="">
+            </Link>
+            <Link to={""}>
               <img src={logoTwitter} alt="Twitter Logo" className="h-8" />
-            </a>
+            </Link>
           </div>
         </div>
-        <hr className="mt-4 mb-0 border-none" />
-        <div className="footer-content flex justify-around mt-8 max-md:flex-col max-md:items-center">
-          <div className="footer-col1 max-md:w-full max-md:text-center max-md:mb-6">
-            <h3 className="font-semibold text-2xl max-md:text-xl">
-              Về chúng tôi
-            </h3>
-            <div className="footer-col1-detail flex flex-col mt-5 space-y-3 font-semibold">
-              <a href="" className="link">
+        <hr className="line" />
+        <div className="footer__content">
+          <div className="footer__col1">
+            <h3 className="title">Về chúng tôi</h3>
+            <div className="footer__col1__detail">
+              <Link to={""} className="link">
                 Giới thiệu
-              </a>
-              <a href="" className="link">
+              </Link>
+              <Link to={""} className="link">
                 Chính sách
-              </a>
-              <a href="" className="link">
+              </Link>
+              <Link to={""} className="link">
                 Điều khoản dịch vụ
-              </a>
-              <a href="" className="link">
+              </Link>
+              <Link to={""} className="link">
                 Lợi ích
-              </a>
+              </Link>
             </div>
           </div>
-          <div className="footer-col2 max-md:w-full max-md:text-center max-md:mb-6">
-            <h3 className="font-semibold text-2xl max-md:text-xl">Khám phá</h3>
-            <div className="footer-col1-detail flex flex-col mt-5 space-y-3 font-semibold">
-              <a href="" className="link">
+          <div className="footer__col2">
+            <h3 className="title">Khám phá</h3>
+            <div className="footer__col2__detail">
+              <Link to={""} className="link">
                 Tính năng
-              </a>
-              <a href="" className="link">
+              </Link>
+              <Link to={""} className="link">
                 Liên hệ
-              </a>
-              <a href="" className="link">
+              </Link>
+              <Link to={""} className="link">
                 Phát triển
-              </a>
+              </Link>
             </div>
           </div>
-          <div className="footer-col3 max-md:w-full max-md:text-center max-md:mb-6">
-            <h3 className="font-semibold text-2xl max-md:text-xl">Liên hệ</h3>
-            <div className="footer-col3-detail flex flex-col mt-5 space-y-3 text-base max-md:items-center">
+          <div className="footer__col3">
+            <h3 className="title">Liên hệ</h3>
+            <div className="footer__col3__detail">
               <div className="phone-detail flex gap-2">
                 <img src={iconPhone} alt="icon-phone" />
                 <a href="tel:+84867133779" className="font-semibold">
@@ -72,7 +70,7 @@ export default function Footer() {
                 </a>
               </div>
               <div className="address-detail flex gap-2">
-               <img src={iconAddress} alt="icon-address" />
+                <img src={iconAddress} alt="icon-address" />
                 <p className="font-semibold">Quận 7, Hồ Chí Minh</p>
               </div>
             </div>

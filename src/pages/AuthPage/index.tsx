@@ -1,6 +1,6 @@
+import "./AuthPage.css";
 import { Typography, Tabs } from "antd";
 import { useState } from "react";
-import "./AuthPage.css";
 import Login from "./Login";
 import Register from "./Register";
 import logo from "../../assets/images/logo-company.png";

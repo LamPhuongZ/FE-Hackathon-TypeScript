@@ -7,15 +7,21 @@
 
 @import "./base/reset";
 
+@import "./components/header";
+@import "./components/banner";
+@import "./components/footer";
+
+
 body {
   background-color: #f4f9fd;
 }
 
-input::-webkit-input-placeholder {
-  color: #84878b;
+.container__wrapper {
+  @apply flex flex-col justify-center items-center;
 }
-input::-moz-input-placeholder {
-  color: #84878b;
+
+.content__layout {
+  @apply pt-[66px] relative w-full overflow-x-hidden;
 }
 
 .form-layout {
@@ -64,16 +70,4 @@ input::-moz-input-placeholder {
 
 .btn-update {
   @apply bg-yellow-500 hover:bg-yellow-600 text-black hover:text-white border-yellow-600;
-}
-
-.hidden-input {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
-  white-space: nowrap;
 }

@@ -1,15 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { setToken } from "../../services/localStorageService";
-import { ACCESS_TOKEN } from "../../utils/config";
-// import { Box, CircularProgress, Typography } from "@mui/material";
 
 export default function Authenticate() {
   const navigate = useNavigate();
   const [isLoggedin, setIsLoggedin] = useState(false);
 
   useEffect(() => {
-    // console.log(window.location.href);
+    console.log(window.location.href);
 
 
  // Lấy Role từ localStorage
@@ -45,7 +43,7 @@ export default function Authenticate() {
 
   return (
     <>
-      
+      auth
     </>
   );
 }

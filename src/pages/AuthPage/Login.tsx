@@ -64,8 +64,8 @@ const Login: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
             </div>
             <div className="flex gap-2">
               <Text type="secondary" className="text-[14px]">
-              
-                  "Chưa có tài khoản?"
+            
+                  Chưa có tài khoản?
                   
               </Text>
               <Link

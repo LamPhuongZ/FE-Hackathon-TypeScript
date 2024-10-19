@@ -22,7 +22,7 @@ export default function AuthPage() {
 
   return (
     <>
-      <Button type="primary" onClick={() => { setModalOpen(true); setIsLogin(true); }}>
+      <Button type="primary" style={{fontSize:'20px', fontWeight:"500", padding:'16px'}}  onClick={() => { setModalOpen(true); setIsLogin(true); }}>
         Đăng nhập
       </Button>
 

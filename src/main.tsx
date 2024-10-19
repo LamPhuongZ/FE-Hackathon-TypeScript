@@ -21,6 +21,7 @@ const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const ListCardPage = lazy(() => import("./pages/ListCardPage"));
 const JobCardDetailPage = lazy(() => import("./pages/JobCardDetailPage"));
 const FormApplicationPage = lazy(() => import("./pages/FormApplicationPage"));
+const LoginAndRegister = lazy(()=> import("./pages/AuthPage"));
 
 export const routeLink: any = createBrowserHistory();
 
@@ -42,7 +43,7 @@ root.render(
               <Route path="/profile-worker-page" element={<ProfileWorkerPage />} />
               <Route path="/form-application" element={<FormApplicationPage/>} />
             </Route>
-
+            <Route path="/login" element={<LoginAndRegister />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
           <ToastContainer />

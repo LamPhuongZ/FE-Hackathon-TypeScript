@@ -23,10 +23,9 @@ export type UserLoginType = {
 const Login: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
   const [form] = Form.useForm();
   const dispatch: DispatchType = useDispatch();
-
+  const {  Link, Title, Text  } = Typography;
   const [api, contextHolder] = notification.useNotification();
   // const navigate = useNavigate();
-  const {  Link, Title, Text  } = Typography;
   const onFinish = (values:  UserLoginType) => {
     const actionAsync = loginAPI(values);
     dispatch(actionAsync)
@@ -59,7 +58,7 @@ const Login: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
             <div>
               <Title level={1} className="text-[20px] !mb-0">
               
-              <Title>Chào mừng trở lại</Title>
+              Chào mừng trở lại
            
               </Title>
             </div>
@@ -124,7 +123,9 @@ const Login: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
             <Form.Item name="remember" valuePropName="checked" noStyle>
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
-            <a href="#">Forgot password</a>
+            <button onClick={()=>{
+              handleTabChange("3")
+            }}><a href="#">Forgot password</a></button>
           </Flex>
         </Form.Item>
 

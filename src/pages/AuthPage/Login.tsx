@@ -27,50 +27,11 @@ const Login: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
   const [api, contextHolder] = notification.useNotification();
   // const navigate = useNavigate();
   const {  Link, Title, Text  } = Typography;
-  const onFinish = (values: { username: string; password: string }) => {
-    // const actionAsync = loginAPI(values);
-    // dispatch(actionAsync);
-    console.log(values)
-    // try {
-    //   const response = await fetch(
-    //     "https://api.easyjob.io.vn/api/v1/auth/sign-in",
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({
-    //         username: values.username,
-    //         password: values.password,
-    //       }),
-    //     }
-    //   );
-
-    //   if (!response.ok) {
-    //     throw new Error(`HTTP error! status: ${response.status}`);
-    //   }
-
-    //   const data = await response.json();
-    //   console.log(data);
-
-    //   api.success({
-    //     message: `Bạn đã đăng nhập thành công !!! Chao ban ${values.username}`,
-    //     placement: "topRight",
-    //     showProgress: true,
-    //     pauseOnHover: true,
-    //     duration: 1.5,
-    //   });
-    //   setToken(data.data['access-token']);
-    //   navigate("/");
-    //   form.resetFields();
-    // } catch (error) {
-    //   console.error("Error:", error);
-    //   api.error({
-    //     message: "Đăng nhập thất bại. Vui lòng thử lại.",
-    //     placement: "topRight",
-    //     duration: 1.5,
-    //   });
-    // }
+  const onFinish = (values:  UserLoginType) => {
+    const actionAsync = loginAPI(values);
+    dispatch(actionAsync)
+    
+    
   };
 
   //Google auth
@@ -85,7 +46,7 @@ const Login: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
     )}&response_type=code&client_id=${googleClientId}&scope=openid%20email%20profile`;
 
     console.log(targetUrl);
-    // localStorage.setItem("role", role);
+    localStorage.setItem("role", 'ROLE_EMPLOYER'); 
 
     window.location.href = targetUrl;
   };
@@ -119,7 +80,7 @@ const Login: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
                 Đăng ký ngay
               </Link>
             </div>
-            <Button style={{ width: "100%", marginBottom: "2vh" }} size="large">
+            <Button style={{ width: "100%", marginBottom: "2vh" }} size="large" onClick={handleClickGoogle}>
               <img src={logoGoogle} alt="google" />
               Đăng nhập bằng Google
             </Button>

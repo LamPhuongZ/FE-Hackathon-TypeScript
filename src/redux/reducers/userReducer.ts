@@ -84,7 +84,7 @@ export const { setLoginAction, setProfileAction, setRegisterAction } =
   userReducer.actions;
 export default userReducer.reducer;
 
-const [api] = notification.useNotification();
+
 
 export const loginAPI = (userLogin: UserLoginType) => {
     
@@ -96,20 +96,24 @@ export const loginAPI = (userLogin: UserLoginType) => {
       setCookie(ACCESS_TOKEN, response.data.data["access-token"], 30);
       const action: PayloadAction<LoginState> = setLoginAction(response.data);
       dispatch(action);
-      api.success({ 
-        message: `Bạn đã đăng nhập thành công !!!`,
-        placement: "topRight",
-        showProgress: true,
-        pauseOnHover: true,
+      notification.success({
+        message: 'Đăng nhập thành công',
+        placement: 'topRight',
         duration: 1.5,
       });
       routeLink.push("/");
     } catch (error) {
-        api.error({
-            message: "Đăng nhập thất bại. Vui lòng thử lại.",
-            placement: "topRight",
-            duration: 1.5,
-          });
+      console.log(error)
+      notification.error({
+        message: 'Đăng nhập thất bại',
+        placement: 'topRight',
+        duration: 1.5,
+      });
+        // api.error({
+        //     message: "Đăng nhập thất bại. Vui lòng thử lại.",
+        //     placement: "topRight",
+        //     duration: 1.5,
+        //   });
       throw error;
     }
   };
@@ -128,21 +132,20 @@ export const registerAPI = (userRegister: UserRegisterType) => {
       const action: PayloadAction<RegisterState> = setRegisterAction(
         response.data
       );
-      api.success({
-        message: `Bạn đã đăng ký thành công !!!`,
-        placement: "topRight",
-        showProgress: true,
-        pauseOnHover: true,
+      notification.success({
+        message: 'Đăng Ký thành công',
+        placement: 'topRight',
         duration: 1.5,
       });
       dispatch(action);
       routeLink.push("/");
     } catch (error) {
-        api.error({
-            message: "Đăng ký thất bại. Vui lòng thử lại.",
-            placement: "topRight",
-            duration: 1.5,
-          });
+      console.log(error)
+      notification.error({
+        message: 'Đăng ký không thành công',
+        placement: 'topRight',
+        duration: 1.5,
+      });
       throw error;
     }
   };
@@ -161,9 +164,10 @@ export const getProfileAPI = () => {
       dispatch(action);
     } catch (error) {
       // toast.error("Lấy thông tin cá nhân thất bại");
-      api.error({
-        message: "Lấy thông tin cá nhân thất bại",
-        placement: "topRight",
+      console.log(error)
+      notification.error({
+        message: 'Đăng nhập thành công',
+        placement: 'topRight',
         duration: 1.5,
       });
       throw error;

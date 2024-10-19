@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { setToken } from "../../services/localStorageService";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { ACCESS_TOKEN } from "../../utils/config";
+// import { Box, CircularProgress, Typography } from "@mui/material";
 
 export default function Authenticate() {
   const navigate = useNavigate();
@@ -19,9 +20,8 @@ export default function Authenticate() {
 
     if ( isMatch) {
       const authCode = isMatch ? isMatch[1] : null;
-
       fetch(
-        `http://localhost:8080/api/v1/auth/outbound?code=${authCode}&role=${role}`,
+        `https://api.easyjob.io.vn/api/v1/auth/outbound?code=${authCode}&role=${role}`,
         {
           method: "POST",
         }
@@ -31,7 +31,6 @@ export default function Authenticate() {
         })
         .then((data) => {
           console.log(data);
-
           setToken(data.result?.token);
           setIsLoggedin(true);
         });
@@ -46,19 +45,7 @@ export default function Authenticate() {
 
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "30px",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <CircularProgress></CircularProgress>
-        <Typography>Authenticating...</Typography>
-      </Box>
+      
     </>
   );
 }

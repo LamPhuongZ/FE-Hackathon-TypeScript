@@ -3,7 +3,7 @@ import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Button, Form, Input, Flex, Checkbox, notification, Typography } from "antd";
 import "./AuthPage.css";
 import logoGoogle from "../../assets/icons/Google.svg";
-import { useNavigate  } from "react-router-dom";
+// import { useNavigate  } from "react-router-dom";
 import { setToken } from "../../services/localStorageService";
 import { OAuthConfig } from "../../configs/configuration";
 import { loginAPI } from "../../redux/reducers/userReducer";
@@ -25,11 +25,11 @@ const Login: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
   const dispatch: DispatchType = useDispatch();
 
   const [api, contextHolder] = notification.useNotification();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const {  Link, Title, Text  } = Typography;
   const onFinish = (values: { username: string; password: string }) => {
-    const actionAsync = loginAPI(values);
-    dispatch(actionAsync);
+    // const actionAsync = loginAPI(values);
+    // dispatch(actionAsync);
     console.log(values)
     // try {
     //   const response = await fetch(

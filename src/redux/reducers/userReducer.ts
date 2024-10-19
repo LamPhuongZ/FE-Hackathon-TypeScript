@@ -82,8 +82,9 @@ const userReducer = createSlice({
 
 export const { setLoginAction, setProfileAction, setRegisterAction } =
   userReducer.actions;
-  const [api] = notification.useNotification();
 export default userReducer.reducer;
+
+const [api] = notification.useNotification();
 
 export const loginAPI = (userLogin: UserLoginType) => {
     
@@ -95,7 +96,7 @@ export const loginAPI = (userLogin: UserLoginType) => {
       setCookie(ACCESS_TOKEN, response.data.data["access-token"], 30);
       const action: PayloadAction<LoginState> = setLoginAction(response.data);
       dispatch(action);
-      api.success({
+      api.success({ 
         message: `Bạn đã đăng nhập thành công !!!`,
         placement: "topRight",
         showProgress: true,

@@ -1,7 +1,7 @@
+import "./JobCardStyles.scss";
 import checked from "../../assets/images/checked.png";
 import location from "../../assets/images/location.png";
 import calendar from "../../assets/images/calendar.png";
-import "./JobCardStyles.scss";
 import { Content } from "../../redux/reducers/jobReducer";
 
 type Props = {

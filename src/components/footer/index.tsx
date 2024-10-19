@@ -4,7 +4,8 @@ import logoInstagram from "../../assets/images/InstagramLogo.png";
 import logoTwitter from "../../assets/images/TwitterLogo.png";
 import iconPhone from "../../assets/icons/phone.svg";
 import iconAddress from "../../assets/icons/address.svg";
- 
+import { Link } from "react-router-dom";
+
 export default function Footer() {
   return (
     <footer className="footer">
@@ -12,53 +13,51 @@ export default function Footer() {
         <div className="footerLine">
           <div className="footerLine__left">
             <img src={logoCompany} alt="Company Logo" className="h-10" />
-            <h1 className="font-bold pt-2 max-md:mt-0">Việc Làm Dễ</h1>
+            <h1 className="title">Việc Làm Dễ</h1>
           </div>
           <div className="footerLine__right">
-            <a href="">
+            <Link to={""}>
               <img src={logoFacebook} alt="Facebook Logo" className="h-8" />
-            </a>
-            <a href="">
+            </Link>
+            <Link to={""}>
               <img src={logoInstagram} alt="Instagram Logo" className="h-8" />
-            </a>
-            <a href="">
+            </Link>
+            <Link to={""}>
               <img src={logoTwitter} alt="Twitter Logo" className="h-8" />
-            </a>
+            </Link>
           </div>
         </div>
         <hr className="line" />
         <div className="footer__content">
           <div className="footer__col1">
-            <h3 className="title">
-              Về chúng tôi
-            </h3>
+            <h3 className="title">Về chúng tôi</h3>
             <div className="footer__col1__detail">
-              <a href="" className="link">
+              <Link to={""} className="link">
                 Giới thiệu
-              </a>
-              <a href="" className="link">
+              </Link>
+              <Link to={""} className="link">
                 Chính sách
-              </a>
-              <a href="" className="link">
+              </Link>
+              <Link to={""} className="link">
                 Điều khoản dịch vụ
-              </a>
-              <a href="" className="link">
+              </Link>
+              <Link to={""} className="link">
                 Lợi ích
-              </a>
+              </Link>
             </div>
           </div>
           <div className="footer__col2">
             <h3 className="title">Khám phá</h3>
             <div className="footer__col2__detail">
-              <a href="" className="link">
+              <Link to={""} className="link">
                 Tính năng
-              </a>
-              <a href="" className="link">
+              </Link>
+              <Link to={""} className="link">
                 Liên hệ
-              </a>
-              <a href="" className="link">
+              </Link>
+              <Link to={""} className="link">
                 Phát triển
-              </a>
+              </Link>
             </div>
           </div>
           <div className="footer__col3">
@@ -71,7 +70,7 @@ export default function Footer() {
                 </a>
               </div>
               <div className="address-detail flex gap-2">
-               <img src={iconAddress} alt="icon-address" />
+                <img src={iconAddress} alt="icon-address" />
                 <p className="font-semibold">Quận 7, Hồ Chí Minh</p>
               </div>
             </div>

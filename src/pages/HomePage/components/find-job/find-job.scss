@@ -1,15 +1,16 @@
 .findJob {
-  @apply flex flex-col justify-center gap-11 pb-[120px];
+  @apply flex flex-col justify-center gap-11 mx-10 pb-[120px];
 
   & > .findJob__top {
     @apply flex-between;
 
     & > .title {
-      @apply text-2xl font-bold border-b-4 border-custom-blue border-solid pb-1;
+      @apply text-[32px] font-semibold border-b-4 border-custom-blue border-solid pb-1 w-1/4 text-left;
+      
     }
 
     & > .findJob__link {
-        @apply flex-center gap-4 text-2xl text-blue-500 hover:underline;
+        @apply flex justify-center gap-1 hover:underline items-center;
     }
   }
 

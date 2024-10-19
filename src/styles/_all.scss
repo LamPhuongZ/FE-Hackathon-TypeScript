@@ -11,6 +11,7 @@
 @import "./components/banner";
 @import "./components/footer";
 
+
 body {
   background-color: #f4f9fd;
 }
@@ -36,7 +37,7 @@ body {
 }
 
 .btn-component {
-  @apply border duration-300 relative cursor-pointer text-sky-50  overflow-hidden h-16 w-full rounded-[14px] bg-sky-200 p-2 flex justify-center items-center font-bold text-2xl;
+  @apply border duration-300 relative cursor-pointer text-sky-50  overflow-hidden h-16 w-full rounded-[14px] p-2 flex justify-center items-center font-bold text-2xl;
 }
 
 .btn-component .circle-1 {

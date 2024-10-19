@@ -1,23 +1,25 @@
 .footer {
-  @apply px-[70px] w-full bg-white flex flex-col justify-center sm:p-4;
+  @apply w-full py-8 px-10 bg-white flex flex-col justify-center max-md:p-4;
 
   & > .footer__detail {
-    @apply px-10 pt-8 pb-14;
-
     & > .footerLine {
-      @apply flex flex-col items-center justify-between sm:flex-row;
+      @apply flex items-center justify-between max-md:flex-col max-md:text-center;
 
       & > .footerLine__left {
-        @apply flex-center gap-2;
+        @apply flex gap-2 items-center max-md:justify-center;
+
+        & > .title {
+          @apply font-bold pt-2 max-md:mt-0;
+        }
       }
 
       & > .footerLine__right {
-        @apply flex gap-2 sm:justify-center sm:mt-4;
+        @apply flex gap-2 max-md:justify-center max-md:mt-4;
       }
     }
 
     & > .footer__content {
-      @apply flex flex-col items-center justify-around mt-8 sm:flex-row sm:items-start;
+      @apply flex justify-around mt-8 max-md:flex-col max-md:items-center;
 
       & > :is(.footer__col1, .footer__col2) {
         & > :is(.footer__col1__detail, .footer__col2__detail) {

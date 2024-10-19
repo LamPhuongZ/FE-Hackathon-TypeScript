@@ -13,16 +13,18 @@
     }
 
     & > .nav {
+      @apply flex items-center;
+
       & > ul {
-        @apply flex-center gap-10 text-2xl font-medium ;
+        @apply flex gap-10 text-xl font-medium pr-[48px];
       }
-    }
+      
+      & > .btn__auth {
+        @apply flex-center;
 
-    & > .btn-auth {
-      @apply flex-center;
-
-      & > .btn-login {
-        @apply text-xl lg:text-base font-bold bg-[#DC2E55] text-white w-[235px] h-[50px] hover:bg-[#f03760];
+        & > .btn__login {
+          @apply text-xl lg:text-base font-bold bg-[#DC2E55] text-white w-[235px] h-[50px] hover:bg-[#f03760];
+        }
       }
     }
   }

@@ -30,15 +30,16 @@ export default function Header() {
               <Link to="/landing-page">Về chúng tôi</Link>
             </li>
           </ul>
+          <div className="btn__auth">
+            <Button
+              title="Đăng nhập / Đăng ký"
+              color="custom"
+              className="btn__login"
+              onClick={() => navigate("/login")}
+              circle={false}
+            />
+          </div>
         </nav>
-        <div className="btn-auth">
-          <Button
-            title="Đăng nhập / Đăng ký"
-            color="custom"
-            className="btn-login"
-            onClick={() => navigate("/login")}
-          />
-        </div>
       </div>
     </header>
   );

@@ -1,16 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo-company.png";
-import AuthPage from "../../pages/AuthPage";
+import Button from "../button/Button";
 
 export default function Header() {
+  const navigate = useNavigate();
+
   return (
-    <div className="px-[112px] py-[24px]">
-      <div className="flex items-center capitalize justify-center">
-        <Link to="/" className="flex justify-center items-center gap-2">
-          <img src={logo} alt="" className="w-10 h-10" loading="lazy" />
-          <h1 className="text-[28px] w-60 h-full  font-bold">Việc làm dễ</h1>
-        </Link>
-        <ul className="flex justify-center items-center gap-10 text-2xl font-medium px-48">
+    <header className="header">
+      <Link to="/" className="link__logo">
+        <img src={logo} alt="icon-logo" width={40} height={40} loading="lazy" />
+        <h1 className="title">Việc làm dễ</h1>
+      </Link>
+      <nav className="nav">
+        <ul className="menu">
           <li>
             <Link to="/find-job">Tìm việc</Link>
           </li>
@@ -21,10 +23,15 @@ export default function Header() {
             <Link to="/landing-page">Về chúng tôi</Link>
           </li>
         </ul>
-        <div className="flex items-center text-2xl font-medium">
-          <AuthPage />
-        </div>
+      </nav>
+      <div className="btn-auth">
+        <Button
+          title="Đăng nhập / Đăng ký"
+          color="custom"
+          className="btn-login"
+          onClick={() => navigate("/login")}
+        />
       </div>
-    </div>
+    </header>
   );
 }

@@ -1,0 +1,35 @@
+.footer {
+  @apply max-md:p-4 w-full bg-white;
+
+  & > .footer__details {
+    @apply px-10 pt-8 pb-14;
+
+    & > .footerLine {
+      @apply flex justify-between max-md:flex-col max-md:text-center;
+
+      & > .footerLine__left {
+        @apply flex gap-2 items-center max-md:justify-center;
+      }
+    }
+  }
+
+  h1 {
+    @apply text-[28px];
+  }
+
+  h3 {
+    @apply text-custom-blue;
+  }
+
+  hr {
+    border-top: 1px solid #ccc !important;
+  }
+
+
+
+  .link {
+    &:hover {
+      color: #3f8cff;
+    }
+  }
+}

@@ -1,0 +1,19 @@
+.findJob {
+  @apply flex flex-col justify-center gap-11 pb-[120px];
+
+  & > .findJob__top {
+    @apply flex-between;
+
+    & > .title {
+      @apply text-2xl font-bold border-b-4 border-custom-blue border-solid pb-1;
+    }
+
+    & > .findJob__link {
+        @apply flex-center gap-4 text-2xl text-blue-500 hover:underline;
+    }
+  }
+
+  & > .findJob__content {
+    @apply grid grid-cols-2 gap-6;
+  }
+}

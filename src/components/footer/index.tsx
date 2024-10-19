@@ -1,17 +1,16 @@
-import "./footer.scss";
 import logoCompany from "../../assets/images/logo-company.png";
 import logoFacebook from "../../assets/images/FacebookLogo.png";
 import logoInstagram from "../../assets/images/InstagramLogo.png";
 import logoTwitter from "../../assets/images/TwitterLogo.png";
 import iconPhone from "../../assets/icons/phone.svg";
 import iconAddress from "../../assets/icons/address.svg";
-
+ 
 export default function Footer() {
   return (
-    <footer className="max-md:p-4">
-      <div className="footer-detail px-10 pt-8 pb-14">
-        <div className="footer-line flex justify-between max-md:flex-col max-md:text-center ">
-          <div className="footer-line-left flex gap-2 items-center max-md:justify-center">
+    <footer className="footer">
+      <div className="footer__detail">
+        <div className="footerLine">
+          <div className="footerLine__left">
             <img src={logoCompany} alt="Company Logo" className="h-10" />
             <h1 className="font-bold pt-2 max-md:mt-0">Việc Làm Dễ</h1>
           </div>

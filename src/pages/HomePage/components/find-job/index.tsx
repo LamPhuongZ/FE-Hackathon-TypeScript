@@ -1,4 +1,6 @@
-import  { useEffect } from "react";
+import './find-job.scss';
+import { useEffect } from "react";
+import { Content } from "../../../../redux/reducers/jobReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../../../redux/configStore";
 import { getDataJobAPI } from "../../../../redux/reducers/jobReducer";
@@ -6,7 +8,6 @@ import { useNavigate, Link } from "react-router-dom";
 import Card from "../../../../components/card/Card";
 import redAddress from "../../../../assets/icons/icon-red-address.svg";
 import arrowRight from "../../../../assets/icons/icon-arrow-right.svg";
-import { Content } from "../../../../redux/reducers/jobReducer";
 
 export default function FindJob() {
   const page = 1;
@@ -29,24 +30,24 @@ export default function FindJob() {
   }
 
   return (
-    <section className="find-job flex flex-col justify-center gap-11 px-[81px] pt-[70px] pb-[120px]">
-      <div className="find-job-top flex flex-row justify-between items-center">
-        <h1 className="text-2xl font-bold border-b-4 border-custom-blue border-solid pb-1">
+    <section className="findJob">
+      <div className="findJob__top">
+        <h1 className="title">
           Tìm việc
         </h1>
         <Link
           to="/list-job"
-          className="flex justify-center gap-4 text-blue-500 hover:underline"
+          className="findJob__link"
         >
           Xem Thêm
-          <img src={arrowRight} alt="icon-arrow-right" />
+          <img src={arrowRight} className='pb-1' alt="icon-arrow-right" width={24} height={20} />
         </Link>
       </div>
-      <div className="find-job-content grid grid-cols-2 gap-6">
+      <div className="findJob__content">
         {objJob.content.map((job: Content, index: number) => (
           <Card
             key={index}
-            className="relative w-full h-auto p-[23px_43px_39px_31px] rounded-3xl bg-white shadow-[0px_18px_18px_0px_rgba(0,0,0,0.18)] hover:shadow-lg transition-shadow duration-300 hover:scale-105 transform"
+            className="relative w-full h-auto p-[23px_43px_39px_31px] rounded-3xl bg-white shadow-[0px_18px_18px_0px_rgba(0,0,0,0.18)] hover:shadow-lg transition-shadow duration-300"
             onClick={() => navigate(`/card-detail-job/${job.jobId}`)}
           >
             <div className="card-top flex flex-row items-center gap-5 pb-2 border-b-2">

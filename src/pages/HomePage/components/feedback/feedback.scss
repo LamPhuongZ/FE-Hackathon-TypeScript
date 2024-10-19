@@ -1,0 +1,19 @@
+.feedback {
+    @apply w-full flex flex-col items-center gap-4 bg-white pt-[61px] pb-[47px] my-[72px];
+
+    & > .feedback__group {
+        @apply flex flex-col items-center lg:items-start;
+
+        & > .title {
+            @apply flex justify-start items-center gap-3 text-2xl font-bold mb-[18px];
+
+            & > .line {
+                @apply w-[183px] h-1 bg-black; 
+            }
+        }
+
+        & > .feedback__cards {
+            @apply flex flex-col gap-14 lg:flex-row lg:gap-[61px];
+        }
+    }
+}

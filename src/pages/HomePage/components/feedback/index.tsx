@@ -1,3 +1,4 @@
+import './feedback.scss';
 import iconFeedback from "../../../../assets/icons/star-four-fill.svg";
 import authorImage from "../../../../assets/images/avatar-1.png";
 import Card from "../../../../components/card/Card";
@@ -22,18 +23,19 @@ const feedbackData = [
 
 export default function Feedback() {
   return (
-    <section className="pt-[61px] pb-[47px] px-[45px] my-[72px] flex flex-col items-center gap-4 bg-white lg:px-[71px]">
-      <div className="flex flex-col items-center lg:items-start">
-        <h2 className="flex justify-start items-center gap-3 text-2xl font-bold mb-[18px]">
+    <section className="feedback">
+      <div className="feedback__group">
+        <h2 className="title">
           Họ nói về chúng tôi
-          <span className="w-[183px] h-[3px] bg-black"></span>
+          <span className="line"></span>
           <img
-            className="w-[30px] h-[30px]"
             src={iconFeedback}
             alt="icon-star-four-fill"
+            width={30}
+            height={30}
           />
         </h2>
-        <div className="flex flex-col gap-14 lg:flex-row lg:gap-[61px]">
+        <div className="feedback__cards">
           {feedbackData.map((item, index) => (
             <Card
               key={index}

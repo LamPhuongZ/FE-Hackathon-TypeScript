@@ -109,11 +109,6 @@ export const loginAPI = (userLogin: UserLoginType) => {
         placement: 'topRight',
         duration: 1.5,
       });
-        // api.error({
-        //     message: "Đăng nhập thất bại. Vui lòng thử lại.",
-        //     placement: "topRight",
-        //     duration: 1.5,
-        //   });
       throw error;
     }
   };

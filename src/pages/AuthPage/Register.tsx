@@ -18,54 +18,14 @@ export type UserRegisterType = {
 
 const Register: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [api, contextHolder] = notification.useNotification();
   const {  Link, Title, Text  } = Typography;
   const dispatch: DispatchType = useDispatch();
 
   const onFinish = async (values: UserRegisterType) => {
     const actionAsync = registerAPI(values);
-    dispatch(actionAsync)
-    // console.log(values);
-    // setLoading(true);
-    // try {
-    //   // Call the API to create a user
-    //   const response = await fetch(
-    //     "https://api.easyjob.io.vn/api/v1/auth/sign-up",
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({
-    //         fullname: values.username,
-    //         email: values.email,
-    //         password: values.password,
-    //         role: values.role,
-    //       }),
-    //     }
-    //   );
-
-    //   if (!response.ok) {
-    //     throw new Error(`HTTP error! status: ${response.status}`);
-    //   }
-
-    //   const data = await response.json();
-    //   console.log(data);
-
-    //   api.success({
-    //     message: `Bạn đã đăng ký thành công !!! Chao ban ${values.username}`,
-    //     placement: "topRight",
-    //     showProgress: true,
-    //     pauseOnHover: true,
-    //     duration: 1.5,
-    //   });
-    //   form.resetFields();
-    // } catch (error) {
-    //   console.log(error)
-    // } finally { 
-    //   setLoading(false);
-    // }
+    dispatch(actionAsync);
   };
 
   const onFinishFailed = () => {
@@ -113,7 +73,7 @@ const Register: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
       >
         
           <Form.Item
-            name="username"
+            name="fullname"
             rules={[
               {
                 type: "string",

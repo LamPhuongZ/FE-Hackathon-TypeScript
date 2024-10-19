@@ -1,1 +1,0 @@
-import{am as e}from"./index-oiRqT3dK.js";function l({children:t}){return e.jsx("div",{className:"flex flex-col items-start gap-x-5 mb-5 last-of-type:mb-0",children:t})}function o({htmlFor:t="",children:s}){return e.jsx("label",{htmlFor:t,className:"font-semibold cursor-pointer text-2xl mb-8",children:s})}export{l as F,o as L};

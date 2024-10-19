@@ -29,7 +29,7 @@ export default function Header() {
               title="Đăng nhập / Đăng ký"
               color="custom"
               className="text-xl lg:text-base font-bold bg-[#DC2E55] text-white w-[235px] h-[50px] hover:bg-[#f03760]"
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/AuthPage")}
               circle={false}
             />
           </div>

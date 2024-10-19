@@ -21,7 +21,7 @@ body {
 }
 
 .content__layout {
-  @apply pt-[66px] px-[70px];
+  @apply pt-[66px] relative w-full overflow-x-hidden;
 }
 
 .form-layout {

@@ -39,17 +39,16 @@ export default function Feedback() {
           {feedbackData.map((item, index) => (
               <Card
                 key={index}
-                className="w-[380px] h-auto rounded-[20px] p-[18px_22px_34px_22px] shadow-[0px_6px_58px_0px_rgba(196,203,214,0.5)] max-md:w-full max-xl:w-1/3"
+                className="feedback__card"
               >
-                <div className="flex flex-col gap-4">
-                  <p className="font-normal text-base">{item.text}</p>
-                  <div className="flex flex-row justify-start items-center">
+                <div className="feedback__cardItem">
+                  <p className="feedback__text">{item.text}</p>
+                  <div className="feedback__cardImg">
                     <img
                       src={item.image}
                       alt={item.author}
-                      className="w-16 h-16 rounded-[73px] mr-4"
                     />
-                    <p className="mt-2 font-semibold text-base">
+                    <p className="feedback__author">
                       {item.author}
                     </p>
                   </div>

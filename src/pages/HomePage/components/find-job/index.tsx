@@ -37,7 +37,7 @@ export default function FindJob() {
           to="/list-job"
           className="findJob__link"
         >
-          <p className="text-2xl font-medium">Xem thêm</p>
+          <p className="see__more">Xem thêm</p>
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"

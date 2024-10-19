@@ -16,7 +16,7 @@ export default function Authenticate() {
     const authCodeRegex = /code=([^&]+)/;
     const isMatch = window.location.href.match(authCodeRegex);
 
-    if ( isMatch) {
+    if (isMatch) {
       const authCode = isMatch ? isMatch[1] : null;
       fetch(
         `https://api.easyjob.io.vn/api/v1/auth/outbound?code=${authCode}&role=${role}`,

@@ -15,8 +15,3 @@
 .ant-tabs > .ant-tabs-nav {
   display: none;
 }
-/* .ant-radio-group-solid :where(.css-dev-only-do-not-override-ccdg5a).ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled){
-  background-color: #F1F2FD;
-  border-color:rgba(63, 140, 255, 0.63);
-  color: black;
-} */

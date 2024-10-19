@@ -1,15 +1,11 @@
-import AuthPage from "../AuthPage";
 import Benefits from "./components/benefits";
-import Category from "./components/category";
 import Feedback from "./components/feedback";
-import TopFeature from "./components/top-feature";
+import FindJob from "./components/find-job";
 
 export default function HomePage() {
-
   return (
     <>
-      <TopFeature />
-      <Category />
+      <FindJob />
       <Benefits />
       <Feedback />
     </>

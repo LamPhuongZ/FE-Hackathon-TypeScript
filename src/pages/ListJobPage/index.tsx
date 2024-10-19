@@ -13,7 +13,7 @@ import { Pagination } from "antd";
 export default function ListJobPage() {
   const [selectedJobCard, setSelectedJobCard] = useState<number>(1);
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const pageSize = 5;
+  const pageSize = 7;
 
   const { objJob, objJobDetails } = useSelector(
     (state: RootState) => state.jobReducer
@@ -61,6 +61,7 @@ export default function ListJobPage() {
             item={item}
             isSelected={selectedJobCard === item.jobId}
             onSelect={() => handleSelectJobCard(item.jobId)}
+            width="w-[191px]"
           />
         </div>
       );
@@ -70,7 +71,7 @@ export default function ListJobPage() {
   //
   return (
     <div>
-      <div className="grid grid-cols-[447px_minmax(0,_1fr)] gap-x-7 py-4 px-[72px]">
+      <div className="grid grid-cols-[453px_minmax(0,_1fr)] gap-x-7 py-4 px-[72px]">
         <div className="flex flex-col gap-8">{renderJobs()}</div>
         {objJobDetails && <JobCardDetail item={objJobDetails} />}
       </div>

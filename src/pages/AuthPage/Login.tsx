@@ -33,7 +33,8 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
   const { Link, Title, Text } = Typography;
   const [api, contextHolder] = notification.useNotification();
   const [role, setRole] = useState("ROLE_EMPLOYER");
-  
+
+  console.log(api);
 
   const onFinish = (values: UserLoginType) => {
     const actionAsync = loginAPI(values);
@@ -70,21 +71,17 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
     <>
       {contextHolder}
       <Tabs centered defaultActiveKey="1" onChange={handleRoleChange}>
-        <Tabs.TabPane  tab="Người tìm việc" key="1">
+        <Tabs.TabPane tab="Người tìm việc" key="1">
           {/* Employer login form */}
-          <div  className="flex flex-col items-center gap-3">
+          <div className="flex flex-col items-center gap-3">
             <div>
               <Title level={1} className="text-[20px] !mb-0 text-center">
-              
-              Trang đăng nhập cho người tìm việc
-           
+                Trang đăng nhập cho người tìm việc
               </Title>
             </div>
             <div className="flex gap-2">
               <Text type="secondary" className="text-[14px]">
-            
-                  Chưa có tài khoản?
-                  
+                Chưa có tài khoản?
               </Text>
               <Link
                 style={{ fontSize: "16px" }}
@@ -97,81 +94,81 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
                 Đăng ký ngay
               </Link>
             </div>
-            <Button style={{ width: "100%", marginBottom: "2vh" }} size="large" onClick={()=>handleClickGoogle()}>
+            <Button
+              style={{ width: "100%", marginBottom: "2vh" }}
+              size="large"
+              onClick={() => handleClickGoogle()}
+            >
               <img src={logoGoogle} alt="google" />
               Đăng nhập bằng Google
             </Button>
           </div>
-      <Form form={form} name="horizontal_login" onFinish={onFinish}>
-        <div className="flex flex-col ">
-          <Form.Item
-            name="username"
-            rules={[
-              {
-                type: "email",
-                required: true,
-                message: "Hãy nhập email của bạn",
-              },
-            ]}
-          >
-            <Input placeholder="Nhập email" required type="text" />
-          </Form.Item>
+          <Form form={form} name="horizontal_login" onFinish={onFinish}>
+            <div className="flex flex-col ">
+              <Form.Item
+                name="username"
+                rules={[
+                  {
+                    type: "email",
+                    required: true,
+                    message: "Hãy nhập email của bạn",
+                  },
+                ]}
+              >
+                <Input placeholder="Nhập email" required type="text" />
+              </Form.Item>
 
-          <Form.Item
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: "Nhập mật khẩu của bạn !!!",
-              },
-            ]}
-          >
-            <Input.Password
-              placeholder="Nhập mật khẩu"
-              iconRender={(visible) =>
-                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-              }
-            />
-          </Form.Item>
-        </div>
+              <Form.Item
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Nhập mật khẩu của bạn !!!",
+                  },
+                ]}
+              >
+                <Input.Password
+                  placeholder="Nhập mật khẩu"
+                  iconRender={(visible) =>
+                    visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                  }
+                />
+              </Form.Item>
+            </div>
 
-        <Form.Item>
-          <Flex justify="space-between" align="center">
-            <Form.Item name="remember" valuePropName="checked" noStyle>
-              <Checkbox>Remember me</Checkbox>
+            <Form.Item>
+              <Flex justify="space-between" align="center">
+                <Form.Item name="remember" valuePropName="checked" noStyle>
+                  <Checkbox>Remember me</Checkbox>
+                </Form.Item>
+                <button
+                  onClick={() => {
+                    handleTabChange("3");
+                  }}
+                >
+                  <a href="#">Forgot password</a>
+                </button>
+              </Flex>
             </Form.Item>
-            <button
-              onClick={() => {
-                handleTabChange("3");
-              }}
-            >
-              <a href="#">Forgot password</a>
-            </button>
-          </Flex>
-        </Form.Item>
 
-        <Form.Item>
-          <Button block type="primary" htmlType="submit">
-            Log in
-          </Button>
-        </Form.Item>
-      </Form>
+            <Form.Item>
+              <Button block type="primary" htmlType="submit">
+                Log in
+              </Button>
+            </Form.Item>
+          </Form>
         </Tabs.TabPane>
         <Tabs.TabPane tab="Người thuê" key="2">
           {/* Candidate login form */}
-          <div  className="flex flex-col items-center gap-3">
+          <div className="flex flex-col items-center gap-3">
             <div>
               <Title level={1} className="text-[20px] !mb-0 text-center">
-              
-              Trang đăng nhập cho người thuê
-           
+                Trang đăng nhập cho người thuê
               </Title>
             </div>
             <div className="flex gap-2">
               <Text type="secondary" className="text-[14px]">
-            
-                  Chưa có tài khoản?
-                  
+                Chưa có tài khoản?
               </Text>
               <Link
                 style={{ fontSize: "16px" }}
@@ -184,68 +181,71 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
                 Đăng ký ngay
               </Link>
             </div>
-            <Button style={{ width: "100%", marginBottom: "2vh" }} size="large" onClick={()=>handleClickGoogle()}>
+            <Button
+              style={{ width: "100%", marginBottom: "2vh" }}
+              size="large"
+              onClick={() => handleClickGoogle()}
+            >
               <img src={logoGoogle} alt="google" />
               Đăng nhập bằng Google
             </Button>
           </div>
-      <Form form={form} name="horizontal_login" onFinish={onFinish}>
-        <div className="flex flex-col ">
-          <Form.Item
-            name="username"
-            rules={[
-              {
-                type: "email",
-                required: true,
-                message: "Hãy nhập email của bạn",
-              },
-            ]}
-          >
-            <Input placeholder="Nhập email" required type="text" />
-          </Form.Item>
+          <Form form={form} name="horizontal_login" onFinish={onFinish}>
+            <div className="flex flex-col ">
+              <Form.Item
+                name="username"
+                rules={[
+                  {
+                    type: "email",
+                    required: true,
+                    message: "Hãy nhập email của bạn",
+                  },
+                ]}
+              >
+                <Input placeholder="Nhập email" required type="text" />
+              </Form.Item>
 
-          <Form.Item
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: "Nhập mật khẩu của bạn !!!",
-              },
-            ]}
-          >
-            <Input.Password
-              placeholder="Nhập mật khẩu"
-              iconRender={(visible) =>
-                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-              }
-            />
-          </Form.Item>
-        </div>
+              <Form.Item
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Nhập mật khẩu của bạn !!!",
+                  },
+                ]}
+              >
+                <Input.Password
+                  placeholder="Nhập mật khẩu"
+                  iconRender={(visible) =>
+                    visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                  }
+                />
+              </Form.Item>
+            </div>
 
-        <Form.Item>
-          <Flex justify="space-between" align="center">
-            <Form.Item name="remember" valuePropName="checked" noStyle>
-              <Checkbox>Remember me</Checkbox>
+            <Form.Item>
+              <Flex justify="space-between" align="center">
+                <Form.Item name="remember" valuePropName="checked" noStyle>
+                  <Checkbox>Remember me</Checkbox>
+                </Form.Item>
+                <button
+                  onClick={() => {
+                    handleTabChange("3");
+                  }}
+                >
+                  <a href="#">Forgot password</a>
+                </button>
+              </Flex>
             </Form.Item>
-            <button
-              onClick={() => {
-                handleTabChange("3");
-              }}
-            >
-              <a href="#">Forgot password</a>
-            </button>
-          </Flex>
-        </Form.Item>
 
-        <Form.Item>
-          <Button block type="primary" htmlType="submit">
-            Log in
-          </Button>
-        </Form.Item>
-      </Form>
+            <Form.Item>
+              <Button block type="primary" htmlType="submit">
+                Log in
+              </Button>
+            </Form.Item>
+          </Form>
         </Tabs.TabPane>
       </Tabs>
-      
     </>
   );
 };

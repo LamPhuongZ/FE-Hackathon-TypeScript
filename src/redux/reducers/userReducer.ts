@@ -13,7 +13,6 @@ import { routeLink } from "../../main";
 import { UserRegisterType } from "../../pages/AuthPage/Register";
 import { notification } from "antd";
 
-
 export interface LoginState {
   username: string;
   accessToken: string;
@@ -84,10 +83,7 @@ export const { setLoginAction, setProfileAction, setRegisterAction } =
   userReducer.actions;
 export default userReducer.reducer;
 
-
-
 export const loginAPI = (userLogin: UserLoginType) => {
-    
   return async (dispatch: DispatchType) => {
     try {
       const response = await httpClient.post("/api/v1/auth/sign-in", userLogin);
@@ -97,16 +93,16 @@ export const loginAPI = (userLogin: UserLoginType) => {
       const action: PayloadAction<LoginState> = setLoginAction(response.data);
       dispatch(action);
       notification.success({
-        message: 'Đăng nhập thành công',
-        placement: 'topRight',
+        message: "Đăng nhập thành công",
+        placement: "topRight",
         duration: 1.5,
       });
       routeLink.push("/");
     } catch (error) {
-      console.log(error)
+      console.log(error);
       notification.error({
-        message: 'Đăng nhập thất bại',
-        placement: 'topRight',
+        message: "Đăng nhập thất bại",
+        placement: "topRight",
         duration: 1.5,
       });
       throw error;
@@ -126,17 +122,17 @@ export const registerAPI = (userRegister: UserRegisterType) => {
         response.data
       );
       notification.success({
-        message: 'Đăng Ký thành công',
-        placement: 'topRight',
+        message: "Đăng Ký thành công",
+        placement: "topRight",
         duration: 1.5,
       });
       dispatch(action);
       routeLink.push("/");
     } catch (error) {
-      console.log(error)
+      console.log(error);
       notification.error({
-        message: 'Đăng ký không thành công',
-        placement: 'topRight',
+        message: "Đăng ký không thành công",
+        placement: "topRight",
         duration: 1.5,
       });
       throw error;
@@ -157,10 +153,38 @@ export const getProfileAPI = () => {
       dispatch(action);
     } catch (error) {
       // toast.error("Lấy thông tin cá nhân thất bại");
-      console.log(error)
+      console.log(error);
       notification.error({
-        message: 'Đăng nhập thành công',
-        placement: 'topRight',
+        message: "Đăng nhập thành công",
+        placement: "topRight",
+        duration: 1.5,
+      });
+      throw error;
+    }
+  };
+};
+
+
+export const loginGoogleAPI = (userLogin: UserLoginType) => {
+  return async (dispatch: DispatchType) => {
+    try {
+      const response = await httpClient.post("/api/v1/auth/sign-in", userLogin);
+      setDataJsonStorage(USER_LOGIN, response.data);
+      setDataTextStorage(ACCESS_TOKEN, response.data.data["access-token"]);
+      setCookie(ACCESS_TOKEN, response.data.data["access-token"], 30);
+      const action: PayloadAction<LoginState> = setLoginAction(response.data);
+      dispatch(action);
+      notification.success({
+        message: "Đăng nhập thành công",
+        placement: "topRight",
+        duration: 1.5,
+      });
+      routeLink.push("/");
+    } catch (error) {
+      console.log(error);
+      notification.error({
+        message: "Đăng nhập thất bại",
+        placement: "topRight",
         duration: 1.5,
       });
       throw error;

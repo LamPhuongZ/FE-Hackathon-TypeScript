@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { setToken } from "../../services/localStorageService";
-import { getCookie, setCookie } from "../../utils/utilMethod";
+import { setCookie } from "../../utils/utilMethod";
 import { ACCESS_TOKEN } from "../../utils/config";
 
 export default function Authenticate() {
@@ -32,7 +31,6 @@ export default function Authenticate() {
         .then((data) => {
           // console.log(data);
           setCookie(ACCESS_TOKEN, data.data['access-token'], 30);
-          // setToken(data.result?.token);
           setIsLoggedin(true);
         });
     }

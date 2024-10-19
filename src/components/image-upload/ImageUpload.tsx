@@ -31,10 +31,10 @@ export default function ImageUploadProps({
   return (
     <label
       className={clsx(
-        `cursor-pointer flex items-center justify-center bg-gray-100 border border-dashed w-full min-h-[200px] rounded-lg relative overflow-hidden group`,
+        `cursor-pointer flex items-center justify-center bg-gray-100 border border-dashed w-full min-h-[300px] rounded-lg relative overflow-hidden group`,
         className,
         {
-          ["!rounded-full h-full"]: listType === "picture-circle",
+          ["!rounded-full !min-h-[250px]"]: listType === "picture-circle",
         }
       )}
     >

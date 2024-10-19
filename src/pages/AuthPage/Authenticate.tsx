@@ -7,8 +7,11 @@ export default function Authenticate() {
   const [isLoggedin, setIsLoggedin] = useState(false);
 
   useEffect(() => {
-    // Lấy Role từ localStorage
-    const role = localStorage.getItem("role");
+    console.log(window.location.href);
+
+
+ // Lấy Role từ localStorage
+    const role = localStorage.getItem("role"); 
 
     const authCodeRegex = /code=([^&]+)/;
     const isMatch = window.location.href.match(authCodeRegex);
@@ -38,5 +41,9 @@ export default function Authenticate() {
     }
   }, [isLoggedin, navigate]);
 
-  return <></>;
+  return (
+    <>
+      auth
+    </>
+  );
 }

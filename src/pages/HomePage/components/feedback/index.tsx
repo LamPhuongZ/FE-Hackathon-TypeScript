@@ -37,22 +37,24 @@ export default function Feedback() {
         </h2>
         <div className="feedback__cards">
           {feedbackData.map((item, index) => (
-            <Card
-              key={index}
-              className="w-full h-[300px] lg:w-[411px] lg:h-[376px] rounded-[24px] p-[18px_22px_34px_22px] shadow-[0px_6px_58px_0px_rgba(196,203,214,0.5)]"
-            >
-              <div className="flex flex-col gap-4">
-                <p className="font-normal text-base">{item.text}</p>
-                <div className="flex flex-row justify-start items-center">
-                  <img
-                    src={item.image}
-                    alt={item.author}
-                    className="w-16 h-16 rounded-[73px] mr-4"
-                  />
-                  <p className="mt-2 font-bold text-base">{item.author}</p>
+              <Card
+                key={index}
+                className="w-[380px] h-auto rounded-[20px] p-[18px_22px_34px_22px] shadow-[0px_6px_58px_0px_rgba(196,203,214,0.5)] max-md:w-full max-xl:w-1/3"
+              >
+                <div className="flex flex-col gap-4">
+                  <p className="font-normal text-base">{item.text}</p>
+                  <div className="flex flex-row justify-start items-center">
+                    <img
+                      src={item.image}
+                      alt={item.author}
+                      className="w-16 h-16 rounded-[73px] mr-4"
+                    />
+                    <p className="mt-2 font-semibold text-base">
+                      {item.author}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </Card>
+              </Card>
           ))}
         </div>
       </div>

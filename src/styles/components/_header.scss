@@ -1,25 +1,29 @@
 .header {
-  @apply bg-white flex items-center justify-between w-full capitalize py-7 px-[70px];
+  @apply w-full bg-white py-8 px-10;
 
-  & > .link__logo {
-    @apply flex-center gap-2;
+  & > .header__group {
+    @apply flex capitalize justify-between;
 
-    & > .title {
-      @apply text-[28px] w-60 h-full font-bold;
+    & > .link__logo {
+      @apply flex-center gap-2;
+
+      & > .title {
+        @apply text-[28px] font-bold;
+      }
     }
-  }
 
-  & > .nav {
-    & > ul {
-      @apply flex-center gap-10 text-2xl font-medium px-48;
+    & > .nav {
+      & > ul {
+        @apply flex-center gap-10 text-2xl font-medium ;
+      }
     }
-  }
 
-  & > .btn-auth {
-    @apply flex-center;
+    & > .btn-auth {
+      @apply flex-center;
 
-    & > .btn-login {
-      @apply text-xl lg:text-base font-bold bg-[#DC2E55] text-white w-[235px] h-[50px] hover:bg-[#f03760];
+      & > .btn-login {
+        @apply text-xl lg:text-base font-bold bg-[#DC2E55] text-white w-[235px] h-[50px] hover:bg-[#f03760];
+      }
     }
   }
 }

@@ -59,9 +59,15 @@ export default function Button({
       <div className="circle-3 group-hover:top-1 group-hover:right-2 group-hover:scale-150"></div>
       <div className="circle-4 group-hover:top-1 group-hover:right-2 group-hover:scale-150"></div>
 
-      {icon && iconPosition === "left" && <span className="mr-2">{icon}</span>}
-      {title}
-      {icon && iconPosition === "right" && <span className="ml-2">{icon}</span>}
+      <span className="relative z-20">
+        {icon && iconPosition === "left" && (
+          <span className="mr-2">{icon}</span>
+        )}
+        {title}
+        {icon && iconPosition === "right" && (
+          <span className="ml-2">{icon}</span>
+        )}
+      </span>
     </button>
   );
 }

@@ -50,10 +50,15 @@ export default function Button({
   return (
     <button
       type={type as "button" | "submit" | "reset"}
-      className={`btn-component ${bgColor} ${className}`}
+      className={`btn-component group ${bgColor} ${className}`}
       onClick={onClick}
       disabled={loading}
     >
+      <div className="circle-1 group-hover:top-1 group-hover:right-2 group-hover:scale-150"></div>
+      <div className="circle-2 group-hover:top-1 group-hover:right-2 group-hover:scale-150"></div>
+      <div className="circle-3 group-hover:top-1 group-hover:right-2 group-hover:scale-150"></div>
+      <div className="circle-4 group-hover:top-1 group-hover:right-2 group-hover:scale-150"></div>
+
       {icon && iconPosition === "left" && <span className="mr-2">{icon}</span>}
       {title}
       {icon && iconPosition === "right" && <span className="ml-2">{icon}</span>}

@@ -31,23 +31,39 @@ input::-moz-input-placeholder {
 }
 
 .btn-component {
-  @apply cursor-pointer transition-all px-6 py-2 rounded-xl border-b-[4px]  active:border-b-[2px] active:brightness-90 active:translate-y-[2px] text-2xl font-bold;
+  @apply border duration-300 relative cursor-pointer text-sky-50  overflow-hidden h-16 w-full rounded-[14px] bg-sky-200 p-2 flex justify-center items-center font-bold text-2xl;
+}
+
+.btn-component .circle-1 {
+  @apply absolute right-32 -top-4 z-10 w-40 h-40 rounded-full duration-500 bg-sky-900;
+}
+
+.btn-component .circle-2 {
+  @apply absolute right-2 -top-4 z-10 w-32 h-32 rounded-full duration-500 bg-sky-800;
+}
+
+.btn-component .circle-3 {
+  @apply absolute -right-12 top-4 z-10 w-24 h-24 rounded-full duration-500 bg-sky-700;
+}
+
+.btn-component .circle-4 {
+  @apply absolute right-20 -top-4 z-10 w-16 h-16 rounded-full duration-500 bg-sky-600;
 }
 
 .btn-primary {
-  @apply bg-[#3F8CFF] hover:bg-[#3A7BFF] text-white hover:text-white border-blue-600
+  @apply bg-[#3F8CFF] hover:bg-[#3A7BFF] text-white hover:text-white border-blue-600;
 }
 
 .btn-secondary {
-  @apply bg-gray-500 hover:bg-gray-600 text-white hover:text-black border-gray-700
+  @apply bg-gray-500 hover:bg-gray-600 text-white hover:text-black border-gray-700;
 }
 
 .btn-delete {
-  @apply bg-red-500 hover:bg-red-600 text-white hover:text-white border-red-700
+  @apply bg-red-500 hover:bg-red-600 text-white hover:text-white border-red-700;
 }
 
 .btn-update {
-  @apply bg-yellow-500 hover:bg-yellow-600 text-black hover:text-white border-yellow-600
+  @apply bg-yellow-500 hover:bg-yellow-600 text-black hover:text-white border-yellow-600;
 }
 
 .hidden-input {

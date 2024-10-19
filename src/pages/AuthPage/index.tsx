@@ -1,15 +1,14 @@
-import { Button, Modal, Typography, Tabs } from "antd";
+import { Typography, Tabs } from "antd";
 import { useState } from "react";
 import "./AuthPage.css";
 import Login from "./Login";
 import Register from "./Register";
 import logo from "../../assets/images/logo-company.png";
-import logoGoogle from "../../assets/icons/Google.svg";
 import { ForgotPass } from "./ForgotPass";
 
 function AuthPage() {
  
-  const { Link, Title, Text } = Typography;
+  const { Link } = Typography;
   const [activeKey, setActiveKey] = useState<string>("1");
   // console.log(clientReady);
 

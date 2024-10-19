@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Button, Form, Input, notification, Radio, Typography } from "antd";
 import "./AuthPage.css";
+import React from "react";
+import { Button, Form, Input, notification, Radio, Typography } from "antd";
 import { registerAPI } from "../../redux/reducers/userReducer";
 import { useDispatch } from "react-redux";
 import { DispatchType } from "../../redux/configStore";
@@ -18,7 +18,6 @@ export type UserRegisterType = {
 
 const Register: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
   const [form] = Form.useForm();
-  // const [loading, setLoading] = useState(false);
   const [api, contextHolder] = notification.useNotification();
   const {  Link, Title, Text  } = Typography;
   const dispatch: DispatchType = useDispatch();
@@ -35,6 +34,7 @@ const Register: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
       duration: 1.5,
     });
   };
+  
   return (
     <>
     {contextHolder}

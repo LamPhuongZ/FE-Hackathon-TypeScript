@@ -1,9 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo-company.png";
-import Button from "../button/Button";
+// import Button from "../button/Button";
 
 export default function Header() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
     <div className="px-[112px] py-[24px]">
@@ -25,12 +25,12 @@ export default function Header() {
             </li>
           </ul>
           <div className="flex-center">
-            <Button
+            {/* <Button
               title="Đăng nhập / Đăng ký"
               color="custom"
               className="text-xl lg:text-base font-bold bg-[#DC2E55] text-white w-[235px] h-[50px] hover:bg-[#f03760]"
               onClick={() => navigate("/login")}
-            />
+            /> */}
           </div>
         </div>
       </div>

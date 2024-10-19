@@ -7,6 +7,13 @@ type LoginProps = {
   activeKey: string;
 };
 
+export type UserRegisterType = {
+  fullname: string;
+  email: string;
+  password: string;
+  role: string;
+};
+
 const Register: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);

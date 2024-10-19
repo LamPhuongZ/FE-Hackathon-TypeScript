@@ -6,59 +6,71 @@ import logoGoogle from "../../assets/icons/Google.svg";
 import { useNavigate  } from "react-router-dom";
 import { setToken } from "../../services/localStorageService";
 import { OAuthConfig } from "../../configs/configuration";
-
+import { loginAPI } from "../../redux/reducers/userReducer";
+import { useDispatch } from "react-redux";
+import { DispatchType } from "../../redux/configStore";
 type LoginProps = {
   handleTabChange: (key: string) => void;
   activeKey: string;
 };
 
+export type UserLoginType = {
+  username: string;
+  password: string;
+};
+
+
 const Login: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
   const [form] = Form.useForm();
+  const dispatch: DispatchType = useDispatch();
+
   const [api, contextHolder] = notification.useNotification();
   const navigate = useNavigate();
   const {  Link, Title, Text  } = Typography;
-  const onFinish = async (values: { username: string; password: string }) => {
-    // console.log(values)
-    try {
-      const response = await fetch(
-        "https://api.easyjob.io.vn/api/v1/auth/sign-in",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: values.username,
-            password: values.password,
-          }),
-        }
-      );
+  const onFinish = (values: { username: string; password: string }) => {
+    const actionAsync = loginAPI(values);
+    dispatch(actionAsync);
+    console.log(values)
+    // try {
+    //   const response = await fetch(
+    //     "https://api.easyjob.io.vn/api/v1/auth/sign-in",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({
+    //         username: values.username,
+    //         password: values.password,
+    //       }),
+    //     }
+    //   );
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+    //   if (!response.ok) {
+    //     throw new Error(`HTTP error! status: ${response.status}`);
+    //   }
 
-      const data = await response.json();
-      console.log(data);
+    //   const data = await response.json();
+    //   console.log(data);
 
-      api.success({
-        message: `Bạn đã đăng nhập thành công !!! Chao ban ${values.username}`,
-        placement: "topRight",
-        showProgress: true,
-        pauseOnHover: true,
-        duration: 1.5,
-      });
-      setToken(data.data['access-token']);
-      navigate("/");
-      form.resetFields();
-    } catch (error) {
-      console.error("Error:", error);
-      api.error({
-        message: "Đăng nhập thất bại. Vui lòng thử lại.",
-        placement: "topRight",
-        duration: 1.5,
-      });
-    }
+    //   api.success({
+    //     message: `Bạn đã đăng nhập thành công !!! Chao ban ${values.username}`,
+    //     placement: "topRight",
+    //     showProgress: true,
+    //     pauseOnHover: true,
+    //     duration: 1.5,
+    //   });
+    //   setToken(data.data['access-token']);
+    //   navigate("/");
+    //   form.resetFields();
+    // } catch (error) {
+    //   console.error("Error:", error);
+    //   api.error({
+    //     message: "Đăng nhập thất bại. Vui lòng thử lại.",
+    //     placement: "topRight",
+    //     duration: 1.5,
+    //   });
+    // }
   };
 
   //Google auth

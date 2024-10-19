@@ -14,7 +14,7 @@ export default function Footer() {
             <img src={logoCompany} alt="Company Logo" className="h-10" />
             <h1 className="font-bold pt-2 max-md:mt-0">Việc Làm Dễ</h1>
           </div>
-          <div className="footer-line-right flex gap-2 max-md:justify-center max-md:mt-4">
+          <div className="footerLine__right">
             <a href="">
               <img src={logoFacebook} alt="Facebook Logo" className="h-8" />
             </a>
@@ -26,13 +26,13 @@ export default function Footer() {
             </a>
           </div>
         </div>
-        <hr className="mt-4 mb-0 border-none" />
-        <div className="footer-content flex justify-around mt-8 max-md:flex-col max-md:items-center">
-          <div className="footer-col1 max-md:w-full max-md:text-center max-md:mb-6">
-            <h3 className="font-semibold text-2xl max-md:text-xl">
+        <hr className="line" />
+        <div className="footer__content">
+          <div className="footer__col1">
+            <h3 className="title">
               Về chúng tôi
             </h3>
-            <div className="footer-col1-detail flex flex-col mt-5 space-y-3 font-semibold">
+            <div className="footer__col1__detail">
               <a href="" className="link">
                 Giới thiệu
               </a>
@@ -47,9 +47,9 @@ export default function Footer() {
               </a>
             </div>
           </div>
-          <div className="footer-col2 max-md:w-full max-md:text-center max-md:mb-6">
-            <h3 className="font-semibold text-2xl max-md:text-xl">Khám phá</h3>
-            <div className="footer-col1-detail flex flex-col mt-5 space-y-3 font-semibold">
+          <div className="footer__col2">
+            <h3 className="title">Khám phá</h3>
+            <div className="footer__col2__detail">
               <a href="" className="link">
                 Tính năng
               </a>
@@ -61,9 +61,9 @@ export default function Footer() {
               </a>
             </div>
           </div>
-          <div className="footer-col3 max-md:w-full max-md:text-center max-md:mb-6">
-            <h3 className="font-semibold text-2xl max-md:text-xl">Liên hệ</h3>
-            <div className="footer-col3-detail flex flex-col mt-5 space-y-3 text-base max-md:items-center">
+          <div className="footer__col3">
+            <h3 className="title">Liên hệ</h3>
+            <div className="footer__col3__detail">
               <div className="phone-detail flex gap-2">
                 <img src={iconPhone} alt="icon-phone" />
                 <a href="tel:+84867133779" className="font-semibold">

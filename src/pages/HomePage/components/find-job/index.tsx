@@ -1,15 +1,16 @@
-import  { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../../../redux/configStore";
 import { getDataJobAPI } from "../../../../redux/reducers/jobReducer";
 import { useNavigate, Link } from "react-router-dom";
-import Card from "../../../../components/card/Card";
-import redAddress from "../../../../assets/icons/icon-red-address.svg";
+// import Card from "../../../../components/card/Card";
+// import redAddress from "../../../../assets/icons/icon-red-address.svg";
 import arrowRight from "../../../../assets/icons/icon-arrow-right.svg";
 import { Content } from "../../../../redux/reducers/jobReducer";
+import JobCard from "../../../../components/card-job/JobCard";
 
 export default function FindJob() {
-  const page = 1;
+  const page = 0;
   const size = 8;
   const navigate = useNavigate();
   const dispatch: DispatchType = useDispatch();
@@ -22,28 +23,51 @@ export default function FindJob() {
 
   useEffect(() => {
     getDataJobList(page, size);
-  }, [dispatch]);
+  }, []);
 
   if (!objJob || !objJob.content.length) {
     return <div>No job data available.</div>;
   }
 
   return (
-    <section className="find-job flex flex-col justify-center gap-11 px-[81px] pt-[70px] pb-[120px]">
+    <section className="find-job flex flex-col justify-center gap-11 mx-10 pt-[70px] pb-[120px]">
       <div className="find-job-top flex flex-row justify-between items-center">
-        <h1 className="text-2xl font-bold border-b-4 border-custom-blue border-solid pb-1">
+        <h1 className="text-[32px] font-semibold border-b-4 border-custom-blue border-solid pb-1 w-1/4 text-left">
           Tìm việc
         </h1>
         <Link
           to="/list-job"
-          className="flex justify-center gap-4 text-blue-500 hover:underline"
+          className="flex justify-center gap-1 hover:underline items-center"
         >
-          Xem Thêm
-          <img src={arrowRight} alt="icon-arrow-right" />
+          <p className="text-2xl font-medium">Xem thêm</p>
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+              />
+            </svg>
+          </div>
         </Link>
       </div>
       <div className="find-job-content grid grid-cols-2 gap-6">
-        {objJob.content.map((job: Content, index: number) => (
+        {objJob?.content.map((item: Content) => (
+          <div key={item.jobId}>
+            <JobCard
+              item={item}
+              onSelect={() => navigate(`/card-detail-job/${item.jobId}`)}
+            ></JobCard>
+          </div>
+        ))}
+        {/* {objJob.content.map((job: Content, index: number) => (
           <Card
             key={index}
             className="relative w-full h-auto p-[23px_43px_39px_31px] rounded-3xl bg-white shadow-[0px_18px_18px_0px_rgba(0,0,0,0.18)] hover:shadow-lg transition-shadow duration-300 hover:scale-105 transform"
@@ -74,7 +98,7 @@ export default function FindJob() {
               </p>
             </div>
           </Card>
-        ))}
+        ))} */}
       </div>
     </section>
   );

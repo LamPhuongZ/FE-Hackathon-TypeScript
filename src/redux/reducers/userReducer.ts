@@ -13,6 +13,7 @@ import { routeLink } from "../../main";
 import { UserRegisterType } from "../../pages/AuthPage/Register";
 import { notification } from "antd";
 
+
 export interface LoginState {
   username: string;
   accessToken: string;
@@ -85,6 +86,7 @@ export const { setLoginAction, setProfileAction, setRegisterAction } =
 export default userReducer.reducer;
 
 export const loginAPI = (userLogin: UserLoginType) => {
+    
   return async (dispatch: DispatchType) => {
     try {
       const response = await httpClient.post("/api/v1/auth/sign-in", userLogin);
@@ -157,7 +159,12 @@ export const getProfileAPI = () => {
       );
       dispatch(action);
     } catch (error) {
-      toast.error("Lấy thông tin cá nhân thất bại");
+      // toast.error("Lấy thông tin cá nhân thất bại");
+      api.error({
+        message: "Lấy thông tin cá nhân thất bại",
+        placement: "topRight",
+        duration: 1.5,
+      });
       throw error;
     }
   };

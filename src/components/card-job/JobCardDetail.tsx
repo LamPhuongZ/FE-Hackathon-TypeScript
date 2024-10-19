@@ -27,14 +27,8 @@ export default function JobCardDetail({ item }: Props) {
           </div>
         </div>
         <Button title="Ứng Tuyển" className="w-full h-16 mt-9" />
-          <textarea
-            name=""
-            id=""
-            placeholder="Ghi chú ..."
-            className="w-full h-[70px] mt-6 border border-solid rounded-xl px-4 pt-3"
-          ></textarea>
+        <div className="border border-solid mt-4"></div>
       </div>
-      <div className="border border-solid mt-4"></div>
       <div className="flex flex-col gap-7 mt-7">
         <div className="flex gap-x-2">
           <h1 className="font-medium">Loại công việc:</h1>
@@ -46,9 +40,18 @@ export default function JobCardDetail({ item }: Props) {
           <h1 className="font-medium">Đăng:</h1>
           <div className="px-4 py-2 rounded-[10px] border border-solid">
             <p className="font-medium">
-              {new Date(item.postedDate).toLocaleDateString("vi-VN", {
-                hour: "2-digit",
+              {new Date(item.postedDate)
+                .toLocaleDateString("vi-VN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })
+                .replace(/\//g, "-")}{" "}
+              -{" "}
+              {new Date(item.postedDate).toLocaleTimeString("vi-VN", {
+                hour: "numeric",
                 minute: "2-digit",
+                hour12: false, // Sử dụng định dạng 24 giờ
               })}
             </p>
           </div>

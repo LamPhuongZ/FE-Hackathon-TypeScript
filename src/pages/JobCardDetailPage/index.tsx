@@ -9,15 +9,15 @@ import { DispatchType, RootState } from "../../redux/configStore";
 import { getDataJobDetailAPI } from "../../redux/reducers/jobReducer";
 
 export default function JobCardDetailPage() {
-  const { idJob } = useParams();
+  const { jobId } = useParams();
   const dispatch: DispatchType = useDispatch();
   const { objJobDetails } = useSelector((state: RootState) => state.jobReducer);
 
   useEffect(() => {
-    if (idJob) {
-      dispatch(getDataJobDetailAPI(Number(idJob)));
+    if (jobId) {
+      dispatch(getDataJobDetailAPI(Number(jobId)));
     }
-  }, [idJob, dispatch]);
+  }, [jobId, dispatch]);
 
   const jobData = [
     {

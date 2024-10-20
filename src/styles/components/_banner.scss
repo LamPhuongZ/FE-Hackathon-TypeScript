@@ -1,15 +1,23 @@
 .banner {
-    @apply w-full flex items-center justify-between bg-custom-second px-[70px] py-4 gap-0;
+  @apply w-full flex flex-col bg-custom-second px-[70px] py-4 gap-0;
+
+  & > .banner__top {
+    @apply flex items-center justify-between;
 
     & > :is(.banner__left, .banner__right) {
-        @apply w-52 h-52;
+      @apply w-52 h-52;
     }
 
     & > .banner__content {
-        @apply lg:w-[1250px] text-center;
+      @apply lg:w-[1250px] text-center;
 
-        & > .text {
-            @apply text-[50px] font-semibold capitalize text-tw-text-opacity;
-        }
+      & > .text {
+        @apply text-[50px] font-semibold capitalize text-tw-text-opacity;
+      }
     }
-} 
+  }
+
+  & > .banner__group {
+    @apply flex flex-col gap-10;
+  }
+}

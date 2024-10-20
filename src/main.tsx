@@ -22,6 +22,7 @@ const ListCardPage = lazy(() => import("./pages/ListCardPage"));
 const JobCardDetailPage = lazy(() => import("./pages/JobCardDetailPage"));
 const LoginAndRegister = lazy(()=> import("./pages/AuthPage"));
 const SearchPage = lazy(()=> import("./pages/SearchPage"));
+const ProfileEmployerPage = lazy (()=>import("./pages/ProfileEmployer"));
 
 export const routeLink: any = createBrowserHistory();
 
@@ -30,26 +31,35 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Provider store={store}>
-      <Suspense fallback={<Loading />}>
+    <Suspense fallback={<Loading />}>
       <HistoryRouter history={routeLink}>
-          <Routes>
-            <Route path="" element={<HomeTemplate />}>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/list-job" element={<ListJobPage />} />
-              <Route path="/landing-page" element={<LandingPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/more-card" element={<ListCardPage />} />
-              <Route path="/card-detail-job/:jobId" element={<JobCardDetailPage />} />
-              <Route path="/profile-worker-page" element={<ProfileWorkerPage />} />
-              <Route path="/search" element={<SearchPage />} />
-
-            </Route>
-            <Route path="/login" element={<LoginAndRegister />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-          <ToastContainer />
+        <Routes>
+          <Route path="" element={<HomeTemplate />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/list-job" element={<ListJobPage />} />
+            <Route path="/landing-page" element={<LandingPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/more-card" element={<ListCardPage />} />
+            <Route
+              path="/card-detail-job/:jobId"
+              element={<JobCardDetailPage />}
+            />
+            <Route
+              path="/profile-worker-page"
+              element={<ProfileWorkerPage />}
+            />
+            <Route path="/search" element={<SearchPage />} />
+            <Route
+              path="/profile-employer-page"
+              element={<ProfileEmployerPage />}
+            />
+          </Route>
+          <Route path="/login" element={<LoginAndRegister />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+        <ToastContainer />
       </HistoryRouter>
-      </Suspense>
+    </Suspense>
     <FloatButton.BackTop tooltip={<div>Back to top</div>} />
   </Provider>
 );

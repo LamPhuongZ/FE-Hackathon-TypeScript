@@ -1,0 +1,34 @@
+.custom-menu {
+  .ant-menu-item {
+    font-size: 16px;
+    font-weight: normal;
+    margin: 20px 0;
+  }
+
+  .ant-menu-item-selected {
+    background-color: #d9f3ff;
+    color: #1890ff;
+    font-weight: bold;
+  }
+
+  .ant-menu-item-icon {
+    font-size: 20px;
+  }
+}
+
+.custom-tab-label {
+    font-weight: 500;
+    font-size: 24px;
+    color: #333;
+    padding: 8px 16px;
+}
+
+.listworker-card{
+  background-color: #E7F8FF;
+}
+
+.skills{
+  border-radius: 12px;
+  background-color: #e8e8e8;
+  padding: 4px 8px;
+}

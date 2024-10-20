@@ -13,6 +13,11 @@ export default function Authenticate() {
 
  // Lấy Role từ localStorage
     const role = localStorage.getItem("role"); 
+    console.log(window.location.href);
+
+
+ // Lấy Role từ localStorage
+    const role = localStorage.getItem("role"); 
 
     const authCodeRegex = /code=([^&]+)/;
     const isMatch = window.location.href.match(authCodeRegex);
@@ -31,6 +36,10 @@ export default function Authenticate() {
         .then((data) => {
           // console.log(data);
           setCookie(ACCESS_TOKEN, data.data['access-token'], 30);
+          // setToken(data.result?.token);
+          // console.log(data);
+          setCookie(ACCESS_TOKEN, data.data['access-token'], 30);
+          // setToken(data.result?.token);
           setIsLoggedin(true);
         });
     }
@@ -42,6 +51,11 @@ export default function Authenticate() {
     }
   }, [isLoggedin, navigate]);
 
+  return (
+    <>
+      auth
+    </>
+  );
   return (
     <>
       auth

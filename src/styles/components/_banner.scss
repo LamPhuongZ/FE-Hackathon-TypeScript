@@ -1,0 +1,15 @@
+.banner {
+    @apply w-full flex items-center justify-between bg-custom-second px-[70px] py-4 gap-0;
+
+    & > :is(.banner__left, .banner__right) {
+        @apply w-52 h-52;
+    }
+
+    & > .banner__content {
+        @apply lg:w-[1250px] text-center;
+
+        & > .text {
+            @apply text-[50px] font-semibold capitalize text-tw-text-opacity;
+        }
+    }
+} 

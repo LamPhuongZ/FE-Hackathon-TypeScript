@@ -1,3 +1,4 @@
+import './feedback.scss';
 import iconFeedback from "../../../../assets/icons/star-four-fill.svg";
 import authorImage from "../../../../assets/images/avatar-1.png";
 import Card from "../../../../components/card/Card";
@@ -22,32 +23,32 @@ const feedbackData = [
 
 export default function Feedback() {
   return (
-    <section className="pt-[32px] pb-[47px] my-[40px] bg-white ">
-      <div className="flex flex-col lg:items-start">
-        <h2 className="flex justify-start items-center gap-3 text-[32px] font-semibold mb-[18px] mx-10">
+    <section className="feedback">
+      <div className="feedback__group">
+        <h2 className="title">
           Họ nói về chúng tôi
-          <span className="w-[183px] h-[3px] bg-black"></span>
+          <span className="line"></span>
           <img
-            className="w-[30px] h-[30px]"
             src={iconFeedback}
             alt="icon-star-four-fill"
+            width={30}
+            height={30}
           />
         </h2>
-        <div className="flex flex-row ml-10 gap-6 max-md:flex-col max-md:items-center max-md:mx-6 max-xl:flex-wrap">
+        <div className="feedback__cards">
           {feedbackData.map((item, index) => (
               <Card
                 key={index}
-                className="w-[380px] h-auto rounded-[20px] p-[18px_22px_34px_22px] shadow-[0px_6px_58px_0px_rgba(196,203,214,0.5)] max-md:w-full max-xl:w-1/3"
+                className="feedback__card"
               >
-                <div className="flex flex-col gap-4">
-                  <p className="font-normal text-base">{item.text}</p>
-                  <div className="flex flex-row justify-start items-center">
+                <div className="feedback__cardItem">
+                  <p className="feedback__text">{item.text}</p>
+                  <div className="feedback__cardImg">
                     <img
                       src={item.image}
                       alt={item.author}
-                      className="w-16 h-16 rounded-[73px] mr-4"
                     />
-                    <p className="mt-2 font-semibold text-base">
+                    <p className="feedback__author">
                       {item.author}
                     </p>
                   </div>

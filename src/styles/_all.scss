@@ -7,15 +7,21 @@
 
 @import "./base/reset";
 
+@import "./components/header";
+@import "./components/banner";
+@import "./components/footer";
+
+
 body {
   background-color: #f4f9fd;
 }
 
-input::-webkit-input-placeholder {
-  color: #84878b;
+.container__wrapper {
+  @apply flex flex-col justify-center items-center;
 }
-input::-moz-input-placeholder {
-  color: #84878b;
+
+.content__layout {
+  @apply pt-[66px] relative w-full overflow-x-hidden;
 }
 
 .form-layout {

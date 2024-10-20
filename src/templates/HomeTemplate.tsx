@@ -5,10 +5,10 @@ import Banner from "../pages/HomePage/components/banner";
 
 export default function HomeTemplate() {
   return (
-    <div className="content-wrapper">
+    <div className="container__wrapper">
       <Header />
       <Banner />
-      <div style={{ minHeight: "80vh" }}>
+      <div className="content__layout" style={{ minHeight: "80vh" }}>
         <Outlet />
       </div>
       <Footer />

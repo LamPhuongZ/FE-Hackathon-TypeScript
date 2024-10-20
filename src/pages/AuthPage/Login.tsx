@@ -56,14 +56,6 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
     window.location.href = targetUrl;
   };
 
-  // const onFinishFailed = () => {
-  //   api.error({
-  //     message: `Đăng nhập thất bại. Vui lòng thử lại.`,
-  //     placement: "topRight",
-  //     duration: 1.5,
-  //   });
-  // };
-
   return (
     <>
       {contextHolder}

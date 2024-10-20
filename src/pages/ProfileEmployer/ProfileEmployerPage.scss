@@ -23,12 +23,21 @@
     padding: 8px 16px;
 }
 
-.listworker-card{
-  background-color: #E7F8FF;
-}
-
 .skills{
   border-radius: 12px;
   background-color: #e8e8e8;
   padding: 4px 8px;
+}
+
+.custom-btn {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.btn-choose{
+  background-color: white;
+  color:#1890ff;
+  height: 30px;
+  font-size: 12px;
+  font-weight: 500;
 }

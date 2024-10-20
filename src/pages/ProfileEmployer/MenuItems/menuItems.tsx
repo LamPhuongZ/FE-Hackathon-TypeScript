@@ -1,4 +1,4 @@
-import { UserOutlined, UsergroupAddOutlined, MoneyCollectOutlined } from "@ant-design/icons";
+import { UserOutlined, UsergroupAddOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 
 type MenuItem = Required<MenuProps>["items"][number];

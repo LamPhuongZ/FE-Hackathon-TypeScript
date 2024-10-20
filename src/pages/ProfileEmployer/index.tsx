@@ -1,4 +1,4 @@
-import "./ProfileEmployerPage.scss"
+import "./ProfileEmployerPage.scss";
 import type { MenuProps } from "antd";
 import { Menu, Tabs } from "antd";
 import { MenuItems } from "./MenuItems/menuItems";
@@ -9,7 +9,7 @@ import React, { useState, useRef } from "react";
 import Ava from "../../assets/images/ava.jpg";
 import Button from "../../components/button/Button";
 import Card from "../../components/card/Card";
-import Add from "../../assets/icons/add.svg"
+import Add from "../../assets/icons/add.svg";
 
 const ProfileEmployerPage: React.FC = () => {
   const [activeMenuItem, setActiveMenuItem] = useState<string>("2");
@@ -17,8 +17,8 @@ const ProfileEmployerPage: React.FC = () => {
   const [showApplicants, setShowApplicants] = useState<boolean>(false);
   const [selectedWorkerId, setSelectedWorkerId] = useState<string | null>(null);
   const applicantsListRef = useRef<HTMLDivElement>(null);
-  const [images, setImages] = useState<File[]>([]); 
-  const [name, setName] = useState<string>("Dương Văn A"); 
+  const [images, setImages] = useState<File[]>([]);
+  const [name, setName] = useState<string>("Dương Văn A");
 
   const handleMenuClick: MenuProps["onClick"] = (e) => {
     setActiveMenuItem(e.key);
@@ -79,7 +79,7 @@ const ProfileEmployerPage: React.FC = () => {
                     title="Chọn ảnh"
                     className="btn-choose"
                     circle={false}
-                  ></Button>
+                  />
                 </div>
               </div>
               <div>
@@ -87,9 +87,7 @@ const ProfileEmployerPage: React.FC = () => {
                   <div className="flex flex-col gap-5">
                     <div className="row1 flex gap-4">
                       <div className="w-1/2">
-                        <h3 className="font-semibold text-lg mb-2">
-                          Họ tên
-                        </h3>
+                        <h3 className="font-semibold text-lg mb-2">Họ tên</h3>
                         <Card className="w-full border border-[#cacaca] rounded-[12px] p-2">
                           <input
                             type="text"
@@ -100,27 +98,33 @@ const ProfileEmployerPage: React.FC = () => {
                         </Card>
                       </div>
                       <div className="w-1/2">
-                        <h3 className="font-semibold text-lg mb-2">Ngày sinh</h3>
+                        <h3 className="font-semibold text-lg mb-2">
+                          Ngày sinh
+                        </h3>
                         <Card className="w-full border border-[#cacaca] rounded-[12px] p-2">
                           <p className="font-light text-base ml-4">
-                            123 Likelion, Q7, HoChiMinh
+                            10/10/2024
                           </p>
                         </Card>
                       </div>
                     </div>
                     <div className="row2 flex gap-4">
                       <div className="w-1/2">
-                        <h3 className="font-semibold text-lg mb-2">Số điện thoại</h3>
+                        <h3 className="font-semibold text-lg mb-2">
+                          Số điện thoại
+                        </h3>
                         <Card className="w-full border border-[#cacaca] rounded-[12px] p-2">
-                            <p className="font-light text-lg ml-4">4.0</p>                         
+                          <p className="font-light text-base ml-4">
+                            0985617238
+                          </p>
                         </Card>
                       </div>
                       <div className="w-1/2">
-                        <h3 className="font-semibold text-lg mb-2">Email (nếu có)</h3>
+                        <h3 className="font-semibold text-lg mb-2">Email</h3>
                         <Card className="w-full border border-[#cacaca] rounded-[12px] p-2">
                           <div className="flex flex-row gap-3 flex-wrap">
                             <p className="font-light text-base ml-4">
-                              10/10/2024
+                              nguyenvana@gmail.com
                             </p>
                           </div>
                         </Card>
@@ -146,7 +150,9 @@ const ProfileEmployerPage: React.FC = () => {
                             className="w-full h-full object-cover rounded-md"
                           />
                         ) : (
-                          <span className="text-gray-500 flex justify-center items-center gap-1"><img src={Add} alt="" /> Ảnh {index + 1}</span>
+                          <span className="text-gray-500 flex justify-center items-center gap-1">
+                            <img src={Add} alt="" /> Ảnh {index + 1}
+                          </span>
                         )}
                       </div>
                     ))}
@@ -154,11 +160,11 @@ const ProfileEmployerPage: React.FC = () => {
                 </Card>
               </div>
               <Button
-                    title="Cập nhật"
-                    className=""
-                    circle={false}
-                    color="primary"
-                  ></Button>
+                title="Cập nhật"
+                className=""
+                circle={false}
+                color="primary"
+              />
             </div>
           </div>
         );
@@ -179,7 +185,11 @@ const ProfileEmployerPage: React.FC = () => {
             items={[
               {
                 key: "1",
-                label: <span className="custom-tab-label">Công việc đang hoạt động</span>,
+                label: (
+                  <span className="custom-tab-label">
+                    Công việc đang hoạt động
+                  </span>
+                ),
                 children: selectedWorkerId ? (
                   <WorkerDetail onGoBack={handleGoBack} />
                 ) : showApplicants ? (
@@ -190,12 +200,18 @@ const ProfileEmployerPage: React.FC = () => {
                     />
                   </div>
                 ) : (
-                  <ActiveJobs onApplicantsClick={() => setShowApplicants(true)} />
+                  <ActiveJobs
+                    onApplicantsClick={() => setShowApplicants(true)}
+                  />
                 ),
               },
               {
                 key: "2",
-                label: <span className="custom-tab-label">Công việc đã hoàn tất</span>,
+                label: (
+                  <span className="custom-tab-label">
+                    Công việc đã hoàn tất
+                  </span>
+                ),
                 children: "Nội dung công việc đã hoàn tất",
               },
             ]}

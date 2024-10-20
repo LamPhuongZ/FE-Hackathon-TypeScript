@@ -20,8 +20,9 @@ const ListJobPage = lazy(() => import("./pages/ListJobPage"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const ListCardPage = lazy(() => import("./pages/ListCardPage"));
 const JobCardDetailPage = lazy(() => import("./pages/JobCardDetailPage"));
-const LoginAndRegister = lazy(()=> import("./pages/AuthPage"));
-const SearchPage = lazy(()=> import("./pages/SearchPage"));
+const LoginAndRegister = lazy(()=> import("./pages/AuthPage/index"));
+// Authenticate
+const Authenticate = lazy(()=> import("./pages/AuthPage/Authenticate"));
 
 export const routeLink: any = createBrowserHistory();
 
@@ -44,7 +45,8 @@ root.render(
               <Route path="/search" element={<SearchPage />} />
 
             </Route>
-            <Route path="/login" element={<LoginAndRegister />} />
+            <Route path="/AuthPage" element={<LoginAndRegister />} />
+            <Route path="/authenticate" element={<Authenticate />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
           <ToastContainer />

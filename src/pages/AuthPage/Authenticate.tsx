@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { setCookie } from "../../utils/utilMethod";
+import { setToken } from "../../services/localStorageService";
+import { getCookie, setCookie } from "../../utils/utilMethod";
 import { ACCESS_TOKEN } from "../../utils/config";
 
 export default function Authenticate() {
@@ -8,6 +9,11 @@ export default function Authenticate() {
   const [isLoggedin, setIsLoggedin] = useState(false);
 
   useEffect(() => {
+    console.log(window.location.href);
+
+
+ // Lấy Role từ localStorage
+    const role = localStorage.getItem("role"); 
     console.log(window.location.href);
 
 
@@ -32,6 +38,9 @@ export default function Authenticate() {
           // console.log(data);
           setCookie(ACCESS_TOKEN, data.data['access-token'], 30);
           // setToken(data.result?.token);
+          // console.log(data);
+          setCookie(ACCESS_TOKEN, data.data['access-token'], 30);
+          // setToken(data.result?.token);
           setIsLoggedin(true);
         });
     }
@@ -43,6 +52,11 @@ export default function Authenticate() {
     }
   }, [isLoggedin, navigate]);
 
+  return (
+    <>
+      auth
+    </>
+  );
   return (
     <>
       auth

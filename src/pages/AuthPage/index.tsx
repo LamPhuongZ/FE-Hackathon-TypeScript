@@ -22,7 +22,10 @@ function AuthPage() {
     <>
       <div className="pr-[112px] py-[24px]">
         <div className="flex items-center capitalize justify-start">
-          <Link className="flex  items-center gap-2">
+          <Link onClick={()=>{
+            window.location.href = "/";
+            
+          }} className="flex  items-center gap-2">
             <img src={logo} alt="" className="w-10 h-10" loading="lazy" />
             <h1 className="text-[28px] !m-0 w-60 h-full  font-bold">
               Việc làm dễ
@@ -35,19 +38,19 @@ function AuthPage() {
         <div style={{ padding: "30px" }} className="w-[500px] bg-white rounded shadow-[0_19px_38px_rgba(0,0,0,0.3),_0_15px_12px_rgba(0,0,0,0.22)]">
           
         {/* ForgotPass */}
-          <Tabs
+          <Tabs className="login-register-tabs"
           animated
             defaultActiveKey="1"
             onChange={handleTabChange}
             activeKey={activeKey}
           >
-            <TabPane  key="1">
+            <TabPane   key="1">
               <Login handleTabChange={handleTabChange} activeKey={activeKey}/>
             </TabPane>
-            <TabPane  key="2">
+            <TabPane   key="2">
               <Register handleTabChange={handleTabChange} activeKey={activeKey}/>
             </TabPane>
-            <TabPane  key="3">
+            <TabPane   key="3">
               <ForgotPass handleTabChange={handleTabChange}/>
             </TabPane>
           </Tabs>

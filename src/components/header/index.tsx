@@ -34,8 +34,8 @@ export default function Header() {
             <Button
               title="Đăng nhập / Đăng ký"
               color="custom"
-              className="btn__login"
-              onClick={() => navigate("/login")}
+              className="text-xl lg:text-base font-bold bg-[#DC2E55] text-white w-[235px] h-[50px] hover:bg-[#f03760]"
+              onClick={() => navigate("/AuthPage")}
               circle={false}
             />
           </div>

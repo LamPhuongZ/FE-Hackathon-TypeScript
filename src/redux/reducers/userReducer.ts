@@ -121,9 +121,7 @@ export const registerAPI = (userRegister: UserRegisterType) => {
         "/api/v1/auth/sign-up",
         userRegister
       );
-
       console.log(response.data);
-
       const action: PayloadAction<RegisterState> = setRegisterAction(
         response.data
       );

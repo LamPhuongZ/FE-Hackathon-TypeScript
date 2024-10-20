@@ -86,7 +86,7 @@ const ProfileWorkerPage: React.FC = () => {
   };
 
   return (
-    <div className="page-profile-worker w-11/12 custom-background m-auto flex gap-6 mt-14">
+    <div className="page-profile-worker w-11/12 custom-primary m-auto flex gap-6 mt-14">
       <div className="col1 w-1/4 flex flex-col">
         <div className="col1-infor flex flex-row gap-2">
           <div className="w-14 h-14 overflow-hidden rounded-full">

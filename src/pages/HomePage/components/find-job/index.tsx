@@ -1,3 +1,4 @@
+import './find-job.scss';
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../../../redux/configStore";
@@ -27,16 +28,16 @@ export default function FindJob() {
   }
 
   return (
-    <section className="find-job flex flex-col justify-center gap-11 mx-10 pt-[70px] pb-[120px]">
-      <div className="find-job-top flex flex-row justify-between items-center">
-        <h1 className="text-[32px] font-semibold border-b-4 border-custom-blue border-solid pb-1 w-1/4 text-left">
+    <section className="findJob">
+      <div className="findJob__top">
+        <h1 className="title">
           Tìm việc
         </h1>
         <Link
           to="/list-job"
-          className="flex justify-center gap-1 hover:underline items-center"
+          className="findJob__link"
         >
-          <p className="text-2xl font-medium">Xem thêm</p>
+          <p className="see__more">Xem thêm</p>
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +56,7 @@ export default function FindJob() {
           </div>
         </Link>
       </div>
-      <div className="find-job-content grid grid-cols-2 gap-6">
+      <div className="findJob__content">
         {objJob?.content.map((item: Content) => (
           <div key={item.jobId}>
             <JobCard

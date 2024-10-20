@@ -22,6 +22,7 @@ const ListCardPage = lazy(() => import("./pages/ListCardPage"));
 const JobCardDetailPage = lazy(() => import("./pages/JobCardDetailPage"));
 const FormApplicationPage = lazy(() => import("./pages/FormApplicationPage"));
 const LoginAndRegister = lazy(()=> import("./pages/AuthPage"));
+const SearchPage = lazy(()=> import("./pages/SearchPage"));
 
 export const routeLink: any = createBrowserHistory();
 
@@ -42,6 +43,8 @@ root.render(
               <Route path="/card-detail-job/:jobId" element={<JobCardDetailPage />} />
               <Route path="/profile-worker-page" element={<ProfileWorkerPage />} />
               <Route path="/form-application" element={<FormApplicationPage/>} />
+              <Route path="/search" element={<SearchPage />} />
+
             </Route>
             <Route path="/login" element={<LoginAndRegister />} />
             <Route path="*" element={<NotFoundPage />} />

@@ -1,0 +1,12 @@
+.search {    
+    @apply flex flex-col;    
+
+    & > .search__top {        
+        @apply w-full py-[26px] px-[77px] flex justify-start gap-3 capitalize text-[32px] font-medium;    
+        background-color: rgba(63, 140, 255, 0.06);
+    } 
+
+    & > .search__content {
+        @apply px-[77px] grid grid-cols-1 gap-6 bg-[#F4F9FD] py-[76px];
+    }
+}

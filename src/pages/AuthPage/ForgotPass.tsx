@@ -11,44 +11,8 @@ export const ForgotPass: React.FC<ForgotPasswordProps> = ({
   const { Title, Text } = Typography;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: {email: string}) => {
     // Call the API to send reset password email
-
-    // try{
-    //   // Call the API to send reset password email
-    //   const response = await fetch(
-    //     `https://api.easyjob.io.vn/api/v1/auth/forget-password?email=${values.email}`,
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify(values),
-    //     }
-    //   )
-    //   if (!response.ok) {
-    //     throw new Error("Error sending email");
-    //   }
-    //   const data = await response.json();
-    //   console.log(data)
-    //   // Handle the response
-    //   api.success({
-    //     message: "Thành công",
-    //     description: "Vui lòng check email để nhận link thay đổi mật khẩu",
-    //     placement: "topRight",
-    //     duration: 1.5,
-    //   });
-    //   handleTabChange("1")
-    // }
-    // catch(error){
-    //   console.log(error)
-    //   api.error({
-    //     message: "Chưa thành công",
-    //     description: "Vui lòng nhập lại email của bạn!",
-    //     placement: "topRight",
-    //     duration: 1.5,
-    //   });
-    // Handle the error
 
     try {
       setLoading(true);

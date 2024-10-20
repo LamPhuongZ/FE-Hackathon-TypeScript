@@ -1,0 +1,64 @@
+.footer {
+  @apply w-full py-8 px-10 bg-white flex flex-col justify-center max-md:p-4;
+
+  & > .footer__detail {
+    & > .footerLine {
+      @apply flex items-center justify-between max-md:flex-col max-md:text-center;
+
+      & > .footerLine__left {
+        @apply flex gap-2 items-center max-md:justify-center;
+
+        & > .title {
+          @apply font-bold pt-2 max-md:mt-0;
+        }
+      }
+
+      & > .footerLine__right {
+        @apply flex gap-2 max-md:justify-center max-md:mt-4;
+      }
+    }
+
+    & > .footer__content {
+      @apply flex justify-around mt-8 max-md:flex-col max-md:items-center;
+
+      & > :is(.footer__col1, .footer__col2) {
+        & > :is(.footer__col1__detail, .footer__col2__detail) {
+          @apply flex flex-col mt-5 space-y-3 font-semibold;
+        }
+      }
+
+      & > .footer__col3 {
+        & > .footer__col3__detail {
+          @apply flex flex-col mt-5 space-y-3 text-base max-md:items-center;
+        }
+      }
+
+      & > :is(.footer__col1, .footer__col2, .footer__col3) {
+        @apply max-md:w-full max-md:text-center max-md:mb-6;
+
+        & > .title {
+          @apply font-semibold text-2xl max-md:text-xl;
+        }
+      }
+    }
+  }
+
+  h1 {
+    @apply text-[28px];
+  }
+
+  h3 {
+    @apply text-custom-blue;
+  }
+
+  hr {
+    @apply mt-4 mb-0 border-none;
+    border-top: 1px solid #ccc !important;
+  }
+
+  .link {
+    &:hover {
+      color: #3f8cff;
+    }
+  }
+}

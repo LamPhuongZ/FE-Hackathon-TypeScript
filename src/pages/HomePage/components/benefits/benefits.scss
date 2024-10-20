@@ -1,4 +1,6 @@
 .benefits {
+  // position: relative;
+  // width: 100vw;
   text-align: center;
   padding: 40px 0 12px;
   background-color: rgba(63, 140, 255, 0.06);
@@ -13,8 +15,9 @@
   &__content {
     display: flex;
     justify-content: space-between;
-    max-width: 1200px;
     margin: 0 auto;
+    width: 100%;
+    max-width: 1200px; 
   }
 
   &__left,

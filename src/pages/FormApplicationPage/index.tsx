@@ -5,28 +5,77 @@ import Label from "../../components/label/Label";
 import ImageUploadProps from "../../components/image-upload/ImageUpload";
 import Textarea from "../../components/textarea/Textarea";
 import Button from "../../components/button/Button";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ProfileSchema } from "../../utils/validation";
+// import { ProfileSchema } from "../../utils/validation";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
-import { getJobTypeAPI } from "../../redux/reducers/typeReducer";
+import { getJobTypeAPI, JobType } from "../../redux/reducers/typeReducer";
+import Dropdown from "../../components/dropdown/Dropdown";
+import DropdownSelect from "../../components/dropdown/DropdownSelect";
+import DropdownList from "../../components/dropdown/DropdownList";
+import DropdownOption from "../../components/dropdown/DropdownOption";
+import * as yup from "yup";
+
+const ProfileSchema = yup.object({
+  titlePost: yup.string().required("Vui lòng nhập tiêu đề ứng tuyển"),
+  jobType: yup.string().required("Vui lòng chọn loại công việc"),
+  district: yup.string().required("Vui lòng nhập quận, huyện"),
+  province: yup.string().required("Vui lòng nhập tỉnh, thành phố"),
+
+  pic1: yup
+    .mixed()
+    .nullable()
+    .required("Vui lòng tải về công việc và nơi làm việc"),
+  pic2: yup
+    .mixed()
+    .nullable()
+    .required("Vui lòng tải về công việc và nơi làm việc"),
+  pic3: yup
+    .mixed()
+    .nullable()
+    .required("Vui lòng tải về công việc và nơi làm việc"),
+  pic4: yup
+    .mixed()
+    .nullable()
+    .required("Vui lòng tải về công việc và nơi làm việc"),
+  description: yup.string().required("Vui lòng nhập mô tả công việc"),
+});
 
 export default function FormApplication() {
   const {
     control,
     handleSubmit,
+    getValues,
     setValue,
+    reset,
     formState: { errors },
   } = useForm({
     mode: "onChange",
-    // resolver: yupResolver(ProfileSchema),
+    resolver: yupResolver(ProfileSchema),
+    defaultValues: {
+      titlePost: "",
+      phone: "",
+      address: "",
+      jobType: "Loại công việc",
+      description: "",
+      pic1: null,
+      pic2: null,
+      pic3: null,
+      pic4: null,
+    },
   });
 
   const { objJobType } = useSelector((state: RootState) => state.typeReducer);
-  console.log("🚀 ~ FormApplication ~ objJobType:", objJobType)
   const dispatch: DispatchType = useDispatch();
+
+  const [selectedJobType, setSelectedJobType] = useState<JobType>();
+
+  const handleClickOption = (item: JobType) => {
+    setSelectedJobType(item);
+    setValue("jobType", item.name);
+  };
 
   const getDataJobTypeList = async () => {
     const actionAPI = getJobTypeAPI();
@@ -37,23 +86,41 @@ export default function FormApplication() {
     getDataJobTypeList();
   }, []);
 
-  const handlePost = async (values) => {
+  const handleResetImages = () => {
+    setValue("pic1", null);
+    setValue("pic2", null);
+    setValue("pic3", null);
+    setValue("pic4", null);
+  };
+
+  const handlePost = async () => {
     try {
-      console.log("Values:", values);
       toast.success("Đã đăng bài thành công!");
+      reset({
+        titlePost: "",
+        phone: "",
+        address: "",
+        jobType: "Loại công việc",
+        description: "",
+        pic1: null,
+        pic2: null,
+        pic3: null,
+        pic4: null,
+      });
+      handleResetImages();
     } catch (error) {
       toast.error("Đăng bài thất bại!");
       console.error("Add error:", error);
     }
   };
 
-  //   useEffect(() => {
-  //     const arrErrors = Object.values(errors);
-  //     if (arrErrors.length > 0) {
-  //       toast.error(arrErrors[0]?.message);
-  //     }
-  //   }, [errors]);
-  //   console.log("🚀 ~ useEffect ~ arrErrors:", Object.values(errors));
+  useEffect(() => {
+    const arrErrors = Object.values(errors);
+    if (arrErrors.length > 0) {
+      toast.error(arrErrors[0]?.message);
+    }
+  }, [errors]);
+  console.log("🚀 ~ useEffect ~ arrErrors:", Object.values(errors));
 
   return (
     <div className="py-20 px-[72px]">
@@ -79,8 +146,23 @@ export default function FormApplication() {
               ></Input>
             </Field>
             <Field>
-              <Label htmlFor="typeJob">Loại công việc</Label>
-              <Input name="typeJob" control={control}></Input>
+              <Label>Loại công việc</Label>
+              <Dropdown>
+                <DropdownSelect value={selectedJobType?.name}></DropdownSelect>
+                <DropdownList>
+                  {(Array.isArray(objJobType) ? objJobType : []).map(
+                    (item: JobType) => (
+                      <DropdownOption
+                        name="jobType"
+                        key={item.id}
+                        onClick={() => handleClickOption(item)}
+                      >
+                        {item.name}
+                      </DropdownOption>
+                    )
+                  )}
+                </DropdownList>
+              </Dropdown>
             </Field>
           </div>
           <div className="form-layout-col4">
@@ -126,7 +208,9 @@ export default function FormApplication() {
                       setValue("pic1", file);
                     }
                   }}
+                  onReset={handleResetImages}
                 />
+
                 <ImageUploadProps
                   name="pic2"
                   onFileSelect={(file: File | null) => {
@@ -134,6 +218,7 @@ export default function FormApplication() {
                       setValue("pic2", file);
                     }
                   }}
+                  onReset={handleResetImages}
                 />
                 <ImageUploadProps
                   name="pic3"
@@ -142,6 +227,7 @@ export default function FormApplication() {
                       setValue("pic3", file);
                     }
                   }}
+                  onReset={handleResetImages}
                 />
                 <ImageUploadProps
                   name="pic4"
@@ -150,6 +236,7 @@ export default function FormApplication() {
                       setValue("pic4", file);
                     }
                   }}
+                  onReset={handleResetImages}
                 />
               </div>
             </div>

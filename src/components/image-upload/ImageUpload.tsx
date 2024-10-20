@@ -5,27 +5,36 @@ import clsx from "clsx";
 interface ImageUploadProps extends Partial<HTMLInputElement> {
   listType?: "picture-circle" | "text" | "picture";
   onFileSelect: (file: File | null) => void;
+  onReset: () => void;
 }
 
 export default function ImageUploadProps({
   listType = "picture",
   className,
   name,
+  onReset,
   onFileSelect: handleFileSelect,
 }: ImageUploadProps) {
-  const [imageSelect, setImageSelect] = useState<File>();
+  const [imageSelect, setImageSelect] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const file = e.target.files?.[0] || null;
     if (file) {
       setImageSelect(file);
+      setImageUrl(URL.createObjectURL(file));
       handleFileSelect(file);
     }
   };
 
   const handleImageRemove = () => {
-    setImageSelect(undefined);
+    if (imageUrl) {
+      URL.revokeObjectURL(imageUrl);
+    }
+    setImageSelect(null);
+    setImageUrl(null);
     handleFileSelect(null);
+    onReset(); // Gọi hàm reset khi xóa hình ảnh
   };
 
   return (
@@ -52,7 +61,7 @@ export default function ImageUploadProps({
       ) : (
         <>
           <img
-            src={URL.createObjectURL(imageSelect)}
+            src={imageUrl || ""}
             className="w-full h-full object-cover"
             alt=""
           />

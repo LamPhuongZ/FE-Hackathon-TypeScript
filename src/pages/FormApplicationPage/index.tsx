@@ -9,6 +9,9 @@ import { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProfileSchema } from "../../utils/validation";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { DispatchType, RootState } from "../../redux/configStore";
+import { getJobTypeAPI } from "../../redux/reducers/typeReducer";
 
 export default function FormApplication() {
   const {
@@ -20,6 +23,19 @@ export default function FormApplication() {
     mode: "onChange",
     // resolver: yupResolver(ProfileSchema),
   });
+
+  const { objJobType } = useSelector((state: RootState) => state.typeReducer);
+  console.log("🚀 ~ FormApplication ~ objJobType:", objJobType)
+  const dispatch: DispatchType = useDispatch();
+
+  const getDataJobTypeList = async () => {
+    const actionAPI = getJobTypeAPI();
+    dispatch(actionAPI);
+  };
+
+  useEffect(() => {
+    getDataJobTypeList();
+  }, []);
 
   const handlePost = async (values) => {
     try {

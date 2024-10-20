@@ -5,12 +5,11 @@
 @import "./utils/mixin";
 @import "./utils/variable";
 
-@import "./base/reset"; 
+@import "./base/reset";
 
 @import "./components/header";
 @import "./components/banner";
 @import "./components/footer";
-
 
 body {
   background-color: #f4f9fd;
@@ -77,4 +76,16 @@ textarea::-moz-input-placeholder {
 
 .btn-update {
   @apply bg-yellow-500 hover:bg-yellow-600 text-black hover:text-white border-yellow-600;
+}
+
+.hidden-input {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
 }

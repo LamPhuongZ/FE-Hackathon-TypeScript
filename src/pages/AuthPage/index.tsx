@@ -38,19 +38,19 @@ function AuthPage() {
         <div style={{ padding: "30px" }} className="w-[500px] bg-white rounded shadow-[0_19px_38px_rgba(0,0,0,0.3),_0_15px_12px_rgba(0,0,0,0.22)]">
           
         {/* ForgotPass */}
-          <Tabs 
+          <Tabs className="login-register-tabs"
           animated
             defaultActiveKey="1"
             onChange={handleTabChange}
             activeKey={activeKey}
           >
-            <TabPane  key="1">
+            <TabPane   key="1">
               <Login handleTabChange={handleTabChange} activeKey={activeKey}/>
             </TabPane>
-            <TabPane  key="2">
+            <TabPane   key="2">
               <Register handleTabChange={handleTabChange} activeKey={activeKey}/>
             </TabPane>
-            <TabPane  key="3">
+            <TabPane   key="3">
               <ForgotPass handleTabChange={handleTabChange}/>
             </TabPane>
           </Tabs>

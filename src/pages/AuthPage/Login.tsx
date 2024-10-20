@@ -69,7 +69,7 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
   return (
     <>
       {contextHolder}
-      <Tabs centered defaultActiveKey="1" onChange={handleRoleChange}>
+      <Tabs className="LoginTabs" centered defaultActiveKey="1" onChange={handleRoleChange}>
         <Tabs.TabPane  tab="Người tìm việc" key="1">
           {/* Employer login form */}
           <div  className="flex flex-col items-center gap-3">
@@ -80,7 +80,7 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
            
               </Title>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               <Text type="secondary" className="text-[14px]">
             
                   Chưa có tài khoản?
@@ -101,7 +101,11 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
               <img src={logoGoogle} alt="google" />
               Đăng nhập bằng Google
             </Button>
+            
           </div>
+          <div className=" w-[full] flex  items-center mb-4">
+               <span className="block border-t border-blue-300 w-full mr-2"></span> Hoặc <span className="block border-t border-blue-300 w-full ml-2"></span>
+            </div>
       <Form form={form} name="horizontal_login" onFinish={onFinish}>
         <div className="flex flex-col ">
           <Form.Item
@@ -167,7 +171,7 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
            
               </Title>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center ">
               <Text type="secondary" className="text-[14px]">
             
                   Chưa có tài khoản?
@@ -189,6 +193,9 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
               Đăng nhập bằng Google
             </Button>
           </div>
+          <div className=" w-[full] flex  items-center mb-4">
+               <span className="block border-t border-blue-300 w-full mr-2"></span> Hoặc <span className="block border-t border-blue-300 w-full ml-2"></span>
+            </div>
       <Form form={form} name="horizontal_login" onFinish={onFinish}>
         <div className="flex flex-col ">
           <Form.Item

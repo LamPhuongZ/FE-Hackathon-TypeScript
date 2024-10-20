@@ -42,11 +42,11 @@ const Register: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
             <div>
               <Title level={1} className="text-[20px] !mb-0">
               
-              <Title>Tạo tài khoản</Title>
+              Tạo tài khoản
            
               </Title>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center mb-5">
               <Text type="secondary" className="text-[14px]">
                   Đã có tài khoản?
               </Text>

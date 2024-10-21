@@ -42,7 +42,7 @@ root.render(
               <Route path="/more-card" element={<ListCardPage />} />
               <Route path="/card-detail-job/:jobId" element={<JobCardDetailPage />} />
               <Route path="/profile-worker-page" element={<ProfileWorkerPage />} />
-              <Route path="/search" element={<SearchPage />} />
+              {/* <Route path="/search" element={<SearchPage />} /> */}
 
             </Route>
             <Route path="/AuthPage" element={<LoginAndRegister />} />

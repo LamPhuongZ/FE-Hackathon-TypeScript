@@ -25,8 +25,7 @@ export default function ImageUploadProps({
 
   const handleImageRemove = () => {
     if (imageUrl) {
-     const urlimg = URL.revokeObjectURL(imageUrl);
-     console.log("🚀 ~ handleImageRemove ~ urlimg:", urlimg)
+      URL.revokeObjectURL(imageUrl);
     }
     setImageUrl("");
     handleFileSelect(null);

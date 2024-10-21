@@ -18,6 +18,10 @@
   }
 
   & > .banner__group {
-    @apply flex flex-col gap-10;
+    @apply px-[267px] flex flex-col gap-10;
+
+      & > .banner__search {
+        @apply bg-white;
+      }
   }
 }

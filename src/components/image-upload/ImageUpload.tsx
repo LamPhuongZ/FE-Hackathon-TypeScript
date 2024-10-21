@@ -6,6 +6,7 @@ interface ImageUploadProps extends Partial<HTMLInputElement> {
   listType?: "picture-circle" | "text" | "picture";
   onFileSelect: (file: File | null) => void;
   resetTrigger?: boolean;
+  onRemove?: () => void; // Thêm prop để xử lý xóa ảnh
 }
 
 export default function ImageUploadProps({
@@ -14,17 +15,16 @@ export default function ImageUploadProps({
   name,
   onFileSelect: handleFileSelect,
   resetTrigger, // Prop để trigger reset
+  onRemove,
 }: ImageUploadProps) {
+ 
   const [imageSelect, setImageSelect] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
-
-  console.log("img input", imageSelect);
-  console.log("img typeof input", typeof imageSelect);
 
   useEffect(() => {
     if (resetTrigger) {
       setImageSelect(""); // Clear image on reset
-      setImageUrl("");    // Clear image URL on reset
+      setImageUrl(""); // Clear image URL on reset
       handleFileSelect(null); // Notify parent to clear the image field
     }
   }, [resetTrigger]);
@@ -36,6 +36,9 @@ export default function ImageUploadProps({
       setImageUrl(URL.createObjectURL(file));
       handleFileSelect(file);
     }
+
+    // Reset giá trị của input file để đảm bảo có thể chọn lại cùng tấm hình
+    e.target.value = ""; // Reset input file sau khi chọn ảnh
   };
 
   const handleImageRemove = () => {
@@ -45,6 +48,7 @@ export default function ImageUploadProps({
     setImageSelect("");
     setImageUrl("");
     handleFileSelect(null);
+    if (onRemove) onRemove(); // Gọi hàm xóa ảnh từ component cha
   };
 
   return (

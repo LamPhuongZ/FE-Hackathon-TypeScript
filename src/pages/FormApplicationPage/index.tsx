@@ -18,8 +18,6 @@ import DropdownOption from "../../components/dropdown/DropdownOption";
 import { JobProfileSchema } from "../../utils/validation";
 
 export default function FormApplication() {
-  const [resetTrigger, setResetTrigger] = useState(false); // Reset trigger state
-
   const {
     control,
     handleSubmit,
@@ -35,12 +33,13 @@ export default function FormApplication() {
       address: "",
       jobType: "",
       description: "",
-      pic1: "",
-      pic2: "",
-      pic3: "",
-      pic4: "",
+      pic1: undefined,
+      pic2: undefined,
+      pic3: undefined,
+      pic4: undefined,
     },
   });
+  const [resetTrigger, setResetTrigger] = useState(false); // Reset trigger state
 
   const { objJobType } = useSelector((state: RootState) => state.typeReducer);
   const dispatch: DispatchType = useDispatch();
@@ -61,8 +60,28 @@ export default function FormApplication() {
     getDataJobTypeList();
   }, []);
 
+  const [imagesDeleted, setImagesDeleted] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+  ]); // Trạng thái xóa ảnh
+
+  const handleImageRemove = (index: number) => {
+    setImagesDeleted((prev) => {
+      const newState = [...prev];
+      newState[index] = true; // Đánh dấu ảnh đã bị xóa
+      return newState;
+    });
+  };
+
   const handlePost = async () => {
     try {
+      // Kiểm tra xem có ảnh nào đã bị xóa không
+      if (imagesDeleted.some((deleted) => deleted)) {
+        toast.error("Vui lòng kiểm tra lại ảnh đã xóa!");
+        return;
+      }
       toast.success("Đã đăng bài thành công!");
       reset({
         titlePost: "",
@@ -70,10 +89,10 @@ export default function FormApplication() {
         address: "",
         jobType: "",
         description: "",
-        pic1: "",
-        pic2: "",
-        pic3: "",
-        pic4: "",
+        pic1: undefined,
+        pic2: undefined,
+        pic3: undefined,
+        pic4: undefined,
       });
       setResetTrigger(true); // Trigger reset on image components
       setSelectedJobType(undefined);
@@ -183,36 +202,56 @@ export default function FormApplication() {
                   onFileSelect={(file: File | null) => {
                     if (file) {
                       setValue("pic1", file);
+                      setImagesDeleted((prev) => {
+                        prev[0] = false;
+                        return prev;
+                      }); // Đánh dấu ảnh chưa bị xóa
                     }
                   }}
-                  resetTrigger={resetTrigger} // Pass the reset trigger
+                  resetTrigger={resetTrigger}
+                  onRemove={() => handleImageRemove(0)} // Gọi hàm xóa ảnh
                 />
                 <ImageUploadProps
                   name="pic2"
                   onFileSelect={(file: File | null) => {
                     if (file) {
                       setValue("pic2", file);
+                      setImagesDeleted((prev) => {
+                        prev[1] = false;
+                        return prev;
+                      }); // Đánh dấu ảnh chưa bị xóa
                     }
                   }}
-                  resetTrigger={resetTrigger} // Pass the reset trigger
+                  resetTrigger={resetTrigger}
+                  onRemove={() => handleImageRemove(1)} // Gọi hàm xóa ảnh
                 />
                 <ImageUploadProps
                   name="pic3"
                   onFileSelect={(file: File | null) => {
                     if (file) {
                       setValue("pic3", file);
+                      setImagesDeleted((prev) => {
+                        prev[2] = false;
+                        return prev;
+                      }); // Đánh dấu ảnh chưa bị xóa
                     }
                   }}
-                  resetTrigger={resetTrigger} // Pass the reset trigger
+                  resetTrigger={resetTrigger}
+                  onRemove={() => handleImageRemove(2)} // Gọi hàm xóa ảnh
                 />
                 <ImageUploadProps
                   name="pic4"
                   onFileSelect={(file: File | null) => {
                     if (file) {
                       setValue("pic4", file);
+                      setImagesDeleted((prev) => {
+                        prev[3] = false;
+                        return prev;
+                      }); // Đánh dấu ảnh chưa bị xóa
                     }
                   }}
-                  resetTrigger={resetTrigger} // Pass the reset trigger
+                  resetTrigger={resetTrigger}
+                  onRemove={() => handleImageRemove(3)} // Gọi hàm xóa ảnh
                 />
               </div>
             </div>

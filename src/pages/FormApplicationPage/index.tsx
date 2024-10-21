@@ -7,7 +7,6 @@ import Textarea from "../../components/textarea/Textarea";
 import Button from "../../components/button/Button";
 import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
-// import { ProfileSchema } from "../../utils/validation";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
@@ -16,36 +15,11 @@ import Dropdown from "../../components/dropdown/Dropdown";
 import DropdownSelect from "../../components/dropdown/DropdownSelect";
 import DropdownList from "../../components/dropdown/DropdownList";
 import DropdownOption from "../../components/dropdown/DropdownOption";
-import * as yup from "yup";
-
-const ProfileSchema = yup.object({
-  titlePost: yup.string().required("Vui lòng nhập tiêu đề ứng tuyển"),
-  phone: yup.string().required("Vui lòng nhập số điện thoại"),
-  jobType: yup.string().required("Vui lòng chọn loại công việc"),
-  address: yup.string().required("Vui lòng nhập địa chỉ"),
-  district: yup.string().required("Vui lòng nhập quận, huyện"),
-  province: yup.string().required("Vui lòng nhập tỉnh, thành phố"),
-
-  pic1: yup
-    .mixed()
-    .nullable()
-    .required("Vui lòng tải ảnh về công việc và nơi làm việc của bạn"),
-  pic2: yup
-    .mixed()
-    .nullable()
-    .required("Vui lòng tải ảnh về công việc và nơi làm việc của bạn"),
-  pic3: yup
-    .mixed()
-    .nullable()
-    .required("Vui lòng tải ảnh về công việc và nơi làm việc của bạn"),
-  pic4: yup
-    .mixed()
-    .nullable()
-    .required("Vui lòng tải ảnh về công việc và nơi làm việc của bạn"),
-  description: yup.string().required("Vui lòng nhập mô tả công việc"),
-});
+import { JobProfileSchema } from "../../utils/validation";
 
 export default function FormApplication() {
+  const [resetTrigger, setResetTrigger] = useState(false); // Reset trigger state
+
   const {
     control,
     handleSubmit,
@@ -54,17 +28,17 @@ export default function FormApplication() {
     formState: { errors },
   } = useForm({
     mode: "onChange",
-    resolver: yupResolver(ProfileSchema),
+    resolver: yupResolver(JobProfileSchema),
     defaultValues: {
       titlePost: "",
       phone: "",
       address: "",
       jobType: "",
       description: "",
-      pic1: undefined,
-      pic2: undefined,
-      pic3: undefined,
-      pic4: undefined,
+      pic1: "",
+      pic2: "",
+      pic3: "",
+      pic4: "",
     },
   });
 
@@ -87,13 +61,6 @@ export default function FormApplication() {
     getDataJobTypeList();
   }, []);
 
-  const ResetImage = () => {
-    setValue("pic1", undefined);
-    setValue("pic2", undefined);
-    setValue("pic3", undefined);
-    setValue("pic4", undefined);
-  };
-
   const handlePost = async () => {
     try {
       toast.success("Đã đăng bài thành công!");
@@ -103,18 +70,24 @@ export default function FormApplication() {
         address: "",
         jobType: "",
         description: "",
-        pic1: undefined,
-        pic2: undefined,
-        pic3: undefined,
-        pic4: undefined,
+        pic1: "",
+        pic2: "",
+        pic3: "",
+        pic4: "",
       });
-      ResetImage();
+      setResetTrigger(true); // Trigger reset on image components
       setSelectedJobType(undefined);
     } catch (error) {
       toast.error("Đăng bài thất bại!");
       console.error("Add error:", error);
     }
   };
+
+  useEffect(() => {
+    if (resetTrigger) {
+      setResetTrigger(false); // Reset the trigger after handling it
+    }
+  }, [resetTrigger]);
 
   useEffect(() => {
     const arrErrors = Object.values(errors);
@@ -212,6 +185,7 @@ export default function FormApplication() {
                       setValue("pic1", file);
                     }
                   }}
+                  resetTrigger={resetTrigger} // Pass the reset trigger
                 />
                 <ImageUploadProps
                   name="pic2"
@@ -220,6 +194,7 @@ export default function FormApplication() {
                       setValue("pic2", file);
                     }
                   }}
+                  resetTrigger={resetTrigger} // Pass the reset trigger
                 />
                 <ImageUploadProps
                   name="pic3"
@@ -228,6 +203,7 @@ export default function FormApplication() {
                       setValue("pic3", file);
                     }
                   }}
+                  resetTrigger={resetTrigger} // Pass the reset trigger
                 />
                 <ImageUploadProps
                   name="pic4"
@@ -236,6 +212,7 @@ export default function FormApplication() {
                       setValue("pic4", file);
                     }
                   }}
+                  resetTrigger={resetTrigger} // Pass the reset trigger
                 />
               </div>
             </div>

@@ -149,7 +149,7 @@ export const registerAPI = (userRegister: UserRegisterType) => {
 export const getProfileAPI = () => {
   return async (dispatch: DispatchType) => {
     try {
-      const response = await httpClient.post("/api/v1/self");
+      const response = await httpClient.get("/api/v1/self");
 
       console.log(response.data);
 

@@ -54,7 +54,7 @@ export const ForgotPass: React.FC<ForgotPasswordProps> = ({
       {!loading ? (
         //nút để quay về trang home
         
-        <div className="flex flex-col items-center gap-5">
+        <div className="flex flex-col  items-center gap-5">
           <Button
           className="w-[200px] mt-5"
           onClick={() => handleTabChange("1")}
@@ -82,7 +82,7 @@ export const ForgotPass: React.FC<ForgotPasswordProps> = ({
             >
               <Input  size="large" placeholder="Email" />
             </Form.Item>
-            <Form.Item>
+            <Form.Item >
               <Button type="primary" htmlType="submit" size="large">
                 Gửi yêu cầu
               </Button>

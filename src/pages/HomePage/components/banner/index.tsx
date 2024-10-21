@@ -20,7 +20,7 @@ export default function Banner() {
       <div className="banner__group">
         <div className="banner__search">
           
-          <Input name="search" placeholder="Tìm kiếm" />
+          {/* <Input name="search" placeholder="Tìm kiếm" control={control} /> */}
         </div>
       </div>
     </div>

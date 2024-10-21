@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import upIMG from "../../assets/images/img-upload.png";
 import clsx from "clsx";
 
 interface ImageUploadProps extends Partial<HTMLInputElement> {
   listType?: "picture-circle" | "text" | "picture";
   onFileSelect: (file: File | null) => void;
+  resetTrigger?: boolean;
 }
 
 export default function ImageUploadProps({
@@ -12,12 +13,26 @@ export default function ImageUploadProps({
   className,
   name,
   onFileSelect: handleFileSelect,
+  resetTrigger, // Prop để trigger reset
 }: ImageUploadProps) {
+  const [imageSelect, setImageSelect] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
+
+  console.log("img input", imageSelect);
+  console.log("img typeof input", typeof imageSelect);
+
+  useEffect(() => {
+    if (resetTrigger) {
+      setImageSelect(""); // Clear image on reset
+      setImageUrl("");    // Clear image URL on reset
+      handleFileSelect(null); // Notify parent to clear the image field
+    }
+  }, [resetTrigger]);
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     if (file) {
+      setImageSelect(file.name);
       setImageUrl(URL.createObjectURL(file));
       handleFileSelect(file);
     }
@@ -27,6 +42,7 @@ export default function ImageUploadProps({
     if (imageUrl) {
       URL.revokeObjectURL(imageUrl);
     }
+    setImageSelect("");
     setImageUrl("");
     handleFileSelect(null);
   };
@@ -47,7 +63,7 @@ export default function ImageUploadProps({
         className="hidden-input"
         onChange={handleImageSelect}
       />
-      {!imageUrl ? (
+      {!imageSelect ? (
         <div className="flex flex-col items-center text-center pointer-events-none">
           <img src={upIMG} alt="upload-img" className="max-w-[80px] mb-5" />
           <p className="font-semibold">Chọn hình ảnh đại diện</p>
@@ -58,6 +74,7 @@ export default function ImageUploadProps({
             src={imageUrl || ""}
             className="w-full h-full object-cover"
             alt=""
+            loading="lazy"
           />
           <button
             type="button"

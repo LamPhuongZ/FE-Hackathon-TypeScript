@@ -28,20 +28,48 @@ const ProfileSchema = yup.object({
 
   pic1: yup
     .mixed()
-    .nullable()
-    .required("Vui lòng tải ảnh về công việc và nơi làm việc của bạn"),
+    .required("Vui lòng tải ảnh về công việc và nơi làm việc")
+    .test("fileSize", "Kích thước tệp quá lớn", (value) => {
+      return value instanceof File ? value.size <= 2000000 : false;
+    })
+    .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
+      return value instanceof File
+        ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+        : false;
+    }),
   pic2: yup
     .mixed()
-    .nullable()
-    .required("Vui lòng tải ảnh về công việc và nơi làm việc của bạn"),
+    .required("Vui lòng tải ảnh về công việc và nơi làm việc")
+    .test("fileSize", "Kích thước tệp quá lớn", (value) => {
+      return value instanceof File ? value.size <= 2000000 : false;
+    })
+    .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
+      return value instanceof File
+        ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+        : false;
+    }),
   pic3: yup
     .mixed()
-    .nullable()
-    .required("Vui lòng tải ảnh về công việc và nơi làm việc của bạn"),
+    .required("Vui lòng tải ảnh về công việc và nơi làm việc")
+    .test("fileSize", "Kích thước tệp quá lớn", (value) => {
+      return value instanceof File ? value.size <= 2000000 : false;
+    })
+    .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
+      return value instanceof File
+        ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+        : false;
+    }),
   pic4: yup
     .mixed()
-    .nullable()
-    .required("Vui lòng tải ảnh về công việc và nơi làm việc của bạn"),
+    .required("Vui lòng tải ảnh về công việc và nơi làm việc")
+    .test("fileSize", "Kích thước tệp quá lớn", (value) => {
+      return value instanceof File ? value.size <= 2000000 : false;
+    })
+    .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
+      return value instanceof File
+        ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+        : false;
+    }),
   description: yup.string().required("Vui lòng nhập mô tả công việc"),
 });
 
@@ -87,13 +115,6 @@ export default function FormApplication() {
     getDataJobTypeList();
   }, []);
 
-  const ResetImage = () => {
-    setValue("pic1", undefined);
-    setValue("pic2", undefined);
-    setValue("pic3", undefined);
-    setValue("pic4", undefined);
-  };
-
   const handlePost = async () => {
     try {
       toast.success("Đã đăng bài thành công!");
@@ -108,7 +129,6 @@ export default function FormApplication() {
         pic3: undefined,
         pic4: undefined,
       });
-      ResetImage();
       setSelectedJobType(undefined);
     } catch (error) {
       toast.error("Đăng bài thất bại!");

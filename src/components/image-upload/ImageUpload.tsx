@@ -13,13 +13,11 @@ export default function ImageUploadProps({
   name,
   onFileSelect: handleFileSelect,
 }: ImageUploadProps) {
-  const [imageSelect, setImageSelect] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     if (file) {
-      setImageSelect(file.name);
       setImageUrl(URL.createObjectURL(file));
       handleFileSelect(file);
     }
@@ -27,9 +25,9 @@ export default function ImageUploadProps({
 
   const handleImageRemove = () => {
     if (imageUrl) {
-      URL.revokeObjectURL(imageUrl);
+     const urlimg = URL.revokeObjectURL(imageUrl);
+     console.log("🚀 ~ handleImageRemove ~ urlimg:", urlimg)
     }
-    setImageSelect("");
     setImageUrl("");
     handleFileSelect(null);
   };
@@ -50,7 +48,7 @@ export default function ImageUploadProps({
         className="hidden-input"
         onChange={handleImageSelect}
       />
-      {!imageSelect ? (
+      {!imageUrl ? (
         <div className="flex flex-col items-center text-center pointer-events-none">
           <img src={upIMG} alt="upload-img" className="max-w-[80px] mb-5" />
           <p className="font-semibold">Chọn hình ảnh đại diện</p>
@@ -64,7 +62,7 @@ export default function ImageUploadProps({
           />
           <button
             type="button"
-            className="w-16 h-16 bg-white rounded-full flex items-center justify-center cursor-pointer absolute z-10 text-red-500 opacity-0 invisible transition-all group-hover:opacity-100 group-hover:visible"
+            className="w-16 h-16 bg-white rounded-full flex items-center justify-center cursor-pointer absolute z-50 text-red-600 opacity-0 invisible transition-all group-hover:opacity-100 group-hover:visible "
             onClick={handleImageRemove}
           >
             <svg

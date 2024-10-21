@@ -1,5 +1,5 @@
 type Props = {
-    htmlFor:string;
+    htmlFor?:string;
     children:string
 }
 

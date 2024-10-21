@@ -84,7 +84,7 @@ export const getDataJobAPI = (page: number, size: number) => {
 
     try {
       const res = await httpClient.get(
-        `/api/v1/job?page=${page}&size=${size}&sort=stringy`
+        `/api/v1/job?page=${page}&size=${size}`
       );
       const action: PayloadAction<Job> = getJobsAction(res.data.data);
       dispatch(action);

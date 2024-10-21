@@ -2,7 +2,7 @@ import Label from "../../components/label/Label";
 import Input from "../../components/input/Input";
 import Field from "../../components/field/Field";
 import Button from "../../components/button/Button";
-import ImageUpload from "../../components/image-upload/ImageUpload";
+import ImageUploadProps from "../../components/image-upload/ImageUpload";
 import Close from "../../assets/icons/close.svg";
 import Plus from "../../assets/icons/plus.svg";
 import Arrow from "../../assets/icons/double-arrow-right.svg";
@@ -56,7 +56,7 @@ export default function ProfilePage() {
         </div>
         <form onSubmit={handleSubmit(handleUpdateProfile)}>
           <div className="w-[244px] h-[244px] rounded-full mx-auto mb-7">
-            <ImageUpload
+            <ImageUploadProps
               listType="picture-circle"
               name="avatar"
               onFileSelect={(file: File | null) => {
@@ -73,7 +73,7 @@ export default function ProfilePage() {
             <h1 className="text-4xl font-medium">4.0</h1>
           </div>
           <div className="border border-solid border-[#D5D5D5] rounded-3xl pt-14 px-8 ">
-            <div className="form-layout ">
+            <div className="form-layout">
               <Field>
                 <Label htmlFor="fullName">Họ tên đầy đủ</Label>
                 <Input
@@ -136,7 +136,7 @@ export default function ProfilePage() {
             <Label htmlFor="">Tải ảnh CCCD / CMND</Label>
             <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5">
               <div className="form-layout lg:mb-0">
-                <ImageUpload
+                <ImageUploadProps
                   name="frontCard"
                   onFileSelect={(file: File | null) => {
                     if (file) {
@@ -144,7 +144,7 @@ export default function ProfilePage() {
                     }
                   }}
                 />
-                <ImageUpload
+                <ImageUploadProps
                   name="backCard"
                   onFileSelect={(file: File | null) => {
                     if (file) {

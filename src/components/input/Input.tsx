@@ -5,7 +5,7 @@ type Props = {
   name: string;
   type?: string;
   content?: string;
-  placeholder: string;
+  placeholder?: string;
   className?: string;
   control?: object;
 };

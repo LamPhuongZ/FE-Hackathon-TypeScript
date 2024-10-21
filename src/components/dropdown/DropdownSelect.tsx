@@ -5,7 +5,7 @@ type Props = {
   value?: string;
 };
 
-export default function DropdownSelect({ value = "Loại công việc" }: Props) {
+export default function DropdownSelect({ value = "" }: Props) {
   const { toggle, show } = useDropdown();
   return (
     <div

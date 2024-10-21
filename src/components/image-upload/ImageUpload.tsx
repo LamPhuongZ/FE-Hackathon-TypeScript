@@ -5,23 +5,21 @@ import clsx from "clsx";
 interface ImageUploadProps extends Partial<HTMLInputElement> {
   listType?: "picture-circle" | "text" | "picture";
   onFileSelect: (file: File | null) => void;
-  onReset: () => void;
 }
 
 export default function ImageUploadProps({
   listType = "picture",
   className,
   name,
-  onReset,
   onFileSelect: handleFileSelect,
 }: ImageUploadProps) {
-  const [imageSelect, setImageSelect] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageSelect, setImageSelect] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     if (file) {
-      setImageSelect(file);
+      setImageSelect(file.name);
       setImageUrl(URL.createObjectURL(file));
       handleFileSelect(file);
     }
@@ -31,10 +29,9 @@ export default function ImageUploadProps({
     if (imageUrl) {
       URL.revokeObjectURL(imageUrl);
     }
-    setImageSelect(null);
-    setImageUrl(null);
+    setImageSelect("");
+    setImageUrl("");
     handleFileSelect(null);
-    onReset(); // Gọi hàm reset khi xóa hình ảnh
   };
 
   return (
@@ -68,7 +65,7 @@ export default function ImageUploadProps({
           <button
             type="button"
             className="w-16 h-16 bg-white rounded-full flex items-center justify-center cursor-pointer absolute z-10 text-red-500 opacity-0 invisible transition-all group-hover:opacity-100 group-hover:visible"
-            onClick={() => handleImageRemove()}
+            onClick={handleImageRemove}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

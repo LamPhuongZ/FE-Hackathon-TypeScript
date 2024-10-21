@@ -61,7 +61,7 @@ export default function ImageUploadProps({
           />
           <button
             type="button"
-            className="w-16 h-16 bg-white rounded-full flex items-center justify-center cursor-pointer absolute z-50 text-red-600 opacity-0 invisible transition-all group-hover:opacity-100 group-hover:visible "
+            className="w-16 h-16 bg-white rounded-full flex items-center justify-center cursor-pointer absolute z-10 text-red-600 opacity-0 invisible transition-all group-hover:opacity-100 group-hover:visible "
             onClick={handleImageRemove}
           >
             <svg

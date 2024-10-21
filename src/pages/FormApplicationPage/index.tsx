@@ -20,26 +20,56 @@ import * as yup from "yup";
 
 const ProfileSchema = yup.object({
   titlePost: yup.string().required("Vui lòng nhập tiêu đề ứng tuyển"),
+  phone: yup.string().required("Vui lòng nhập số điện thoại"),
   jobType: yup.string().required("Vui lòng chọn loại công việc"),
+  address: yup.string().required("Vui lòng nhập địa chỉ"),
   district: yup.string().required("Vui lòng nhập quận, huyện"),
   province: yup.string().required("Vui lòng nhập tỉnh, thành phố"),
 
   pic1: yup
     .mixed()
-    .nullable()
-    .required("Vui lòng tải về công việc và nơi làm việc"),
+    .required("Vui lòng tải ảnh về công việc và nơi làm việc")
+    .test("fileSize", "Kích thước tệp quá lớn", (value) => {
+      return value instanceof File ? value.size <= 2000000 : false;
+    })
+    .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
+      return value instanceof File
+        ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+        : false;
+    }),
   pic2: yup
     .mixed()
-    .nullable()
-    .required("Vui lòng tải về công việc và nơi làm việc"),
+    .required("Vui lòng tải ảnh về công việc và nơi làm việc")
+    .test("fileSize", "Kích thước tệp quá lớn", (value) => {
+      return value instanceof File ? value.size <= 2000000 : false;
+    })
+    .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
+      return value instanceof File
+        ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+        : false;
+    }),
   pic3: yup
     .mixed()
-    .nullable()
-    .required("Vui lòng tải về công việc và nơi làm việc"),
+    .required("Vui lòng tải ảnh về công việc và nơi làm việc")
+    .test("fileSize", "Kích thước tệp quá lớn", (value) => {
+      return value instanceof File ? value.size <= 2000000 : false;
+    })
+    .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
+      return value instanceof File
+        ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+        : false;
+    }),
   pic4: yup
     .mixed()
-    .nullable()
-    .required("Vui lòng tải về công việc và nơi làm việc"),
+    .required("Vui lòng tải ảnh về công việc và nơi làm việc")
+    .test("fileSize", "Kích thước tệp quá lớn", (value) => {
+      return value instanceof File ? value.size <= 2000000 : false;
+    })
+    .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
+      return value instanceof File
+        ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+        : false;
+    }),
   description: yup.string().required("Vui lòng nhập mô tả công việc"),
 });
 
@@ -47,7 +77,6 @@ export default function FormApplication() {
   const {
     control,
     handleSubmit,
-    getValues,
     setValue,
     reset,
     formState: { errors },
@@ -58,12 +87,12 @@ export default function FormApplication() {
       titlePost: "",
       phone: "",
       address: "",
-      jobType: "Loại công việc",
+      jobType: "",
       description: "",
-      pic1: null,
-      pic2: null,
-      pic3: null,
-      pic4: null,
+      pic1: undefined,
+      pic2: undefined,
+      pic3: undefined,
+      pic4: undefined,
     },
   });
 
@@ -72,7 +101,7 @@ export default function FormApplication() {
 
   const [selectedJobType, setSelectedJobType] = useState<JobType>();
 
-  const handleClickOption = (item: JobType) => {
+  const handleClickOption = async (item: JobType) => {
     setSelectedJobType(item);
     setValue("jobType", item.name);
   };
@@ -86,13 +115,6 @@ export default function FormApplication() {
     getDataJobTypeList();
   }, []);
 
-  const handleResetImages = () => {
-    setValue("pic1", null);
-    setValue("pic2", null);
-    setValue("pic3", null);
-    setValue("pic4", null);
-  };
-
   const handlePost = async () => {
     try {
       toast.success("Đã đăng bài thành công!");
@@ -100,14 +122,14 @@ export default function FormApplication() {
         titlePost: "",
         phone: "",
         address: "",
-        jobType: "Loại công việc",
+        jobType: "",
         description: "",
-        pic1: null,
-        pic2: null,
-        pic3: null,
-        pic4: null,
+        pic1: undefined,
+        pic2: undefined,
+        pic3: undefined,
+        pic4: undefined,
       });
-      handleResetImages();
+      setSelectedJobType(undefined);
     } catch (error) {
       toast.error("Đăng bài thất bại!");
       console.error("Add error:", error);
@@ -148,7 +170,9 @@ export default function FormApplication() {
             <Field>
               <Label>Loại công việc</Label>
               <Dropdown>
-                <DropdownSelect value={selectedJobType?.name}></DropdownSelect>
+                <DropdownSelect
+                  value={`${selectedJobType?.name || "Loại công việc"}`}
+                ></DropdownSelect>
                 <DropdownList>
                   {(Array.isArray(objJobType) ? objJobType : []).map(
                     (item: JobType) => (
@@ -208,9 +232,7 @@ export default function FormApplication() {
                       setValue("pic1", file);
                     }
                   }}
-                  onReset={handleResetImages}
                 />
-
                 <ImageUploadProps
                   name="pic2"
                   onFileSelect={(file: File | null) => {
@@ -218,7 +240,6 @@ export default function FormApplication() {
                       setValue("pic2", file);
                     }
                   }}
-                  onReset={handleResetImages}
                 />
                 <ImageUploadProps
                   name="pic3"
@@ -227,7 +248,6 @@ export default function FormApplication() {
                       setValue("pic3", file);
                     }
                   }}
-                  onReset={handleResetImages}
                 />
                 <ImageUploadProps
                   name="pic4"
@@ -236,7 +256,6 @@ export default function FormApplication() {
                       setValue("pic4", file);
                     }
                   }}
-                  onReset={handleResetImages}
                 />
               </div>
             </div>

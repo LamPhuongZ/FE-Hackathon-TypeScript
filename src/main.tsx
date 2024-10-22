@@ -78,8 +78,6 @@ root.render(
               element={<PolicyPage />}
             />
           </Route>
-          <Route path="/login" element={<LoginAndRegister />} />
-          <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <ToastContainer />
       </HistoryRouter>

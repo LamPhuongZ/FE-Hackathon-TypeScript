@@ -2,13 +2,14 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo-company.png";
 import Button from "../button/Button";
 import LogOut from "../../pages/AuthPage/LogOut";
-import  {  useEffect } from "react";
+import React, {  useEffect, useState } from "react";
 import type { MenuProps } from "antd";
 import { Dropdown, Space } from "antd";
 import { getProfileAPI } from "../../redux/reducers/userReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
 
+// getProfileAPI
 export default function Header() {
   const navigate = useNavigate();
   const dispatch: DispatchType = useDispatch();

@@ -18,7 +18,7 @@ import { DispatchType } from "../../redux/configStore";
 import { useState } from "react";
 
 type LoginProps = {
-  handleTabChange?: (key: string) => void;
+  handleTabChange: (key: string) => void;
   activeKey?: string;
 
 };

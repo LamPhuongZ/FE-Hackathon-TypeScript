@@ -184,7 +184,7 @@ import { routeLink } from "../../main";
 import { UserRegisterType } from "../../pages/AuthPage/Register";
 import { notification } from "antd";
 import { JobSkill } from "./jobSkillReducer";
-import { RootState } from "../configStore";
+import { DispatchType, RootState } from "../configStore";
 
 export interface LoginState {
   username: string;
@@ -232,8 +232,12 @@ export const loginAPI = createAsyncThunk(
     try {
       const response = await httpClient.post("/api/v1/auth/sign-in", userLogin);
       console.log(response.data)
-      setCookie(USER_LOGIN, response.data, 30);
+      // setCookie(USER_LOGIN, response.data, 30);
+      // setCookie(ACCESS_TOKEN, response.data.data["access-token"], 30);
+            setCookie(USER_LOGIN, JSON.stringify(response.data), 30);
       setCookie(ACCESS_TOKEN, response.data.data["access-token"], 30);
+      const action: PayloadAction<LoginState> = setLoginAction(response.data);
+      dispatch(action);
       dispatch(setLoginAction(response.data));
       dispatch(setIsLoginAction(true));
       notification.success({
@@ -281,26 +285,49 @@ export const registerAPI = createAsyncThunk(
   }
 );
 
-export const getProfileAPI = createAsyncThunk(
-  "user/profile",
-  async (_, { getState, dispatch }) => {
-    const { isLogin } = (getState() as RootState).userReducer;
-    if (isLogin) {
-      try {
-        const response = await httpClient.get("/api/v1/self");
-        dispatch(setProfileAction(response.data));
-      } catch (error) {
-        console.log(error);
-        notification.error({
-          message: "Lấy thông tin cá nhân thất bại",
-          placement: "topRight",
-          duration: 1.5,
-        });
-        throw error;
-      }
+// export const getProfileAPI = createAsyncThunk(
+//   "user/profile",
+//   async (_, { getState, dispatch }) => {
+//     const { isLogin } = (getState() as RootState).userReducer;
+//     if (isLogin) {
+//       try {
+//         const response = await httpClient.get("/api/v1/self");
+//         dispatch(setProfileAction(response.data));
+//       } catch (error) {
+//         console.log(error);
+//         notification.error({
+//           message: "Lấy thông tin cá nhân thất bại",
+//           placement: "topRight",
+//           duration: 1.5,
+//         });
+//         throw error;
+//       }
+//     }
+//   }
+// );
+export const getProfileAPI = () => {
+  return async (dispatch: DispatchType) => {
+    try {
+      const response = await httpClient.get("/api/v1/self");
+
+      console.log(response.data);
+
+      const action: PayloadAction<UserProfileType> = setProfileAction(
+        response.data
+      );
+      dispatch(action);
+    } catch (error) {
+      // toast.error("Lấy thông tin cá nhân thất bại");
+      console.log(error);
+      notification.error({
+        message: "Đăng nhập thành công",
+        placement: "topRight",
+        duration: 1.5,
+      });
+      throw error;
     }
-  }
-);
+  };
+};
 
 const userReducer = createSlice({
   name: "userReducer",
@@ -418,8 +445,8 @@ export default userReducer.reducer;
 //   return async (dispatch: DispatchType) => {
 //     try {
 //       const response = await httpClient.post("/api/v1/auth/sign-in", userLogin);
-//       setDataJsonStorage(USER_LOGIN, response.data);
-//       setDataTextStorage(ACCESS_TOKEN, response.data.data["access-token"]);
+//       // setDataJsonStorage(USER_LOGIN, response.data);
+//       // setDataTextStorage(ACCESS_TOKEN, response.data.data["access-token"]);
 //       setCookie(ACCESS_TOKEN, response.data.data["access-token"], 30);
 //       const action: PayloadAction<LoginState> = setLoginAction(response.data);
 //       dispatch(action);

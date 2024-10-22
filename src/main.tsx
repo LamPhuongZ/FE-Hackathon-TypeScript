@@ -9,6 +9,7 @@ import { createBrowserHistory } from "history";
 import { unstable_HistoryRouter as HistoryRouter, Route, Routes } from 'react-router-dom'
 import ReactDOM from "react-dom/client";
 import Loading from "./components/loading";
+import Authenticate from "./pages/AuthPage/Authenticate";
 
 const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -42,7 +43,7 @@ root.render(
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/more-card" element={<ListCardPage />} />
               <Route path="/card-detail-job/:jobId" element={<JobCardDetailPage />} />
-              <Route path="/profile-worker-page" element={<ProfileWorkerPage />} />
+              {/* <Route path="/profile-worker-page" element={<ProfileWorkerPage />} /> */}
               {/* <Route path="/search" element={<SearchPage />} /> */}
 
             </Route>

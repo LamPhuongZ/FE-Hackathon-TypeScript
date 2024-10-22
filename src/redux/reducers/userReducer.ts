@@ -12,6 +12,7 @@ import { UserLoginType } from "../../pages/AuthPage/Login";
 import { routeLink } from "../../main";
 import { UserRegisterType } from "../../pages/AuthPage/Register";
 import { notification } from "antd";
+import { JobSkill } from "./jobSkillReducer";
 
 export interface LoginState {
   username: string;
@@ -37,12 +38,6 @@ export interface UserProfileType {
   provinceId: string;
   districtId: string;
   jobSkills: JobSkill[];
-}
-
-export interface JobSkill {
-  id: number;
-  skill: string;
-  description: string;
 }
 
 export interface UserState {
@@ -87,8 +82,9 @@ export const loginAPI = (userLogin: UserLoginType) => {
   return async (dispatch: DispatchType) => {
     try {
       const response = await httpClient.post("/api/v1/auth/sign-in", userLogin);
-      setDataJsonStorage(USER_LOGIN, response.data);
-      setDataTextStorage(ACCESS_TOKEN, response.data.data["access-token"]);
+      // setDataJsonStorage(USER_LOGIN, response.data);
+      // setDataTextStorage(ACCESS_TOKEN, response.data.data["access-token"]);
+      setCookie(USER_LOGIN, JSON.stringify(response.data), 30);
       setCookie(ACCESS_TOKEN, response.data.data["access-token"], 30);
       const action: PayloadAction<LoginState> = setLoginAction(response.data);
       dispatch(action);
@@ -143,7 +139,7 @@ export const registerAPI = (userRegister: UserRegisterType) => {
 export const getProfileAPI = () => {
   return async (dispatch: DispatchType) => {
     try {
-      const response = await httpClient.post("/api/v1/self");
+      const response = await httpClient.get("/api/v1/self");
 
       console.log(response.data);
 

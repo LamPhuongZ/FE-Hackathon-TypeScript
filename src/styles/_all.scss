@@ -7,10 +7,12 @@
 
 @import "./base/reset";
 
+
+@import "./components/field";
+
 @import "./components/header";
 @import "./components/banner";
 @import "./components/footer";
-
 
 body {
   background-color: #f4f9fd;
@@ -22,6 +24,13 @@ body {
 
 .content__layout {
   @apply pt-[66px] relative w-full overflow-x-hidden;
+}
+
+textarea::-webkit-input-placeholder {
+  color: #84878b;
+}
+textarea::-moz-input-placeholder {
+  color: #84878b;
 }
 
 .form-layout {

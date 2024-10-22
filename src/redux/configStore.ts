@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import jobReducer from "./reducers/jobReducer";
 import userReducer from "./reducers/userReducer";
+import typeReducer from "./reducers/typeReducer";
+import jobSkillReducer from "./reducers/jobSkillReducer";
 
 export const store = configureStore({
   reducer: {
-    jobReducer: jobReducer,
+    jobReducer,
+    jobSkillReducer,
     userReducer,
+    typeReducer,
   },
 });
 

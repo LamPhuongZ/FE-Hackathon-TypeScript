@@ -1,9 +1,24 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo-company.png";
 import Button from "../button/Button";
+import { useDispatch } from "react-redux";
+import { DispatchType } from "../../redux/configStore";
+import { getProfileAPI } from "../../redux/reducers/userReducer";
+import { useEffect } from "react";
 
 export default function Header() {
   const navigate = useNavigate();
+
+  const dispatch: DispatchType = useDispatch();
+
+  const getMe = async () => {
+    const actionAPI = getProfileAPI();
+    dispatch(actionAPI);
+  };
+
+  useEffect(() => {
+    getMe();
+  }, []);
 
   return (
     <header className="header">
@@ -24,7 +39,7 @@ export default function Header() {
               <Link to="/find-job">Tìm việc</Link>
             </li>
             <li>
-              <Link to="/">Chính sách</Link>
+              <Link to="/policy-page">Chính sách</Link>
             </li>
             <li>
               <Link to="/landing-page">Về chúng tôi</Link>
@@ -34,7 +49,7 @@ export default function Header() {
             <Button
               title="Đăng nhập / Đăng ký"
               color="custom"
-              className="text-xl lg:text-base font-bold bg-[#DC2E55] text-white w-[235px] h-[50px] hover:bg-[#f03760]"
+              className="btn__login"
               onClick={() => navigate("/login")}
               circle={false}
             />

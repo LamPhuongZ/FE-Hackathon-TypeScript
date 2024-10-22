@@ -20,8 +20,44 @@
   & > .banner__group {
     @apply px-[267px] flex flex-col gap-10;
 
-      & > .banner__search {
-        @apply bg-white;
+    & > .banner__search {
+      @apply bg-white px-5 py-3 rounded-[20px] flex gap-4;
+
+      & > .input__search {
+        @apply outline-none py-4 flex-1;
       }
+
+      & > .line {
+        @apply border border-black;
+      }
+
+      & > .select__area {
+        @apply outline-none py-4 text-xl font-semibold;
+      }
+
+      & > .btn__search {
+        @apply w-[172px] h-[50px] text-xl font-bold;
+      }
+    }
+
+    & > .popular__keywords {
+      @apply mx-5 mt-5 mb-[76px];
+
+      & > .popular__keywords__group {
+        @apply flex gap-4;
+
+        & > .title {
+          @apply text-xl font-semibold;
+        }
+
+        & > .skills {
+          @apply flex flex-wrap gap-4 justify-center [flex:1_1_0%];
+
+          & > .btn__jobSkill {
+            @apply w-auto h-auto px-4 py-2 bg-transparent text-black hover:bg-tw-text-opacity hover:text-white text-xl font-medium rounded-[20px] border-2 border-[#707070];
+          }
+        }
+      }
+    }
   }
 }

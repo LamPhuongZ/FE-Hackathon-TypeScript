@@ -12,6 +12,7 @@ import { UserLoginType } from "../../pages/AuthPage/Login";
 import { routeLink } from "../../main";
 import { UserRegisterType } from "../../pages/AuthPage/Register";
 import { notification } from "antd";
+import { JobSkill } from "./jobSkillReducer";
 
 
 export interface LoginState {
@@ -38,12 +39,6 @@ export interface UserProfileType {
   provinceId: string;
   districtId: string;
   jobSkills: JobSkill[];
-}
-
-export interface JobSkill {
-  id: number;
-  skill: string;
-  description: string;
 }
 
 export interface UserState {

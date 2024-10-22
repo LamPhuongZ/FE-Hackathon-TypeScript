@@ -1,10 +1,30 @@
-import { FilterOutlined, SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import banner1 from "../../../../assets/images/banner1.png";
 import banner2 from "../../../../assets/images/banner2.png";
-import Field from "../../../../components/field/Field";
-import Label from "../../../../components/label/Label";
+import Button from "../../../../components/button/Button";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { DispatchType, RootState } from "../../../../redux/configStore";
+import {
+  getDataJobSkillAPI,
+  JobSkill,
+} from "../../../../redux/reducers/jobSkillReducer";
 
 export default function Banner() {
+  const { objJobSkill } = useSelector(
+    (state: RootState) => state.jobSkillReducer
+  );
+  const dispatch: DispatchType = useDispatch();
+
+  const getDataJobSkillList = async () => {
+    const actionAPI = getDataJobSkillAPI();
+    dispatch(actionAPI);
+  };
+
+  useEffect(() => {
+    getDataJobSkillList();
+  }, []);
+
   return (
     <div className="banner">
       <div className="banner__top">
@@ -21,46 +41,40 @@ export default function Banner() {
 
       <div className="banner__group">
         <div className="banner__search">
-          <div className="">
-            <Field>
-              <div className="top-feature-group flex-1 relative">
-                <div className="absolute left-3 top-[70%] transform -translate-y-1/2">
-                  <SearchOutlined
-                    className="text-gray-500"
-                    style={{ fontSize: "24px" }}
-                  />
-                </div>
-                <input
-                  type="text"
-                  name="search"
-                  placeholder="Tìm kiếm"
-                  className="border rounded-md pl-[20px] pr-12 py-[16px] w-full"
-                />
-              </div>
-            </Field>
+          <SearchOutlined
+            className="icon__search"
+            style={{ fontSize: "24px" }}
+          />
+          <input
+            type="text"
+            placeholder="Tìm kiếm"
+            className="input__search"
+          />
+          <div className="line"></div>
+          <select className="select__area">
+            <option value="all">Tất cả địa điểm</option>
+          </select>
+          <Button title="Tìm kiếm" className="btn__search" circle={false} />
+        </div>
 
-            {/* <Field>
-              <div className="top-feature-group flex-1 relative">
-                <Label htmlFor="chooseType">Loại Công Việc</Label>
-                <div className="absolute right-3 top-[70%] transform -translate-y-1/2">
-                  <FilterOutlined
-                    className="text-gray-500"
-                    style={{ fontSize: "24px" }}
+        <div className="popular__keywords">
+          <div className="popular__keywords__group">
+            <span className="title">Từ khóa phổ biến:</span>
+            <div className="skills">
+              {Array.isArray(objJobSkill) && objJobSkill.length > 0 ? (
+                objJobSkill.slice(0, 12).map((keyword: JobSkill, index: number) => (
+                  <Button
+                    key={index}
+                    title={keyword.skill}
+                    className="btn__jobSkill"
+                    circle={false}
+                    color="custom"
                   />
-                </div>
-                <input
-                  type="text"
-                  name="chooseType"
-                  placeholder="Loại Công Việc"
-                  className="border rounded-md pl-[20px] pr-12 py-[16px] w-full"
-                />
-              </div>
-            </Field>
-            <Field>
-              <p className="text-2xl font-bold pt-11">
-                Khu vực: Thành phố HỒ CHÍ MINH
-              </p>
-            </Field> */}
+                ))
+              ) : (
+                <p>Không có từ khóa phổ biến</p>
+              )}
+            </div>
           </div>
         </div>
       </div>

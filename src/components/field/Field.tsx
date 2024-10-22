@@ -1,9 +1,10 @@
-import { PropsWithChildren } from "react";
+import { ReactNode } from "react";
 
-export default function Field({ children }: PropsWithChildren) {
-  return (
-    <div className="field">
-      {children}
-    </div>
-  );
+type Props = {
+  className?: string;
+  children?: ReactNode;
+};
+
+export default function Field({ children, className }: Props) {
+  return <div className={`field ${className}`}>{children}</div>;
 }

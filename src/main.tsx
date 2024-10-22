@@ -24,6 +24,7 @@ const LoginAndRegister = lazy(()=> import("./pages/AuthPage"));
 const SearchPage = lazy(()=> import("./pages/SearchPage"));
 const ProfileEmployerPage = lazy (()=>import("./pages/ProfileEmployer"));
 const ProfileEmployeePage = lazy(() => import("./pages/ProfileEmployeePage"));
+const PolicyPage = lazy(()=>import("./pages/PolicyPage"));
 
 export const routeLink: any = createBrowserHistory();
 
@@ -54,6 +55,10 @@ root.render(
             <Route
               path="/profile-employee-page"
               element={<ProfileEmployeePage />}
+            />
+            <Route
+              path="/policy-page"
+              element={<PolicyPage />}
             />
           </Route>
           <Route path="/login" element={<LoginAndRegister />} />

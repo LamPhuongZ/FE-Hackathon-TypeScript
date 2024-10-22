@@ -16,7 +16,7 @@ export default function Footer() {
             <h1 className="title">Việc Làm Dễ</h1>
           </div>
           <div className="footerLine__right">
-            <Link to={""}>
+            <Link to={""} >
               <img src={logoFacebook} alt="Facebook Logo" className="h-8" />
             </Link>
             <Link to={""}>

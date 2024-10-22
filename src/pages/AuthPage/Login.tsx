@@ -52,7 +52,6 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
       callbackUrl
     )}&response_type=code&client_id=${googleClientId}&scope=openid%20email%20profile`;
 
-    // console.log(role);
     localStorage.setItem("role", role);
 
     window.location.href = targetUrl;

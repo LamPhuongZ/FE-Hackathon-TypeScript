@@ -34,7 +34,6 @@ function AuthPage() {
       <section className="w-full h-full flex justify-center items-center mt-[2%]">
         <div style={{ padding: "30px" }} className="w-[500px] bg-white rounded shadow-[0_19px_38px_rgba(0,0,0,0.3),_0_15px_12px_rgba(0,0,0,0.22)]">
           
-        {/* ForgotPass */}
           <Tabs className="login-register-tabs"
           animated
             defaultActiveKey="1"

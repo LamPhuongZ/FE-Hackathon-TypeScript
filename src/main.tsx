@@ -34,6 +34,23 @@ root.render(
   <Provider store={store}>
     <Suspense fallback={<Loading />}>
       <HistoryRouter history={routeLink}>
+          <Routes>
+            <Route path="" element={<HomeTemplate />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/list-job" element={<ListJobPage />} />
+              <Route path="/landing-page" element={<LandingPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/more-card" element={<ListCardPage />} />
+              <Route path="/card-detail-job/:jobId" element={<JobCardDetailPage />} />
+              <Route path="/profile-worker-page" element={<ProfileWorkerPage />} />
+              {/* <Route path="/search" element={<SearchPage />} /> */}
+
+            </Route>
+            <Route path="/login" element={<LoginAndRegister />} />
+            <Route path="/authenticate" element={<Authenticate />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+          <ToastContainer />
         <Routes>
           <Route path="" element={<HomeTemplate />}>
             <Route path="/" element={<HomePage />} />

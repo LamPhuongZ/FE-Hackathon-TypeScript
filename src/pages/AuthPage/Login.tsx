@@ -18,8 +18,9 @@ import { DispatchType } from "../../redux/configStore";
 import { useState } from "react";
 
 type LoginProps = {
-  handleTabChange: (key: string) => void;
-  activeKey: string;
+  handleTabChange?: (key: string) => void;
+  activeKey?: string;
+
 };
 
 export type UserLoginType = {
@@ -70,12 +71,14 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
     <>
       {contextHolder}
       <Tabs className="LoginTabs" centered defaultActiveKey="1" onChange={handleRoleChange}>
-        <Tabs.TabPane  tab="Người tìm việc" key="1">
+        <Tabs.TabPane  tab="Ứng viên" key="1">
           {/* Employer login form */}
           <div className="flex flex-col items-center gap-3">
             <div>
               <Title level={1} className="text-[20px] !mb-0 text-center">
-                Trang đăng nhập cho người tìm việc
+              
+              Ứng viên
+           
               </Title>
             </div>
             <div className="flex gap-2 items-center">
@@ -161,12 +164,14 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
             </Form.Item>
           </Form>
         </Tabs.TabPane>
-        <Tabs.TabPane tab="Người thuê" key="2">
+        <Tabs.TabPane tab="Nhà tuyển dụng" key="2">
           {/* Candidate login form */}
           <div className="flex flex-col items-center gap-3">
             <div>
               <Title level={1} className="text-[20px] !mb-0 text-center">
-                Trang đăng nhập cho người thuê
+              
+              Nhà tuyển dụng
+           
               </Title>
             </div>
             <div className="flex gap-2 items-center ">

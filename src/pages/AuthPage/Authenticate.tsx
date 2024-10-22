@@ -17,8 +17,6 @@ export default function Authenticate() {
 
 
  // Lấy Role từ localStorage
-    const role = localStorage.getItem("role"); 
-
     const authCodeRegex = /code=([^&]+)/;
     const isMatch = window.location.href.match(authCodeRegex);
 

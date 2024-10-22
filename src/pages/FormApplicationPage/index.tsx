@@ -79,7 +79,7 @@ export default function FormApplication() {
     try {
       // Kiểm tra xem có ảnh nào đã bị xóa không
       if (imagesDeleted.some((deleted) => deleted)) {
-        toast.error("Vui lòng kiểm tra lại ảnh đã xóa!");
+        toast.error("Vui lòng tải lại ảnh!");
         return;
       }
       toast.success("Đã đăng bài thành công!");
@@ -118,8 +118,13 @@ export default function FormApplication() {
 
   return (
     <div className="py-20 px-[72px]">
-      <form onSubmit={handleSubmit(handlePost)}>
-        <div className="bg-white py-14 shadow-md px-11 rounded-xl">
+      <div className="bg-white py-4 shadow-md px-11 rounded-xl">
+        <div className="mb-5 py-10">
+          <div>
+            <h1 className="text-[40px] font-semibold capitalize">Đăng bài ứng tuyển</h1>
+          </div>
+        </div>
+        <form onSubmit={handleSubmit(handlePost)}>
           <div className="mb-5 lg:mb-10">
             <Field>
               <Label htmlFor="titlePost">Tiêu đề ứng tuyển</Label>
@@ -267,8 +272,8 @@ export default function FormApplication() {
             </Field>
           </div>
           <Button type="submit" title="Đăng Bài" className="w-full mt-10" />
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

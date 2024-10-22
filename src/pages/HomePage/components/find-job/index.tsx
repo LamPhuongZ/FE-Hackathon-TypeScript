@@ -30,7 +30,7 @@ export default function FindJob() {
   return (
     <section className="findJob">
       <div className="findJob__top">
-        <h1 className="title">
+        <h1 className="title ">
           Tìm việc
         </h1>
         <Link
@@ -45,7 +45,7 @@ export default function FindJob() {
               viewBox="0 0 24 24"
               strokeWidth="1.5"
               stroke="currentColor"
-              className="w-6 h-6"
+              className="w-6 h-6 small-phone:w-4 small-phone:h-4"
             >
               <path
                 strokeLinecap="round"
@@ -62,6 +62,7 @@ export default function FindJob() {
             <JobCard
               item={item}
               onSelect={() => navigate(`/card-detail-job/${item.jobId}`)}
+              showImages={true}
             />
           </div>
         ))}

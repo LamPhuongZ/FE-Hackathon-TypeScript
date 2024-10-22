@@ -9,8 +9,10 @@ import {
   getDataJobDetailAPI,
 } from "../../redux/reducers/jobReducer";
 import { Pagination } from "antd";
+import { useNavigate } from "react-router-dom";
 
 export default function ListJobPage() {
+  const navigate = useNavigate();
   const [selectedJobCard, setSelectedJobCard] = useState<number>(1);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const pageSize = 7;
@@ -55,12 +57,25 @@ export default function ListJobPage() {
   const renderJobs = (): JSX.Element[] => {
     // Use nullish coalescing to ensure `renderJobs` always returns an array
     return (objJob?.content ?? []).map((item: Content) => {
+      const handleJobClick = () => {
+        console.log("Kích thước cửa sổ:", window.innerWidth); // Kiểm tra kích thước cửa sổ
+        if (window.innerWidth <= 840) {
+          // Điều kiện cho thiết bị nhỏ hơn iPad Mini
+          handleSelectJobCard(item.jobId);
+          navigate(`/card-detail-job/${item.jobId}`); // Điều hướng đến trang chi tiết công việc
+        } else {
+          handleSelectJobCard(item.jobId); // Gọi handleSelectJobCard cho thiết bị lớn hơn
+        }
+      };
+
       return (
         <div key={item.jobId}>
           <JobCard
             item={item}
-            isSelected={selectedJobCard === item.jobId}
-            onSelect={() => handleSelectJobCard(item.jobId)}
+            isSelected={
+              window.innerWidth > 840 ? selectedJobCard === item.jobId : false
+            }
+            onSelect={handleJobClick}
             width="w-[191px]"
           />
         </div>
@@ -71,9 +86,11 @@ export default function ListJobPage() {
   //
   return (
     <div>
-      <div className="grid grid-cols-[453px_minmax(0,_1fr)] gap-x-7 py-4 px-[72px]">
+      <div className="grid grid-cols-[453px_minmax(0,_1fr)] gap-x-7 py-4 px-[72px] small-tablet:grid-cols-1 small-tablet:px-[20px]">
         <div className="flex flex-col gap-8">{renderJobs()}</div>
-        {objJobDetails && <JobCardDetail item={objJobDetails} />}
+        <div className="small-tablet:hidden">
+          {objJobDetails && <JobCardDetail item={objJobDetails} />}
+        </div>
       </div>
       <Pagination
         style={{

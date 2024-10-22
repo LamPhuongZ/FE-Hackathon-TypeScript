@@ -19,6 +19,7 @@ const ListJobPage = lazy(() => import("./pages/ListJobPage"));
 const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const ListCardPage = lazy(() => import("./pages/ListCardPage"));
 const JobCardDetailPage = lazy(() => import("./pages/JobCardDetailPage"));
+const FormApplicationPage = lazy(() => import("./pages/FormApplicationPage"));
 const LoginAndRegister = lazy(()=> import("./pages/AuthPage"));
 const SearchPage = lazy(()=> import("./pages/SearchPage"));
 const ProfileEmployerPage = lazy (()=>import("./pages/ProfileEmployer"));
@@ -45,6 +46,7 @@ root.render(
               path="/card-detail-job/:jobId"
               element={<JobCardDetailPage />}
             />
+            <Route path="/form-application" element={<FormApplicationPage/>} />
             <Route path="/search" element={<SearchPage />} />
             <Route
               path="/profile-employer-page"

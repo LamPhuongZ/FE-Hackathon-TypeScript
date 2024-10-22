@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import upIMG from "../../assets/images/img-upload.png";
 import clsx from "clsx";
 
 interface ImageUploadProps extends Partial<HTMLInputElement> {
   listType?: "picture-circle" | "text" | "picture";
   onFileSelect: (file: File | null) => void;
+  resetTrigger?: boolean;
+  onRemove?: () => void; // Thêm prop để xử lý xóa ảnh
 }
 
 export default function ImageUploadProps({
@@ -12,29 +14,50 @@ export default function ImageUploadProps({
   className,
   name,
   onFileSelect: handleFileSelect,
+  resetTrigger, // Prop để trigger reset
+  onRemove,
 }: ImageUploadProps) {
-  const [imageSelect, setImageSelect] = useState<File>();
+ 
+  const [imageSelect, setImageSelect] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
+
+  useEffect(() => {
+    if (resetTrigger) {
+      setImageSelect(""); // Clear image on reset
+      setImageUrl(""); // Clear image URL on reset
+      handleFileSelect(null); // Notify parent to clear the image field
+    }
+  }, [resetTrigger]);
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const file = e.target.files?.[0] || null;
     if (file) {
-      setImageSelect(file);
+      setImageSelect(file.name);
+      setImageUrl(URL.createObjectURL(file));
       handleFileSelect(file);
     }
+
+    // Reset giá trị của input file để đảm bảo có thể chọn lại cùng tấm hình
+    e.target.value = ""; // Reset input file sau khi chọn ảnh
   };
 
   const handleImageRemove = () => {
-    setImageSelect(undefined);
+    if (imageUrl) {
+      URL.revokeObjectURL(imageUrl);
+    }
+    setImageSelect("");
+    setImageUrl("");
     handleFileSelect(null);
+    if (onRemove) onRemove(); // Gọi hàm xóa ảnh từ component cha
   };
 
   return (
     <label
       className={clsx(
-        `cursor-pointer flex items-center justify-center bg-gray-100 border border-dashed w-full min-h-[200px] rounded-lg relative overflow-hidden group`,
+        `cursor-pointer flex items-center justify-center bg-gray-100 border border-dashed w-full min-h-[300px] rounded-lg relative overflow-hidden group`,
         className,
         {
-          ["!rounded-full h-full"]: listType === "picture-circle",
+          ["!rounded-full !min-h-[250px]"]: listType === "picture-circle",
         }
       )}
     >
@@ -52,14 +75,15 @@ export default function ImageUploadProps({
       ) : (
         <>
           <img
-            src={URL.createObjectURL(imageSelect)}
+            src={imageUrl || ""}
             className="w-full h-full object-cover"
             alt=""
+            loading="lazy"
           />
           <button
             type="button"
-            className="w-16 h-16 bg-white rounded-full flex items-center justify-center cursor-pointer absolute z-10 text-red-500 opacity-0 invisible transition-all group-hover:opacity-100 group-hover:visible"
-            onClick={() => handleImageRemove()}
+            className="w-16 h-16 bg-white rounded-full flex items-center justify-center cursor-pointer absolute z-10 text-red-600 opacity-0 invisible transition-all group-hover:opacity-100 group-hover:visible "
+            onClick={handleImageRemove}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -12,7 +12,7 @@ import {
 } from "antd";
 import logoGoogle from "../../assets/icons/Google.svg";
 import { OAuthConfig } from "../../configs/configuration";
-import { loginAPI } from "../../redux/reducers/userReducer";
+import { loginAPI, setIsLoginAction } from "../../redux/reducers/userReducer";
 import { useDispatch } from "react-redux";
 import { DispatchType } from "../../redux/configStore";
 import { useState } from "react";
@@ -20,7 +20,6 @@ import { useState } from "react";
 type LoginProps = {
   handleTabChange: (key: string) => void;
   activeKey?: string;
-
 };
 
 export type UserLoginType = {
@@ -35,11 +34,10 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
   const [api, contextHolder] = notification.useNotification();
   const [role, setRole] = useState("ROLE_EMPLOYER");
 
-  console.log(api);
-
   const onFinish = (values: UserLoginType) => {
     const actionAsync = loginAPI(values);
     dispatch(actionAsync);
+    dispatch(setIsLoginAction(true));
   };
 
   //Google auth
@@ -54,7 +52,7 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
     )}&response_type=code&client_id=${googleClientId}&scope=openid%20email%20profile`;
 
     localStorage.setItem("role", role);
-
+    dispatch(setIsLoginAction(true));
     window.location.href = targetUrl;
   };
 
@@ -70,15 +68,18 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
   return (
     <>
       {contextHolder}
-      <Tabs className="LoginTabs" centered defaultActiveKey="1" onChange={handleRoleChange}>
-        <Tabs.TabPane  tab="Ứng viên" key="1">
+      <Tabs
+        className="LoginTabs"
+        centered
+        defaultActiveKey="1"
+        onChange={handleRoleChange}
+      >
+        <Tabs.TabPane tab="Ứng viên" key="1">
           {/* Employer login form */}
           <div className="flex flex-col items-center gap-3">
             <div>
               <Title level={1} className="text-[20px] !mb-0 text-center">
-              
-              Ứng viên
-           
+                Ứng viên
               </Title>
             </div>
             <div className="flex gap-2 items-center">
@@ -104,25 +105,26 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
               <img src={logoGoogle} alt="google" />
               Đăng nhập bằng Google
             </Button>
-            
           </div>
           <div className=" w-[full] flex  items-center mb-4">
-               <span className="block border-t border-blue-300 w-full mr-2"></span> Hoặc <span className="block border-t border-blue-300 w-full ml-2"></span>
-            </div>
-      <Form form={form} name="horizontal_login" onFinish={onFinish}>
-        <div className="flex flex-col ">
-          <Form.Item
-            name="username"
-            rules={[
-              {
-                type: "email",
-                required: true,
-                message: "Hãy nhập email của bạn",
-              },
-            ]}
-          >
-            <Input placeholder="Nhập email" required type="text" />
-          </Form.Item>
+            <span className="block border-t border-blue-300 w-full mr-2"></span>{" "}
+            Hoặc{" "}
+            <span className="block border-t border-blue-300 w-full ml-2"></span>
+          </div>
+          <Form form={form} name="horizontal_login" onFinish={onFinish}>
+            <div className="flex flex-col ">
+              <Form.Item
+                name="username"
+                rules={[
+                  {
+                    type: "email",
+                    required: true,
+                    message: "Hãy nhập email của bạn",
+                  },
+                ]}
+              >
+                <Input placeholder="Nhập email" required type="text" />
+              </Form.Item>
 
               <Form.Item
                 name="password"
@@ -145,21 +147,21 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
             <Form.Item>
               <Flex justify="space-between" align="center">
                 <Form.Item name="remember" valuePropName="checked" noStyle>
-                  <Checkbox>Remember me</Checkbox>
+                  <Checkbox>Ghi nhớ đăng nhập</Checkbox>
                 </Form.Item>
                 <button
                   onClick={() => {
                     handleTabChange("3");
                   }}
                 >
-                  <a href="#">Forgot password</a>
+                  <a href="#">Quên mật khẩu</a>
                 </button>
               </Flex>
             </Form.Item>
 
             <Form.Item>
               <Button block type="primary" htmlType="submit">
-                Log in
+                Đăng nhập
               </Button>
             </Form.Item>
           </Form>
@@ -169,9 +171,7 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
           <div className="flex flex-col items-center gap-3">
             <div>
               <Title level={1} className="text-[20px] !mb-0 text-center">
-              
-              Nhà tuyển dụng
-           
+                Nhà tuyển dụng
               </Title>
             </div>
             <div className="flex gap-2 items-center ">
@@ -199,22 +199,24 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
             </Button>
           </div>
           <div className=" w-[full] flex  items-center mb-4">
-               <span className="block border-t border-blue-300 w-full mr-2"></span> Hoặc <span className="block border-t border-blue-300 w-full ml-2"></span>
-            </div>
-      <Form form={form} name="horizontal_login" onFinish={onFinish}>
-        <div className="flex flex-col ">
-          <Form.Item
-            name="username"
-            rules={[
-              {
-                type: "email",
-                required: true,
-                message: "Hãy nhập email của bạn",
-              },
-            ]}
-          >
-            <Input placeholder="Nhập email" required type="text" />
-          </Form.Item>
+            <span className="block border-t border-blue-300 w-full mr-2"></span>{" "}
+            Hoặc{" "}
+            <span className="block border-t border-blue-300 w-full ml-2"></span>
+          </div>
+          <Form form={form} name="horizontal_login" onFinish={onFinish}>
+            <div className="flex flex-col ">
+              <Form.Item
+                name="username"
+                rules={[
+                  {
+                    type: "email",
+                    required: true,
+                    message: "Hãy nhập email của bạn",
+                  },
+                ]}
+              >
+                <Input placeholder="Nhập email" required type="text" />
+              </Form.Item>
 
               <Form.Item
                 name="password"
@@ -237,21 +239,21 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
             <Form.Item>
               <Flex justify="space-between" align="center">
                 <Form.Item name="remember" valuePropName="checked" noStyle>
-                  <Checkbox>Remember me</Checkbox>
+                  <Checkbox>Ghi nhớ đăng nhập</Checkbox>
                 </Form.Item>
                 <button
                   onClick={() => {
                     handleTabChange("3");
                   }}
                 >
-                  <a href="#">Forgot password</a>
+                  <a href="#">Quên mật khẩu</a>
                 </button>
               </Flex>
             </Form.Item>
 
             <Form.Item>
               <Button block type="primary" htmlType="submit">
-                Log in
+                Đăng nhập
               </Button>
             </Form.Item>
           </Form>

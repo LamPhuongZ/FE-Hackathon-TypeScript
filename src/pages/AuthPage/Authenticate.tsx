@@ -54,9 +54,4 @@ export default function Authenticate() {
       auth
     </>
   );
-  return (
-    <>
-      auth
-    </>
-  );
 }

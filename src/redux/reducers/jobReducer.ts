@@ -84,7 +84,7 @@ export const getDataJobAPI = (page: number, size: number) => {
 
     try {
       const res = await httpClient.get(
-        `/api/v1/job?page=${page}&size=${size}`
+        `/api/v1/job?page=${page}&size=${size}&direction=desc`
       );
       const action: PayloadAction<Job> = getJobsAction(res.data.data);
       dispatch(action);
@@ -103,6 +103,24 @@ export const getDataJobDetailAPI = (id: number) => {
     try {
       const res = await httpClient.get(`/api/v1/job/${id}`);
       const action: PayloadAction<Content> = getJobDetails(res.data.data);
+      dispatch(action);
+    } catch (error) {
+      console.error(error); 
+    } finally {
+      dispatch(setLoading(false)); 
+    }
+  };
+};
+
+export const getSearchDataJobAPI = (page: number, size: number, jobTypeId: number) => {
+  return async (dispatch: DispatchType) => {
+    dispatch(setLoading(true));
+
+    try {
+      const res = await httpClient.get(
+        `/api/v1/job?jobTypeId=${jobTypeId}&page=${page}&size=${size}&direction=desc`
+      );
+      const action: PayloadAction<Job> = getJobsAction(res.data.data);
       dispatch(action);
     } catch (error) {
       console.error(error); 

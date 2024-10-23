@@ -1,9 +1,12 @@
 import "./AuthPage.css";
-import React from "react";
+import React, { useState } from "react";
 import { Button, Form, Input, notification, Radio, Typography } from "antd";
 import { registerAPI } from "../../redux/reducers/userReducer";
 import { useDispatch } from "react-redux";
 import { DispatchType } from "../../redux/configStore";
+import logoGoogle from "../../assets/icons/Google.svg";
+import { OAuthConfig } from "../../configs/configuration";
+
 type LoginProps = {
   handleTabChange: (key: string) => void;
   activeKey: string;
@@ -34,6 +37,20 @@ const Register: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
       duration: 1.5,
     });
   };
+
+  const handleClickGoogle = (role:string) => {
+    const callbackUrl = OAuthConfig.redirectUri;
+    const authUrl = OAuthConfig.authUri;
+    const googleClientId = OAuthConfig.clientId;
+
+    //Redirect to Google form auth
+    const targetUrl = `${authUrl}?redirect_uri=${encodeURIComponent(
+      callbackUrl
+    )}&response_type=code&client_id=${googleClientId}&scope=openid%20email%20profile`;
+
+    localStorage.setItem("role", role);
+    window.location.href = targetUrl;
+  };
   
   return (
     <>
@@ -62,6 +79,38 @@ const Register: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
               </Link>
             </div>
           </div>
+          <div className=" w-[full] flex flex-col text-center items-center mb-4">
+            <span className="text-center whitespace-normal break-normal">Đăng ký bằng Google</span> 
+          </div>
+          <div className="flex justify-between w-full gap-2">
+          <Button
+          className=" flex items-center"
+              style={{width:'50%'}}
+              size="large"
+              onClick={() => handleClickGoogle('ROLE_EMPLOYER')}
+            >
+              <img src={logoGoogle} alt="google" />
+              <span> ỨNG VIÊN</span> 
+             
+            </Button>
+            <Button
+            className=" flex items-center"
+            style={{width:'50%'}}
+              size="large"
+              onClick={() => handleClickGoogle('ROLE_APPLIER')}
+            >
+              
+              <img src={logoGoogle} alt="google" />
+              <span>NHÀ TUYỂN DỤNG</span> 
+            </Button>
+          </div>
+          
+            <div className=" w-[full] flex  items-center mb-4">
+            <span className="block border-t border-blue-300 w-full mr-2"></span>{" "}
+            Hoặc{" "}
+            <span className="block border-t border-blue-300 w-full ml-2"></span>
+          </div>
+          
       <Form
         form={form}
         name="signup"
@@ -161,7 +210,7 @@ const Register: React.FC<LoginProps> = ({handleTabChange, activeKey}) => {
               type="primary"
               htmlType="submit"
             >
-              Register
+              Đăng ký
             </Button>
           </Form.Item>
       </Form>

@@ -4,7 +4,7 @@ import { delCookie, getCookie } from '../../utils/utilMethod'
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { DispatchType } from '../../redux/configStore';
-import { setIsLoginAction } from '../../redux/reducers/userReducer';
+import { setIsLoginAction, setProfileAction } from '../../redux/reducers/userReducer';
 
 
 const LogOut: React.FC = () => {
@@ -15,12 +15,15 @@ const dispatch: DispatchType = useDispatch();
 const handleDeleteToken = ()=>{
     delCookie("access_token")
     delCookie("userLogin")
+    // Clear the user profile data from the Redux store
+    dispatch(setProfileAction(null));
     // setIsLogin(false)
     api.success({
         message: 'Đăng xuất thành công',
         placement: 'topRight',
         duration: 1.5,
       });
+      
 }
 
 const handleLogOutApi = async ()=>{
@@ -35,6 +38,7 @@ const handleLogOutApi = async ()=>{
         dispatch(setIsLoginAction(false));
         console.log(response.data);
         handleDeleteToken()
+        dispatch(setIsLoginAction(false));
       } catch (error) {
         console.log('Bạn chưa đăng nhập vào ', error);
         api.error({

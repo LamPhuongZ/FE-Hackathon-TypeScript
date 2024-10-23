@@ -1,5 +1,5 @@
 import "./AuthPage.css";
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
+import { EyeInvisibleOutlined, EyeTwoTone, HomeOutlined, HomeTwoTone } from "@ant-design/icons";
 import {
   Button,
   Form,
@@ -16,6 +16,7 @@ import { loginAPI, setIsLoginAction } from "../../redux/reducers/userReducer";
 import { useDispatch } from "react-redux";
 import { DispatchType } from "../../redux/configStore";
 import { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 type LoginProps = {
   handleTabChange: (key: string) => void;
@@ -64,7 +65,7 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
       setRole("ROLE_APPLIER");
     }
   };
-
+  const navigate = useNavigate();
   return (
     <>
       {contextHolder}
@@ -74,8 +75,14 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
         defaultActiveKey="1"
         onChange={handleRoleChange}
       >
+        <Tabs.TabPane tab={<div>
+            <Button color="primary" variant="text" className="w-[50px] h-[50px]" onClick={()=>{
+              navigate('/', { replace: true });
+            }}><HomeTwoTone style={{fontSize:'30px'}}/></Button>
+          </div>}></Tabs.TabPane>
         <Tabs.TabPane tab="Ứng viên" key="1">
           {/* Employer login form */}
+          
           <div className="flex flex-col items-center gap-3">
             <div>
               <Title level={1} className="text-[20px] !mb-0 text-center">

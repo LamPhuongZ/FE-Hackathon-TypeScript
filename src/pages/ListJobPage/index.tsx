@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function ListJobPage() {
   const navigate = useNavigate();
-  const [selectedJobCard, setSelectedJobCard] = useState<number>(1);
+  const [selectedJobCard, setSelectedJobCard] = useState<number>();
   const [currentPage, setCurrentPage] = useState<number>(0);
   const pageSize = 7;
 
@@ -34,8 +34,17 @@ export default function ListJobPage() {
 
   useEffect(() => {
     getDataJobList(currentPage - 1, pageSize);
-    getDataJobDetail(1);
   }, [currentPage]);
+
+  useEffect(() => {
+    if (objJob?.content?.length) {
+      const newItem = objJob.content[objJob.content.length - 7];
+      if (newItem) {
+        setSelectedJobCard(newItem.jobId);
+        getDataJobDetail(newItem.jobId);
+      }
+    }
+  }, [objJob]);
 
   //
   // const fetchJobDetails = async (id: number) => {
@@ -58,9 +67,7 @@ export default function ListJobPage() {
     // Use nullish coalescing to ensure `renderJobs` always returns an array
     return (objJob?.content ?? []).map((item: Content) => {
       const handleJobClick = () => {
-        console.log("Kích thước cửa sổ:", window.innerWidth); // Kiểm tra kích thước cửa sổ
         if (window.innerWidth <= 840) {
-         
           navigate(`/card-detail-job/${item.jobId}`);
         } else {
           handleSelectJobCard(item.jobId);

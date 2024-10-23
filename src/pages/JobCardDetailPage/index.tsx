@@ -80,7 +80,7 @@ export default function JobCardDetailPage() {
 
   return (
     <div className="grid grid-cols-[867px_minmax(0,_1fr)] gap-x-7 py-20 px-[72px] 2xl:grid-cols-[1300px_minmax(0,_1fr)] small-tablet:grid-cols-[minmax(0,_1fr)] small-tablet:px-2 small-tablet:py-5 ">
-      {objJobDetails && <JobCardDetail item={objJobDetails} />}
+      <div>{objJobDetails && <JobCardDetail item={objJobDetails} />}</div>
 
       <div className="flex flex-col gap-6 small-tablet:hidden">
         <div className="flex flex-col items-end">

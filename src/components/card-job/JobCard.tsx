@@ -30,7 +30,6 @@ export default function JobCard({
       onClick={onSelect}
     >
       <div className="flex justify-center items-center gap-5">
-        {/* Kiểm tra nếu `showImages` là true thì hiển thị hình ảnh */}
         {showImages && item.images && item.images.length > 0 && (
           <img
             src={item.images[0].url}

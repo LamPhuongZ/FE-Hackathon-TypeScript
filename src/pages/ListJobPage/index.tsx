@@ -60,11 +60,10 @@ export default function ListJobPage() {
       const handleJobClick = () => {
         console.log("Kích thước cửa sổ:", window.innerWidth); // Kiểm tra kích thước cửa sổ
         if (window.innerWidth <= 840) {
-          // Điều kiện cho thiết bị nhỏ hơn iPad Mini
-          handleSelectJobCard(item.jobId);
-          navigate(`/card-detail-job/${item.jobId}`); // Điều hướng đến trang chi tiết công việc
+         
+          navigate(`/card-detail-job/${item.jobId}`);
         } else {
-          handleSelectJobCard(item.jobId); // Gọi handleSelectJobCard cho thiết bị lớn hơn
+          handleSelectJobCard(item.jobId);
         }
       };
 

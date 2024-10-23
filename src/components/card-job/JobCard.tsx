@@ -24,7 +24,7 @@ export default function JobCard({
 }: Props) {
   return (
     <div
-      className={`cursor-pointer w-full h-[203px] px-6 py-10 bg-white rounded-2xl shadow-md hover:shadow-xl flex flex-col gap-6 small-tablet:h-[137px] small-tablet:min-w-[330px] small-tablet:px-[15px] small-tablet:py-[10px] ${className} ${
+      className={`cursor-pointer w-full px-6 py-10 bg-white rounded-2xl shadow-md hover:shadow-xl flex flex-col gap-6 small-tablet:h-[137px] small-tablet:min-w-[330px] small-tablet:px-[15px] small-tablet:py-[10px] ${className} ${
         isSelected ? "selectCard" : ""
       }`}
       onClick={onSelect}
@@ -76,8 +76,8 @@ export default function JobCard({
           <div className="border border-solid border-[#E4E6E8] w-full"></div>
           <div className="flex justify-between">
             <div className="bg-[#E8E8E8] rounded-[20px]">
-              <p className="text-lg font-semibold px-[10px] py-[5px] small-tablet:text-sm small-tablet:px-[5px] small-tablet:py-[3px]">
-                Giao hàng
+              <p className="text-sm font-medium px-[10px] py-[5px] small-tablet:text-sm small-tablet:px-[5px] small-tablet:py-[3px]">
+              {item.jobType.name}
               </p>
             </div>
             <div className="flex items-center gap-1">
@@ -89,7 +89,7 @@ export default function JobCard({
                 />
               </div>
               <p className=" pt-1 small-tablet:text-sm">
-                số 5, phường 5, quận 5
+              {item.address}
               </p>
             </div>
           </div>

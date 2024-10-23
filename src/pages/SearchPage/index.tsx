@@ -32,7 +32,7 @@ export default function SearchPage() {
       <div className="search__content">
         {objJob?.content.map((item: Content) => (
           <div key={item.jobId}>
-            <JobCard item={item} showImages={true} />
+            <JobCard item={item} showImages={true} showButton={true} />
           </div>
         ))}
 

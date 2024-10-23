@@ -3,6 +3,7 @@ import checked from "../../assets/images/checked.png";
 import location from "../../assets/images/location.png";
 import calendar from "../../assets/images/calendar.png";
 import { Content } from "../../redux/reducers/jobReducer";
+import Button from "../button/Button";
 
 type Props = {
   item: Content;
@@ -12,6 +13,7 @@ type Props = {
   onClick?: () => void;
   width?: string;
   showImages?: boolean;
+  showButton?: boolean;
 };
 
 export default function JobCard({
@@ -21,6 +23,7 @@ export default function JobCard({
   className,
   width = "w-full",
   showImages = false,
+  showButton = false,
 }: Props) {
   return (
     <div
@@ -90,6 +93,9 @@ export default function JobCard({
             </div>
           </div>
         </div>
+
+        {/* Kiểm tra nếu `showButton` là true thì hiển thị button */}
+        {showButton && <Button title="Ứng Viên" color="delete" className="w-1/5" circle={false}  />}
       </div>
     </div>
   );

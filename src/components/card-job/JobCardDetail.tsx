@@ -103,36 +103,40 @@ export default function JobCardDetail({ item }: Props) {
       </div>
       <div className="border border-solid"></div>
       <div className="mt-[30px]">
-        <div className="min-w-[800px] h-[350px] 2xl:w-full">
-          <img
-            src={item.images[0].url}
-            alt=""
-            className="w-full h-full rounded-[20px] object-cover"
-          />
-        </div>
-        <div className="flex justify-evenly gap-8 mt-7 mb-9">
-          <div className="w-[250px] h-[128px] 2xl:w-full">
-            <img
-              src={item.images[1].url}
-              alt=""
-              className="w-full h-full rounded-[20px] object-cover"
-            />
-          </div>
-          <div className="w-[250px] h-[128px] 2xl:w-full">
-            <img
-              src={item.images[2].url}
-              alt=""
-              className="w-full h-full rounded-[20px] object-cover"
-            />
-          </div>
-          <div className="w-[250px] h-[128px] 2xl:w-full">
-            <img
-              src={item.images[3].url}
-              alt=""
-              className="w-full h-full rounded-[20px] object-cover"
-            />
-          </div>
-        </div>
+        {item.images.length > 0 && (
+          <>
+            <div className="min-w-[800px] h-[350px] 2xl:w-full">
+              <img
+                src={item.images[0].url}
+                alt=""
+                className="w-full h-full rounded-[20px] object-cover"
+              />
+            </div>
+            <div className="flex justify-evenly gap-8 mt-7 mb-9">
+              <div className="w-[250px] h-[128px] 2xl:w-full">
+                <img
+                  src={item.images[1].url}
+                  alt=""
+                  className="w-full h-full rounded-[20px] object-cover"
+                />
+              </div>
+              <div className="w-[250px] h-[128px] 2xl:w-full">
+                <img
+                  src={item.images[2].url}
+                  alt=""
+                  className="w-full h-full rounded-[20px] object-cover"
+                />
+              </div>
+              <div className="w-[250px] h-[128px] 2xl:w-full">
+                <img
+                  src={item.images[3].url}
+                  alt=""
+                  className="w-full h-full rounded-[20px] object-cover"
+                />
+              </div>
+            </div>
+          </>
+        )}
         <div>
           <h1 className="text-[20px] font-semibold mb-2">Mô tả</h1>
           <div className="border border-solid rounded-[20px] px-[26px] py-[18px]">

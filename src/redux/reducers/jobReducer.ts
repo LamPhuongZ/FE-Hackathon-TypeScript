@@ -111,3 +111,21 @@ export const getDataJobDetailAPI = (id: number) => {
     }
   };
 };
+
+export const getSearchDataJobAPI = (page: number, size: number, jobTypeId: number) => {
+  return async (dispatch: DispatchType) => {
+    dispatch(setLoading(true));
+
+    try {
+      const res = await httpClient.get(
+        `/api/v1/job?jobTypeId=${jobTypeId}&page=${page}&size=${size}&direction=desc`
+      );
+      const action: PayloadAction<Job> = getJobsAction(res.data.data);
+      dispatch(action);
+    } catch (error) {
+      console.error(error); 
+    } finally {
+      dispatch(setLoading(false)); 
+    }
+  };
+};

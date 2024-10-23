@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Flex, Form, Input, notification, Typography } from "antd";
+import { Button, Form, Input, notification, Typography } from "antd";
 import axios from "axios";
 
 type ForgotPasswordProps = {

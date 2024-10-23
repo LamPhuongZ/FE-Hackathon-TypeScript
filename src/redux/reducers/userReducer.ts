@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { getCookie, getDataJsonStorage, setCookie } from "../../utils/utilMethod";
+import { getCookie, setCookie } from "../../utils/utilMethod";
 import { ACCESS_TOKEN, httpClient, USER_LOGIN } from "../../utils/config";
 import { UserLoginType } from "../../pages/AuthPage/Login";
 import { routeLink } from "../../main";
 import { UserRegisterType } from "../../pages/AuthPage/Register";
 import { notification } from "antd";
 import { JobSkill } from "./jobSkillReducer";
-import { DispatchType, RootState } from "../configStore";
+import { DispatchType } from "../configStore";
 
 export interface LoginState {
   username?: string;
@@ -42,11 +42,10 @@ export interface UserState {
 }
 
 const initialState: UserState = {
-  // userLogin: getDataJsonStorage(USER_LOGIN),
-  userLogin : JSON.stringify(getCookie(USER_LOGIN)),
+  userLogin: getCookie(USER_LOGIN) ? JSON.parse(getCookie(USER_LOGIN)!) : null,
   userProfile: null,
   userRegister: null,
-  isLogin: !!getCookie(USER_LOGIN), 
+  isLogin: !!getCookie(USER_LOGIN),
 };
 
 export const loginAPI = createAsyncThunk(
@@ -110,10 +109,8 @@ export const getProfileAPI = () => {
     try {
       const response = await httpClient.get("/api/v1/self");
 
-      console.log(response.data);
-
-      const action: PayloadAction<UserProfileType> = setProfileAction(
-        response.data
+      const action: PayloadAction<UserProfileType | null> = setProfileAction(
+        response.data.data
       );
       dispatch(action);
     } catch (error) {
@@ -137,7 +134,7 @@ const userReducer = createSlice({
     },
     setProfileAction: (
       state: UserState,
-      action: PayloadAction<UserProfileType>
+      action: PayloadAction<UserProfileType | null>
     ) => {
       state.userProfile = action.payload;
     },
@@ -153,35 +150,12 @@ const userReducer = createSlice({
   },
 });
 
-export const { setLoginAction, setProfileAction, setRegisterAction, setIsLoginAction } =
-  userReducer.actions;
+export const {
+  setLoginAction,
+  setProfileAction,
+  setRegisterAction,
+  setIsLoginAction,
+} = userReducer.actions;
 export default userReducer.reducer;
 
 export { userReducer };
-
-// export const loginGoogleAPI = (userLogin: UserLoginType) => {
-//   return async (dispatch: DispatchType) => {
-//     try {
-//       const response = await httpClient.post("/api/v1/auth/sign-in", userLogin);
-//       // setDataJsonStorage(USER_LOGIN, response.data);
-//       // setDataTextStorage(ACCESS_TOKEN, response.data.data["access-token"]);
-//       setCookie(ACCESS_TOKEN, response.data.data["access-token"], 30);
-//       const action: PayloadAction<LoginState> = setLoginAction(response.data);
-//       dispatch(action);
-//       notification.success({
-//         message: "Đăng nhập thành công",
-//         placement: "topRight",
-//         duration: 1.5,
-//       });
-//       routeLink.push("/");
-//     } catch (error) {
-//       console.log(error);
-//       notification.error({
-//         message: "Đăng nhập thất bại",
-//         placement: "topRight",
-//         duration: 1.5,
-//       });
-//       throw error;
-//     }
-//   };
-// };

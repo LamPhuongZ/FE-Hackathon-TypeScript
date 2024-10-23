@@ -2,9 +2,6 @@ import { Outlet } from "react-router-dom";
 import Footer from "../components/footer";
 import Header from "../components/header";
 import Banner from "../pages/HomePage/components/banner";
-import Login from "../pages/AuthPage/Login";
-
-
 
 export default function HomeTemplate() {
   return (

@@ -24,7 +24,7 @@ export default function JobCard({
 }: Props) {
   return (
     <div
-      className={`cursor-pointer w-full h-[203px] px-6 py-10 bg-white rounded-2xl shadow-md hover:shadow-xl flex flex-col gap-6 ${className} ${
+      className={`cursor-pointer w-full px-6 py-10 bg-white rounded-2xl shadow-md hover:shadow-xl flex flex-col gap-6 small-tablet:h-[137px] small-tablet:min-w-[330px] small-tablet:px-[15px] small-tablet:py-[10px] ${className} ${
         isSelected ? "selectCard" : ""
       }`}
       onClick={onSelect}
@@ -35,17 +35,19 @@ export default function JobCard({
           <img
             src={item.images[0].url}
             alt={`Job Image 1`}
-            className="w-[158px] h-[135px] rounded-3xl"
+            className="w-[158px] h-[135px] rounded-3xl small-tablet:hidden"
           />
         )}
         <div className="w-full flex flex-col justify-between gap-5">
           <div className="flex justify-between">
             <div className="flex items-center gap-1">
-              <p className={`text-3xl font-semibold truncate ${width}`}>
+              <p
+                className={`text-3xl font-semibold truncate ${width} small-tablet:text-base small-tablet:w-[130px]`}
+              >
                 {item.title}
               </p>
               {item.verified ? (
-                <div className="w-6 h-6">
+                <div className="w-6 h-6 small-tablet:w-4 small-tablet:h-4">
                   <img
                     src={checked}
                     alt="checked"
@@ -57,14 +59,14 @@ export default function JobCard({
               )}
             </div>
             <div className="flex items-center gap-3">
-              <div className="w-5 h-5">
+              <div className="w-5 h-5 small-tablet:w-4 small-tablet:h-4">
                 <img
                   src={calendar}
                   alt="calendar"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="text-xl font-medium pt-1">
+              <p className="text-xl font-medium pt-1 small-tablet:text-base">
                 {new Date(item.startDate)
                   .toLocaleDateString("vi-VN")
                   .replace(/\//g, "-")}
@@ -74,19 +76,21 @@ export default function JobCard({
           <div className="border border-solid border-[#E4E6E8] w-full"></div>
           <div className="flex justify-between">
             <div className="bg-[#E8E8E8] rounded-[20px]">
-              <p className="text-lg font-semibold px-[10px] py-[5px]">
-                Giao hàng
+              <p className="text-sm font-medium px-[10px] py-[5px] small-tablet:text-sm small-tablet:px-[5px] small-tablet:py-[3px]">
+              {item.jobType.name}
               </p>
             </div>
             <div className="flex items-center gap-1">
-              <div className="w-5 h-5">
+              <div className="w-5 h-5 small-tablet:w-4 small-tablet:h-4">
                 <img
                   src={location}
                   alt="location"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className=" pt-1">số 5, phường 5, quận 5</p>
+              <p className=" pt-1 small-tablet:text-sm">
+              {item.address}
+              </p>
             </div>
           </div>
         </div>

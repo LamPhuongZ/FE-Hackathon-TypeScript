@@ -1,13 +1,12 @@
 import "./AuthPage.css";
-import { Typography, Tabs } from "antd";
+import { Tabs } from "antd";
 import { useState } from "react";
 import Login from "./Login";
 import Register from "./Register";
-import logo from "../../assets/images/logo-company.png";
 import { ForgotPass } from "./ForgotPass";
 
 function AuthPage() {
-  const { Link } = Typography;
+  // const { Link } = Typography;
   const [activeKey, setActiveKey] = useState<string>("1");
   const { TabPane } = Tabs;
 

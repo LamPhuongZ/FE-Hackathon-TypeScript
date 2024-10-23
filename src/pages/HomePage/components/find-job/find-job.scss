@@ -1,24 +1,23 @@
 .findJob {
-  @apply  flex flex-col items-center justify-center gap-11 px-10 pb-[120px];
+  @apply flex flex-col gap-11 px-20 pb-[120px] small-tablet:px-[20px];
 
   & > .findJob__top {
-    @apply flex items-center justify-stretch gap-[898px];
+    @apply flex items-center justify-between gap-[898px] small-tablet:gap-[10px];
 
     & > .title {
-      @apply text-[32px] font-semibold border-b-4 border-custom-blue border-solid pb-1 w-1/4 text-left;
-      
+      @apply text-[32px] font-semibold border-b-4 border-custom-blue border-solid pb-1 w-1/4 text-left small-tablet:text-base small-tablet:w-[100px];
     }
 
     & > .findJob__link {
-        @apply flex justify-center gap-1 hover:underline items-center;
+      @apply flex justify-center gap-1 hover:underline items-center small-tablet:min-w-[100px] small-tablet:gap-0 small-tablet:h-[30px];
 
-        & > .see__more {
-          @apply w-[120px] text-2xl;
-        }
+      & > .see__more {
+        @apply w-[120px] text-2xl small-tablet:text-base small-tablet:w-[90px];
+      }
     }
   }
 
   & > .findJob__content {
-    @apply grid grid-cols-2 gap-6;
+    @apply grid grid-cols-2 gap-6 small-tablet:grid-cols-1;
   }
 }

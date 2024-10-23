@@ -1,5 +1,5 @@
 import "./AuthPage.css";
-import { EyeInvisibleOutlined, EyeTwoTone, HomeOutlined, HomeTwoTone } from "@ant-design/icons";
+import { EyeInvisibleOutlined, EyeTwoTone, HomeTwoTone } from "@ant-design/icons";
 import {
   Button,
   Form,
@@ -16,7 +16,7 @@ import { loginAPI, setIsLoginAction } from "../../redux/reducers/userReducer";
 import { useDispatch } from "react-redux";
 import { DispatchType } from "../../redux/configStore";
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 type LoginProps = {
   handleTabChange: (key: string) => void;
@@ -35,6 +35,8 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
   const [api, contextHolder] = notification.useNotification();
   const [role, setRole] = useState("ROLE_EMPLOYER");
 
+  console.log(api);
+  
   const onFinish = (values: UserLoginType) => {
     const actionAsync = loginAPI(values);
     dispatch(actionAsync);

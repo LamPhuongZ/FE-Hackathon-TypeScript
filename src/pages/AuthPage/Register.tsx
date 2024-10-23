@@ -1,5 +1,5 @@
 import "./AuthPage.css";
-import React, { useState } from "react";
+import React from "react";
 import { Button, Form, Input, notification, Radio, Typography } from "antd";
 import { registerAPI } from "../../redux/reducers/userReducer";
 import { useDispatch } from "react-redux";

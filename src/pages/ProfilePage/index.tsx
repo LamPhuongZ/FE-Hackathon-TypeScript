@@ -5,10 +5,8 @@ import Button from "../../components/button/Button";
 import ImageUpload from "../../components/image-upload/ImageUpload";
 import Close from "../../assets/icons/close.svg";
 import Plus from "../../assets/icons/plus.svg";
-import Arrow from "../../assets/icons/double-arrow-right.svg";
 import Star from "../../assets/icons/star.svg";
 import { toast } from "react-toastify";
-import { NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -44,11 +42,11 @@ export default function ProfilePage() {
   console.log("🚀 ~ useEffect ~ arrErrors:", Object.values(errors));
 
   return (
-    <div className="py-20 px-[72px]">
-      <div className="bg-white py-4 shadow-md px-11">
-        <div className="mb-5 flex items-start justify-between px-11 pt-10">
+    <div className="w-[850px] ">
+      <div className="bg-white py-4 shadow-md px-8 rounded-2xl">
+        <div className="mb-5 flex items-start justify-between px-2 pt-4">
           <div>
-            <h1 className="text-[40px] font-semibold">Thông tin tài khoản</h1>
+            <h1 className="text-[32px] font-semibold">Thông tin tài khoản</h1>
             <p className="text-xl font-semibold text-[rgba(10,_22,_41,_0.50)]">
               Cập nhật thông tin tài khoản
             </p>
@@ -184,63 +182,12 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <div className="mt-24">
-            <Label htmlFor="">Danh sách công việc</Label>
-            <div className="flex justify-between">
-              <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5 w-[550px] 2xl:w-[800px]">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-6">
-                    <p className="text-2xl font-bold">Đã hoàn thành</p>
-                    <div className="rounded-full w-3 h-3 bg-[#2EE498]"></div>
-                    <h1 className="text-2xl font-medium">3</h1>
-                  </div>
-                  <div className="bg-[#2EE498] rounded-2xl p-3">
-                    <NavLink
-                      to="/more-card"
-                      className="text-white flex items-center justify-between gap-10"
-                    >
-                      xem thêm
-                      <div className="w-6 h-6">
-                        <img
-                          src={Arrow}
-                          alt="icon-arrow"
-                          className="w-full h-full"
-                        />
-                      </div>
-                    </NavLink>
-                  </div>
-                </div>
-              </div>
-              <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5 w-[550px] 2xl:w-[800px]">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-6">
-                    <p className="text-2xl font-bold">Đang nộp</p>
-                    <div className="rounded-full w-3 h-3 bg-[#FF5758]"></div>
-                    <h1 className="text-2xl font-medium">5</h1>
-                  </div>
-                  <div className="bg-[#FF5758] rounded-2xl p-3">
-                    <NavLink
-                      to="/more_card"
-                      className="text-white flex items-center justify-between gap-10"
-                    >
-                      xem thêm
-                      <div className="w-6 h-6">
-                        <img
-                          src={Arrow}
-                          alt="icon-arrow"
-                          className="w-full h-full"
-                        />
-                      </div>
-                    </NavLink>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+         
           <Button
             type="submit"
             title="Cập Nhật"
             className="w-full mt-20 h-16"
+            circle={false}
           />
         </form>
       </div>

@@ -98,75 +98,67 @@ export default function JobCardDetail({ item }: Props) {
             </div>
           </div>
         </div>
-        <div className="flex justify-between my-10 small-tablet:grid small-tablet:grid-cols-1 small-tablet:gap-7">
-          <div className="w-[350px] 2xl:w-[600px] small-tablet:w-full">
-            <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
-              Ngày bắt đầu làm việc:
-            </h1>
-            <div className="py-[20px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
-              <p className="text-xl font-medium small-tablet:text-sm">
-                {new Date(item.startDate).toLocaleDateString("vi-VN")}
-              </p>
-            </div>
-          </div>
-          <div className="w-[350px] 2xl:w-[600px] small-tablet:w-full">
-            <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
-              Thời gian làm việc (Đơn vị: <strong>Giờ</strong>):
-            </h1>
-            <div className="py-[20px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
-              <p className="text-xl font-medium small-tablet:text-sm">
-                {item.duration / 60}
-              </p>
-            </div>
+      </div>
+      <div className="flex justify-between my-10">
+        <div className="w-[350px] 2xl:w-[600px]">
+          <h1 className="text-xl mb-2 font-medium">Ngày bắt đầu làm việc:</h1>
+          <div className="h-14 flex items-center justify-center border border-solid rounded-[20px] ">
+            <p className="text-xl font-medium">
+              {new Date(item.startDate).toLocaleDateString("vi-VN")}
+            </p>
           </div>
         </div>
-        <div className="border border-solid"></div>
-        <div className="mt-[30px]">
-          {item.images.length > 0 ? (
-            <>
-              <div className="min-w-[80%] h-[350px] 2xl:w-full small-tablet:min-w-[300px] small-tablet:h-[200px]">
+        <div className="w-[350px] 2xl:w-[600px]">
+          <h1 className="text-xl mb-2 font-medium">
+            Thời gian làm việc (Đơn vị: <strong>Giờ</strong>):
+          </h1>
+          <div className="h-14 flex items-center justify-center border border-solid rounded-[20px] ">
+            <p className="text-xl font-medium">{item.duration / 60}</p>
+          </div>
+        </div>
+      </div>
+      <div className="border border-solid"></div>
+      <div className="mt-[30px]">
+        {item.images.length > 0 ? (
+          <>
+            <div className="min-w-[800px] h-[350px] 2xl:w-full">
+              <img
+                src={item.images[0].url}
+                alt=""
+                className="w-full h-full rounded-[20px] object-cover"
+              />
+            </div>
+            <div className="flex justify-evenly gap-8 mt-7 mb-9">
+              <div className="w-[250px] h-[128px] 2xl:w-full">
                 <img
-                  src={item.images[0].url}
+                  src={item.images[1].url}
                   alt=""
                   className="w-full h-full rounded-[20px] object-cover"
                 />
               </div>
-              <div className="flex justify-evenly gap-8 mt-7 mb-9">
-                <div className="w-[250px] h-[128px] 2xl:w-full small-tablet:w-full small-tablet:h-[100px]">
-                  <img
-                    src={item.images[1].url}
-                    alt=""
-                    className="w-full h-full rounded-[20px] object-cover"
-                  />
-                </div>
-                <div className="w-[250px] h-[128px] 2xl:w-full small-tablet:w-full small-tablet:h-[100px]">
-                  <img
-                    src={item.images[2].url}
-                    alt=""
-                    className="w-full h-full rounded-[20px] object-cover"
-                  />
-                </div>
-                <div className="w-[250px] h-[128px] 2xl:w-full small-tablet:w-full small-tablet:h-[100px]">
-                  <img
-                    src={item.images[3].url}
-                    alt=""
-                    className="w-full h-full rounded-[20px] object-cover"
-                  />
-                </div>
+              <div className="w-[250px] h-[128px] 2xl:w-full">
+                <img
+                  src={item.images[2].url}
+                  alt=""
+                  className="w-full h-full rounded-[20px] object-cover"
+                />
               </div>
-            </>
-          ) : (
-            <p>Không tồn tại hình ảnh</p>
-          )}
-          <div>
-            <h1 className="text-[20px] font-semibold mb-2 small-tablet:text-sm">
-              Mô tả
-            </h1>
-            <div className="border border-solid rounded-[20px] px-[26px] py-[18px] small-tablet:px-[10px] small-tablet:py-[10px]">
-              <p className=" font-medium text-[#91929E] small-tablet:text-sm">
-                {item.description}
-              </p>
+              <div className="w-[250px] h-[128px] 2xl:w-full">
+                <img
+                  src={item.images[3].url}
+                  alt=""
+                  className="w-full h-full rounded-[20px] object-cover"
+                />
+              </div>
             </div>
+          </>
+        ) : (
+          <p>Không có hình ảnh</p>
+        )}
+        <div>
+          <h1 className="text-[20px] font-semibold mb-2">Mô tả</h1>
+          <div className="border border-solid rounded-[20px] px-[26px] py-[18px]">
+            <p className=" font-medium text-[#91929E]">{item.description}</p>
           </div>
         </div>
       </div>

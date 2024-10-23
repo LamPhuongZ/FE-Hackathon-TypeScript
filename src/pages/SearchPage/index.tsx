@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import JobCard from "../../components/card-job/JobCard";
 import { Pagination } from "antd";
 
+
 export default function SearchPage() {
   const [currentPage, setCurrentPage] = useState<number>(0);
   const pageSize = 10;

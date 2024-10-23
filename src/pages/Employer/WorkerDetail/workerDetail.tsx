@@ -1,4 +1,4 @@
-import Card from "../../../components/card/Card";
+import div from "../../../components/div/div";
 import Button from "../../../components/button/Button";
 import Ava from "../../../assets/images/ava.jpg";
 import logoCheck from "../../../assets/icons/check.svg";
@@ -9,9 +9,11 @@ import { ArrowLeftOutlined } from "@ant-design/icons";
 
 interface WorkerDetailProps {
   onGoBack: () => void;
+  workerId: string; // Added workerId to props
 }
 
-export const WorkerDetail: React.FC<WorkerDetailProps> = ({ onGoBack }) => {
+export const WorkerDetail: React.FC<WorkerDetailProps> = ({ onGoBack, workerId }) => {
+  console.log(workerId); 
   return (
     <div className="page-detail-worker w-11/12 bg-white m-auto">
       <div className="flex items-center mt-3">
@@ -27,8 +29,8 @@ export const WorkerDetail: React.FC<WorkerDetailProps> = ({ onGoBack }) => {
         <h2 className="text-xl font-medium w-full ml-60">Thông tin ứng viên</h2>
       </div>
       <div className="content-detail-worker w-full m-auto pt-2 pb-4 flex flex-col gap-5">
-        {/* Worker info card */}
-        <Card className="w-full h-full border border-[#cacaca] rounded-[12px] p-4">
+        {/* Worker info div */}
+        <div className="w-full h-full border border-[#cacaca] rounded-[12px] p-4">
           <div className="flex flex-row items-center gap-6">
             <div className="col1 w-28 h-28 overflow-hidden rounded-full">
               <img
@@ -51,51 +53,51 @@ export const WorkerDetail: React.FC<WorkerDetailProps> = ({ onGoBack }) => {
               </p>
             </div>
           </div>
-        </Card>
-        <Card className="w-full h-full border border-[#cacaca] rounded-[12px] p-4">
+        </div>
+        <div className="w-full h-full border border-[#cacaca] rounded-[12px] p-4">
           <div className="flex flex-col gap-5">
             <div className="row1 flex gap-4">
               <div className="w-1/3">
                 <h3 className="font-semibold text-lg mb-2">Ngày sinh</h3>
-                <Card className="w-full border border-[#cacaca] rounded-[12px] p-2">
+                <div className="w-full border border-[#cacaca] rounded-[12px] p-2">
                   <p className="font-light text-base ml-4">10-10-2024</p>
-                </Card>
+                </div>
               </div>
               <div className="w-2/3">
                 <h3 className="font-semibold text-lg mb-2">Địa chỉ</h3>
-                <Card className="w-full border border-[#cacaca] rounded-[12px] p-2">
+                <div className="w-full border border-[#cacaca] rounded-[12px] p-2">
                   <p className="font-light text-base ml-4">
                     123 Likelion, Q7, HoChiMinh
                   </p>
-                </Card>
+                </div>
               </div>
             </div>
             <div className="row2 flex gap-4">
               <div className="w-1/3">
                 <h3 className="font-semibold text-lg mb-2">Đánh giá</h3>
-                <Card className="w-full border border-[#cacaca] rounded-[12px] p-2">
+                <div className="w-full border border-[#cacaca] rounded-[12px] p-2">
                   <div className="flex flex-row gap-2 items ml-4">
                     <img src={logoStar} alt="Đánh giá" className="w-5 h-5" />
                     <p className="font-light text-lg">4.0</p>
                   </div>
-                </Card>
+                </div>
               </div>
               <div className="w-2/3">
                 <h3 className="font-semibold text-lg mb-2">Tham gia</h3>
-                <Card className="w-full border border-[#cacaca] rounded-[12px] p-2">
+                <div className="w-full border border-[#cacaca] rounded-[12px] p-2">
                   <div className="flex flex-row gap-3 flex-wrap">
                     <p className="font-light text-base ml-4">10/10/2024</p>
                   </div>
-                </Card>
+                </div>
               </div>
             </div>
           </div>
-        </Card>
-        <Card className="w-full h-full border border-[#cacaca] rounded-[12px] p-4">
+        </div>
+        <div className="w-full h-full border border-[#cacaca] rounded-[12px] p-4">
           <h3 className="font-semibold text-lg mb-2">Kỹ năng</h3>
           <div className="flex flex-row gap-3 flex-wrap ml-4">
             <p className="font-light text-sm px-3 py-1 border bg-gray-200 rounded-full">
-              Dọn vệ sinh
+              Dọn v sinh
             </p>
             <p className="font-light text-sm px-3 py-1 border bg-gray-200 rounded-full">
               Phục vụ
@@ -104,11 +106,11 @@ export const WorkerDetail: React.FC<WorkerDetailProps> = ({ onGoBack }) => {
               Bảo vệ
             </p>
           </div>
-        </Card>
-        <Card className="w-full h-full  border border-[#cacaca] rounded-[12px] p-4">
+        </div>
+        <div className="w-full h-full  border border-[#cacaca] rounded-[12px] p-4">
           <h3 className="font-semibold text-lg mb-3">Đã hoàn thành</h3>
           <div className="flex flex-col items-center gap-4">
-            <Card className="w-[90%] border border-[#cacaca] rounded-[12px] p-4 my-2 shadow-xl">
+            <div className="w-[90%] border border-[#cacaca] rounded-[12px] p-4 my-2 shadow-xl">
               <div className="flex flex-row gap-1">
                 <div className="col1 w-1/5">
                   <img src={Ava} alt="" className="h-28 w-28 rounded-xl" />
@@ -144,9 +146,9 @@ export const WorkerDetail: React.FC<WorkerDetailProps> = ({ onGoBack }) => {
                   </div>
                 </div>
               </div>
-            </Card>
+            </div>
           </div>
-        </Card>
+        </div>
         <Button
           title="CHỌN ỨNG VIÊN"
           className="custom-btn w-11/12"

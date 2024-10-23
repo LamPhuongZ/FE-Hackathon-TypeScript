@@ -22,6 +22,15 @@ export default {
         "tw-text-opacity": "#5694f0",
       },
       screens: {
+        
+        // updating from chatGPT
+        "small-phone": { max: "375px" }, // Điện thoại trung bình (iPhone X)
+        "large-phone": { max: "414px" }, // Điện thoại lớn (iPhone 6/7/8 Plus)
+        "small-tablet": { max: "840px" },
+        "large-tablet": { min: "80px", max: "1024px" },
+        "small-laptop": { min: "1280px" },
+        "large-desktop": { min: "1440px" }, // Desktop lớn (màn hình lớn)
+
         "max-md": { max: "700px" }, // max-width 700px
         "max-xl": { max: "1250px" }, // max-width 1250px
       },

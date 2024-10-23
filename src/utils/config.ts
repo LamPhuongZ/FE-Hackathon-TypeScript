@@ -1,95 +1,116 @@
-import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from "axios";
 import { routeLink } from "../main";
-import { getDataJsonStorage } from "./utilMethod";
-import { jwtDecode } from "jwt-decode"
+import { delCookie, getCookie } from "./utilMethod";
+import { jwtDecode } from "jwt-decode";
 
 //setup hằng số
-export const ACCESS_TOKEN:string = 'access_token';
-export const USER_LOGIN:string = 'userLogin'
-export const DOMAIN:string = 'https://api.easyjob.io.vn';
+export const ACCESS_TOKEN: string = "access_token";
+export const USER_LOGIN: string = "userLogin";
+export const DOMAIN: string = "https://api.easyjob.io.vn";
 
 //interceptor
-export const httpClient:AxiosInstance = axios.create({
-  baseURL:DOMAIN,
-  timeout:30000
+export const httpClient: AxiosInstance = axios.create({
+  baseURL: DOMAIN,
+  timeout: 30000,
 });
 
-httpClient.interceptors.request.use((req: InternalAxiosRequestConfig<any>) => {
-  const accessToken = localStorage.getItem(ACCESS_TOKEN);
-  if (req.headers) {
-      req.headers.set('Authorization', accessToken ? `${accessToken}` : '');
+httpClient.interceptors.request.use(
+  (req: InternalAxiosRequestConfig<any>) => {
+    //   const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    const accessToken = getCookie(ACCESS_TOKEN);
+    if (req.headers) {
+      req.headers.set("Authorization", accessToken ? `Bearer ${accessToken}` : "");
+    }
+    return req;
+  },
+  (err: AxiosError) => {
+    return Promise.reject(err);
   }
-  return req;
-}, (err: AxiosError) => {
-  return Promise.reject(err);
-});
-
+);
 
 //Cấu hình cho response (kết quả trả về từ api)
 httpClient.interceptors.response.use(
   (response: AxiosResponse<any>) => {
-      // Xử lý response thành công
-      return response;
+    // Xử lý response thành công
+    return response;
   },
   (error: AxiosError) => {
-      // Xử lý lỗi response
-      if (error.response) {
-          // Server đã trả về một response nhưng với mã trạng thái lỗi
-          switch (error.response.status) {
-              case 401:
+    // Xử lý lỗi response
+    if (error.response) {
+      // Server đã trả về một response nhưng với mã trạng thái lỗi
+      switch (error.response.status) {
+        case 401:
+          //Đã đăng nhập nhưng hết hạn (gọi api refresh token)
+          //   let decodedToken:any = jwtDecode(getDataJsonStorage(USER_LOGIN).accessToken);
+          // Token expired handling
+          let userLoginCookie = getCookie(USER_LOGIN);
+          if (userLoginCookie) {
+            const decodedToken: any = jwtDecode(
+              JSON.parse(userLoginCookie).accessToken
+            );
+            console.log("Decoded Token", decodedToken);
+            const currentDate = new Date();
 
-                  //Đã đăng nhập nhưng hết hạn (gọi api refresh token)
-                  let decodedToken:any = jwtDecode(getDataJsonStorage(USER_LOGIN).accessToken);
-                  console.log("Decoded Token", decodedToken);
-                  let currentDate = new Date();
-
-                  // JWT exp is in seconds
-                  if (decodedToken.exp * 1000 < currentDate.getTime()) {
-                      console.log("Token expired.");
-                      //Remove userlogin trong localstorage
-                      localStorage.removeItem(USER_LOGIN);
-                      //Chuyển hướng về đăng nhập
-                      routeLink.push('/login');
-                  }
-                  
-
-                  // Xử lý lỗi 401 Unauthorized, ví dụ: chuyển hướng đến trang đăng nhập
-                  alert("Unauthorized access - perhaps the user is not logged in or token expired.");
-                  
-                  routeLink.push('/login');
-
-                  break;
-              case 403:
-                  // Xử lý lỗi 403 Forbidden
-                  alert("Forbidden - you don't have permission to access this resource.");
-                  
-                  routeLink.push('/login');
-
-                  break;
-              case 404:
-                  // Xử lý lỗi 404 Not Found
-                  alert("Resource not found.");
-                  break;
-              case 500:
-                  // Xử lý lỗi 500 Internal Server Error
-                  alert("Internal server error.");
-                  break;
-              default:
-                  // Xử lý các mã lỗi khác
-                  console.error(`Error ${error.response.status}: ${error.response.statusText}`);
+            // JWT exp is in seconds
+            if (decodedToken.exp * 1000 < currentDate.getTime()) {
+              console.log("Token expired.");
+              // Remove user login cookie
+              delCookie(USER_LOGIN);
+              // Redirect to login
+              routeLink.push("/login");
+            }
+          } else {
+            console.log("No valid user login cookie found.");
+            routeLink.push("/login");
           }
-      } else if (error.request) {
-          // Request đã được gửi nhưng không nhận được phản hồi từ server
-          console.error("No response received from server.");
-      } else {
-          // Một số lỗi khác xảy ra trong quá trình thiết lập request
-          console.error("Error setting up request: ", error.message);
-      }
 
-      return Promise.reject(error);
+          // Xử lý lỗi 401 Unauthorized, ví dụ: chuyển hướng đến trang đăng nhập
+          alert(
+            "Unauthorized access - perhaps the user is not logged in or token expired."
+          );
+
+          routeLink.push("/login");
+
+          break;
+        case 403:
+          // Xử lý lỗi 403 Forbidden
+          alert(
+            "Forbidden - you don't have permission to access this resource."
+          );
+
+          routeLink.push("/login");
+
+          break;
+        case 404:
+          // Xử lý lỗi 404 Not Found
+          alert("Resource not found.");
+          break;
+        case 500:
+          // Xử lý lỗi 500 Internal Server Error
+          alert("Internal server error.");
+          break;
+        default:
+          // Xử lý các mã lỗi khác
+          console.error(
+            `Error ${error.response.status}: ${error.response.statusText}`
+          );
+      }
+    } else if (error.request) {
+      // Request đã được gửi nhưng không nhận được phản hồi từ server
+      console.error("No response received from server.");
+    } else {
+      // Một số lỗi khác xảy ra trong quá trình thiết lập request
+      console.error("Error setting up request: ", error.message);
+    }
+
+    return Promise.reject(error);
   }
 );
-
 
 /* statusCode thông dụng : 
     200: Dữ liệu gửi đi và nhận về kết quả thành công (OK)

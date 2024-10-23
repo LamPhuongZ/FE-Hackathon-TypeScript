@@ -8,7 +8,7 @@ export const store = configureStore({
   reducer: {
     jobReducer,
     jobSkillReducer,
-    userReducer,
+    userReducer ,
     typeReducer,
   },
 });

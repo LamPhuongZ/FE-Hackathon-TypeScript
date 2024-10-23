@@ -6,10 +6,14 @@ import { FloatButton } from "antd";
 import { ToastContainer } from "react-toastify";
 import { lazy, Suspense } from "react";
 import { createBrowserHistory } from "history";
-import { unstable_HistoryRouter as HistoryRouter, Route, Routes } from 'react-router-dom'
+import {
+  unstable_HistoryRouter as HistoryRouter,
+  Route,
+  Routes,
+} from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import Loading from "./components/loading";
-
+import Authenticate from "./pages/AuthPage/Authenticate";
 
 const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -20,11 +24,11 @@ const ProfilePage = lazy(() => import("./pages/ProfilePage"));
 const ListCardPage = lazy(() => import("./pages/ListCardPage"));
 const JobCardDetailPage = lazy(() => import("./pages/JobCardDetailPage"));
 const FormApplicationPage = lazy(() => import("./pages/FormApplicationPage"));
-const LoginAndRegister = lazy(()=> import("./pages/AuthPage"));
-const SearchPage = lazy(()=> import("./pages/SearchPage"));
-const ProfileEmployerPage = lazy (()=>import("./pages/ProfileEmployer"));
+const LoginAndRegister = lazy(() => import("./pages/AuthPage"));
+const SearchPage = lazy(() => import("./pages/SearchPage"));
+const ProfileEmployerPage = lazy(() => import("./pages/ProfileEmployer"));
 const ProfileEmployeePage = lazy(() => import("./pages/ProfileEmployeePage"));
-const PolicyPage = lazy(()=>import("./pages/PolicyPage"));
+const PolicyPage = lazy(() => import("./pages/PolicyPage"));
 
 export const routeLink: any = createBrowserHistory();
 
@@ -46,7 +50,7 @@ root.render(
               path="/card-detail-job/:jobId"
               element={<JobCardDetailPage />}
             />
-            <Route path="/form-application" element={<FormApplicationPage/>} />
+            <Route path="/form-application" element={<FormApplicationPage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route
               path="/profile-employer-page"
@@ -56,12 +60,11 @@ root.render(
               path="/profile-employee-page"
               element={<ProfileEmployeePage />}
             />
-            <Route
-              path="/policy-page"
-              element={<PolicyPage />}
-            />
+            <Route path="/policy-page" element={<PolicyPage />} />
           </Route>
+          
           <Route path="/login" element={<LoginAndRegister />} />
+          <Route path="/authenticate" element={<Authenticate />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <ToastContainer />

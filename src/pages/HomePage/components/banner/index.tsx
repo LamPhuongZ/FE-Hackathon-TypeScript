@@ -9,8 +9,11 @@ import {
   getDataJobSkillAPI,
   JobSkill,
 } from "../../../../redux/reducers/jobSkillReducer";
+import { Province, useAddress } from "../../../../hooks/useAddress";
 
 export default function Banner() {
+  const { provinces } = useAddress();
+
   const { objJobSkill } = useSelector(
     (state: RootState) => state.jobSkillReducer
   );
@@ -49,6 +52,9 @@ export default function Banner() {
           <div className="line"></div>
           <select className="select__area">
             <option value="all">Tất cả địa điểm</option>
+            {provinces?.map((province: Province, index: number) => (
+              <option key={`${province.id}_${index}`}>{province.name}</option>
+            ))}
           </select>
           <Button title="Tìm kiếm" className="btn__search" circle={false} />
         </div>
@@ -59,7 +65,7 @@ export default function Banner() {
             <div className="skills">
               {Array.isArray(objJobSkill) && objJobSkill.length > 0 ? (
                 objJobSkill
-                  .slice(0, 12)
+                  .slice(0, 10)
                   .map((keyword: JobSkill, index: number) => (
                     <Button
                       key={index}

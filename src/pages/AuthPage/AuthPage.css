@@ -1,6 +1,5 @@
 .ant-modal-wrap {
   background: linear-gradient(to right, #e2e2e2c2, #F1F2FD);
-  font-family: "Epilogue", sans-serif;
 }
 
 .ant-modal-content {
@@ -9,9 +8,39 @@
   padding: 30px;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-
 }
 
-.ant-tabs > .ant-tabs-nav {
+/* .ant-tabs > .ant-tabs-nav {
   display: none;
+} */
+.ant-tabs-top >.ant-tabs-nav::before{
+  border: none;
+}
+
+:where(.css-dev-only-do-not-override-ccdg5a).ant-tabs .ant-tabs-tab{
+  justify-content: space-between!important;
+  width: 50%!important;
+
+}
+.login-register-tabs.ant-tabs-top >.ant-tabs-nav .ant-tabs-ink-bar{
+  display: none;
+}
+.LoginTabs.ant-tabs-top >.ant-tabs-nav .ant-tabs-ink-bar{
+  background-color: #3f8cff !important;
+  border-radius: 30px!important;
+  z-index: 0!important;
+  position: absolute!important;
+  height: 3px!important;
+  
+}
+.ant-tabs-tab-btn{
+  position: relative;
+  z-index: 10;
+}
+.LoginTabs.ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #3f8cff;
+  
+}
+.LoginTabs.ant-tabs-tab-btn{
+  padding: 5px;
 }

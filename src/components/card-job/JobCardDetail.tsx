@@ -122,36 +122,42 @@ export default function JobCardDetail({ item }: Props) {
         </div>
         <div className="border border-solid"></div>
         <div className="mt-[30px]">
-          <div className="min-w-[80%] h-[350px] 2xl:w-full small-tablet:min-w-[300px] small-tablet:h-[200px]">
-            <img
-              src={item.images[0].url}
-              alt=""
-              className="w-full h-full rounded-[20px] object-cover"
-            />
-          </div>
-          <div className="flex justify-evenly gap-8 mt-7 mb-9">
-            <div className="w-[250px] h-[128px] 2xl:w-full small-tablet:w-full small-tablet:h-[100px]">
-              <img
-                src={item.images[1].url}
-                alt=""
-                className="w-full h-full rounded-[20px] object-cover"
-              />
-            </div>
-            <div className="w-[250px] h-[128px] 2xl:w-full small-tablet:w-full small-tablet:h-[100px]">
-              <img
-                src={item.images[2].url}
-                alt=""
-                className="w-full h-full rounded-[20px] object-cover"
-              />
-            </div>
-            <div className="w-[250px] h-[128px] 2xl:w-full small-tablet:w-full small-tablet:h-[100px]">
-              <img
-                src={item.images[3].url}
-                alt=""
-                className="w-full h-full rounded-[20px] object-cover"
-              />
-            </div>
-          </div>
+          {item.images.length > 0 ? (
+            <>
+              <div className="min-w-[80%] h-[350px] 2xl:w-full small-tablet:min-w-[300px] small-tablet:h-[200px]">
+                <img
+                  src={item.images[0].url}
+                  alt=""
+                  className="w-full h-full rounded-[20px] object-cover"
+                />
+              </div>
+              <div className="flex justify-evenly gap-8 mt-7 mb-9">
+                <div className="w-[250px] h-[128px] 2xl:w-full small-tablet:w-full small-tablet:h-[100px]">
+                  <img
+                    src={item.images[1].url}
+                    alt=""
+                    className="w-full h-full rounded-[20px] object-cover"
+                  />
+                </div>
+                <div className="w-[250px] h-[128px] 2xl:w-full small-tablet:w-full small-tablet:h-[100px]">
+                  <img
+                    src={item.images[2].url}
+                    alt=""
+                    className="w-full h-full rounded-[20px] object-cover"
+                  />
+                </div>
+                <div className="w-[250px] h-[128px] 2xl:w-full small-tablet:w-full small-tablet:h-[100px]">
+                  <img
+                    src={item.images[3].url}
+                    alt=""
+                    className="w-full h-full rounded-[20px] object-cover"
+                  />
+                </div>
+              </div>
+            </>
+          ) : (
+            <p>Không tồn tại hình ảnh</p>
+          )}
           <div>
             <h1 className="text-[20px] font-semibold mb-2 small-tablet:text-sm">
               Mô tả

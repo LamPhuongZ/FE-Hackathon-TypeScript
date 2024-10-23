@@ -9,8 +9,11 @@ import {
   getDataJobSkillAPI,
   JobSkill,
 } from "../../../../redux/reducers/jobSkillReducer";
+import { Province, useAddress } from "../../../../hooks/useAddress";
 
 export default function Banner() {
+  const { provinces } = useAddress();
+
   const { objJobSkill } = useSelector(
     (state: RootState) => state.jobSkillReducer
   );
@@ -45,14 +48,13 @@ export default function Banner() {
             className="icon__search"
             style={{ fontSize: "24px" }}
           />
-          <input
-            type="text"
-            placeholder="Tìm kiếm"
-            className="input__search"
-          />
+          <input type="text" placeholder="Tìm kiếm" className="input__search" />
           <div className="line"></div>
           <select className="select__area">
             <option value="all">Tất cả địa điểm</option>
+            {provinces?.map((province: Province, index: number) => (
+              <option key={`${province.id}_${index}`}>{province.name}</option>
+            ))}
           </select>
           <Button title="Tìm kiếm" className="btn__search" circle={false} />
         </div>
@@ -62,15 +64,17 @@ export default function Banner() {
             <span className="title">Từ khóa phổ biến:</span>
             <div className="skills">
               {Array.isArray(objJobSkill) && objJobSkill.length > 0 ? (
-                objJobSkill.slice(0, 12).map((keyword: JobSkill, index: number) => (
-                  <Button
-                    key={index}
-                    title={keyword.skill}
-                    className="btn__jobSkill"
-                    circle={false}
-                    color="custom"
-                  />
-                ))
+                objJobSkill
+                  .slice(0, 10)
+                  .map((keyword: JobSkill, index: number) => (
+                    <Button
+                      key={index}
+                      title={keyword.skill}
+                      className="btn__jobSkill"
+                      circle={false}
+                      color="custom"
+                    />
+                  ))
               ) : (
                 <p>Không có từ khóa phổ biến</p>
               )}

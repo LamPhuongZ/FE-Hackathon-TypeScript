@@ -6,7 +6,11 @@ import { FloatButton } from "antd";
 import { ToastContainer } from "react-toastify";
 import { lazy, Suspense } from "react";
 import { createBrowserHistory } from "history";
-import { unstable_HistoryRouter as HistoryRouter, Route, Routes } from 'react-router-dom'
+import {
+  unstable_HistoryRouter as HistoryRouter,
+  Route,
+  Routes,
+} from "react-router-dom";
 import ReactDOM from "react-dom/client";
 import Loading from "./components/loading";
 import DashboardLayout from "./pages/ProfileVersion2/dashboardLayout";
@@ -26,6 +30,8 @@ const ProfileEmployerPage = lazy(() => import("./pages/ProfileEmployer"));
 const PolicyPage = lazy(() => import("./pages/PolicyPage"));
 const EmployeeDashboard= lazy(() => import("./pages/Employee/employee"));
 const EmployerDashboard = lazy(() => import("./pages/Employer/employer"));
+const Authenticate = lazy(() => import("./pages/AuthPage/Authenticate"));
+const FormApplicationPage = lazy(() => import("./pages/FormApplicationPage"));
 
 export const routeLink: any = createBrowserHistory();
 
@@ -47,10 +53,13 @@ root.render(
               path="/card-detail-job/:jobId"
               element={<JobCardDetailPage />}
             />
+            <Route path="/form-application" element={<FormApplicationPage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/policy-page" element={<PolicyPage />} />
           </Route>
+          
           <Route path="/login" element={<LoginAndRegister />} />
+          <Route path="/authenticate" element={<Authenticate />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route element={<DashboardLayout></DashboardLayout>}>
             <Route

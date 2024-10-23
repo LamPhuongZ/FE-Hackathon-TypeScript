@@ -7,14 +7,16 @@ type Props = {
 };
 export default function JobCardDetail({ item }: Props) {
   return (
-    <div className="bg-white rounded-2xl shadow-md py-12 px-7">
+    <div className="bg-white rounded-2xl shadow-md py-12 px-7 small-tablet:w-full">
       <div className="sticky top-0 bg-white">
-        <div className="flex gap-16">
-          <h1 className="text-[40px] font-semibold">{item.title}</h1>
-          <div className="flex gap-2 items-center">
+        <div className="flex gap-16 small-tablet:gap-8 small-tablet:justify-between">
+          <h1 className="text-[40px] font-semibold small-tablet:text-xl">
+            {item.title}
+          </h1>
+          <div className="flex gap-2 items-center small-tablet:text-sm">
             {item.verified ? (
               <div className="flex gap-2 items-center">
-                <div className="w-8 h-8">
+                <div className="w-8 h-8 small-tablet:w-4 small-tablet:h-4">
                   <img src={checked} alt="" className="w-full h-full" />
                 </div>
                 <p className="font-medium">Đã xác thực</p>
@@ -29,57 +31,71 @@ export default function JobCardDetail({ item }: Props) {
         <Button title="Ứng Tuyển" className="w-full h-16 mt-9" />
         <div className="border border-solid mt-4"></div>
       </div>
-      <div className="flex flex-col gap-7 mt-7">
-        <div className="flex gap-x-2">
-          <h1 className="font-medium">Loại công việc:</h1>
-          <div className="px-4 rounded-[10px] border border-solid flex">
-            <p className="font-medium">{item.jobType.name}</p>
+      <div className="h-auto max-h-[1230px] overflow-y-auto px-2">
+        <div className="flex flex-col gap-7 mt-7">
+          <div className="flex gap-x-2 small-tablet:text-sm">
+            <h1 className="font-medium ">Loại công việc:</h1>
+            <div className="px-4 rounded-[10px] border border-solid flex">
+              <p className="font-medium">{item.jobType.name}</p>
+            </div>
           </div>
+          <div className="flex gap-x-2 items-center small-tablet:text-sm small-tablet:grid small-tablet:grid-cols-1 small-tablet:gap-y-2">
+            <h1 className="font-medium">Đăng:</h1>
+            <div className="px-4 py-2 rounded-[10px] border border-solid small-tablet:text-center">
+              <p className="font-medium">
+                {new Date(item.postedDate)
+                  .toLocaleDateString("vi-VN", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })
+                  .replace(/\//g, "-")}{" "}
+                -{" "}
+                {new Date(item.postedDate).toLocaleTimeString("vi-VN", {
+                  hour: "numeric",
+                  minute: "2-digit",
+                  hour12: false, // Sử dụng định dạng 24 giờ
+                })}
+              </p>
+            </div>
+            <div className="border border-solid border-black w-16 mx-11 small-tablet:hidden"></div>
+            <h1 className="font-medium">Hạn ứng tuyển:</h1>
+            <div className="px-4 py-2 rounded-[10px] border border-solid small-tablet:text-center">
+              <p className="font-medium"></p>
+            </div>
+          </div>
+          <div className="border border-solid"></div>
         </div>
-        <div className="flex gap-x-2 items-center">
-          <h1 className="font-medium">Đăng:</h1>
-          <div className="px-4 py-2 rounded-[10px] border border-solid">
-            <p className="font-medium">
-              {new Date(item.postedDate)
-                .toLocaleDateString("vi-VN", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-                })
-                .replace(/\//g, "-")}{" "}
-              -{" "}
-              {new Date(item.postedDate).toLocaleTimeString("vi-VN", {
-                hour: "numeric",
-                minute: "2-digit",
-                hour12: false, // Sử dụng định dạng 24 giờ
-              })}
+        <div className="my-7">
+          <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
+            Địa chỉ làm việc:
+          </h1>
+          <div className="py-[20px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
+            <p className="text-xl font-medium small-tablet:text-sm">
+              {item.address}
             </p>
           </div>
-          <div className="border border-solid border-black w-16 mx-11"></div>
-          <h1 className="font-medium">Hạn ứng tuyển:</h1>
-          <div className="px-4 py-2 rounded-[10px] border border-solid">
-            <p className="font-medium"></p>
+        </div>
+        <div className="flex justify-between my-7 small-tablet:grid small-tablet:grid-cols-1 small-tablet:gap-7">
+          <div className="w-[350px] 2xl:w-[600px] small-tablet:w-full">
+            <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
+              Số điện thoại:
+            </h1>
+            <div className="py-[20px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
+              <p className="text-xl font-medium  small-tablet:text-sm">
+                {item.phone}
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="border border-solid"></div>
-      </div>
-      <div className="my-7">
-        <h1 className="text-xl mb-2 font-medium">Địa chỉ làm việc:</h1>
-        <div className="h-14 flex items-center justify-center border border-solid rounded-[20px]">
-          <p className="text-xl font-medium">{item.address}</p>
-        </div>
-      </div>
-      <div className="flex justify-between my-7">
-        <div className="w-[350px] 2xl:w-[600px]">
-          <h1 className="text-xl mb-2 font-medium">Số điện thoại:</h1>
-          <div className="h-14 flex items-center justify-center border border-solid rounded-[20px] ">
-            <p className="text-xl font-medium">{item.phone}</p>
-          </div>
-        </div>
-        <div className="w-[350px] 2xl:w-[600px]">
-          <h1 className="text-xl mb-2 font-medium">Người liên hệ:</h1>
-          <div className="h-14 flex items-center justify-center border border-solid rounded-[20px] ">
-            <p className="text-xl font-medium">{item.contactPerson}</p>
+          <div className="w-[350px] 2xl:w-[600px] small-tablet:w-full">
+            <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
+              Người liên hệ:
+            </h1>
+            <div className="py-[20px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
+              <p className="text-xl font-medium small-tablet:text-sm">
+                {item.contactPerson}
+              </p>
+            </div>
           </div>
         </div>
       </div>

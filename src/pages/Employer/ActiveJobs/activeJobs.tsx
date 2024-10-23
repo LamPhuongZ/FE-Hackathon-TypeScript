@@ -57,75 +57,89 @@ import "../../SearchPage/SearchPage.scss"
 
 export default function ActiveJobs() {
    const [currentPage, setCurrentPage] = useState<number>(0);
-  const pageSize = 10;
+   const [showApplicants, setShowApplicants] = useState<boolean>(false);
+   const pageSize = 10;
 
-  const { objJob } = useSelector((state: RootState) => state.jobReducer);
-  const dispatch: DispatchType = useDispatch();
+   const { objJob } = useSelector((state: RootState) => state.jobReducer);
+   const dispatch: DispatchType = useDispatch();
 
-  const getDataJobList = async (page: number, size: number) => {
-    const actionAPI = getDataJobAPI(page, size);
-    dispatch(actionAPI);
-  };
+   const getDataJobList = async (page: number, size: number) => {
+     const actionAPI = getDataJobAPI(page, size);
+     dispatch(actionAPI);
+   };
 
-  useEffect(() => {
-    getDataJobList(currentPage - 1, pageSize);
-  }, [currentPage]);
+   useEffect(() => {
+     getDataJobList(currentPage - 1, pageSize);
+   }, [currentPage]);
 
+
+
+   return (
+     <div className="search__content w-11/12 m-auto grid grid-cols-1 gap-6">
+       {objJob?.content.map((item: Content) => (
+         <div key={item.jobId}>
+           <JobCard item={item} showImages={true} showButton={true} />
+         </div>
+       ))}
+       {showApplicants && <ApplicantsList />}
+       <Pagination
+         style={{
+           padding: "30px 20px",
+           borderRadius: "5px",
+           fontSize: "20px",
+         }}
+         align="center"
+         current={currentPage}
+         pageSize={pageSize}
+         total={objJob?.totalElements}
+         onChange={(page) => setCurrentPage(page)}
+         itemRender={(page, type, originalElement) => {
+           if (type === "page") {
+             return (
+               <span
+                 style={{
+                   fontSize: "20px",
+                   padding: "0 20px",
+                   cursor: "pointer",
+                 }}
+                 onClick={() => setCurrentPage(page)}
+               >
+                 {page}
+               </span>
+             );
+           }
+           return originalElement;
+         }}
+         prevIcon={
+           <span
+             style={{
+               fontSize: "30px",
+             }}
+           >
+             {"<"}
+           </span>
+         }
+         nextIcon={
+           <span
+             style={{
+               fontSize: "30px",
+             }}
+           >
+             {">"}
+           </span>
+         }
+       />
+     </div>
+   );
+}
+
+// Thêm component ApplicantsList
+const ApplicantsList = () => {
   return (
-    <div className="search__content w-11/12 m-auto grid grid-cols-1 gap-6">
-      {objJob?.content.map((item: Content) => (
-        <div key={item.jobId}>
-          <JobCard item={item} showImages={true}  showButton={true}/>
-        </div>
-      ))}
-
-      <Pagination
-          style={{
-            padding: "30px 20px",
-            borderRadius: "5px",
-            fontSize: "20px",
-          }}
-          align="center"
-          current={currentPage}
-          pageSize={pageSize}
-          total={objJob?.totalElements}
-          onChange={(page) => setCurrentPage(page)}
-          itemRender={(page, type, originalElement) => {
-            if (type === "page") {
-              return (
-                <span
-                  style={{
-                    fontSize: "20px",
-                    padding: "0 20px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => setCurrentPage(page)}
-                >
-                  {page}
-                </span>
-              );
-            }
-            return originalElement;
-          }}
-          prevIcon={
-            <span
-              style={{
-                fontSize: "30px",
-              }}
-            >
-              {"<"}
-            </span>
-          }
-          nextIcon={
-            <span
-              style={{
-                fontSize: "30px",
-              }}
-            >
-              {">"}
-            </span>
-          }
-        />
+    <div>
+      {/* Nội dung danh sách ứng viên */}
+      <h2>Danh sách ứng viên</h2>
+      {/* ... hiển thị danh sách ứng viên ở đây ... */}
     </div>
   );
-}
+};

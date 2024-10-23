@@ -5,7 +5,7 @@ import { ACCESS_TOKEN } from "../../utils/config";
 
 export default function Authenticate() {
   const navigate = useNavigate();
-  const [isLoggedin, setIsLoggedin] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
     console.log(window.location.href);
@@ -13,7 +13,10 @@ export default function Authenticate() {
 
  // Lấy Role từ localStorage
     const role = localStorage.getItem("role"); 
+    console.log(window.location.href);
 
+
+ // Lấy Role từ localStorage
     const authCodeRegex = /code=([^&]+)/;
     const isMatch = window.location.href.match(authCodeRegex);
 
@@ -29,19 +32,17 @@ export default function Authenticate() {
           return response.json();
         })
         .then((data) => {
-          // console.log(data);
           setCookie(ACCESS_TOKEN, data.data['access-token'], 30);
-          // setToken(data.result?.token);
-          setIsLoggedin(true);
+          setIsLogin(true);
         });
     }
   }, []);
 
   useEffect(() => {
-    if (isLoggedin) {
+    if (isLogin) {
       navigate("/");
     }
-  }, [isLoggedin, navigate]);
+  }, [isLogin, navigate]);
 
   return (
     <>

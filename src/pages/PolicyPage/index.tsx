@@ -1,4 +1,3 @@
-import React from 'react'
 import img from "../../assets/images/101.png"
 
 export default function PolicyPage() {

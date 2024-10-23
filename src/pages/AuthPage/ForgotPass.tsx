@@ -11,9 +11,7 @@ export const ForgotPass: React.FC<ForgotPasswordProps> = ({
   const { Title, Text } = Typography;
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const onFinish = async (values: {email: string}) => {
-    // Call the API to send reset password email
-
+  const onFinish = async (values: any) => {
     try {
       setLoading(true);
       // Call the API to send reset password email
@@ -54,16 +52,25 @@ export const ForgotPass: React.FC<ForgotPasswordProps> = ({
   return (
     <>
       {!loading ? (
-        <div className="flex flex-col items-center gap-5">
+        //nút để quay về trang home
+        
+        <div className="flex flex-col  items-center gap-5">
+          <Button
+          className="w-[200px] mt-5"
+          onClick={() => handleTabChange("1")}
+        >
+          Về trang đăng nhập
+        </Button>
           <Title level={1} className="text-[20px] !mb-0">
-            {" "}
-            Thay đổi mật khẩu{" "}
+            Quên mật khẩu!
           </Title>
           <Text className="text-[14px]">
             Nhập email của bạn để nhận link thay đổi mật khẩu
           </Text>
           <Form form={form} name="horizontal_login" onFinish={onFinish}>
+            <div className="flex flex-col items-center !w-[500px]" >
             <Form.Item
+            className="w-[80%]"
               name="email"
               rules={[
                 {
@@ -73,13 +80,15 @@ export const ForgotPass: React.FC<ForgotPasswordProps> = ({
                 },
               ]}
             >
-              <Input size="large" placeholder="Email" />
+              <Input  size="large" placeholder="Email" />
             </Form.Item>
-            <Form.Item>
+            <Form.Item >
               <Button type="primary" htmlType="submit" size="large">
                 Gửi yêu cầu
               </Button>
             </Form.Item>
+
+            </div>
           </Form>
         </div>
       ) : (

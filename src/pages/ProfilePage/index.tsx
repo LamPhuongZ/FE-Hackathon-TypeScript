@@ -13,8 +13,31 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProfileSchema } from "../../utils/validation";
+import { useDispatch, useSelector } from "react-redux";
+import { DispatchType, RootState } from "../../redux/configStore";
+import { getProfileAPI } from "../../redux/reducers/userReducer";
+import { ACCESS_TOKEN } from "../../utils/config";
+import { getCookie } from "../../utils/utilMethod";
 
 export default function ProfilePage() {
+  const dispatch: DispatchType = useDispatch();
+  const { userProfile } = useSelector((state: RootState) => state.userReducer);
+
+  const getMe = async () => {
+    const actionAPI = await getProfileAPI();
+    dispatch(actionAPI);
+  };
+
+  useEffect(() => {
+    //reset Token
+    const Token = getCookie(ACCESS_TOKEN);
+    if (!Token) {
+      return;
+    }
+
+    getMe();
+  }, []);
+
   const {
     control,
     handleSubmit,
@@ -27,7 +50,6 @@ export default function ProfilePage() {
 
   const handleUpdateProfile = async () => {
     try {
-      // console.log("Values:", values);
       toast.success("Đã cập nhật thông tin thành công!");
     } catch (error) {
       toast.error("Cập nhật thất bại!");
@@ -45,7 +67,8 @@ export default function ProfilePage() {
 
   return (
     <div className="py-20 px-[72px]">
-      <div className="bg-white py-4 shadow-md px-11">
+      {!userProfile ? (
+        <div className="bg-white py-4 shadow-md px-11">
         <div className="mb-5 flex items-start justify-between px-11 pt-10">
           <div>
             <h1 className="text-[40px] font-semibold">Thông tin tài khoản</h1>
@@ -244,6 +267,9 @@ export default function ProfilePage() {
           />
         </form>
       </div>
+      ) : (
+        <p>/</p>
+      )}
     </div>
   );
 }

@@ -16,19 +16,18 @@ export default function Header() {
   const navigate = useNavigate();
   const dispatch: DispatchType = useDispatch();
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
-  
+
   const items: MenuProps["items"] = [
     {
       key: "1",
       label: (
-        <button
-          onClick={() => {
-            navigate("/profile");
-          }}
-        >
-          <li>
-            <Link to="/find-job">Trang cá nhân</Link>
-          </li>
+        <button>
+          <Link
+            className="p-4 text-xl cursor-pointer"
+            to={`/profile`}
+          >
+            Trang cá nhân
+          </Link>
         </button>
       ),
     },
@@ -52,7 +51,6 @@ export default function Header() {
 
     getMe();
   }, []);
-
 
   return (
     <header className="header">

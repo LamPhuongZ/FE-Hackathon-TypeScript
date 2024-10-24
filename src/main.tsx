@@ -14,6 +14,7 @@ import {
 import ReactDOM from "react-dom/client";
 import Loading from "./components/loading";
 import Authenticate from "./pages/AuthPage/Authenticate";
+import DashboardLayout from "./components/layout/DashboardLayout";
 
 const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -44,25 +45,36 @@ root.render(
             <Route path="/" element={<HomePage />} />
             <Route path="/list-job" element={<ListJobPage />} />
             <Route path="/landing-page" element={<LandingPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/more-card" element={<ListCardPage />} />
             <Route
               path="/card-detail-job/:jobId"
               element={<JobCardDetailPage />}
             />
-            <Route path="/form-application" element={<FormApplicationPage />} />
             <Route path="/search" element={<SearchPage />} />
-            <Route
+            <Route element={<DashboardLayout></DashboardLayout>}>
+              <Route
+                path="/profile"
+                element={<ProfilePage></ProfilePage>}
+              ></Route>
+              {/* <Route
+                path="/task"
+                element={<EmployeeDashboard></EmployeeDashboard>}
+              ></Route> */}
+            </Route>
+            {/* <Route
               path="/profile-employer-page"
               element={<ProfileEmployerPage />}
-            />
-            <Route
+              />
+              <Route
               path="/profile-employee-page"
               element={<ProfileEmployeePage />}
-            />
+              /> */}
+
+            {/*form-application của nhà tuyển dụng*/}
+            <Route path="/form-application" element={<FormApplicationPage />} />
             <Route path="/policy-page" element={<PolicyPage />} />
           </Route>
-          
+
           <Route path="/login" element={<LoginAndRegister />} />
           <Route path="/authenticate" element={<Authenticate />} />
           <Route path="*" element={<NotFoundPage />} />

@@ -6,7 +6,19 @@ const useLoading = () => {
     (state: RootState) => state.jobReducer
   );
 
-  return jobLoading;
+  const { isLoading: jobSkillLoading } = useSelector(
+    (state: RootState) => state.jobSkillReducer
+  );
+
+  const { isLoading: typeLoading } = useSelector(
+    (state: RootState) => state.typeReducer
+  );
+
+  const { isLoading: userLoading } = useSelector(
+    (state: RootState) => state.userReducer
+  );
+
+  return { jobLoading, jobSkillLoading, typeLoading, userLoading };
 };
 
 export default useLoading;

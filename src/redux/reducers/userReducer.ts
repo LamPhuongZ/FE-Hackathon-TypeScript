@@ -39,6 +39,7 @@ export interface UserState {
   userProfile: UserProfileType | null;
   userRegister: RegisterState | null;
   isLogin: boolean;
+  isLoading: boolean;
 }
 
 const initialState: UserState = {
@@ -46,11 +47,13 @@ const initialState: UserState = {
   userProfile: null,
   userRegister: null,
   isLogin: !!getCookie(USER_LOGIN),
+  isLoading: false,
 };
 
 export const loginAPI = createAsyncThunk(
   "user/login",
   async (userLogin: UserLoginType, { dispatch }) => {
+    dispatch(setLoading(true));
     try {
       const response = await httpClient.post("/api/v1/auth/sign-in", userLogin);
       setCookie(USER_LOGIN, JSON.stringify(response.data), 30);
@@ -73,6 +76,8 @@ export const loginAPI = createAsyncThunk(
         duration: 1.5,
       });
       throw error;
+    } finally {
+      dispatch(setLoading(false));
     }
   }
 );
@@ -80,6 +85,8 @@ export const loginAPI = createAsyncThunk(
 export const registerAPI = createAsyncThunk(
   "user/register",
   async (userRegister: UserRegisterType, { dispatch }) => {
+    dispatch(setLoading(true));
+
     try {
       const response = await httpClient.post(
         "/api/v1/auth/sign-up",
@@ -100,12 +107,16 @@ export const registerAPI = createAsyncThunk(
         duration: 1.5,
       });
       throw error;
+    } finally {
+      dispatch(setLoading(false));
     }
   }
 );
 
 export const getProfileAPI = () => {
   return async (dispatch: DispatchType) => {
+    dispatch(setLoading(true));
+
     try {
       const response = await httpClient.get("/api/v1/self");
 
@@ -121,6 +132,8 @@ export const getProfileAPI = () => {
         duration: 1.5,
       });
       throw error;
+    } finally {
+      dispatch(setLoading(false));
     }
   };
 };
@@ -131,21 +144,27 @@ const userReducer = createSlice({
   reducers: {
     setLoginAction: (state: UserState, action: PayloadAction<LoginState>) => {
       state.userLogin = action.payload;
+      state.isLoading = false;
     },
     setProfileAction: (
       state: UserState,
       action: PayloadAction<UserProfileType | null>
     ) => {
       state.userProfile = action.payload;
+      state.isLoading = false;
     },
     setRegisterAction: (
       state: UserState,
       action: PayloadAction<RegisterState>
     ) => {
       state.userRegister = action.payload;
+      state.isLoading = false;
     },
     setIsLoginAction: (state: UserState, action: PayloadAction<boolean>) => {
       state.isLogin = action.payload;
+    },
+    setLoading: (state: UserState, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
     },
   },
 });
@@ -155,6 +174,7 @@ export const {
   setProfileAction,
   setRegisterAction,
   setIsLoginAction,
+  setLoading,
 } = userReducer.actions;
 export default userReducer.reducer;
 

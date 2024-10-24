@@ -8,7 +8,7 @@ type Props = {};
 
 export default function CandiCardDetail({}: Props) {
   return (
-    <div className="bg-white rounded-2xl shadow-md py-12 px-7 small-tablet:w-full flex flex-col gap-10">
+    <div className="bg-white rounded-2xl shadow-md py-12 px-7 small-tablet:w-full flex flex-col justify-evenly gap-10">
       <div className="flex gap-5">
         <div className="w-[180px] h-[150px]">
           <img
@@ -37,7 +37,7 @@ export default function CandiCardDetail({}: Props) {
       </div>
       <div className="border border-solid border-[#E4E6E8]"></div>
       <div className="flex justify-between small-tablet:grid small-tablet:grid-cols-1 small-tablet:gap-7">
-        <div className="w-[350px] large-desktop:w-[550px] small-tablet:w-full">
+        <div className="w-[350px] large-desktop:w-[380px] small-tablet:w-full">
           <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
             Ngày sinh
           </h1>
@@ -47,7 +47,7 @@ export default function CandiCardDetail({}: Props) {
             </p>
           </div>
         </div>
-        <div className="w-[350px] large-desktop:w-[550px] small-tablet:w-full">
+        <div className="w-[350px] large-desktop:w-[380px] small-tablet:w-full">
           <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
             Địa chỉ
           </h1>
@@ -59,11 +59,11 @@ export default function CandiCardDetail({}: Props) {
         </div>
       </div>
       <div className="flex justify-between small-tablet:grid small-tablet:grid-cols-1 small-tablet:gap-7">
-        <div className="w-[350px] large-desktop:w-[550px] small-tablet:w-full">
+        <div className="w-[350px] large-desktop:w-[380px] small-tablet:w-full">
           <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
             Đánh giá
           </h1>
-          <div className="py-[20px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
+          <div className="py-[15px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
             <div className="flex items-center gap-2">
               <div className="w-6 h-6">
                 <img src={star} alt="" className="w-full h-full" />
@@ -74,7 +74,7 @@ export default function CandiCardDetail({}: Props) {
             </div>
           </div>
         </div>
-        <div className="w-[350px] large-desktop:w-[550px] small-tablet:w-full">
+        <div className="w-[350px] large-desktop:w-[380px] small-tablet:w-full">
           <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
             Tham gia
           </h1>
@@ -97,7 +97,7 @@ export default function CandiCardDetail({}: Props) {
       </div>
       <div className="border border-solid border-[#E4E6E8]"></div>
       <div className="flex justify-between small-tablet:grid small-tablet:grid-cols-1 small-tablet:gap-7">
-        <div className="w-[350px] large-desktop:w-[550px] small-tablet:w-full">
+        <div className="w-[350px] large-desktop:w-[380px] small-tablet:w-full">
           <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
             Tổng cộng công việc
           </h1>
@@ -105,7 +105,7 @@ export default function CandiCardDetail({}: Props) {
             <p className="text-xl font-medium  small-tablet:text-sm">5</p>
           </div>
         </div>
-        <div className="w-[350px] large-desktop:w-[550px] small-tablet:w-full">
+        <div className="w-[350px] large-desktop:w-[380px] small-tablet:w-full">
           <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
             Tổng giờ
           </h1>

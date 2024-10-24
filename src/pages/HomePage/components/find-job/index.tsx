@@ -72,9 +72,10 @@ export default function FindJob() {
       
       {/* <div className="flex flex-col gap-11">
         {Array.from({ length: 7 }, (_, index) => (
-          <CandiCard key={index} />
+          <CandiCard key={index} showAmount={true} />
         ))}
       </div> */}
+      
     </section>
   );
 }

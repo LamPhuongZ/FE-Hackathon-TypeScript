@@ -11,10 +11,11 @@ import {
 import { Pagination } from "antd";
 import { useNavigate } from "react-router-dom";
 import CandiCardDetail from "../../components/card-candidates/CandiCardDetail";
+import CandiCard from "../../components/card-candidates/CandiCard";
 
 export default function ListJobPage() {
   const navigate = useNavigate();
-  const [selectedJobCard, setSelectedJobCard] = useState<number>();
+  const [selectedJobCard, setSelectedJobCard] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const pageSize = 7;
 
@@ -48,17 +49,6 @@ export default function ListJobPage() {
   }, [objJob]);
 
   //
-  // const fetchJobDetails = async (id: number) => {
-  //   try {
-  //     const response = await fetch(`https://api.easyjob.io.vn/api/jobs/${id}`);
-  //     const data = await response.json();
-  //     setJobDetails(data.data);
-  //   } catch (error) {
-  //     console.error('Error fetching job details:', error);
-  //   }
-  // };
-
-  //
   const handleSelectJobCard = (id: number) => {
     setSelectedJobCard(id);
     getDataJobDetail(id);
@@ -90,14 +80,21 @@ export default function ListJobPage() {
     });
   };
 
+  const renderCandiCards = (): JSX.Element[] => {
+    return Array.from({ length: 7 }, (_, index) => (
+      <CandiCard key={index} className="h-[200px]" textWidthName="text-2xl" />
+    ));
+  };
+
   //
   return (
     <div>
       <div className="grid grid-cols-[453px_minmax(0,_1fr)] gap-x-7 py-4 px-[72px] small-tablet:grid-cols-1 small-tablet:px-[20px]">
         <div className="flex flex-col gap-8">{renderJobs()}</div>
+        <div className="flex flex-col gap-8">{renderCandiCards()}</div>
         <div className="small-tablet:hidden">
-          {/* {objJobDetails && <JobCardDetail item={objJobDetails} />} */}
-          <CandiCardDetail />
+          {objJobDetails && <JobCardDetail item={objJobDetails} />}
+          {/* <CandiCardDetail /> */}
         </div>
       </div>
       <Pagination

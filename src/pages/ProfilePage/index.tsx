@@ -66,9 +66,8 @@ export default function ProfilePage() {
   console.log("🚀 ~ useEffect ~ arrErrors:", Object.values(errors));
 
   return (
-    <div className="py-20 px-[72px]">
-      {!userProfile ? (
-        <div className="bg-white py-4 shadow-md px-11">
+    <div className="px-[30px]">
+      <div className="bg-white py-4 shadow-md px-11">
         <div className="mb-5 flex items-start justify-between px-11 pt-10">
           <div>
             <h1 className="text-[40px] font-semibold">Thông tin tài khoản</h1>

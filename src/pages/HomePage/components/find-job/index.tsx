@@ -6,6 +6,7 @@ import { getDataJobAPI } from "../../../../redux/reducers/jobReducer";
 import { useNavigate, Link } from "react-router-dom";
 import { Content } from "../../../../redux/reducers/jobReducer";
 import JobCard from "../../../../components/card-job/JobCard";
+import CandiCard from '../../../../components/card-candidates/CandiCard';
 import useLoading from "../../../../hooks/useLoading";
 import LoadingData from "../../../../components/loading-data/loadingData";
 
@@ -65,6 +66,14 @@ export default function FindJob() {
           </div>
         ))}
       </div>
+
+      
+      {/* <div className="flex flex-col gap-11">
+        {Array.from({ length: 7 }, (_, index) => (
+          <CandiCard key={index} showAmount={true} />
+        ))}
+      </div> */}
+      
     </section>
   );
 }

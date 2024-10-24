@@ -31,7 +31,7 @@ export default function JobCardDetail({ item }: Props) {
         <Button title="Ứng Tuyển" className="w-full h-16 mt-9" />
         <div className="border border-solid mt-4"></div>
       </div>
-      <div className="h-auto max-h-[1230px] overflow-y-auto px-2">
+      <div className="h-auto max-h-[1235px] overflow-y-auto px-2">
         <div className="flex flex-col gap-7 mt-7">
           <div className="flex gap-x-2 small-tablet:text-sm">
             <h1 className="font-medium ">Loại công việc:</h1>
@@ -61,7 +61,21 @@ export default function JobCardDetail({ item }: Props) {
             <div className="border border-solid border-black w-16 mx-11 small-tablet:hidden"></div>
             <h1 className="font-medium">Hạn ứng tuyển:</h1>
             <div className="px-4 py-2 rounded-[10px] border border-solid small-tablet:text-center">
-              <p className="font-medium"></p>
+              <p className="font-medium">
+              {new Date(item.endDate)
+                  .toLocaleDateString("vi-VN", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })
+                  .replace(/\//g, "-")}{" "}
+                -{" "}
+                {new Date(item.endDate).toLocaleTimeString("vi-VN", {
+                  hour: "numeric",
+                  minute: "2-digit",
+                  hour12: false, // Sử dụng định dạng 24 giờ
+                })}
+              </p>
             </div>
           </div>
           <div className="border border-solid"></div>
@@ -77,7 +91,7 @@ export default function JobCardDetail({ item }: Props) {
           </div>
         </div>
         <div className="flex justify-between my-7 small-tablet:grid small-tablet:grid-cols-1 small-tablet:gap-7">
-          <div className="w-[350px] 2xl:w-[600px] small-tablet:w-full">
+          <div className="w-[350px] large-desktop:w-[550px] small-tablet:w-full">
             <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
               Số điện thoại:
             </h1>
@@ -87,7 +101,7 @@ export default function JobCardDetail({ item }: Props) {
               </p>
             </div>
           </div>
-          <div className="w-[350px] 2xl:w-[600px] small-tablet:w-full">
+          <div className="w-[350px] large-desktop:w-[550px] small-tablet:w-full">
             <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
               Người liên hệ:
             </h1>
@@ -99,7 +113,7 @@ export default function JobCardDetail({ item }: Props) {
           </div>
         </div>
         <div className="flex justify-between my-10 small-tablet:grid small-tablet:grid-cols-1 small-tablet:gap-7">
-          <div className="w-[350px] 2xl:w-[600px] small-tablet:w-full">
+          <div className="w-[350px] large-desktop:w-[550px] small-tablet:w-full">
             <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
               Ngày bắt đầu làm việc:
             </h1>
@@ -109,7 +123,7 @@ export default function JobCardDetail({ item }: Props) {
               </p>
             </div>
           </div>
-          <div className="w-[350px] 2xl:w-[600px] small-tablet:w-full">
+          <div className="w-[350px] large-desktop:w-[550px] small-tablet:w-full">
             <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
               Thời gian làm việc (Đơn vị: <strong>Giờ</strong>):
             </h1>

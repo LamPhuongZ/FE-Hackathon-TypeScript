@@ -100,9 +100,7 @@ export default function JobCard({
         </div>
 
         {/* Kiểm tra nếu `showButton` là true thì hiển thị button */}
-        {showButton && (
-          <Button title="Ứng Viên" color="delete" circle={false} className="w-2/5" />
-        )}
+        {showButton && <Button title="Ứng Viên" color="delete" className="w-1/5" circle={true}  />}
       </div>
     </div>
   );

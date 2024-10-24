@@ -39,8 +39,8 @@ export default function ListJobPage() {
   }, [currentPage]);
 
   useEffect(() => {
-    if (objJob?.content?.length) {
-      const newItem = objJob.content[objJob.content.length - 7];
+    if (objJob?.content) {
+      const newItem = objJob.content[0];
       if (newItem) {
         setSelectedJobCard(newItem.jobId);
         getDataJobDetail(newItem.jobId);
@@ -91,7 +91,7 @@ export default function ListJobPage() {
     <div>
       <div className="grid grid-cols-[453px_minmax(0,_1fr)] gap-x-7 py-4 px-[72px] small-tablet:grid-cols-1 small-tablet:px-[20px]">
         <div className="flex flex-col gap-8">{renderJobs()}</div>
-        <div className="flex flex-col gap-8">{renderCandiCards()}</div>
+        {/* <div className="flex flex-col gap-8">{renderCandiCards()}</div> */}
         <div className="small-tablet:hidden">
           {objJobDetails && <JobCardDetail item={objJobDetails} />}
           {/* <CandiCardDetail /> */}

@@ -1,10 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-type Props = {};
-
-export default function Sidebar({}: Props) {
-  const ProfileLink = () => (
+export default function Sidebar() {
+  const Profile = () => (
     <NavLink
       to={`/profile`}
       className={({ isActive }) =>
@@ -31,9 +29,9 @@ export default function Sidebar({}: Props) {
       <span className="mt-1 text-xl">Thông Tin Cá Nhân</span>
     </NavLink>
   );
-  const WorkManagement = () => (
+  const WorkManager = () => (
     <NavLink
-      to={`/task`}
+      to={`/work-manager`}
       className={({ isActive }) =>
         `flex items-center justify-center gap-4 p-3 font-medium cursor-pointer hover:bg-blue-200 rounded-xl ${
           isActive ? " bg-blue-200 rounded-xl font-semibold text-[#3F8CFF]" : ""
@@ -73,8 +71,8 @@ export default function Sidebar({}: Props) {
           <h3 className="font-semibold text-xl">Nguyễn Văn A</h3>
         </div>
         <div className="border-2 border-solid"></div>
-        <ProfileLink />
-        <WorkManagement />
+        <Profile />
+        <WorkManager />
       </div>
     </div>
   );

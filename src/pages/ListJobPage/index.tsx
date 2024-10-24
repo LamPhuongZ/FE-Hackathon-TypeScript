@@ -10,6 +10,7 @@ import {
 } from "../../redux/reducers/jobReducer";
 import { Pagination } from "antd";
 import { useNavigate } from "react-router-dom";
+import CandiCardDetail from "../../components/card-candidates/CandiCardDetail";
 
 export default function ListJobPage() {
   const navigate = useNavigate();
@@ -95,7 +96,8 @@ export default function ListJobPage() {
       <div className="grid grid-cols-[453px_minmax(0,_1fr)] gap-x-7 py-4 px-[72px] small-tablet:grid-cols-1 small-tablet:px-[20px]">
         <div className="flex flex-col gap-8">{renderJobs()}</div>
         <div className="small-tablet:hidden">
-          {objJobDetails && <JobCardDetail item={objJobDetails} />}
+          {/* {objJobDetails && <JobCardDetail item={objJobDetails} />} */}
+          <CandiCardDetail />
         </div>
       </div>
       <Pagination

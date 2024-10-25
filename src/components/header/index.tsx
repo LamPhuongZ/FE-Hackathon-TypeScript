@@ -10,12 +10,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
 import { getCookie } from "../../utils/utilMethod";
 import { ACCESS_TOKEN } from "../../utils/config";
+import { useRole } from "../../hooks/useRole";
 
 // getProfileAPI
 export default function Header() {
   const navigate = useNavigate();
   const dispatch: DispatchType = useDispatch();
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
+  const {role} = useRole();
   
   const items: MenuProps["items"] = [
     {
@@ -52,7 +54,7 @@ export default function Header() {
 
     getMe();
   }, []);
-
+  // console.log(role)
 
   return (
     <header className="header">

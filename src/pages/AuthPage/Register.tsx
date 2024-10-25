@@ -129,7 +129,7 @@ const Register: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
             },
           ]}
         >
-          <Input placeholder="Nhập tên" required type="text" />
+          <Input className="h-10" placeholder="Nhập tên" required type="text" />
         </Form.Item>
         <Form.Item
           name="email"
@@ -141,7 +141,7 @@ const Register: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
             },
           ]}
         >
-          <Input placeholder="Nhập email" required type="text" />
+          <Input className="h-10" placeholder="Nhập email" required type="text" />
         </Form.Item>
 
         <Form.Item
@@ -161,6 +161,7 @@ const Register: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
           hasFeedback
         >
           <Input.Password
+          className="h-10"
             placeholder="Nhập mật khẩu"
             required
             type="password"
@@ -188,7 +189,7 @@ const Register: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
             }),
           ]}
         >
-          <Input placeholder="Xác nhận mật khẩu" required type="password" />
+          <Input className="h-10" placeholder="Xác nhận mật khẩu" required type="password" />
         </Form.Item>
 
         <Form.Item label="Bạn tham gia với vai trò: " name="role">

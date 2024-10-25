@@ -21,13 +21,14 @@ export default function Header() {
     {
       key: "1",
       label: (
-        <button>
-          <Link
-            className="p-4 text-xl cursor-pointer"
-            to={`/profile`}
-          >
-            Trang cá nhân
-          </Link>
+        <button
+          onClick={() => {
+            navigate("/profile");
+          }}
+        >
+          <li>
+            <Link to="">Trang cá nhân</Link>
+          </li>
         </button>
       ),
     },
@@ -51,6 +52,7 @@ export default function Header() {
 
     getMe();
   }, []);
+  // console.log(role)
 
   return (
     <header className="header">

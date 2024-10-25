@@ -15,6 +15,10 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/configStore";
 import { ACCESS_TOKEN } from "../../utils/config";
 import { getCookie } from "../../utils/utilMethod";
+import Dropdown from "../../components/dropdown/Dropdown";
+import DropdownSelect from "../../components/dropdown/DropdownSelect";
+import DropdownList from "../../components/dropdown/DropdownList";
+import DropdownOption from "../../components/dropdown/DropdownOption";
 
 export default function ProfilePage() {
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
@@ -125,6 +129,69 @@ export default function ProfilePage() {
               </Field>
             </div>
             <div className="form-layout ">
+              <Field>
+                <Label>Tỉnh</Label>
+                <Dropdown>
+                  <DropdownSelect
+                    // value={`${selectedJobType?.name || "Loại công việc"}`}
+                  ></DropdownSelect>
+                  <DropdownList>
+                    {/* {(Array.isArray(objJobType) ? objJobType : []).map( */}
+                      {/* (item: JobType) => ( */}
+                        <DropdownOption
+                          name="province"
+                          // key={item.id}
+                        >
+                          {/* {item.name} */}
+                          {"hello"}
+                        </DropdownOption>
+                      {/* )
+                    )} */}
+                  </DropdownList>
+                </Dropdown>
+              </Field>
+              <Field>
+                <Label>Quận</Label>
+                <Dropdown>
+                  <DropdownSelect
+                    // value={`${selectedJobType?.name || "Loại công việc"}`}
+                  ></DropdownSelect>
+                  <DropdownList>
+                    {/* {(Array.isArray(objJobType) ? objJobType : []).map( */}
+                      {/* (item: JobType) => ( */}
+                        <DropdownOption
+                          name="district"
+                          // key={item.id}
+                        >
+                          {/* {item.name} */}
+                          {"hello"}
+                        </DropdownOption>
+                      {/* )
+                    )} */}
+                  </DropdownList>
+                </Dropdown>
+              </Field>
+              <Field>
+                <Label>Huyện</Label>
+                <Dropdown>
+                  <DropdownSelect
+                    // value={`${selectedJobType?.name || "Loại công việc"}`}
+                  ></DropdownSelect>
+                  <DropdownList>
+                    {/* {(Array.isArray(objJobType) ? objJobType : []).map( */}
+                      {/* (item: JobType) => ( */}
+                        <DropdownOption
+                          name="ward"
+                          // key={item.id}
+                        >
+                          {/* {item.name} */}
+                          {"hello"}
+                        </DropdownOption>
+                      {/* )
+                    )} */}
+                  </DropdownList>
+                </Dropdown>
+              </Field>
               <Field>
                 <Label htmlFor="address">Địa chỉ</Label>
                 <Input

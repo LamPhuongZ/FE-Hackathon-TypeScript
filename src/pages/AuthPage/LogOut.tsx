@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Button, notification } from "antd";
 import { delCookie, getCookie } from "../../utils/utilMethod";
 import axios from "axios";

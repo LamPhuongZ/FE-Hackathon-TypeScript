@@ -10,14 +10,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
 import { getCookie } from "../../utils/utilMethod";
 import { ACCESS_TOKEN } from "../../utils/config";
-import { useRole } from "../../hooks/useRole";
 
 // getProfileAPI
 export default function Header() {
   const navigate = useNavigate();
   const dispatch: DispatchType = useDispatch();
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
-  const {role} = useRole();
   
   const items: MenuProps["items"] = [
     {
@@ -29,7 +27,7 @@ export default function Header() {
           }}
         >
           <li>
-            <Link to="/find-job">Trang cá nhân</Link>
+            <Link to="">Trang cá nhân</Link>
           </li>
         </button>
       ),

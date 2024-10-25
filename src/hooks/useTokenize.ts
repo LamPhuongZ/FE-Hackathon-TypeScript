@@ -1,6 +1,5 @@
 import jwtEncode from 'jwt-encode';
 import {jwtDecode} from 'jwt-decode';
-import { getCookie } from '../utils/utilMethod';
 
 interface TokenPayload {
   password: string;

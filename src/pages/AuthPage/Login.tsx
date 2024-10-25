@@ -17,7 +17,6 @@ import { useDispatch } from "react-redux";
 import { DispatchType } from "../../redux/configStore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRole } from "../../hooks/useRole";
 import { getCookie, setCookie } from "../../utils/utilMethod";
 import { decodePassword, encodePassword } from "../../hooks/useTokenize";
 
@@ -95,7 +94,8 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
       setRole("ROLE_APPLIER");
     }
   };
-  // const navigate = useNavigate();
+  
+  const navigate = useNavigate();
   return (
     <>
       {contextHolder}

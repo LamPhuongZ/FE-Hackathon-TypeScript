@@ -19,19 +19,19 @@ import Dropdown from "../../components/dropdown/Dropdown";
 import DropdownSelect from "../../components/dropdown/DropdownSelect";
 import DropdownList from "../../components/dropdown/DropdownList";
 import DropdownOption from "../../components/dropdown/DropdownOption";
+import { Distrist, Province, useAddress, Ward } from "../../hooks/useAddress";
+import { useRole } from "../../hooks/useRole";
+import useFormattedDate from "../../hooks/useFormattedDate";
 
 export default function ProfilePage() {
+  const { provinces, districts, wards } = useAddress();
+  const { sub } = useRole();
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
+  const formattedDate = useFormattedDate(userProfile?.createdDate || "");
 
   console.log(userProfile);
 
-  useEffect(() => {
-    //reset Token
-    const Token = getCookie(ACCESS_TOKEN);
-    if (!Token) {
-      return;
-    }
-  }, []);
+  console.log(formattedDate);
 
   const {
     control,
@@ -42,6 +42,23 @@ export default function ProfilePage() {
     mode: "onChange",
     resolver: yupResolver(ProfileSchema),
   });
+
+  useEffect(() => {
+    //reset Token
+    const Token = getCookie(ACCESS_TOKEN);
+    if (!Token) {
+      return;
+    }
+
+    if (userProfile) {
+      setValue("fullname", userProfile?.fullname);
+      setValue("address", userProfile?.address);
+      setValue("avatar", userProfile?.avatar);
+      setValue("email", sub || "");
+      setValue("createdDate", formattedDate);
+      // setValue("star", userProfile.star || 0);
+    }
+  }, [userProfile]);
 
   const handleUpdateProfile = async () => {
     try {
@@ -76,11 +93,17 @@ export default function ProfilePage() {
             <ImageUploadProps
               listType="picture-circle"
               name="avatar"
+              fileList={
+                userProfile?.avatar
+                  ? [{ url: userProfile.avatar, name: "Avatar" }]
+                  : []
+              }
               onFileSelect={(file: File | null) => {
                 if (file) {
                   setValue("avatar", file);
                 }
               }}
+            
             />
           </div>
           <div className="flex items-end justify-center mb-10 pr-5">
@@ -97,7 +120,7 @@ export default function ProfilePage() {
                   name="fullname"
                   placeholder="Nhập họ tên đầy đủ"
                   control={control}
-                ></Input>
+                />
               </Field>
               <Field>
                 <Label htmlFor="date">Ngày sinh</Label>
@@ -106,7 +129,7 @@ export default function ProfilePage() {
                   name="date"
                   placeholder="Nhập ngày tháng năm sinh"
                   control={control}
-                ></Input>
+                />
               </Field>
             </div>
             <div className="form-layout ">
@@ -114,18 +137,19 @@ export default function ProfilePage() {
                 <Label htmlFor="phone">Số điện thoại</Label>
                 <Input
                   name="phone"
+                  type="number"
                   placeholder="Nhập số điện thoại"
                   control={control}
-                ></Input>
+                />
               </Field>
               <Field>
-                <Label htmlFor="join">Tham gia từ</Label>
+                <Label htmlFor="createdDate">Tham gia từ</Label>
                 <Input
-                  name="join"
+                  name="createdDate"
                   placeholder="Thời gian tham gia"
                   className="text-center border-none focus:ring-0 invisible"
                   control={control}
-                ></Input>
+                />
               </Field>
             </div>
             <div className="form-layout ">
@@ -133,20 +157,16 @@ export default function ProfilePage() {
                 <Label>Tỉnh</Label>
                 <Dropdown>
                   <DropdownSelect
-                    // value={`${selectedJobType?.name || "Loại công việc"}`}
+                    value={`${provinces[0]?.name || "Tỉnh"}`}
                   ></DropdownSelect>
                   <DropdownList>
-                    {/* {(Array.isArray(objJobType) ? objJobType : []).map( */}
-                      {/* (item: JobType) => ( */}
-                        <DropdownOption
-                          name="province"
-                          // key={item.id}
-                        >
-                          {/* {item.name} */}
-                          {"hello"}
+                    {(Array.isArray(provinces) ? provinces : []).map(
+                      (item: Province) => (
+                        <DropdownOption name="province" key={item.id}>
+                          {item.name}
                         </DropdownOption>
-                      {/* )
-                    )} */}
+                      )
+                    )}
                   </DropdownList>
                 </Dropdown>
               </Field>
@@ -154,41 +174,31 @@ export default function ProfilePage() {
                 <Label>Quận</Label>
                 <Dropdown>
                   <DropdownSelect
-                    // value={`${selectedJobType?.name || "Loại công việc"}`}
+                    value={`${districts[0]?.name || "Quận"}`}
                   ></DropdownSelect>
                   <DropdownList>
-                    {/* {(Array.isArray(objJobType) ? objJobType : []).map( */}
-                      {/* (item: JobType) => ( */}
-                        <DropdownOption
-                          name="district"
-                          // key={item.id}
-                        >
-                          {/* {item.name} */}
-                          {"hello"}
+                    {(Array.isArray(districts) ? districts : []).map(
+                      (item: Distrist) => (
+                        <DropdownOption name="district" key={item.id}>
+                          {item.name}
                         </DropdownOption>
-                      {/* )
-                    )} */}
+                      )
+                    )}
                   </DropdownList>
                 </Dropdown>
               </Field>
               <Field>
-                <Label>Huyện</Label>
+                <Label>Phường</Label>
                 <Dropdown>
                   <DropdownSelect
-                    // value={`${selectedJobType?.name || "Loại công việc"}`}
+                    value={`${wards[0]?.name || "Phường"}`}
                   ></DropdownSelect>
                   <DropdownList>
-                    {/* {(Array.isArray(objJobType) ? objJobType : []).map( */}
-                      {/* (item: JobType) => ( */}
-                        <DropdownOption
-                          name="ward"
-                          // key={item.id}
-                        >
-                          {/* {item.name} */}
-                          {"hello"}
-                        </DropdownOption>
-                      {/* )
-                    )} */}
+                    {(Array.isArray(wards) ? wards : []).map((item: Ward) => (
+                      <DropdownOption name="ward" key={item.id}>
+                        {item.name}
+                      </DropdownOption>
+                    ))}
                   </DropdownList>
                 </Dropdown>
               </Field>
@@ -198,7 +208,7 @@ export default function ProfilePage() {
                   name="address"
                   placeholder="Nhập địa chỉ"
                   control={control}
-                ></Input>
+                />
               </Field>
               <Field>
                 <Label htmlFor="email">Email</Label>
@@ -207,7 +217,8 @@ export default function ProfilePage() {
                   placeholder="Nhập email"
                   type="email"
                   control={control}
-                ></Input>
+                  disabled={true}
+                />
               </Field>
             </div>
           </div>

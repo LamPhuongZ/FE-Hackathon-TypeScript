@@ -10,7 +10,7 @@ export default function DropdownList({ children }: Props) {
   return (
     <>
       {show && (
-        <div className="absolute top-full left-0 w-full bg-white shadow-sm">
+        <div className="absolute top-full left-0 w-full bg-white shadow-sm h-[500px] max-h-[300px] overflow-y-auto z-[99999999]">
           {children}
         </div>
       )}

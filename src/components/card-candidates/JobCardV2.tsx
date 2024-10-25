@@ -6,14 +6,15 @@ import calendar from "../../assets/images/calendar.png";
 type Props = {
   width?: string;
   className?: string;
+  type?: boolean;
 };
 
-export default function JobCardV2({ width, className }: Props) {
+export default function JobCardV2({ width, className, type = true }: Props) {
   return (
     <div
       className={`cursor-pointer w-full px-6 py-10 bg-white rounded-2xl shadow-md hover:shadow-xl flex flex-col gap-6 small-tablet:h-[137px] small-tablet:min-w-[330px] small-tablet:px-[15px] small-tablet:py-[10px] ${className}`}
     >
-      <div className="flex justify-center items-center gap-5">
+      <div className="flex justify-center items-stretch gap-5">
         <div className="w-full flex flex-col justify-between gap-5">
           <div className="flex justify-between">
             <div className="flex items-center gap-1">
@@ -58,12 +59,13 @@ export default function JobCardV2({ width, className }: Props) {
           </div>
         </div>
 
-        <Button
+       {type && <Button
           title="Ứng Viên"
-          color="delete"
-          className="w-1/5"
+          color="custom"
+          className="w-2/6 bg-[#DC2E55]"
           circle={false}
-        />
+          to="/list-candidated"
+        />}
       </div>
     </div>
   );

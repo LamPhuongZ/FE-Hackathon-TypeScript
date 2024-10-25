@@ -5,28 +5,21 @@ import Button from "../../components/button/Button";
 import ImageUploadProps from "../../components/image-upload/ImageUpload";
 import Close from "../../assets/icons/close.svg";
 import Plus from "../../assets/icons/plus.svg";
-import Arrow from "../../assets/icons/double-arrow-right.svg";
 import Star from "../../assets/icons/star.svg";
 import { toast } from "react-toastify";
-import { NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProfileSchema } from "../../utils/validation";
-import { useDispatch, useSelector } from "react-redux";
-import { DispatchType, RootState } from "../../redux/configStore";
-import { getProfileAPI } from "../../redux/reducers/userReducer";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/configStore";
 import { ACCESS_TOKEN } from "../../utils/config";
 import { getCookie } from "../../utils/utilMethod";
 
 export default function ProfilePage() {
-  const dispatch: DispatchType = useDispatch();
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
 
-  const getMe = async () => {
-    const actionAPI = await getProfileAPI();
-    dispatch(actionAPI);
-  };
+  console.log(userProfile);
 
   useEffect(() => {
     //reset Token
@@ -34,8 +27,6 @@ export default function ProfilePage() {
     if (!Token) {
       return;
     }
-
-    getMe();
   }, []);
 
   const {
@@ -97,9 +88,9 @@ export default function ProfilePage() {
           <div className="border border-solid border-[#D5D5D5] rounded-3xl pt-14 px-8 ">
             <div className="form-layout">
               <Field>
-                <Label htmlFor="fullName">Họ tên đầy đủ</Label>
+                <Label htmlFor="fullname">Họ tên đầy đủ</Label>
                 <Input
-                  name="fullName"
+                  name="fullname"
                   placeholder="Nhập họ tên đầy đủ"
                   control={control}
                 ></Input>
@@ -201,60 +192,6 @@ export default function ProfilePage() {
                   <p className="font-semibold text-2xl text-[rgba(10,_22,_41,_0.50)]">
                     Thêm kỹ năng
                   </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-24">
-            <Label htmlFor="">Danh sách công việc</Label>
-            <div className="flex justify-between">
-              <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5 w-[550px] 2xl:w-[800px]">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-6">
-                    <p className="text-2xl font-bold">Đã hoàn thành</p>
-                    <div className="rounded-full w-3 h-3 bg-[#2EE498]"></div>
-                    <h1 className="text-2xl font-medium">3</h1>
-                  </div>
-                  <div className="bg-[#2EE498] rounded-2xl p-3">
-                    <NavLink
-                      to="/more-card"
-                      className="text-white flex items-center justify-between gap-10"
-                    >
-                      xem thêm
-                      <div className="w-6 h-6">
-                        <img
-                          src={Arrow}
-                          alt="icon-arrow"
-                          className="w-full h-full"
-                        />
-                      </div>
-                    </NavLink>
-                  </div>
-                </div>
-              </div>
-              <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5 w-[550px] 2xl:w-[800px]">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-6">
-                    <p className="text-2xl font-bold">Đang nộp</p>
-                    <div className="rounded-full w-3 h-3 bg-[#FF5758]"></div>
-                    <h1 className="text-2xl font-medium">5</h1>
-                  </div>
-                  <div className="bg-[#FF5758] rounded-2xl p-3">
-                    <NavLink
-                      to="/more_card"
-                      className="text-white flex items-center justify-between gap-10"
-                    >
-                      xem thêm
-                      <div className="w-6 h-6">
-                        <img
-                          src={Arrow}
-                          alt="icon-arrow"
-                          className="w-full h-full"
-                        />
-                      </div>
-                    </NavLink>
-                  </div>
                 </div>
               </div>
             </div>

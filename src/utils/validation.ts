@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 export const ProfileSchema = yup.object({
-  fullName: yup.string().required("Vui lòng nhập họ tên đầy đủ"),
+  fullname: yup.string().required("Vui lòng nhập họ tên đầy đủ"),
   email: yup
     .string()
     .email("Vui lòng nhập đúng email")

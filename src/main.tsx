@@ -44,7 +44,7 @@ root.render(
             <Route path="/" element={<HomePage />} />
             <Route path="/list-job" element={<ListJobPage />} />
             <Route path="/landing-page" element={<LandingPage />} />
-            <Route path="/profile/:userId" element={<ProfilePage />} />
+            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/more-card" element={<ListCardPage />} />
             <Route
               path="/card-detail-job/:jobId"

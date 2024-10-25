@@ -16,6 +16,8 @@ const LogOut: React.FC = () => {
   const handleDeleteToken = () => {
     delCookie("access_token");
     delCookie("userLogin");
+    delCookie("username");
+    delCookie("password");
     // Clear the user profile data from the Redux store
     dispatch(setProfileAction(null));
     // setIsLogin(false)
@@ -52,6 +54,7 @@ const LogOut: React.FC = () => {
       });
     }
   };
+ 
 
   return (
     <>

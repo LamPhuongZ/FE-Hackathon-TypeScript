@@ -16,7 +16,7 @@ export default function Header() {
   const navigate = useNavigate();
   const dispatch: DispatchType = useDispatch();
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
-  
+
   const items: MenuProps["items"] = [
     {
       key: "1",

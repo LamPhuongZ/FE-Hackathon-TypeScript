@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
 import { getCookie } from "../../utils/utilMethod";
 import { ACCESS_TOKEN } from "../../utils/config";
-
+import { LuUserCircle2 } from "react-icons/lu";
 // getProfileAPI
 export default function Header() {
   const navigate = useNavigate();
@@ -26,9 +26,7 @@ export default function Header() {
             navigate("/profile");
           }}
         >
-          <li>
-            <Link to="">Trang cá nhân</Link>
-          </li>
+            <h1 className="text-xl flex items-center gap-2 p-3"><LuUserCircle2 className="text-xl" />Trang cá nhân</h1>
         </button>
       ),
     },

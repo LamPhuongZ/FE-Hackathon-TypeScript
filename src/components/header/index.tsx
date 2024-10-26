@@ -16,7 +16,7 @@ export default function Header() {
   const navigate = useNavigate();
   const dispatch: DispatchType = useDispatch();
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
-  
+
   const items: MenuProps["items"] = [
     {
       key: "1",
@@ -27,7 +27,7 @@ export default function Header() {
           }}
         >
           <li>
-            <Link to="/find-job">Trang cá nhân</Link>
+            <Link to="">Trang cá nhân</Link>
           </li>
         </button>
       ),
@@ -52,7 +52,7 @@ export default function Header() {
 
     getMe();
   }, []);
-
+  // console.log(role)
 
   return (
     <header className="header">

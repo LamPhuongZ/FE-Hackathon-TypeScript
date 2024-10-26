@@ -15,8 +15,10 @@ import { OAuthConfig } from "../../configs/configuration";
 import { loginAPI, setIsLoginAction } from "../../redux/reducers/userReducer";
 import { useDispatch } from "react-redux";
 import { DispatchType } from "../../redux/configStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getCookie, setCookie } from "../../utils/utilMethod";
+import { decodePassword, encodePassword } from "../../hooks/useTokenize";
 
 type LoginProps = {
   handleTabChange: (key: string) => void;
@@ -26,6 +28,7 @@ type LoginProps = {
 export type UserLoginType = {
   username: string;
   password: string;
+  remember?: boolean;
 };
 
 const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
@@ -34,13 +37,18 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
   const { Link, Title, Text } = Typography;
   const [api, contextHolder] = notification.useNotification();
   const [role, setRole] = useState("ROLE_EMPLOYER");
-
+  // const RoleToken = useRole().role
   console.log(api);
   
   const onFinish = (values: UserLoginType) => {
     const actionAsync = loginAPI(values);
     dispatch(actionAsync);
     dispatch(setIsLoginAction(true));
+    if (values.remember) {
+      const encodedToken = encodePassword(values.password)
+      setCookie('username',values.username, 30)
+      setCookie('password',encodedToken, 30)
+    }
   };
 
   //Google auth
@@ -59,6 +67,25 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
     window.location.href = targetUrl;
   };
 
+  useEffect(() => {
+    const username = getCookie('username');
+    let password = getCookie ('password');
+
+  if (username && password) {
+    password = decodePassword(password)
+    // console.log(password)
+     const actionAsync = loginAPI({username,password});
+      dispatch(actionAsync);
+      dispatch(setIsLoginAction(true));
+    form.setFieldsValue({ username, password });
+    
+  }
+    
+    }
+    
+  , [])
+  
+  
   const handleRoleChange = (key: string) => {
     // Update the role based on the selected tab
     if (key === "1") {
@@ -67,6 +94,7 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
       setRole("ROLE_APPLIER");
     }
   };
+  
   const navigate = useNavigate();
   return (
     <>
@@ -132,7 +160,7 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
                   },
                 ]}
               >
-                <Input placeholder="Nhập email" required type="text" />
+                <Input placeholder="Nhập email" required type="text" className="h-10" />
               </Form.Item>
 
               <Form.Item
@@ -145,6 +173,7 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
                 ]}
               >
                 <Input.Password
+                className="h-10"
                   placeholder="Nhập mật khẩu"
                   iconRender={(visible) =>
                     visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
@@ -224,7 +253,7 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
                   },
                 ]}
               >
-                <Input placeholder="Nhập email" required type="text" />
+                <Input className="h-10" placeholder="Nhập email" required type="text" />
               </Form.Item>
 
               <Form.Item
@@ -237,6 +266,7 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
                 ]}
               >
                 <Input.Password
+                className="h-10"
                   placeholder="Nhập mật khẩu"
                   iconRender={(visible) =>
                     visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
@@ -269,6 +299,5 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
         </Tabs.TabPane>
       </Tabs>
     </>
-  );
-};
+  );}
 export default Login;

@@ -7,6 +7,8 @@ interface ImageUploadProps extends Partial<HTMLInputElement> {
   onFileSelect: (file: File | null) => void;
   resetTrigger?: boolean;
   onRemove?: () => void; // Thêm prop để xử lý xóa ảnh
+  fileList?: { url: string; name: string }[]; // Thêm prop fileList
+
 }
 
 export default function ImageUploadProps({
@@ -16,6 +18,7 @@ export default function ImageUploadProps({
   onFileSelect: handleFileSelect,
   resetTrigger, // Prop để trigger reset
   onRemove,
+  fileList = [], // Mặc định là mảng rỗng
 }: ImageUploadProps) {
  
   const [imageSelect, setImageSelect] = useState<string>("");
@@ -28,6 +31,15 @@ export default function ImageUploadProps({
       handleFileSelect(null); // Notify parent to clear the image field
     }
   }, [resetTrigger]);
+
+  // Nếu có fileList được truyền vào, hiển thị ảnh URL từ trước
+  useEffect(() => {
+    if (fileList.length > 0) {
+      setImageSelect(fileList[0].name);
+      setImageUrl(fileList[0].url);
+    }
+  }, [fileList]);
+
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;

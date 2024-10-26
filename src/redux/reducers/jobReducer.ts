@@ -162,18 +162,12 @@ export const postDataJobAPI = (payload: PostJobType, dispatch: DispatchType) => 
     try {
       const formData = new FormData();
 
-      // Duyệt qua các trường trong payload
       for (const key in payload) {
         const value = payload[key as keyof PostJobType];
 
         if (Array.isArray(value)) {
           value.forEach((img: any, index) => {
-            formData.append(`imageJobDetails[${index}].url`, img.url);
-            formData.append(`imageJobDetails[${index}].cloudinaryPuclicUrl`, img.cloudinaryPuclicUrl);
-            formData.append(`imageJobDetails[${index}].typeOfImg`, img.typeOfImg);
-            if (img.file) {
-              formData.append(`imageJobDetails[${index}].file`, img.file); // Gửi file lên server
-            }
+            formData.append(`imageJobDetails[${index}]`, img.file); // Gửi file trực tiếp
           });
         } else if (typeof value === "number") {
           formData.append(key, value.toString());
@@ -183,6 +177,7 @@ export const postDataJobAPI = (payload: PostJobType, dispatch: DispatchType) => 
           formData.append(key, value);
         }
       }
+
 
       const response = await httpClient.post("/api/v1/job", formData, {
         headers: { "Content-Type": "multipart/form-data" },

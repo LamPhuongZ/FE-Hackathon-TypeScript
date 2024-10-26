@@ -47,13 +47,26 @@ export default function Input({
     <>
       {type === "date" ? (
         <DatePicker
-          format="YYYY-MM-DD HH:mm:ss" // fortmat="DD-MM-YYYY"
+          format="DD-MM-YYYY" // fortmat="DD-MM-YYYY"
           size="large"
           {...field}
           disabled={disabled}
           placeholder={placeholder}
           className={`w-full px-[20px] py-[16px] rounded-lg font-medium border border-solid border-[#DFDFDF] ${className}`}
         />
+      ) : type === "tel" ? (
+        <>
+          <input
+            id={name}
+            type="tel"
+            {...field}
+            disabled={disabled}
+            className={`w-full px-[20px] py-[16px] rounded-lg font-medium border border-solid border-[#DFDFDF] focus:outline-none focus:ring-1 ${className}`}
+            placeholder={placeholder}
+            // pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
+            value={field.value as string}
+          />
+        </>
       ) : type === "number" ? (
         <>
           <input

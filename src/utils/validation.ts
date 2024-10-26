@@ -59,15 +59,27 @@ export const JobProfileSchema = yup.object({
   endDate: yup.string().required("Vui lòng nhập ngày kết thúc"),
   duration: yup.number().required("Vui lòng nhập khoảng thời gian"),
 
-  // Định nghĩa imageJobDetails là một mảng các đối tượng ảnh
-  imageJobDetails: yup.array().of(
-    yup.object({
-      url: yup.string().required("Vui lòng cung cấp URL của ảnh"),
-      cloudiaryPuclicUrl: yup.string().required("Vui lòng cung cấp đường dẫn Cloudinary"),
-      typeOfImg: yup.string().required("Vui lòng cung cấp loại ảnh"),
-    })
-  ).required("Vui lòng tải ảnh về công việc và nơi làm việc của bạn"),
-
+  // Validation cho danh sách ảnh
+  imageJobDetails: yup
+    .array()
+    .of(
+      yup.object({
+        file: yup
+          .mixed()
+          .required("Vui lòng tải lên ảnh")
+          .test("fileType", "Định dạng ảnh không được hỗ trợ", (value) => {
+            return value instanceof File
+              ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+              : false;
+          })
+          .test("fileSize", "Kích thước ảnh quá lớn (tối đa 2MB)", (value) => {
+            return value instanceof File
+              ? value.size <= 2 * 1024 * 1024
+              : false;
+          }),
+      })
+    )
+    .min(1, "Vui lòng tải ít nhất một ảnh"), // Yêu cầu phải có ít nhất 1 ảnh
 
   // pic1: yup
   //   .mixed()

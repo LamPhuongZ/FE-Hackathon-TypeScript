@@ -94,6 +94,9 @@ export default function FormApplication() {
 
   const handlePost = async (values: PostJobType) => {
     try {
+
+      console.log("Dữ liệu form:", values); // Log toàn bộ dữ liệu form
+
       // Kiểm tra nếu có ảnh nào đã bị xóa
       if (imagesDeleted.some((deleted) => deleted)) {
         toast.error("Vui lòng tải lại ảnh!");
@@ -104,7 +107,6 @@ export default function FormApplication() {
       const data = await dispatch(postDataJobAPI(values, dispatch));
 
       console.log("data", data);
-      
 
       toast.success("Đã đăng bài thành công!");
       // reset(); // Reset form sau khi đăng bài thành công
@@ -179,6 +181,7 @@ export default function FormApplication() {
                 <Input
                   type="number"
                   name="duration"
+                  min={0}
                   placeholder="Nhập khoảng thời gian"
                   control={control}
                 />
@@ -189,7 +192,7 @@ export default function FormApplication() {
             <Field>
               <Label htmlFor="phone">Số điện thoại</Label>
               <Input
-                type="number"
+                type="tel"
                 name="phone"
                 placeholder="Nhập số điện thoại"
                 control={control}
@@ -285,15 +288,11 @@ export default function FormApplication() {
                     name={`imageJobDetails.${index + 1}`}
                     onFileSelect={(file: File | null) => {
                       if (file) {
-                        // Convert File to the required format
-                        const fileUrl = URL.createObjectURL(file);
-                        const cloudiaryPuclicUrl = URL.createObjectURL(file); 
-                        const typeOfImg = file.type;
-                        setValue(`imageJobDetails.${index + 1}`, { url: fileUrl, cloudiaryPuclicUrl, typeOfImg });
+                        setValue(`imageJobDetails.${index}`, { file }); // Lưu file vào state
                         setImagesDeleted((prev) => {
                           prev[index] = false;
                           return prev;
-                        }); // Đánh dấu ảnh chưa bị xóa
+                        });
                       }
                     }}
                     resetTrigger={resetTrigger}

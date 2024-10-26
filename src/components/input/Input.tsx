@@ -47,7 +47,7 @@ export default function Input({
     <>
       {type === "date" ? (
         <DatePicker
-          format="DD-MM-YYYY"
+          format="YYYY-MM-DD HH:mm:ss" // fortmat="DD-MM-YYYY"
           size="large"
           {...field}
           disabled={disabled}

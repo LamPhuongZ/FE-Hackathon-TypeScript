@@ -116,13 +116,11 @@ export default function CandiCardDetail({}: Props) {
       </div>
       <div className=" small-tablet:w-full">
         <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
-        Đã hoàn thành
+        Số lượng công việc hoàn thành
         </h1>
-        <div className="py-[10px] flex justify-center gap-5">
-          <div className="bg-[#E8E8E8] rounded-[20px]">
-            <p className="text-xl font-medium px-[10px] py-[5px]">Giao hàng</p>
+        <div className="py-[20px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
+            <p className="text-xl font-medium small-tablet:text-sm">20</p>
           </div>
-        </div>
       </div>
       <Button title="Chọn ứng viên" className="w-full h-16 mt-9 uppercase" />
     </div>

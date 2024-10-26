@@ -74,6 +74,7 @@ export default function ListJobPage() {
             }
             onSelect={handleJobClick}
             width="w-[191px]"
+            widthAddress="w-[160px]"
           />
         </div>
       );
@@ -93,8 +94,8 @@ export default function ListJobPage() {
         <div className="flex flex-col gap-8">{renderJobs()}</div>
         {/* <div className="flex flex-col gap-8">{renderCandiCards()}</div> */}
         <div className="small-tablet:hidden">
-          {objJobDetails && <JobCardDetail item={objJobDetails} />}
-          {/* <CandiCardDetail /> */}
+          {/* {objJobDetails && <JobCardDetail item={objJobDetails} />} */}
+          <CandiCardDetail />
         </div>
       </div>
       <Pagination

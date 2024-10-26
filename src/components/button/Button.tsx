@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { NavLink } from "react-router-dom";
 
 interface ButtonProps {
   title?: string | ReactNode;
@@ -37,7 +38,8 @@ export default function Button({
   iconPosition = "left",
   color = "primary",
   circle = true,
-}: ButtonProps) {
+  to,
+}: ButtonProps & { to?: string }) {
   const bgColor =
     color === "secondary"
       ? "btn-secondary"
@@ -60,22 +62,43 @@ export default function Button({
   );
 
   return (
-    <button
-      type={type as "button" | "submit" | "reset"}
-      className={`btn-component group ${bgColor} ${className}`}
-      onClick={onClick}
-      disabled={loading}
-    >
-      {circle && circles} {/* Hiển thị các div circle khi circle là true */}
-      <span className="relative z-20">
-        {icon && iconPosition === "left" && (
-          <span className="mr-2">{icon}</span>
-        )}
-        {title}
-        {icon && iconPosition === "right" && (
-          <span className="ml-2">{icon}</span>
-        )}
-      </span>
-    </button>
+   <>
+      {to ? ( // Kiểm tra nếu có prop to
+        <NavLink
+          to={to}
+          className={`btn-component group ${bgColor} ${className}`}
+          onClick={onClick}
+        >
+          {circle && circles}
+          <span className="relative z-20">
+            {icon && iconPosition === "left" && (
+              <span className="mr-2">{icon}</span>
+            )}
+            {title}
+            {icon && iconPosition === "right" && (
+              <span className="ml-2">{icon}</span>
+            )}
+          </span>
+        </NavLink>
+      ) : ( // Nếu không có prop to, sử dụng button thông thường
+        <button
+          type={type as "button" | "submit" | "reset"}
+          className={`btn-component group ${bgColor} ${className}`}
+          onClick={onClick}
+          disabled={loading}
+        >
+          {circle && circles} {/* Hiển thị các div circle khi circle là true */}
+          <span className="relative z-20">
+            {icon && iconPosition === "left" && (
+              <span className="mr-2">{icon}</span>
+            )}
+            {title}
+            {icon && iconPosition === "right" && (
+              <span className="ml-2">{icon}</span>
+            )}
+          </span>
+        </button>
+      )}
+    </>
   );
 }

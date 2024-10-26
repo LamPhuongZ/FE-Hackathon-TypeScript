@@ -91,7 +91,7 @@ export default function JobCardDetail({ item }: Props) {
           </div>
         </div>
         <div className="flex justify-between my-7 small-tablet:grid small-tablet:grid-cols-1 small-tablet:gap-7">
-          <div className="w-[350px] large-desktop:w-[550px] small-tablet:w-full">
+          <div className="w-[350px] large-desktop:w-[350px] small-tablet:w-full">
             <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
               Số điện thoại:
             </h1>
@@ -101,7 +101,7 @@ export default function JobCardDetail({ item }: Props) {
               </p>
             </div>
           </div>
-          <div className="w-[350px] large-desktop:w-[550px] small-tablet:w-full">
+          <div className="w-[350px] large-desktop:w-[350px] small-tablet:w-full">
             <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
               Người liên hệ:
             </h1>
@@ -113,7 +113,7 @@ export default function JobCardDetail({ item }: Props) {
           </div>
         </div>
         <div className="flex justify-between my-10 small-tablet:grid small-tablet:grid-cols-1 small-tablet:gap-7">
-          <div className="w-[350px] large-desktop:w-[550px] small-tablet:w-full">
+          <div className="w-[350px] large-desktop:w-[350px] small-tablet:w-full">
             <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
               Ngày bắt đầu làm việc:
             </h1>
@@ -123,7 +123,7 @@ export default function JobCardDetail({ item }: Props) {
               </p>
             </div>
           </div>
-          <div className="w-[350px] large-desktop:w-[550px] small-tablet:w-full">
+          <div className="w-[350px] large-desktop:w-[350px] small-tablet:w-full">
             <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
               Thời gian làm việc (Đơn vị: <strong>Giờ</strong>):
             </h1>

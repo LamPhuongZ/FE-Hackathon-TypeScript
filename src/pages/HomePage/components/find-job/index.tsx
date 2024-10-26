@@ -62,12 +62,13 @@ export default function FindJob() {
               item={item}
               onSelect={() => navigate(`/card-detail-job/${item.jobId}`)}
               showImages={true}
+              width="w-[250px]"
+              widthAddress="w-[160px]"
             />
           </div>
         ))}
       </div>
-
-      
+ 
       {/* <div className="flex flex-col gap-11">
         {Array.from({ length: 7 }, (_, index) => (
           <CandiCard key={index} showAmount={true} />

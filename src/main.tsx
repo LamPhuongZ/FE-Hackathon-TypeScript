@@ -16,7 +16,7 @@ import Loading from "./components/loading";
 import Authenticate from "./pages/AuthPage/Authenticate";
 import DashboardLayout from "./components/layout/DashboardLayout";
 import WorkManagerPage from "./pages/WorkManagerPage";
-import ListCandidatePage from "./pages/ListCandidatePage";
+import ListCandidatedPage from "./pages/ListCandidatedPage";
 
 const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));
 const HomePage = lazy(() => import("./pages/HomePage"));
@@ -60,8 +60,8 @@ root.render(
               ></Route>
               {/*list candidate của nhà tuyển dụng*/}
               <Route
-                path="/list-candidate"
-                element={<ListCandidatePage />}
+                path="/list-candidated"
+                element={<ListCandidatedPage />}
               ></Route>
             </Route>
 

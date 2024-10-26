@@ -3,6 +3,7 @@ import checked from "../../assets/images/checked.png";
 import location from "../../assets/images/location.png";
 import star from "../../assets/icons/star.svg";
 import phone from "../../assets/icons/phone.svg";
+import JobCardV2 from "../../components/card-candidates/JobCardV2";
 
 export default function WorkManagerPage() {
   const [activeTab, setActiveTab] = useState<string>("completed");
@@ -16,7 +17,7 @@ export default function WorkManagerPage() {
       <div className="bg-white shadow-md py-4 px-11 rounded-[20px]">
         <div className="flex justify-center items-center gap-20">
           <span
-            className={`text-3xl font-medium cursor-pointer ${
+            className={`text-2xl font-medium cursor-pointer ${
               activeTab === "completed" ? "text-[#1890FF]" : ""
             }`}
             onClick={() => handleTabChange("completed")}
@@ -24,7 +25,7 @@ export default function WorkManagerPage() {
             Công việc đã hoàn thành
           </span>
           <span
-            className={`text-3xl font-medium cursor-pointer ${
+            className={`text-2xl font-medium cursor-pointer ${
               activeTab === "pending" ? "text-[#1890FF]" : ""
             }`}
             onClick={() => handleTabChange("pending")}
@@ -36,12 +37,13 @@ export default function WorkManagerPage() {
           {activeTab === "completed" ? (
             <div className="cursor-pointer w-full px-6 py-10 bg-white rounded-2xl shadow-md hover:shadow-xl flex flex-col gap-6 small-tablet:h-[137px] small-tablet:min-w-[330px] small-tablet:px-[15px] small-tablet:py-[10px] ">
               <div className="flex justify-center items-center gap-5">
-                <img
-                  src=""
-                  alt={`Job Image 1`}
-                  className="w-[158px] h-[135px] rounded-3xl small-tablet:hidden"
-                />
-
+                <div className="w-[158px] h-[135px]">
+                  <img
+                    src="https://plus.unsplash.com/premium_photo-1729708654660-8c14ff5e408c?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt={`Job Image 1`}
+                    className=" object-cover w-full h-full rounded-3xl small-tablet:hidden"
+                  />
+                </div>
                 <div className="w-full flex flex-col justify-between gap-5">
                   <div className="flex justify-between">
                     <div className="flex items-center gap-1">
@@ -92,12 +94,13 @@ export default function WorkManagerPage() {
           ) : (
             <div className="cursor-pointer w-full px-6 py-10 bg-white rounded-2xl shadow-md hover:shadow-xl flex flex-col gap-6 small-tablet:h-[137px] small-tablet:min-w-[330px] small-tablet:px-[15px] small-tablet:py-[10px] ">
               <div className="flex justify-center items-center gap-5">
-                <img
-                  src=""
-                  alt={`Job Image 1`}
-                  className="w-[158px] h-[135px] rounded-3xl small-tablet:hidden"
-                />
-
+                <div className="w-[158px] h-[135px]">
+                  <img
+                    src="https://plus.unsplash.com/premium_photo-1729708654660-8c14ff5e408c?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt={`Job Image 1`}
+                    className=" object-cover w-full h-full rounded-3xl small-tablet:hidden"
+                  />
+                </div>
                 <div className="w-full flex flex-col justify-between gap-5">
                   <div className="flex justify-between">
                     <div className="flex items-center gap-1">
@@ -146,6 +149,8 @@ export default function WorkManagerPage() {
               </div>
             </div>
           )}
+          {/* {activeTab === "completed" ? <JobCardV2 /> : <JobCardV2 type={false} />} */}
+          
         </div>
       </div>
     </div>

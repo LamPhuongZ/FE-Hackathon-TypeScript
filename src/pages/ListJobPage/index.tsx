@@ -12,16 +12,27 @@ import { Pagination } from "antd";
 import { useNavigate } from "react-router-dom";
 import CandiCardDetail from "../../components/card-candidates/CandiCardDetail";
 import CandiCard from "../../components/card-candidates/CandiCard";
+import {
+  getDataCandidateAPI,
+  Content as ContentCandidate,
+} from "../../redux/reducers/candidateReducer";
 
 export default function ListJobPage() {
   const navigate = useNavigate();
   const [selectedJobCard, setSelectedJobCard] = useState<number>(0);
+  const [selectedCandidateId, setSelectedCandidateId] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const pageSize = 7;
+  const pageSizeCandidate = 6;
 
   const { objJob, objJobDetails } = useSelector(
     (state: RootState) => state.jobReducer
   );
+
+  const { objCandidate } = useSelector(
+    (state: RootState) => state.candidateReducer
+  );
+
   const dispatch: DispatchType = useDispatch();
 
   const getDataJobList = async (page: number, size: number) => {
@@ -34,8 +45,20 @@ export default function ListJobPage() {
     dispatch(actionAPI);
   };
 
+  const getDataCandidateList = async (page: number, size: number) => {
+    const actionAPI = getDataCandidateAPI(page, size);
+    dispatch(actionAPI);
+  };
+  
+  // Tìm kiếm candidate theo id
+  const objCandiDetails = objCandidate?.content.find(
+    (candidate: ContentCandidate) => candidate.id === selectedCandidateId
+  );
+
+  // job
   useEffect(() => {
     getDataJobList(currentPage - 1, pageSize);
+    getDataCandidateList(currentPage - 1, pageSizeCandidate);
   }, [currentPage]);
 
   useEffect(() => {
@@ -48,10 +71,29 @@ export default function ListJobPage() {
     }
   }, [objJob]);
 
-  //
+  // candidate
+  useEffect(() => {
+    if (objCandidate?.content) {
+      const newItem = objCandidate.content[0];
+      if (newItem) {
+        setSelectedCandidateId(newItem.id);
+      }
+    }
+
+    if (objCandiDetails) {
+      setSelectedCandidateId(objCandiDetails.id);
+    }
+  }, [objCandidate, objCandiDetails]);
+
+  //job
   const handleSelectJobCard = (id: number) => {
     setSelectedJobCard(id);
     getDataJobDetail(id);
+  };
+
+  // candidate
+  const handleCandiClick = (id: number) => {
+    setSelectedCandidateId(id);
   };
 
   const renderJobs = (): JSX.Element[] => {
@@ -82,20 +124,28 @@ export default function ListJobPage() {
   };
 
   const renderCandiCards = (): JSX.Element[] => {
-    return Array.from({ length: 7 }, (_, index) => (
-      <CandiCard key={index} className="h-[200px]" textWidthName="text-2xl" />
-    ));
+    return (objCandidate?.content ?? []).map((item: ContentCandidate) => {
+      return (
+        <div key={item.id}>
+          <CandiCard
+            item={item}
+            isSelected={selectedCandidateId === item.id}
+            onSelect={() => handleCandiClick(item.id)}
+          />
+        </div>
+      );
+    });
   };
 
   //
   return (
     <div>
       <div className="grid grid-cols-[453px_minmax(0,_1fr)] gap-x-7 py-4 px-[72px] small-tablet:grid-cols-1 small-tablet:px-[20px]">
-        <div className="flex flex-col gap-8">{renderJobs()}</div>
-        {/* <div className="flex flex-col gap-8">{renderCandiCards()}</div> */}
+        {/* <div className="flex flex-col gap-8">{renderJobs()}</div> */}
+        <div className="flex flex-col gap-8">{renderCandiCards()}</div>
         <div className="small-tablet:hidden">
           {/* {objJobDetails && <JobCardDetail item={objJobDetails} />} */}
-          <CandiCardDetail />
+          {objCandiDetails && <CandiCardDetail item={objCandiDetails} />}
         </div>
       </div>
       <Pagination
@@ -106,8 +156,8 @@ export default function ListJobPage() {
         }}
         align="center"
         current={currentPage}
-        pageSize={pageSize}
-        total={objJob?.totalElements}
+        pageSize={pageSizeCandidate}
+        total={objCandidate?.totalElements}
         onChange={(page) => setCurrentPage(page)}
         itemRender={(page, type, originalElement) => {
           if (type === "page") {

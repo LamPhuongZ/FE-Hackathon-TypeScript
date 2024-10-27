@@ -223,29 +223,29 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <div className="mt-24">
-            <Label htmlFor="">Tải ảnh CCCD / CMND</Label>
-            <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5">
-              <div className="form-layout lg:mb-0">
-                <ImageUploadProps
-                  name="frontCard"
-                  onFileSelect={(file: File | null) => {
-                    if (file) {
-                      setValue("frontCard", file);
-                    }
-                  }}
-                />
-                <ImageUploadProps
-                  name="backCard"
-                  onFileSelect={(file: File | null) => {
-                    if (file) {
-                      setValue("backCard", file);
-                    }
-                  }}
-                />
+            <div className="mt-24">
+              <Label htmlFor="">Tải ảnh CCCD / CMND</Label>
+              <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5">
+                <div className="form-layout lg:mb-0">
+                  <ImageUploadProps
+                    name="frontCard"
+                    onFileSelect={(file: File | null) => {
+                      if (file) {
+                        setValue("frontCard", file);
+                      }
+                    }}
+                  />
+                  <ImageUploadProps
+                    name="backCard"
+                    onFileSelect={(file: File | null) => {
+                      if (file) {
+                        setValue("backCard", file);
+                      }
+                    }}
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
           <div className="mt-24">
             <Label htmlFor="">Kĩ năng</Label>

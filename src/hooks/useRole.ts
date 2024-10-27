@@ -10,9 +10,15 @@ interface TokenPayload {
   exp: number;
 }
 
-// custom hook get role from token
+// custom hook to get role and sub from token
 export const useRole = () => {
-  const [role, setRole] = useState<string | null>(null);
+  const [tokenData, setTokenData] = useState<{
+    role: string | null;
+    sub: string | null;
+  }>({
+    role: null,
+    sub: null,
+  });
   const [isTokenExp, setIsTokenExp] = useState<boolean>(false);
 
   useEffect(() => {
@@ -28,17 +34,17 @@ export const useRole = () => {
         if (decodedToken.exp < currentTime) {
           setIsTokenExp(true); // Token has expired
         } else {
-          setRole(decodedToken.role); // Get role from token
+          setTokenData({ role: decodedToken.role, sub: decodedToken.sub }); // Get role and sub from token
           setIsTokenExp(false);
         }
       } catch (error) {
         console.error("Token không hợp lệ hoặc lỗi khi giải mã token", error);
-        setRole(null);
+        setTokenData({ role: null, sub: null });
       }
     } else {
-      setRole(null); // Token not found
+      setTokenData({ role: null, sub: null }); // Token not found
     }
   }, []);
 
-  return { role, isTokenExp };
+  return { ...tokenData, isTokenExp };
 };

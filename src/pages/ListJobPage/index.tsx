@@ -15,6 +15,7 @@ import CandiCard from "../../components/card-candidates/CandiCard";
 import {
   getDataCandidateAPI,
   Content as ContentCandidate,
+  getDataCandidateDetailAPI,
 } from "../../redux/reducers/candidateReducer";
 
 export default function ListJobPage() {
@@ -29,7 +30,7 @@ export default function ListJobPage() {
     (state: RootState) => state.jobReducer
   );
 
-  const { objCandidate } = useSelector(
+  const { objCandidate, objCandiDetails } = useSelector(
     (state: RootState) => state.candidateReducer
   );
 
@@ -49,11 +50,16 @@ export default function ListJobPage() {
     const actionAPI = getDataCandidateAPI(page, size);
     dispatch(actionAPI);
   };
-  
+
+  const getDataCandidateDetail = async (id: number) => {
+    const actionAPI = getDataCandidateDetailAPI(id);
+    dispatch(actionAPI);
+  };
+
   // Tìm kiếm candidate theo id
-  const objCandiDetails = objCandidate?.content.find(
-    (candidate: ContentCandidate) => candidate.id === selectedCandidateId
-  );
+  // const objCandiDetails = objCandidate?.content.find(
+  //   (candidate: ContentCandidate) => candidate.id === selectedCandidateId
+  // );
 
   // job
   useEffect(() => {
@@ -77,13 +83,10 @@ export default function ListJobPage() {
       const newItem = objCandidate.content[0];
       if (newItem) {
         setSelectedCandidateId(newItem.id);
+        getDataCandidateDetail(newItem.id);
       }
     }
-
-    if (objCandiDetails) {
-      setSelectedCandidateId(objCandiDetails.id);
-    }
-  }, [objCandidate, objCandiDetails]);
+  }, [objCandidate]);
 
   //job
   const handleSelectJobCard = (id: number) => {
@@ -94,6 +97,7 @@ export default function ListJobPage() {
   // candidate
   const handleCandiClick = (id: number) => {
     setSelectedCandidateId(id);
+    getDataCandidateDetail(id);
   };
 
   const renderJobs = (): JSX.Element[] => {

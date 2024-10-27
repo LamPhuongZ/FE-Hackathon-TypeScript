@@ -21,8 +21,12 @@ export interface RegisterState {
 }
 
 export interface UserProfileType {
+  id: number;
+  email: string;
+  phone: string;
   fullname: string;
   age: string;
+  dob: string; // day of birth
   avatar: string;
   isVerified: boolean;
   numOfJob: number;
@@ -32,6 +36,8 @@ export interface UserProfileType {
   provinceId: string;
   districtId: string;
   jobSkills: JobSkill[];
+  imgFrontOfCard: string;
+  imgBackOfCard: string;
 }
 
 export interface ChangePasswordType {

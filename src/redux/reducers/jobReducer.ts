@@ -36,8 +36,8 @@ export interface PostJobType {
   phone: string;
   districtId: number;
   provinceId: number;
-  startDate: string;
-  endDate: string;
+  startDate: string | null;
+  endDate: string | null;
   duration: number;
   description: string;
   jobTypeId: number;

@@ -26,7 +26,7 @@ import useFormattedDate from "../../hooks/useFormattedDate";
 export default function ProfilePage() {
   const { provinces, districts, wards } = useAddress();
   const { sub } = useRole();
-  const { userProfile } = useSelector((state: RootState) => state.userReducer);
+  const { userProfile, changePassword } = useSelector((state: RootState) => state.userReducer);
   const formattedDate = useFormattedDate(userProfile?.createdDate || "");
 
   const {
@@ -36,7 +36,7 @@ export default function ProfilePage() {
     formState: { errors },
   } = useForm({
     mode: "onChange",
-    resolver: yupResolver(ProfileSchema),
+    // resolver: yupResolver(ProfileSchema),
   });
 
   useEffect(() => {
@@ -65,16 +65,16 @@ export default function ProfilePage() {
     }
   };
 
-  useEffect(() => {
-    const arrErrors = Object.values(errors);
-    if (arrErrors.length > 0) {
-      toast.error(arrErrors[0]?.message);
-    }
-  }, [errors]);
-  console.log("🚀 ~ useEffect ~ arrErrors:", Object.values(errors));
+  // useEffect(() => {
+  //   const arrErrors = Object.values(errors);
+  //   if (arrErrors.length > 0) {
+  //     toast.error(arrErrors[0]?.message);
+  //   }
+  // }, [errors]);
+  // console.log("🚀 ~ useEffect ~ arrErrors:", Object.values(errors));
 
   return (
-    <div className="px-[30px]">
+    <div className="px-[30px] pb-[66px]">
       <div className="bg-white py-4 shadow-md px-11">
         <div className="mb-5 flex items-start justify-between px-11 pt-10">
           <div>
@@ -99,17 +99,16 @@ export default function ProfilePage() {
                   setValue("avatar", file);
                 }
               }}
-            
             />
           </div>
-          <div className="flex items-end justify-center mb-10 pr-5">
-            <div className="w-14 h-14">
+          <div className="flex items-center justify-center mb-10 gap-3">
+            <div className="w-10 h-1w-10">
               <img src={Star} alt="" className="w-full h-full" />
             </div>
-            <h1 className="text-4xl font-medium">4.0</h1>
+            <h1 className="text-4xl font-medium mt-2">4.0</h1>
           </div>
           <div className="border border-solid border-[#D5D5D5] rounded-3xl pt-14 px-8 ">
-            <div className="form-layout">
+            {/* <div className="form-layout">
               <Field>
                 <Label htmlFor="fullname">Họ tên đầy đủ</Label>
                 <Input
@@ -183,6 +182,8 @@ export default function ProfilePage() {
                   </DropdownList>
                 </Dropdown>
               </Field>
+            </div>
+            <div className="form-layout">
               <Field>
                 <Label>Phường</Label>
                 <Dropdown>
@@ -206,6 +207,8 @@ export default function ProfilePage() {
                   control={control}
                 />
               </Field>
+            </div>
+            <div className="form-layout">
               <Field>
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -216,34 +219,53 @@ export default function ProfilePage() {
                   disabled={true}
                 />
               </Field>
+            </div> */}
+            <div className="form-layout">
+              <Field>
+                <Label htmlFor="password">Mật khẩu hiện tại</Label>
+                <Input
+                  type="password"
+                  name="password"
+                  placeholder="Nhập mật khẩu hiện tại"
+                  control={control}
+                />
+              </Field>
+              <Field>
+                <Label htmlFor="passwordNew">Mật khẩu mới</Label>
+                <Input
+                  name="passwordNew"
+                  placeholder="Nhập mật khẩu mới"
+                  control={control}
+                />
+              </Field>
             </div>
           </div>
 
-            <div className="mt-24">
-              <Label htmlFor="">Tải ảnh CCCD / CMND</Label>
-              <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5">
-                <div className="form-layout lg:mb-0">
-                  <ImageUploadProps
-                    name="frontCard"
-                    onFileSelect={(file: File | null) => {
-                      if (file) {
-                        setValue("frontCard", file);
-                      }
-                    }}
-                  />
-                  <ImageUploadProps
-                    name="backCard"
-                    onFileSelect={(file: File | null) => {
-                      if (file) {
-                        setValue("backCard", file);
-                      }
-                    }}
-                  />
-                </div>
+          {/* <div className="mt-24">
+            <Label htmlFor="">Tải ảnh CCCD / CMND</Label>
+            <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5">
+              <div className="form-layout lg:mb-0">
+                <ImageUploadProps
+                  name="frontCard"
+                  onFileSelect={(file: File | null) => {
+                    if (file) {
+                      setValue("frontCard", file);
+                    }
+                  }}
+                />
+                <ImageUploadProps
+                  name="backCard"
+                  onFileSelect={(file: File | null) => {
+                    if (file) {
+                      setValue("backCard", file);
+                    }
+                  }}
+                />
               </div>
             </div>
+          </div> */}
 
-          <div className="mt-24">
+          {/* <div className="mt-24">
             <Label htmlFor="">Kĩ năng</Label>
             <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5 flex gap-7">
               <div className="inline-block rounded-[20px] bg-[#E8E8E8] px-7 py-5">
@@ -269,7 +291,7 @@ export default function ProfilePage() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
           <Button
             type="submit"
             title="Cập Nhật"

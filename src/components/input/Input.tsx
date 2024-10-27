@@ -45,7 +45,7 @@ export default function Input({
 
     defaultValue: "",
   });
-  
+
   return (
     <>
       {type === "date" ? (
@@ -83,6 +83,18 @@ export default function Input({
             disabled={disabled}
             min={min}
             max={max}
+            className={`w-full px-[20px] py-[16px] rounded-lg font-medium border border-solid border-[#DFDFDF] focus:outline-none focus:ring-1 ${className}`}
+            placeholder={placeholder}
+            value={field.value as string}
+          />
+        </>
+      ) : type === "password" ? ( // Thêm loại nhập liệu cho mật khẩu
+        <>
+          <input
+            id={name}
+            type="password" // Đặt loại là password
+            {...field}
+            disabled={disabled}
             className={`w-full px-[20px] py-[16px] rounded-lg font-medium border border-solid border-[#DFDFDF] focus:outline-none focus:ring-1 ${className}`}
             placeholder={placeholder}
             value={field.value as string}

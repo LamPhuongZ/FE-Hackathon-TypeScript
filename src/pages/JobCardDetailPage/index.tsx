@@ -1,4 +1,4 @@
-import JobCardDetail from "../../components/card-job/JobCardDetail";
+// import JobCardDetail from "../../components/card-job/JobCardDetail";
 import Card from "../../components/card/Card";
 import imgJob from "../../assets/images/img-job.png";
 import redAddress from "../../assets/icons/icon-red-address.svg";
@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
 import { getDataJobDetailAPI } from "../../redux/reducers/jobReducer";
 import CandiCardDetail from "../../components/card-candidates/CandiCardDetail";
-import CandiCard from "../../components/card-candidates/CandiCard";
+// import CandiCard from "../../components/card-candidates/CandiCard";
 import {
   getDataCandidateDetailAPI,
 } from "../../redux/reducers/candidateReducer";
@@ -16,7 +16,7 @@ import {
 export default function JobCardDetailPage() {
   const { jobId, id } = useParams();
   const dispatch: DispatchType = useDispatch();
-  const { objJobDetails } = useSelector((state: RootState) => state.jobReducer);
+  // const { objJobDetails } = useSelector((state: RootState) => state.jobReducer);
   const { objCandiDetails } = useSelector(
     (state: RootState) => state.candidateReducer
   );

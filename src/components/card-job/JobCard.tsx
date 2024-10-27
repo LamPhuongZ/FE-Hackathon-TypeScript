@@ -14,6 +14,7 @@ type Props = {
   width?: string;
   showImages?: boolean;
   showButton?: boolean;
+  widthAddress?: string;
 };
 
 export default function JobCard({
@@ -24,6 +25,7 @@ export default function JobCard({
   width = "w-full",
   showImages = false,
   showButton = false,
+  widthAddress = "",
 }: Props) {
   return (
     <div
@@ -33,19 +35,18 @@ export default function JobCard({
       onClick={onSelect}
     >
       <div className="flex justify-center items-center gap-5">
-        {/* Kiểm tra nếu `showImages` là true thì hiển thị hình ảnh */}
         {showImages && item.images && item.images.length > 0 && (
           <img
-            src={item.images[0].url}
+            src={item.images[0].url || "https://plus.unsplash.com/premium_photo-1729708654660-8c14ff5e408c?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
             alt={`Job Image 1`}
-            className="w-[158px] h-[135px] rounded-3xl small-tablet:hidden"
+            className="w-[150px] h-[135px] rounded-3xl small-tablet:hidden"
           />
         )}
         <div className="w-full flex flex-col justify-between gap-5">
           <div className="flex justify-between">
             <div className="flex items-center gap-1">
               <p
-                className={`text-3xl font-semibold truncate ${width} small-tablet:text-base small-tablet:w-[130px]`}
+                className={`text-2xl font-semibold truncate ${width} small-tablet:text-base small-tablet:w-[130px]`}
               >
                 {item.title}
               </p>
@@ -69,7 +70,7 @@ export default function JobCard({
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="text-xl font-medium pt-1 small-tablet:text-base">
+              <p className="text-lg font-medium pt-1 small-tablet:text-base">
                 {new Date(item.startDate)
                   .toLocaleDateString("vi-VN")
                   .replace(/\//g, "-")}
@@ -83,7 +84,7 @@ export default function JobCard({
               {item.jobType.name}
               </p>
             </div>
-            <div className="flex items-center gap-1">
+            <div className={`flex items-center justify-end gap-1`}>
               <div className="w-5 h-5 small-tablet:w-4 small-tablet:h-4">
                 <img
                   src={location}
@@ -91,7 +92,7 @@ export default function JobCard({
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className=" pt-1 small-tablet:text-sm">
+              <p className={`pt-1 small-tablet:text-sm truncate ${widthAddress}`}>
               {item.address}
               </p>
             </div>

@@ -4,10 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../../../redux/configStore";
 import { getDataJobAPI } from "../../../../redux/reducers/jobReducer";
 import { useNavigate, Link } from "react-router-dom";
-import { Content } from "../../../../redux/reducers/jobReducer";
-import JobCard from "../../../../components/card-job/JobCard";
+// import { Content } from "../../../../redux/reducers/jobReducer";
+// import JobCard from "../../../../components/card-job/JobCard";
+import CandiCard from "../../../../components/card-candidates/CandiCard";
 import useLoading from "../../../../hooks/useLoading";
 import LoadingData from "../../../../components/loading-data/loadingData";
+import { getDataCandidateAPI } from "../../../../redux/reducers/candidateReducer";
+import { Content as ContentCandidate } from "../../../../redux/reducers/candidateReducer";
 
 export default function FindJob() {
   const page = 0;
@@ -16,14 +19,23 @@ export default function FindJob() {
   const showLoading = useLoading();
   const dispatch: DispatchType = useDispatch();
   const { objJob } = useSelector((state: RootState) => state.jobReducer);
+  const { objCandidate } = useSelector(
+    (state: RootState) => state.candidateReducer
+  );
 
   const getDataJobList = async (page: number, size: number) => {
     const actionAPI = getDataJobAPI(page, size);
     dispatch(actionAPI);
   };
 
+  const getDataCandidateList = async (page: number, size: number) => {
+    const actionAPI = getDataCandidateAPI(page, size);
+    dispatch(actionAPI);
+  };
+
   useEffect(() => {
     getDataJobList(page, size);
+    getDataCandidateList(page, size);
   }, []);
 
   if (!objJob || !objJob.content.length) {
@@ -54,13 +66,30 @@ export default function FindJob() {
           </div>
         </Link>
       </div>
-      <div className="findJob__content">
+
+      {/* Job Item */}
+      {/* <div className="findJob__content">
         {objJob?.content.map((item: Content) => (
           <div key={item.jobId}>
             <JobCard
               item={item}
               onSelect={() => navigate(`/card-detail-job/${item.jobId}`)}
               showImages={true}
+              width="w-[250px]"
+              widthAddress="w-[160px]"
+            />
+          </div>
+        ))}
+      </div> */}
+
+      {/* Candidate Item */}
+      <div className="flex flex-col gap-11">
+        {objCandidate?.content.map((item: ContentCandidate) => (
+          <div key={item.id}>
+            <CandiCard
+              item={item}
+              showAmount={true}
+              onSelect={() => navigate(`/card-detail-job/${item.id}`)}
             />
           </div>
         ))}

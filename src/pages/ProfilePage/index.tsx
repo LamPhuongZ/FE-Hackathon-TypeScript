@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProfileSchema } from "../../utils/validation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/configStore";
 import { ACCESS_TOKEN } from "../../utils/config";
 import { getCookie } from "../../utils/utilMethod";
@@ -22,12 +22,22 @@ import DropdownOption from "../../components/dropdown/DropdownOption";
 import { District, Province, useAddress, Ward } from "../../hooks/useAddress";
 import { useRole } from "../../hooks/useRole";
 import useFormattedDate from "../../hooks/useFormattedDate";
+import { changePasswordAPI, ChangePasswordType } from "../../redux/reducers/userReducer";
 
 export default function ProfilePage() {
   const { provinces, districts, wards } = useAddress();
   const { sub } = useRole();
-  const { userProfile, changePassword } = useSelector((state: RootState) => state.userReducer);
+  const { userProfile, changePassword } = useSelector(
+    (state: RootState) => state.userReducer
+  );
   const formattedDate = useFormattedDate(userProfile?.createdDate || "");
+
+  const dispatch: DispatchType = useDispatch();
+
+  const getDataChangePassword = async (payload: ChangePasswordType) => {
+    const actionAPI = changePasswordAPI(payload);
+    dispatch(actionAPI);
+  };
 
   const {
     control,
@@ -36,7 +46,11 @@ export default function ProfilePage() {
     formState: { errors },
   } = useForm({
     mode: "onChange",
-    // resolver: yupResolver(ProfileSchema),
+    resolver: yupResolver(ProfileSchema),
+    defaultValues: {
+      oldPassword: "",
+      newPassword: "",
+    },
   });
 
   useEffect(() => {
@@ -46,18 +60,30 @@ export default function ProfilePage() {
       return;
     }
 
-    if (userProfile) {
-      setValue("fullname", userProfile?.fullname);
-      setValue("address", userProfile?.address);
-      setValue("avatar", userProfile?.avatar);
-      setValue("email", sub || "");
-      setValue("createdDate", formattedDate);
-      // setValue("star", userProfile.star || 0);
-    }
+    // if (userProfile) {
+    //   setValue("fullname", userProfile?.fullname);
+    //   setValue("address", userProfile?.address);
+    //   setValue("avatar", userProfile?.avatar);
+    //   setValue("email", sub || "");
+    //   setValue("createdDate", formattedDate);
+    //   // setValue("star", userProfile.star || 0);
+    // }
+
   }, [userProfile]);
 
-  const handleUpdateProfile = async () => {
+  const handleUpdateProfile = async (values: ChangePasswordType) => {
     try {
+        const payload = {
+          ...values,
+          oldPassword: values.oldPassword,
+          newPassword: values.newPassword,
+        };
+
+        const response = await dispatch(changePasswordAPI(payload))
+
+        console.log(response);
+        
+
       toast.success("Đã cập nhật thông tin thành công!");
     } catch (error) {
       toast.error("Cập nhật thất bại!");
@@ -65,13 +91,13 @@ export default function ProfilePage() {
     }
   };
 
-  // useEffect(() => {
-  //   const arrErrors = Object.values(errors);
-  //   if (arrErrors.length > 0) {
-  //     toast.error(arrErrors[0]?.message);
-  //   }
-  // }, [errors]);
-  // console.log("🚀 ~ useEffect ~ arrErrors:", Object.values(errors));
+  useEffect(() => {
+    const arrErrors = Object.values(errors);
+    if (arrErrors.length > 0) {
+      toast.error(arrErrors[0]?.message);
+    }
+  }, [errors]);
+  console.log("🚀 ~ useEffect ~ arrErrors:", Object.values(errors));
 
   return (
     <div className="px-[30px] pb-[66px]">
@@ -84,8 +110,8 @@ export default function ProfilePage() {
             </p>
           </div>
         </div>
-        <form onSubmit={handleSubmit(handleUpdateProfile)}>
-          <div className="w-[244px] h-[244px] rounded-full mx-auto mb-7">
+        <form onSubmit={handleSubmit((handleUpdateProfile))}>
+          {/* <div className="w-[244px] h-[244px] rounded-full mx-auto mb-7">
             <ImageUploadProps
               listType="picture-circle"
               name="avatar"
@@ -100,13 +126,13 @@ export default function ProfilePage() {
                 }
               }}
             />
-          </div>
-          <div className="flex items-center justify-center mb-10 gap-3">
+          </div> */}
+          {/* <div className="flex items-center justify-center mb-10 gap-3">
             <div className="w-10 h-1w-10">
               <img src={Star} alt="" className="w-full h-full" />
             </div>
             <h1 className="text-4xl font-medium mt-2">4.0</h1>
-          </div>
+          </div> */}
           <div className="border border-solid border-[#D5D5D5] rounded-3xl pt-14 px-8 ">
             {/* <div className="form-layout">
               <Field>
@@ -126,8 +152,8 @@ export default function ProfilePage() {
                   control={control}
                 />
               </Field>
-            </div>
-            <div className="form-layout ">
+            </div> */}
+            {/* <div className="form-layout ">
               <Field>
                 <Label htmlFor="phone">Số điện thoại</Label>
                 <Input
@@ -222,24 +248,25 @@ export default function ProfilePage() {
             </div> */}
             <div className="form-layout">
               <Field>
-                <Label htmlFor="password">Mật khẩu hiện tại</Label>
+                <Label htmlFor="oldPassword">Mật khẩu hiện tại</Label>
                 <Input
                   type="password"
-                  name="password"
+                  name="oldPassword"
                   placeholder="Nhập mật khẩu hiện tại"
                   control={control}
                 />
               </Field>
               <Field>
-                <Label htmlFor="passwordNew">Mật khẩu mới</Label>
+                <Label htmlFor="newPassword">Mật khẩu mới</Label>
                 <Input
-                  name="passwordNew"
+                  name="newPassword"
                   placeholder="Nhập mật khẩu mới"
                   control={control}
                 />
               </Field>
             </div>
           </div>
+          {/* </div> */}
 
           {/* <div className="mt-24">
             <Label htmlFor="">Tải ảnh CCCD / CMND</Label>

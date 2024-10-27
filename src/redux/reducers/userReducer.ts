@@ -203,8 +203,8 @@ export const getProfileAPI = () => {
   };
 };
 
-export const changePassword = () => {
-  return async (changePassword: ChangePasswordType, dispatch: DispatchType) => {
+export const changePasswordAPI = (changePassword: ChangePasswordType) => {
+  return async (dispatch: DispatchType) => {
     try {
       const response = await httpClient.post(
         "api/v1/self/change-password",

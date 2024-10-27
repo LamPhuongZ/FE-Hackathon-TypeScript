@@ -24,7 +24,7 @@ export interface Content {
   endDate: Date;
   duration: number;
   jobType: JobType;
-  images: Image[];
+  images: Image[] | null | undefined | "";
   description: string;
   postedDate: Date;
   verified: boolean;
@@ -210,12 +210,8 @@ export const getSearchDataJobAPI = (
 //   };
 // };
 
-
-export const postDataJobAPI = (
-  payload: PostJobType,
-  dispatch: DispatchType
-) => {
-  return async () => {
+export const postDataJobAPI = (payload: PostJobType) => {
+  return async (dispatch: DispatchType) => {
     dispatch(setLoading(true));
 
     try {
@@ -257,4 +253,3 @@ export const postDataJobAPI = (
     }
   };
 };
-

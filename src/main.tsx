@@ -44,14 +44,16 @@ root.render(
             <Route path="/" element={<HomePage />} />
             <Route path="/list-job" element={<ListJobPage />} />
             <Route path="/landing-page" element={<LandingPage />} />
-            {/* <Route
+            <Route
               path="/card-detail-job/:jobId"
               element={<JobCardDetailPage />}
-            /> */}
-            <Route
+            />
+
+            {/* API đang bị hạn quyền cần kiểm tra lại */}
+            {/* <Route
               path="/card-detail-job/:id"
               element={<JobCardDetailPage />}
-            />
+            /> */}
             <Route path="/search" element={<SearchPage />} />
             <Route element={<DashboardLayout />}>
               <Route path="/profile" element={<ProfilePage />} />

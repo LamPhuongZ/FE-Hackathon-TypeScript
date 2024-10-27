@@ -107,7 +107,7 @@ export default function FormApplication() {
       console.log("Dữ liệu form:", payload); // Kiểm tra dữ liệu
 
       // Gửi request thông qua dispatch action
-      await dispatch(postDataJobAPI(payload, dispatch));
+      await dispatch(postDataJobAPI(payload));
 
       // Kiểm tra xem có ảnh nào đã bị xóa không
       if (imagesDeleted.some((deleted) => deleted)) {

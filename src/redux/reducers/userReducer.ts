@@ -26,12 +26,12 @@ export interface UserProfileType {
   phone: string;
   fullname: string;
   age: string;
-  dob: string; // day of birth
+  dob: string | null; // day of birth
   avatar: string;
   isVerified: boolean;
   numOfJob: number;
   star: string;
-  createdDate: Date;
+  createdDate: string | null;
   address: string;
   provinceId: string;
   districtId: string;

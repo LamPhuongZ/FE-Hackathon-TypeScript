@@ -12,16 +12,9 @@ export interface District {
   provinceId: number;
 }
 
-export interface Ward {
-  id: number;
-  name: string;
-  districtId: number;
-}
-
 export const useAddress = () => {
   const [provinces, setProvinces] = useState<Province[]>([]);
   const [districts, setDistricts] = useState<District[]>([]);
-  const [wards, setWards] = useState<Ward[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -38,7 +31,6 @@ export const useAddress = () => {
 
         setProvinces(response.data.province);
         setDistricts(response.data.district);
-        setWards(response.data.ward);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -51,5 +43,5 @@ export const useAddress = () => {
     getDataAddress();
   }, []);
 
-  return { provinces, districts, wards, loading, error };
+  return { provinces, districts, loading, error };
 };

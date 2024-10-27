@@ -19,15 +19,27 @@ import Dropdown from "../../components/dropdown/Dropdown";
 import DropdownSelect from "../../components/dropdown/DropdownSelect";
 import DropdownList from "../../components/dropdown/DropdownList";
 import DropdownOption from "../../components/dropdown/DropdownOption";
-import { District, Province, useAddress, Ward } from "../../hooks/useAddress";
+import { District, Province, useAddress } from "../../hooks/useAddress";
 import { useRole } from "../../hooks/useRole";
-import useFormattedDate from "../../hooks/useFormattedDate";
+import moment, { Moment } from "moment";
 
 export default function ProfilePage() {
-  const { provinces, districts, wards } = useAddress();
+  const { provinces, districts } = useAddress();
   const { sub } = useRole();
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
-  const formattedDate = useFormattedDate(userProfile?.createdDate || "");
+
+  const createdDate: Moment | null = userProfile?.createdDate
+    ? moment(userProfile.createdDate, "YYYY-MM-DD")
+    : null;
+
+  // Xử lý ngày sinh
+  const dob: Moment | null = userProfile?.dob
+    ? moment(userProfile.dob, "YYYY-MM-DD")
+    : null;
+
+  console.log("userProfile", userProfile);
+  console.log("createdDate", createdDate ? createdDate.format("YYYY-MM-DD") : "");
+  console.log("dob", dob ? dob.format("YYYY-MM-DD") : "");
 
   const {
     control,
@@ -48,11 +60,19 @@ export default function ProfilePage() {
 
     if (userProfile) {
       setValue("fullname", userProfile?.fullname);
+      setValue("phone", userProfile?.phone);
       setValue("address", userProfile?.address);
+      setValue("dob", dob ? dob.format("YYYY-MM-DD") : "");
       setValue("avatar", userProfile?.avatar);
       setValue("email", sub || "");
-      setValue("createdDate", formattedDate);
-      // setValue("star", userProfile.star || 0);
+      setValue("provinceId", userProfile?.provinceId);
+      setValue("districtId", userProfile?.districtId);
+      setValue(
+        "createdDate",
+        createdDate ? createdDate.format("YYYY-MM-DD") : ""
+      );
+      setValue("imgFrontOfCard", userProfile?.imgFrontOfCard);
+      setValue("imgBackOfCard", userProfile?.imgBackOfCard);
     }
   }, [userProfile]);
 
@@ -99,7 +119,6 @@ export default function ProfilePage() {
                   setValue("avatar", file);
                 }
               }}
-            
             />
           </div>
           <div className="flex items-end justify-center mb-10 pr-5">
@@ -119,10 +138,10 @@ export default function ProfilePage() {
                 />
               </Field>
               <Field>
-                <Label htmlFor="date">Ngày sinh</Label>
+                <Label htmlFor="dob">Ngày sinh</Label>
                 <Input
-                  type="date"
-                  name="date"
+                  // type="date"
+                  name="dob"
                   placeholder="Nhập ngày tháng năm sinh"
                   control={control}
                 />
@@ -143,7 +162,8 @@ export default function ProfilePage() {
                 <Input
                   name="createdDate"
                   placeholder="Thời gian tham gia"
-                  className="text-center border-none focus:ring-0 invisible"
+                  className="text-center border-none"
+                  disabled={true}
                   control={control}
                 />
               </Field>
@@ -158,7 +178,7 @@ export default function ProfilePage() {
                   <DropdownList>
                     {(Array.isArray(provinces) ? provinces : []).map(
                       (item: Province) => (
-                        <DropdownOption name="province" key={item.id}>
+                        <DropdownOption name="provinceId" key={item.id}>
                           {item.name}
                         </DropdownOption>
                       )
@@ -175,26 +195,11 @@ export default function ProfilePage() {
                   <DropdownList>
                     {(Array.isArray(districts) ? districts : []).map(
                       (item: District) => (
-                        <DropdownOption name="district" key={item.id}>
+                        <DropdownOption name="districtId" key={item.id}>
                           {item.name}
                         </DropdownOption>
                       )
                     )}
-                  </DropdownList>
-                </Dropdown>
-              </Field>
-              <Field>
-                <Label>Phường</Label>
-                <Dropdown>
-                  <DropdownSelect
-                    value={`${wards[0]?.name || "Phường"}`}
-                  ></DropdownSelect>
-                  <DropdownList>
-                    {(Array.isArray(wards) ? wards : []).map((item: Ward) => (
-                      <DropdownOption name="ward" key={item.id}>
-                        {item.name}
-                      </DropdownOption>
-                    ))}
                   </DropdownList>
                 </Dropdown>
               </Field>
@@ -219,29 +224,29 @@ export default function ProfilePage() {
             </div>
           </div>
 
-            <div className="mt-24">
-              <Label htmlFor="">Tải ảnh CCCD / CMND</Label>
-              <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5">
-                <div className="form-layout lg:mb-0">
-                  <ImageUploadProps
-                    name="frontCard"
-                    onFileSelect={(file: File | null) => {
-                      if (file) {
-                        setValue("frontCard", file);
-                      }
-                    }}
-                  />
-                  <ImageUploadProps
-                    name="backCard"
-                    onFileSelect={(file: File | null) => {
-                      if (file) {
-                        setValue("backCard", file);
-                      }
-                    }}
-                  />
-                </div>
+          <div className="mt-24">
+            <Label htmlFor="">Tải ảnh CCCD / CMND</Label>
+            <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5">
+              <div className="form-layout lg:mb-0">
+                <ImageUploadProps
+                  name="imgFrontOfCard"
+                  onFileSelect={(file: File | null) => {
+                    if (file) {
+                      setValue("imgFrontOfCard", file);
+                    }
+                  }}
+                />
+                <ImageUploadProps
+                  name="imgBackOfCard"
+                  onFileSelect={(file: File | null) => {
+                    if (file) {
+                      setValue("imgBackOfCard", file);
+                    }
+                  }}
+                />
               </div>
             </div>
+          </div>
 
           <div className="mt-24">
             <Label htmlFor="">Kĩ năng</Label>

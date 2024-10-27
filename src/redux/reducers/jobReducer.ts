@@ -210,12 +210,8 @@ export const getSearchDataJobAPI = (
 //   };
 // };
 
-
-export const postDataJobAPI = (
-  payload: PostJobType,
-  dispatch: DispatchType
-) => {
-  return async () => {
+export const postDataJobAPI = (payload: PostJobType) => {
+  return async (dispatch: DispatchType) => {
     dispatch(setLoading(true));
 
     try {
@@ -257,4 +253,3 @@ export const postDataJobAPI = (
     }
   };
 };
-

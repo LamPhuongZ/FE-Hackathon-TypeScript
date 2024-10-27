@@ -8,7 +8,7 @@ import {
   setIsLoginAction,
   setProfileAction,
 } from "../../redux/reducers/userReducer";
-
+import { PiSignOutBold } from "react-icons/pi";
 const LogOut: React.FC = () => {
   const [api, contextHolder] = notification.useNotification();
   const dispatch: DispatchType = useDispatch();
@@ -59,7 +59,7 @@ const LogOut: React.FC = () => {
   return (
     <>
       {contextHolder}
-      <Button onClick={handleLogOutApi}>Log out</Button>
+      <Button className="border-0 text-xl " onClick={handleLogOutApi}><PiSignOutBold />Đăng xuất</Button>
     </>
   );
 };

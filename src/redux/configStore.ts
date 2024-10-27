@@ -3,6 +3,7 @@ import jobReducer from "./reducers/jobReducer";
 import userReducer from "./reducers/userReducer";
 import typeReducer from "./reducers/typeReducer";
 import jobSkillReducer from "./reducers/jobSkillReducer";
+import candidateReducer from "./reducers/candidateReducer";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     jobSkillReducer,
     userReducer ,
     typeReducer,
+    candidateReducer,
   },
 });
 

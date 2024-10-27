@@ -10,8 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
 import { getCookie } from "../../utils/utilMethod";
 import { ACCESS_TOKEN } from "../../utils/config";
+import { LuUserCircle2 } from "react-icons/lu";
 
-// getProfileAPI
 export default function Header() {
   const navigate = useNavigate();
   const dispatch: DispatchType = useDispatch();
@@ -26,9 +26,10 @@ export default function Header() {
             navigate("/profile");
           }}
         >
-          <li>
-            <Link to="">Trang cá nhân</Link>
-          </li>
+          <h1 className="text-xl flex items-center gap-2 p-3">
+            <LuUserCircle2 className="text-xl" />
+            Trang cá nhân
+          </h1>
         </button>
       ),
     },
@@ -52,7 +53,6 @@ export default function Header() {
 
     getMe();
   }, []);
-  // console.log(role)
 
   return (
     <header className="header">
@@ -99,9 +99,12 @@ export default function Header() {
                       loading="lazy"
                     />
                   </div>
-                  <a className="cursor-pointer">
-                    <Space className="font-bold leading-5">
-                      {userProfile.fullname}{" "}
+                  <a className="cursor-pointer max-w-[180px]">
+                    <Space
+                      className="font-bold leading-5 overflow-hidden whitespace-nowrap text-ellipsis block"
+                      style={{ maxWidth: "180px" }}
+                    >
+                      {userProfile.fullname}
                     </Space>
                   </a>
                 </div>

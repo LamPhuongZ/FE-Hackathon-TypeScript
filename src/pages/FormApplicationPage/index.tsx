@@ -16,6 +16,9 @@ import DropdownSelect from "../../components/dropdown/DropdownSelect";
 import DropdownList from "../../components/dropdown/DropdownList";
 import DropdownOption from "../../components/dropdown/DropdownOption";
 import { JobProfileSchema } from "../../utils/validation";
+import { District, Province, useAddress } from "../../hooks/useAddress";
+import { postDataJobAPI, PostJobType } from "../../redux/reducers/jobReducer";
+import moment from "moment";
 
 export default function FormApplication() {
   const {
@@ -28,27 +31,42 @@ export default function FormApplication() {
     mode: "onChange",
     resolver: yupResolver(JobProfileSchema),
     defaultValues: {
-      titlePost: "",
+      title: "",
       phone: "",
       address: "",
-      jobType: "",
+      startDate: "",
+      endDate: "",
+      duration: 0,
+      districtId: 0,
+      provinceId: 0,
+      jobTypeId: 0,
       description: "",
-      pic1: undefined,
-      pic2: undefined,
-      pic3: undefined,
-      pic4: undefined,
+      imageJobDetails: undefined,
     },
   });
   const [resetTrigger, setResetTrigger] = useState(false); // Reset trigger state
+  const { provinces, districts } = useAddress();
 
   const { objJobType } = useSelector((state: RootState) => state.typeReducer);
   const dispatch: DispatchType = useDispatch();
 
   const [selectedJobType, setSelectedJobType] = useState<JobType>();
+  const [selectedProvince, setSelectedProvince] = useState<Province>();
+  const [selectedDistrict, setSelectedDistrict] = useState<District>();
 
   const handleClickOption = async (item: JobType) => {
     setSelectedJobType(item);
-    setValue("jobType", item.name);
+    setValue("jobTypeId", ~~item.id);
+  };
+
+  const handleSelectedProvince = (item: Province) => {
+    setSelectedProvince(item);
+    setValue("provinceId", ~~item.id);
+  };
+
+  const handleSelectedDistrict = (item: District) => {
+    setSelectedDistrict(item);
+    setValue("districtId", ~~item.id);
   };
 
   const getDataJobTypeList = async () => {
@@ -75,27 +93,31 @@ export default function FormApplication() {
     });
   };
 
-  const handlePost = async () => {
+  const handlePost = async (values: PostJobType) => {
     try {
+      const payload = {
+        ...values,
+        startDate: values.startDate
+          ? moment(values.startDate).format("YYYY-MM-DDTHH:mm:ss.ssssss")
+          : null,
+        endDate: values.endDate
+          ? moment(values.endDate).format("YYYY-MM-DDTHH:mm:ss.ssssss")
+          : null,
+      };
+      console.log("Dữ liệu form:", payload); // Kiểm tra dữ liệu
+
+      // Gửi request thông qua dispatch action
+      await dispatch(postDataJobAPI(payload, dispatch));
+
       // Kiểm tra xem có ảnh nào đã bị xóa không
       if (imagesDeleted.some((deleted) => deleted)) {
         toast.error("Vui lòng tải lại ảnh!");
         return;
       }
+
       toast.success("Đã đăng bài thành công!");
-      reset({
-        titlePost: "",
-        phone: "",
-        address: "",
-        jobType: "",
-        description: "",
-        pic1: undefined,
-        pic2: undefined,
-        pic3: undefined,
-        pic4: undefined,
-      });
-      setResetTrigger(true); // Trigger reset on image components
-      setSelectedJobType(undefined);
+      reset(); // Reset form sau khi đăng bài thành công
+      setResetTrigger(true); // Kích hoạt reset cho ảnh
     } catch (error) {
       toast.error("Đăng bài thất bại!");
       console.error("Add error:", error);
@@ -121,28 +143,69 @@ export default function FormApplication() {
       <div className="bg-white py-4 shadow-md px-11 rounded-xl">
         <div className="mb-5 py-10">
           <div>
-            <h1 className="text-[40px] font-semibold capitalize">Đăng bài ứng tuyển</h1>
+            <h1 className="text-[40px] font-semibold capitalize">
+              Đăng bài ứng tuyển
+            </h1>
           </div>
         </div>
         <form onSubmit={handleSubmit(handlePost)}>
           <div className="mb-5 lg:mb-10">
             <Field>
-              <Label htmlFor="titlePost">Tiêu đề ứng tuyển</Label>
+              <Label htmlFor="title">Tiêu đề ứng tuyển</Label>
               <Input
-                name="titlePost"
+                name="title"
                 placeholder="Nhập tiêu đề"
                 control={control}
-              ></Input>
+              />
             </Field>
+          </div>
+          <div className="form-layout-col4">
+            <div className="col-span-1">
+              <Field>
+                <Label htmlFor="startDate">Ngày bắt đầu</Label>
+                <Input
+                  type="date"
+                  dateFormat="YYYY-MM-DDTHH:mm:ss.ssssss"
+                  name="startDate"
+                  placeholder="Nhập ngày bắt đầu"
+                  control={control}
+                />
+              </Field>
+            </div>
+            <div className="col-span-1">
+              <Field>
+                <Label htmlFor="endDate">Ngày kết thúc</Label>
+                <Input
+                  type="date"
+                  dateFormat="YYYY-MM-DDTHH:mm:ss.ssssss"
+                  name="endDate"
+                  placeholder="Nhập ngày kết thúc"
+                  control={control}
+                />
+              </Field>
+            </div>
+            <div className="col-span-2">
+              <Field>
+                <Label htmlFor="duration">Khoảng thời gian</Label>
+                <Input
+                  type="number"
+                  name="duration"
+                  min={0}
+                  placeholder="Nhập khoảng thời gian"
+                  control={control}
+                />
+              </Field>
+            </div>
           </div>
           <div className="form-layout">
             <Field>
               <Label htmlFor="phone">Số điện thoại</Label>
               <Input
+                type="tel"
                 name="phone"
                 placeholder="Nhập số điện thoại"
                 control={control}
-              ></Input>
+              />
             </Field>
             <Field>
               <Label>Loại công việc</Label>
@@ -154,7 +217,7 @@ export default function FormApplication() {
                   {(Array.isArray(objJobType) ? objJobType : []).map(
                     (item: JobType) => (
                       <DropdownOption
-                        name="jobType"
+                        name="jobTypeId"
                         key={item.id}
                         onClick={() => handleClickOption(item)}
                       >
@@ -174,27 +237,53 @@ export default function FormApplication() {
                   name="address"
                   placeholder="Nhập địa chỉ, tên đường"
                   control={control}
-                ></Input>
+                />
               </Field>
             </div>
             <div className="col-span-1">
               <Field>
-                <Label htmlFor="district">Quận / Huyện</Label>
-                <Input
-                  name="district"
-                  placeholder="Nhập quận, huyện"
-                  control={control}
-                ></Input>
+                <Label>Tỉnh / Thành phố</Label>
+                <Dropdown>
+                  <DropdownSelect
+                    value={`${selectedProvince?.name || "Tỉnh / Thành phố"}`}
+                  ></DropdownSelect>
+                  <DropdownList>
+                    {(Array.isArray(provinces) ? provinces : []).map(
+                      (item: Province) => (
+                        <DropdownOption
+                          name="provinceId"
+                          key={item.id}
+                          onClick={() => handleSelectedProvince(item)}
+                        >
+                          {item.name}
+                        </DropdownOption>
+                      )
+                    )}
+                  </DropdownList>
+                </Dropdown>
               </Field>
             </div>
             <div className="col-span-1">
               <Field>
-                <Label htmlFor="province">Tỉnh / Thành Phố</Label>
-                <Input
-                  name="province"
-                  placeholder="Nhập tỉnh, thành phố"
-                  control={control}
-                ></Input>
+                <Label>Quận / Huyện</Label>
+                <Dropdown>
+                  <DropdownSelect
+                    value={`${selectedDistrict?.name || "Quận / Huyện"}`}
+                  ></DropdownSelect>
+                  <DropdownList>
+                    {(Array.isArray(districts) ? districts : []).map(
+                      (item: District) => (
+                        <DropdownOption
+                          name="districtId"
+                          key={item.id}
+                          onClick={() => handleSelectedDistrict(item)}
+                        >
+                          {item.name}
+                        </DropdownOption>
+                      )
+                    )}
+                  </DropdownList>
+                </Dropdown>
               </Field>
             </div>
           </div>
@@ -202,62 +291,25 @@ export default function FormApplication() {
             <Label htmlFor="">Tải ảnh về công việc và nơi làm việc</Label>
             <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-10 mb-20">
               <div className="grid grid-cols-2 gap-6">
-                <ImageUploadProps
-                  name="pic1"
-                  onFileSelect={(file: File | null) => {
-                    if (file) {
-                      setValue("pic1", file);
-                      setImagesDeleted((prev) => {
-                        prev[0] = false;
-                        return prev;
-                      }); // Đánh dấu ảnh chưa bị xóa
-                    }
-                  }}
-                  resetTrigger={resetTrigger}
-                  onRemove={() => handleImageRemove(0)} // Gọi hàm xóa ảnh
-                />
-                <ImageUploadProps
-                  name="pic2"
-                  onFileSelect={(file: File | null) => {
-                    if (file) {
-                      setValue("pic2", file);
-                      setImagesDeleted((prev) => {
-                        prev[1] = false;
-                        return prev;
-                      }); // Đánh dấu ảnh chưa bị xóa
-                    }
-                  }}
-                  resetTrigger={resetTrigger}
-                  onRemove={() => handleImageRemove(1)} // Gọi hàm xóa ảnh
-                />
-                <ImageUploadProps
-                  name="pic3"
-                  onFileSelect={(file: File | null) => {
-                    if (file) {
-                      setValue("pic3", file);
-                      setImagesDeleted((prev) => {
-                        prev[2] = false;
-                        return prev;
-                      }); // Đánh dấu ảnh chưa bị xóa
-                    }
-                  }}
-                  resetTrigger={resetTrigger}
-                  onRemove={() => handleImageRemove(2)} // Gọi hàm xóa ảnh
-                />
-                <ImageUploadProps
-                  name="pic4"
-                  onFileSelect={(file: File | null) => {
-                    if (file) {
-                      setValue("pic4", file);
-                      setImagesDeleted((prev) => {
-                        prev[3] = false;
-                        return prev;
-                      }); // Đánh dấu ảnh chưa bị xóa
-                    }
-                  }}
-                  resetTrigger={resetTrigger}
-                  onRemove={() => handleImageRemove(3)} // Gọi hàm xóa ảnh
-                />
+                {Array.from({ length: 4 }, (_, index) => (
+                  <ImageUploadProps
+                    key={`imageJobDetails${index + 1}`}
+                    name={`imageJobDetails${index + 1}`}
+                    onFileSelect={(file: File | null) => {
+                      if (file) {
+                        setValue(`imageJobDetails.${index + 1}`, { file }); // Lưu tệp tin vào state
+                        setImagesDeleted((prev) => {
+                          prev[index] = false;
+                          return prev;
+                        });
+                      } else {
+                        console.error("Không có tệp nào được chọn");
+                      }
+                    }}
+                    resetTrigger={resetTrigger}
+                    onRemove={() => handleImageRemove(index)} // Gọi hàm xóa ảnh
+                  />
+                ))}
               </div>
             </div>
           </div>

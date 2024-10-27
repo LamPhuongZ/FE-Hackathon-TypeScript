@@ -49,60 +49,88 @@ export const ProfileSchema = yup.object({
 });
 
 export const JobProfileSchema = yup.object({
-  titlePost: yup.string().required("Vui lòng nhập tiêu đề ứng tuyển"),
+  title: yup.string().required("Vui lòng nhập tiêu đề ứng tuyển"),
   phone: yup.string().required("Vui lòng nhập số điện thoại"),
-  jobType: yup.string().required("Vui lòng chọn loại công việc"),
+  jobTypeId: yup.number().required("Vui lòng chọn loại công việc"),
   address: yup.string().required("Vui lòng nhập địa chỉ"),
-  district: yup.string().required("Vui lòng nhập quận, huyện"),
-  province: yup.string().required("Vui lòng nhập tỉnh, thành phố"),
+  districtId: yup.number().required("Vui lòng nhập quận, huyện"),
+  provinceId: yup.number().required("Vui lòng nhập tỉnh, thành phố"),
+  startDate: yup.string().required("Vui lòng nhập ngày bắt đầu"),
+  endDate: yup.string().required("Vui lòng nhập ngày kết thúc"),
+  duration: yup.number().required("Vui lòng nhập khoảng thời gian"),
 
-  pic1: yup
-    .mixed()
-    .nullable()
-    .required("Vui lòng tải ảnh về công việc và nơi làm việc của bạn")
-    .test("fileSize", "Kích thước tệp quá lớn", (value) => {
-      return value instanceof File ? value.size <= 2000000 : false;
+  // Validation cho danh sách ảnh
+  imageJobDetails: yup
+  .array()
+  .of(
+    yup.object({
+      file: yup
+        .mixed()
+        .required("Vui lòng tải lên ảnh") // Bắt buộc phải có file
+        .test("fileType", "Định dạng ảnh không được hỗ trợ", (value) => {
+          if (!value) return false; // Kiểm tra nếu không có giá trị
+          return (
+            value instanceof File &&
+            ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+          );
+        })
+        .test("fileSize", "Kích thước ảnh quá lớn (tối đa 2MB)", (value) => {
+          if (!value) return false; // Kiểm tra nếu không có giá trị
+          return value instanceof File && value.size <= 2 * 1024 * 1024;
+        }),
     })
-    .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
-      return value instanceof File
-        ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-        : false;
-    }),
-  pic2: yup
-    .mixed()
-    .nullable()
-    .required("Vui lòng tải ảnh về công việc và nơi làm việc của bạn")
-    .test("fileSize", "Kích thước tệp quá lớn", (value) => {
-      return value instanceof File ? value.size <= 2000000 : false;
-    })
-    .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
-      return value instanceof File
-        ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-        : false;
-    }),
-  pic3: yup
-    .mixed()
-    .nullable()
-    .required("Vui lòng tải ảnh về công việc và nơi làm việc của bạn")
-    .test("fileSize", "Kích thước tệp quá lớn", (value) => {
-      return value instanceof File ? value.size <= 2000000 : false;
-    })
-    .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
-      return value instanceof File
-        ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-        : false;
-    }),
-  pic4: yup
-    .mixed()
-    .nullable()
-    .required("Vui lòng tải ảnh về công việc và nơi làm việc của bạn")
-    .test("fileSize", "Kích thước tệp quá lớn", (value) => {
-      return value instanceof File ? value.size <= 2000000 : false;
-    })
-    .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
-      return value instanceof File
-        ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-        : false;
-    }),
+  )
+  .min(1, "Vui lòng tải ít nhất một ảnh") // Phải có ít nhất 1 ảnh được tải lên
+  .required("Vui lòng tải lên ít nhất một ảnh"),
+
+
+  // pic1: yup
+  //   .mixed()
+  //   .nullable()
+  //   .required("Vui lòng tải ảnh về công việc và nơi làm việc của bạn"),
+    // .test("fileSize", "Kích thước tệp quá lớn", (value) => {
+    //   return value instanceof File ? value.size <= 2000000 : false;
+    // })
+    // .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
+    //   return value instanceof File
+    //     ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+    //     : false;
+    // }),
+  // pic2: yup
+  //   .mixed()
+  //   .nullable()
+  //   .required("Vui lòng tải ảnh về công việc và nơi làm việc của bạn")
+  //   .test("fileSize", "Kích thước tệp quá lớn", (value) => {
+  //     return value instanceof File ? value.size <= 2000000 : false;
+  //   })
+  //   .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
+  //     return value instanceof File
+  //       ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+  //       : false;
+  //   }),
+  // pic3: yup
+  //   .mixed()
+  //   .nullable()
+  //   .required("Vui lòng tải ảnh về công việc và nơi làm việc của bạn")
+  //   .test("fileSize", "Kích thước tệp quá lớn", (value) => {
+  //     return value instanceof File ? value.size <= 2000000 : false;
+  //   })
+  //   .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
+  //     return value instanceof File
+  //       ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+  //       : false;
+  //   }),
+  // pic4: yup
+  //   .mixed()
+  //   .nullable()
+  //   .required("Vui lòng tải ảnh về công việc và nơi làm việc của bạn")
+  //   .test("fileSize", "Kích thước tệp quá lớn", (value) => {
+  //     return value instanceof File ? value.size <= 2000000 : false;
+  //   })
+  //   .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
+  //     return value instanceof File
+  //       ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+  //       : false;
+  //   }),
   description: yup.string().required("Vui lòng nhập mô tả công việc"),
 });

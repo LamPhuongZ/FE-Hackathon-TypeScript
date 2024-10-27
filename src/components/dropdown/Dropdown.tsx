@@ -1,14 +1,14 @@
-import { ReactNode } from 'react'
-import { DropdownProvider } from './DropdownContext'
+import { ReactNode } from "react";
+import { DropdownProvider } from "./DropdownContext";
 
 type Props = {
-    children?: ReactNode 
-}
+  children?: ReactNode;
+};
 
-export default function Dropdown({children}: Props) {
+export default function Dropdown({ children }: Props) {
   return (
     <DropdownProvider>
-    <div className="relative inline-block w-full">{children}</div>
-  </DropdownProvider>
-  )
+      <div className="relative inline-block w-full">{children}</div>
+    </DropdownProvider>
+  );
 }

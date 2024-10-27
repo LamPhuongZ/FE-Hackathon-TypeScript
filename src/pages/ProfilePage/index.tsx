@@ -19,7 +19,7 @@ import Dropdown from "../../components/dropdown/Dropdown";
 import DropdownSelect from "../../components/dropdown/DropdownSelect";
 import DropdownList from "../../components/dropdown/DropdownList";
 import DropdownOption from "../../components/dropdown/DropdownOption";
-import { Distrist, Province, useAddress, Ward } from "../../hooks/useAddress";
+import { District, Province, useAddress, Ward } from "../../hooks/useAddress";
 import { useRole } from "../../hooks/useRole";
 import useFormattedDate from "../../hooks/useFormattedDate";
 
@@ -28,10 +28,6 @@ export default function ProfilePage() {
   const { sub } = useRole();
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
   const formattedDate = useFormattedDate(userProfile?.createdDate || "");
-
-  console.log(userProfile);
-
-  console.log(formattedDate);
 
   const {
     control,
@@ -178,7 +174,7 @@ export default function ProfilePage() {
                   ></DropdownSelect>
                   <DropdownList>
                     {(Array.isArray(districts) ? districts : []).map(
-                      (item: Distrist) => (
+                      (item: District) => (
                         <DropdownOption name="district" key={item.id}>
                           {item.name}
                         </DropdownOption>

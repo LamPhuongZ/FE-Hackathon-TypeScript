@@ -24,7 +24,7 @@ export default function FormApplication() {
     control,
     handleSubmit,
     setValue,
-    reset,
+    // reset,
     formState: { errors },
   } = useForm({
     mode: "onChange",
@@ -40,7 +40,8 @@ export default function FormApplication() {
       provinceId: 0,
       jobTypeId: 0,
       description: "",
-      imageJobDetails: [],
+      // pic1: undefined,
+      imageJobDetails: undefined,
     },
   });
   const [resetTrigger, setResetTrigger] = useState(false); // Reset trigger state
@@ -77,40 +78,57 @@ export default function FormApplication() {
     getDataJobTypeList();
   }, []);
 
-  const [imagesDeleted, setImagesDeleted] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-  ]); // Trạng thái xóa ảnh
+  // const [imagesDeleted, setImagesDeleted] = useState<boolean[]>([
+  //   false,
+  //   false,
+  //   false,
+  //   false,
+  // ]); // Trạng thái xóa ảnh
 
-  const handleImageRemove = (index: number) => {
-    setImagesDeleted((prev) => {
-      const newState = [...prev];
-      newState[index] = true; // Đánh dấu ảnh đã bị xóa
-      return newState;
-    });
-  };
+  // const handleImageRemove = (index: number) => {
+  //   setImagesDeleted((prev) => {
+  //     const newState = [...prev];
+  //     newState[index] = true; // Đánh dấu ảnh đã bị xóa
+  //     return newState;
+  //   });
+  // };
+
+  // const handlePost = async (values: PostJobType) => {
+  //   try {
+
+  //     console.log("Dữ liệu form:", values); // Log toàn bộ dữ liệu form
+
+  //     // Kiểm tra nếu có ảnh nào đã bị xóa
+  //     // if (imagesDeleted.some((deleted) => deleted)) {
+  //     //   toast.error("Vui lòng tải lại ảnh!");
+  //     //   return;
+  //     // }
+
+  //     // Dispatch action thay vì gọi trực tiếp
+  //     const data = await dispatch(postDataJobAPI(values, dispatch));
+
+  //     console.log("data", data);
+
+  //     toast.success("Đã đăng bài thành công!");
+  //     // reset(); // Reset form sau khi đăng bài thành công
+  //     setResetTrigger(true); // Trigger reset trên các component ảnh
+  //   } catch (error) {
+  //     toast.error("Đăng bài thất bại!");
+  //     console.error("Add error:", error);
+  //   }
+  // };
 
   const handlePost = async (values: PostJobType) => {
     try {
+      console.log("Dữ liệu form:", values); // Kiểm tra dữ liệu
 
-      console.log("Dữ liệu form:", values); // Log toàn bộ dữ liệu form
-
-      // Kiểm tra nếu có ảnh nào đã bị xóa
-      if (imagesDeleted.some((deleted) => deleted)) {
-        toast.error("Vui lòng tải lại ảnh!");
-        return;
-      }
-
-      // Dispatch action thay vì gọi trực tiếp
+      // Gửi request thông qua dispatch action
       const data = await dispatch(postDataJobAPI(values, dispatch));
 
-      console.log("data", data);
+      console.log("Kết quả:", data);
 
       toast.success("Đã đăng bài thành công!");
-      // reset(); // Reset form sau khi đăng bài thành công
-      setResetTrigger(true); // Trigger reset trên các component ảnh
+      setResetTrigger(true); // Kích hoạt reset cho ảnh
     } catch (error) {
       toast.error("Đăng bài thất bại!");
       console.error("Add error:", error);
@@ -284,19 +302,27 @@ export default function FormApplication() {
               <div className="grid grid-cols-2 gap-6">
                 {Array.from({ length: 4 }, (_, index) => (
                   <ImageUploadProps
-                    key={`imageJobDetails.${index + 1}`}
-                    name={`imageJobDetails.${index + 1}`}
+                    key={`imageJobDetails${index + 1}`}
+                    name={`imageJobDetails${index + 1}`}
+                    // onFileSelect={(file: File | null) => {
+                    //   if (file) {
+                    //     setValue(`pic1`, { file }); // Lưu file vào state
+                    //     setImagesDeleted((prev) => {
+                    //       prev[index] = false;
+                    //       return prev;
+                    //     });
+                    //   }
+                    // }}
                     onFileSelect={(file: File | null) => {
                       if (file) {
-                        setValue(`imageJobDetails.${index}`, { file }); // Lưu file vào state
-                        setImagesDeleted((prev) => {
-                          prev[index] = false;
-                          return prev;
-                        });
+                        setValue(`imageJobDetails.${index + 1}`, { file }); // Lưu tệp tin vào state
+                      } else {
+                        console.error("Không có tệp nào được chọn");
                       }
                     }}
+                  
                     resetTrigger={resetTrigger}
-                    onRemove={() => handleImageRemove(index)} // Gọi hàm xóa ảnh
+                    // onRemove={() => handleImageRemove(index)} // Gọi hàm xóa ảnh
                   />
                 ))}
               </div>

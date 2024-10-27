@@ -41,7 +41,8 @@ export interface PostJobType {
   duration: number;
   description: string;
   jobTypeId: number;
-  imageJobDetails: Image[];
+  // pic1: any;
+  imageJobDetails: [] | any;
 }
 
 export interface Image {
@@ -155,33 +156,97 @@ export const getSearchDataJobAPI = (
   };
 };
 
-export const postDataJobAPI = (payload: PostJobType, dispatch: DispatchType) => {
+// export const postDataJobAPI = (
+//   payload: PostJobType,
+//   dispatch: DispatchType
+// ) => {
+//   return async () => {
+//     dispatch(setLoading(true));
+
+//     try {
+//       const formData = new FormData();
+
+//       for (const key in payload) {
+//         const value = payload[key as keyof PostJobType];
+
+//         // Kiểm tra và thêm file
+//         // if (value && value.pic1 instanceof File) {
+//         //   formData.append("avatar", value.pic1); // Gửi đúng file vào FormData
+//         // }
+//         // else if (typeof value === "number") {
+//         //   formData.append(key, value.toString()); // Convert số sang chuỗi
+//         // } else if (typeof value === "string") {
+//         //   formData.append(key, value); // Thêm chuỗi vào FormData
+//         // }
+
+//         if (Array.isArray(value)) {
+//           value.forEach((img: any) => {
+//             if (img instanceof File) {
+//               formData.append(`imageJobDetails`, img);
+//             } // Gửi file trực tiếp
+//           });
+//         } else if (typeof value === "number") {
+//           formData.append(key, value.toString());
+//         } else if (value instanceof File) {
+//           formData.append(key, value);
+//         } else if (typeof value === "string") {
+//           formData.append(key, value);
+//         }
+//       }
+
+//       const response = await httpClient.patch("/api/v1/job", formData, {
+//         headers: { "Content-Type": "multipart/form-data" },
+//       });
+
+//       console.log(response);
+
+//       const action: PayloadAction<PostJobType> = postJobsAction(response.data);
+//       dispatch(action);
+//     } catch (error) {
+//       console.error("Lỗi khi post dữ liệu:", error);
+//     } finally {
+//       dispatch(setLoading(false));
+//     }
+//   };
+// };
+
+
+export const postDataJobAPI = (
+  payload: PostJobType,
+  dispatch: DispatchType
+) => {
   return async () => {
     dispatch(setLoading(true));
 
     try {
       const formData = new FormData();
 
+      // Duyệt qua tất cả các thuộc tính của payload
       for (const key in payload) {
         const value = payload[key as keyof PostJobType];
 
-        if (Array.isArray(value)) {
-          value.forEach((img: any, index) => {
-            formData.append(`imageJobDetails[${index}]`, img.file); // Gửi file trực tiếp
+        if (key === "imageJobDetails" && Array.isArray(value)) {
+          // Xử lý trường hợp là mảng các file
+          value.forEach((img: any) => {
+            if (img.file instanceof File) {
+              formData.append(`imageJobDetails`, img.file); // Thêm tệp tin vào FormData
+            }
           });
         } else if (typeof value === "number") {
-          formData.append(key, value.toString());
+          formData.append(key, value.toString()); // Chuyển số thành chuỗi
         } else if (value instanceof File) {
-          formData.append(key, value);
+          formData.append(key, value); // Thêm tệp trực tiếp
         } else if (typeof value === "string") {
-          formData.append(key, value);
+          formData.append(key, value); // Thêm chuỗi vào FormData
         }
       }
 
-
+      // Gửi request với FormData
       const response = await httpClient.post("/api/v1/job", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+
+      console.log("Response:", response);
 
       const action: PayloadAction<PostJobType> = postJobsAction(response.data);
       dispatch(action);
@@ -192,5 +257,4 @@ export const postDataJobAPI = (payload: PostJobType, dispatch: DispatchType) => 
     }
   };
 };
-
 

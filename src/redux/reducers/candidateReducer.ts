@@ -81,7 +81,8 @@ export const getDataCandidateAPI = (page: number, size: number) => {
 
     try {
       const res = await httpClient.get(
-        `/api/v1/apply-job/1/WAITING?page=${page}&size=${size}&sort=string`
+        // `/api/v1/apply-job/1/WAITING?page=${page}&size=${size}&sort=string`
+        `/api/v1/apply-job?page=${page}&size=${size}&sort=string`
       );
       const action: PayloadAction<Candidate> = getCandidateAction(
         res.data.data
@@ -101,7 +102,8 @@ export const getDataCandidateDetailAPI = (id: number) => {
 
     try {
       const res = await httpClient.get(
-        `/api/v1/apply-job/1/WAITING?page=0&size=10&sort=string`
+        // `/api/v1/apply-job/1/WAITING?page=0&size=10&sort=string`
+        `/api/v1/apply-job`
       );
       const candidateDetail = res.data.data?.content.find(
         (item: Content) => item.id === id

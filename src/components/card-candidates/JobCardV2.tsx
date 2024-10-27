@@ -1,4 +1,3 @@
-import React from "react";
 import Button from "../button/Button";
 import location from "../../assets/images/location.png";
 import calendar from "../../assets/images/calendar.png";

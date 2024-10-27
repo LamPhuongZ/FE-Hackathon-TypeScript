@@ -1,9 +1,7 @@
-import React from "react";
-import CandiCard from "../../components/card-candidates/CandiCard";
+// import CandiCard from "../../components/card-candidates/CandiCard";
 
-type Props = {};
 
-export default function ListCandidatedPage({}: Props) {
+export default function ListCandidatedPage() {
   return (
     <div className="px-[30px]">
       <div className="bg-white shadow-md py-4 px-11 rounded-[20px]">
@@ -11,7 +9,7 @@ export default function ListCandidatedPage({}: Props) {
           <h1 className="text-2xl font-medium">Danh sách ứng viên</h1>
         </div>
         <div className="flex flex-col gap-10 mt-10">
-          <CandiCard showAmount={true} />
+          {/* <CandiCard showAmount={true} /> */}
         </div>
       </div>
     </div>

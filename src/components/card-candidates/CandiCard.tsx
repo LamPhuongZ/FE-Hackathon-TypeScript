@@ -1,4 +1,3 @@
-import React from "react";
 import checked from "../../assets/images/checked.png";
 import star from "../../assets/icons/star.svg";
 import { Content } from "../../redux/reducers/candidateReducer";

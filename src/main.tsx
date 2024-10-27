@@ -14,11 +14,9 @@ import {
 import ReactDOM from "react-dom/client";
 import Loading from "./components/loading";
 import Authenticate from "./pages/AuthPage/Authenticate";
-import DashboardLayout from "./components/layout/DashboardLayout";
-import WorkManagerPage from "./pages/WorkManagerPage";
-import ListCandidatedPage from "./pages/ListCandidatedPage";
 
 const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));
+const DashboardLayout = lazy(() => import("./components/layout/DashboardLayout"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 const LandingPage = lazy(() => import("./pages/LandingPage"));
@@ -29,6 +27,8 @@ const FormApplicationPage = lazy(() => import("./pages/FormApplicationPage"));
 const LoginAndRegister = lazy(() => import("./pages/AuthPage"));
 const SearchPage = lazy(() => import("./pages/SearchPage"));
 const PolicyPage = lazy(() => import("./pages/PolicyPage"));
+const ListCandidatedPage = lazy(() => import("./pages/ListCandidatedPage"));
+const WorkManagerPage = lazy(() => import("./pages/WorkManagerPage"));
 
 export const routeLink: any = createBrowserHistory();
 
@@ -39,7 +39,7 @@ root.render(
   <Provider store={store}>
     <Suspense fallback={<Loading />}>
       <HistoryRouter history={routeLink}>
-        <Routes>
+        <Routes>./pages/ListCandidatedPage
           <Route path="" element={<HomeTemplate />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/list-job" element={<ListJobPage />} />
@@ -53,20 +53,11 @@ root.render(
               element={<JobCardDetailPage />}
             />
             <Route path="/search" element={<SearchPage />} />
-            <Route element={<DashboardLayout></DashboardLayout>}>
-              <Route
-                path="/profile"
-                element={<ProfilePage></ProfilePage>}
-              ></Route>
-              <Route
-                path="/work-manager"
-                element={<WorkManagerPage></WorkManagerPage>}
-              ></Route>
+            <Route element={<DashboardLayout />}>
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/work-manager" element={<WorkManagerPage />} />
               {/*list candidate của nhà tuyển dụng*/}
-              <Route
-                path="/list-candidated"
-                element={<ListCandidatedPage />}
-              ></Route>
+              <Route path="/list-candidated" element={<ListCandidatedPage />} />
             </Route>
 
             {/*form-application của nhà tuyển dụng*/}
@@ -81,6 +72,6 @@ root.render(
         <ToastContainer />
       </HistoryRouter>
     </Suspense>
-    <FloatButton.BackTop tooltip={<div>Back to top</div>} />
+    <FloatButton.BackTop tooltip={<div>Về đầu trang</div>} />
   </Provider>
 );

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import checked from "../../assets/images/checked.png";
 import location from "../../assets/images/location.png";
 import star from "../../assets/icons/star.svg";
 import phone from "../../assets/icons/phone.svg";
-import JobCardV2 from "../../components/card-candidates/JobCardV2";
+// import JobCardV2 from "../../components/card-candidates/JobCardV2";
 
 export default function WorkManagerPage() {
   const [activeTab, setActiveTab] = useState<string>("completed");

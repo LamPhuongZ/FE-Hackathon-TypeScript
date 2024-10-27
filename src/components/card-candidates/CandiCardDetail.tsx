@@ -1,4 +1,3 @@
-import React from "react";
 import checked from "../../assets/images/checked.png";
 import phone from "../../assets/icons/phone.svg";
 import star from "../../assets/icons/star.svg";

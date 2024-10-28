@@ -11,34 +11,42 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProfileSchema } from "../../utils/validation";
-import { useDispatch, useSelector } from "react-redux";
-import { DispatchType, RootState } from "../../redux/configStore";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/configStore";
 import { ACCESS_TOKEN } from "../../utils/config";
 import { getCookie } from "../../utils/utilMethod";
 import Dropdown from "../../components/dropdown/Dropdown";
 import DropdownSelect from "../../components/dropdown/DropdownSelect";
 import DropdownList from "../../components/dropdown/DropdownList";
 import DropdownOption from "../../components/dropdown/DropdownOption";
-import { District, Province, useAddress, Ward } from "../../hooks/useAddress";
-import { useRole } from "../../hooks/useRole";
-import useFormattedDate from "../../hooks/useFormattedDate";
-import { changePasswordAPI, ChangePasswordType } from "../../redux/reducers/userReducer";
+import { District, Province, useAddress } from "../../hooks/useAddress";
 import InputPassword from "../../components/input/InputPassword";
+// import moment, { Moment } from "moment";
 
 export default function ProfilePage() {
-  const { provinces, districts, wards } = useAddress();
-  const { sub } = useRole();
-  const { userProfile, changePassword } = useSelector(
-    (state: RootState) => state.userReducer
-  );
-  const formattedDate = useFormattedDate(userProfile?.createdDate || "");
+  const { provinces, districts } = useAddress();
+  const { userProfile } = useSelector((state: RootState) => state.userReducer);
+  const [selectedProvince, setSelectedProvince] = useState<Province>();
+  const [selectedDistrict, setSelectedDistrict] = useState<District>();
 
-  const dispatch: DispatchType = useDispatch();
+  const handleSelectedProvince = (item: Province) => {
+    setSelectedProvince(item);
+    setValue("provinceId", ~~item.id);
+  };
 
-  // const getDataChangePassword = async (payload: ChangePasswordType) => {
-  //   const actionAPI = changePasswordAPI(payload);
-  //   dispatch(actionAPI);
-  // };
+  const handleSelectedDistrict = (item: District) => {
+    setSelectedDistrict(item);
+    setValue("districtId", ~~item.id);
+  };
+
+  // const createdDate: Moment | null = userProfile?.createdDate
+  //   ? moment(userProfile.createdDate, "YYYY-MM-DD")
+  //   : null;
+
+  // // Xử lý ngày sinh
+  // const dob: Moment | null = userProfile?.dob
+  //   ? moment(userProfile.dob, "YYYY-MM-DD")
+  //   : null;
 
   const {
     control,
@@ -70,30 +78,26 @@ export default function ProfilePage() {
       return;
     }
 
-    if (userProfile) {
-      setValue("fullname", userProfile?.fullname);
-      setValue("address", userProfile?.address);
-      setValue("avatar", userProfile?.avatar);
-      setValue("email", sub || "");
-      setValue("createdDate", formattedDate);
-      // setValue("star", userProfile.star || 0);
-    }
-
+    // if (userProfile) {
+    //   setValue("fullname", userProfile?.fullname);
+    //   setValue("phone", userProfile?.phone);
+    //   setValue("address", userProfile?.address);
+    //   setValue("dob", dob ? dob.format("YYYY-MM-DD") : "");
+    //   setValue("avatar", userProfile?.avatar);
+    //   setValue("email", userProfile?.email);
+    //   setValue("provinceId", ~~userProfile?.provinceId);
+    //   setValue("districtId", ~~userProfile?.districtId);
+    //   setValue(
+    //     "createdDate",
+    //     createdDate ? createdDate.format("YYYY-MM-DD") : ""
+    //   );
+    //   setValue("imgFrontOfCard", userProfile?.imgFrontOfCard);
+    //   setValue("imgBackOfCard", userProfile?.imgBackOfCard);
+    // }
   }, [userProfile]);
 
-  const handleUpdateProfile = async (values: ChangePasswordType) => {
+  const handleUpdateProfile = async () => {
     try {
-        const payload = {
-          ...values,
-          oldPassword: values.oldPassword,
-          newPassword: values.newPassword,
-        };
-
-        const response = await dispatch(changePasswordAPI(payload))
-
-        console.log(response);
-        
-
       toast.success("Đã cập nhật thông tin thành công!");
     } catch (error) {
       toast.error("Cập nhật thất bại!");
@@ -110,7 +114,7 @@ export default function ProfilePage() {
   console.log("🚀 ~ useEffect ~ arrErrors:", Object.values(errors));
 
   return (
-    <div className="px-[30px] pb-[66px]">
+    <div className="px-[30px]">
       <div className="bg-white py-4 shadow-md px-11">
         <div className="mb-5 flex items-start justify-between px-11 pt-10">
           <div>
@@ -120,7 +124,7 @@ export default function ProfilePage() {
             </p>
           </div>
         </div>
-        <form onSubmit={handleSubmit((handleUpdateProfile))}>
+        <form onSubmit={handleSubmit(handleUpdateProfile)}>
           <div className="w-[244px] h-[244px] rounded-full mx-auto mb-7">
             <ImageUploadProps
               listType="picture-circle"
@@ -137,11 +141,11 @@ export default function ProfilePage() {
               }}
             />
           </div>
-          <div className="flex items-center justify-center mb-10 gap-3">
-            <div className="w-10 h-1w-10">
+          <div className="flex items-end justify-center mb-10 pr-5">
+            <div className="w-14 h-14">
               <img src={Star} alt="" className="w-full h-full" />
             </div>
-            <h1 className="text-4xl font-medium mt-2">4.0</h1>
+            <h1 className="text-4xl font-medium">4.0</h1>
           </div>
           <div className="border border-solid border-[#D5D5D5] rounded-3xl pt-14 px-8 ">
             <div className="form-layout">
@@ -178,7 +182,8 @@ export default function ProfilePage() {
                 <Input
                   name="createdDate"
                   placeholder="Thời gian tham gia"
-                  className="text-center border-none focus:ring-0"
+                  className="text-center border-none"
+                  disabled={true}
                   control={control}
                 />
               </Field>
@@ -234,8 +239,6 @@ export default function ProfilePage() {
                   control={control}
                 />
               </Field>
-            </div>
-            <div className="form-layout">
               <Field>
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -250,23 +253,26 @@ export default function ProfilePage() {
             <div className="form-layout">
               <Field>
                 <Label htmlFor="oldPassword">Mật khẩu hiện tại</Label>
-                <InputPassword
+                <Input
+                  type="password"
                   name="oldPassword"
                   placeholder="Nhập mật khẩu hiện tại"
                   control={control}
+                  isPasswordToggle={true}
                 />
               </Field>
               <Field>
                 <Label htmlFor="newPassword">Mật khẩu mới</Label>
-                <InputPassword
+                <Input
+                  type="password"
                   name="newPassword"
                   placeholder="Nhập mật khẩu mới"
                   control={control}
+                  isPasswordToggle={true}
                 />
               </Field>
             </div>
           </div>
-          {/* </div> */}
 
           <div className="mt-24">
             <Label htmlFor="">Tải ảnh CCCD / CMND</Label>
@@ -292,7 +298,7 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* <div className="mt-24">
+          <div className="mt-24">
             <Label htmlFor="">Kĩ năng</Label>
             <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5 flex gap-7">
               <div className="inline-block rounded-[20px] bg-[#E8E8E8] px-7 py-5">
@@ -318,7 +324,7 @@ export default function ProfilePage() {
                 </div>
               </div>
             </div>
-          </div> */}
+          </div>
           <Button
             type="submit"
             title="Cập Nhật"

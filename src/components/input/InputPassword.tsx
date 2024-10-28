@@ -13,7 +13,7 @@ export default function InputPassword({ control, name="", placeholder }: Props) 
   const [togglePassword, setTogglePassword] = useState(false);
   return (
     <Input
-      type={togglePassword ? "text" : "password"}
+      type= {togglePassword ? "text" : "password"}
       name={name}
       placeholder={placeholder}
       control={control}

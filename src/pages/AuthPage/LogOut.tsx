@@ -21,7 +21,7 @@ const LogOut: React.FC = () => {
     // Clear the user profile data from the Redux store
     dispatch(setProfileAction(null));
     // setIsLogin(false)
-    api.success({
+    notification.success({
       message: "Đăng xuất thành công",
       placement: "topRight",
       duration: 1.5,
@@ -47,7 +47,7 @@ const LogOut: React.FC = () => {
       dispatch(setIsLoginAction(false));
     } catch (error) {
       console.log("Bạn chưa đăng nhập vào ", error);
-      api.error({
+      notification.error({
         message: "Bạn chưa đăng nhập",
         placement: "topRight",
         duration: 1.5,
@@ -59,7 +59,7 @@ const LogOut: React.FC = () => {
   return (
     <>
       {contextHolder}
-      <Button className="border-0 text-xl " onClick={handleLogOutApi}><PiSignOutBold />Đăng xuất</Button>
+      <h1 className="text-xl flex items-center gap-2 p-3 hover:bg-red-500 w-full hover:text-white rounded transition" onClick={handleLogOutApi}><PiSignOutBold />Đăng xuất</h1>
     </>
   );
 };

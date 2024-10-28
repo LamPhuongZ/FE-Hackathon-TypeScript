@@ -9,45 +9,45 @@ export const ProfileSchema = yup.object({
   dob: yup.string().required("Vui lòng nhập ngày sinh"),
   phone: yup.string().required("Vui lòng nhập số điện thoại"),
   createdDate: yup.string().required("Vui lòng kiểm tra lại ngày tham gia"),
-  provinceId: yup.string().required("Vui lòng chọn tỉnh / thành phố"),
-  districtId: yup.string().required("Vui lòng chọn quận / huyện"),
+  provinceId: yup.number().required("Vui lòng chọn tỉnh / thành phố"),
+  districtId: yup.number().required("Vui lòng chọn quận / huyện"),
   address: yup.string().required("Vui lòng nhập địa chỉ"),
 
   avatar: yup
     .mixed()
-    .required("Vui lòng tải ảnh khuôn mặt của bạn")
-    .test("fileSize", "Kích thước tệp quá lớn", (value) => {
-      return value instanceof File ? value.size <= 2000000 : false;
-    })
-    .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
-      return value instanceof File
-        ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-        : false;
-    }),
+    .required("Vui lòng tải ảnh khuôn mặt của bạn"),
+    // .test("fileSize", "Kích thước tệp quá lớn", (value) => {
+    //   return value instanceof File ? value.size <= 2000000 : false;
+    // })
+    // .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
+    //   return value instanceof File
+    //     ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+    //     : false;
+    // }),
 
   imgFrontOfCard: yup
     .mixed()
-    .required("Vui lòng tải CCCD/CMND mặt trước")
-    .test("fileSize", "Kích thước tệp quá lớn", (value) => {
-      return value instanceof File ? value.size <= 2000000 : false;
-    })
-    .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
-      return value instanceof File
-        ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-        : false;
-    }),
+    .required("Vui lòng tải CCCD/CMND mặt trước"),
+    // .test("fileSize", "Kích thước tệp quá lớn", (value) => {
+    //   return value instanceof File ? value.size <= 2000000 : false;
+    // })
+    // .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
+    //   return value instanceof File
+    //     ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+    //     : false;
+    // }),
 
   imgBackOfCard: yup
     .mixed()
     .required("Vui lòng tải CCCD/CMND mặt sau")
-    .test("fileSize", "Kích thước tệp quá lớn", (value) => {
-      return value instanceof File ? value.size <= 2000000 : false;
-    })
-    .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
-      return value instanceof File
-        ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-        : false;
-    }),
+    // .test("fileSize", "Kích thước tệp quá lớn", (value) => {
+    //   return value instanceof File ? value.size <= 2000000 : false;
+    // })
+    // .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
+    //   return value instanceof File
+    //     ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+    //     : false;
+    // }),
 });
 
 export const JobProfileSchema = yup.object({

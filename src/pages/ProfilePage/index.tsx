@@ -8,7 +8,7 @@ import Plus from "../../assets/icons/plus.svg";
 import Star from "../../assets/icons/star.svg";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProfileSchema } from "../../utils/validation";
 import { useSelector } from "react-redux";
@@ -20,13 +20,23 @@ import DropdownSelect from "../../components/dropdown/DropdownSelect";
 import DropdownList from "../../components/dropdown/DropdownList";
 import DropdownOption from "../../components/dropdown/DropdownOption";
 import { District, Province, useAddress } from "../../hooks/useAddress";
-import { useRole } from "../../hooks/useRole";
 import moment, { Moment } from "moment";
 
 export default function ProfilePage() {
   const { provinces, districts } = useAddress();
-  const { sub } = useRole();
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
+  const [selectedProvince, setSelectedProvince] = useState<Province>();
+  const [selectedDistrict, setSelectedDistrict] = useState<District>();
+
+  const handleSelectedProvince = (item: Province) => {
+    setSelectedProvince(item);
+    setValue("provinceId", ~~item.id);
+  };
+
+  const handleSelectedDistrict = (item: District) => {
+    setSelectedDistrict(item);
+    setValue("districtId", ~~item.id);
+  };
 
   const createdDate: Moment | null = userProfile?.createdDate
     ? moment(userProfile.createdDate, "YYYY-MM-DD")
@@ -37,10 +47,6 @@ export default function ProfilePage() {
     ? moment(userProfile.dob, "YYYY-MM-DD")
     : null;
 
-  console.log("userProfile", userProfile);
-  console.log("createdDate", createdDate ? createdDate.format("YYYY-MM-DD") : "");
-  console.log("dob", dob ? dob.format("YYYY-MM-DD") : "");
-
   const {
     control,
     handleSubmit,
@@ -49,6 +55,19 @@ export default function ProfilePage() {
   } = useForm({
     mode: "onChange",
     resolver: yupResolver(ProfileSchema),
+    defaultValues: {
+      fullname: "",
+      phone: "",
+      address: "",
+      dob: "",
+      avatar: "",
+      email: "",
+      provinceId: ~~"01",
+      districtId: ~~"01",
+      createdDate: "",
+      imgFrontOfCard: "",
+      imgBackOfCard: "",
+    },
   });
 
   useEffect(() => {
@@ -64,9 +83,9 @@ export default function ProfilePage() {
       setValue("address", userProfile?.address);
       setValue("dob", dob ? dob.format("YYYY-MM-DD") : "");
       setValue("avatar", userProfile?.avatar);
-      setValue("email", sub || "");
-      setValue("provinceId", userProfile?.provinceId);
-      setValue("districtId", userProfile?.districtId);
+      setValue("email", userProfile?.email);
+      setValue("provinceId", ~~userProfile?.provinceId);
+      setValue("districtId", ~~userProfile?.districtId);
       setValue(
         "createdDate",
         createdDate ? createdDate.format("YYYY-MM-DD") : ""
@@ -170,15 +189,19 @@ export default function ProfilePage() {
             </div>
             <div className="form-layout ">
               <Field>
-                <Label>Tỉnh</Label>
+                <Label>Tỉnh / Thành phố</Label>
                 <Dropdown>
                   <DropdownSelect
-                    value={`${provinces[0]?.name || "Tỉnh"}`}
+                    value={`${selectedProvince?.name || "Tỉnh / Thành phố"}`}
                   ></DropdownSelect>
                   <DropdownList>
                     {(Array.isArray(provinces) ? provinces : []).map(
                       (item: Province) => (
-                        <DropdownOption name="provinceId" key={item.id}>
+                        <DropdownOption
+                          name="provinceId"
+                          key={item.id}
+                          onClick={() => handleSelectedProvince(item)}
+                        >
                           {item.name}
                         </DropdownOption>
                       )
@@ -187,15 +210,19 @@ export default function ProfilePage() {
                 </Dropdown>
               </Field>
               <Field>
-                <Label>Quận</Label>
+                <Label>Quận / Huyện</Label>
                 <Dropdown>
                   <DropdownSelect
-                    value={`${districts[0]?.name || "Quận"}`}
+                    value={`${selectedDistrict?.name || "Quận / Huyện"}`}
                   ></DropdownSelect>
                   <DropdownList>
                     {(Array.isArray(districts) ? districts : []).map(
                       (item: District) => (
-                        <DropdownOption name="districtId" key={item.id}>
+                        <DropdownOption
+                          name="districtId"
+                          key={item.id}
+                          onClick={() => handleSelectedDistrict(item)}
+                        >
                           {item.name}
                         </DropdownOption>
                       )

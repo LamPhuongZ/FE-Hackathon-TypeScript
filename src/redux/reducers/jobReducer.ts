@@ -24,7 +24,7 @@ export interface Content {
   endDate: Date;
   duration: number;
   jobType: JobType;
-  images: Image[];
+  images: Image[] | null | undefined | "";
   description: string;
   postedDate: Date;
   verified: boolean;

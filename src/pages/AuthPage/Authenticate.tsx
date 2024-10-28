@@ -1,22 +1,20 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { setCookie } from "../../utils/utilMethod";
 import { ACCESS_TOKEN } from "../../utils/config";
+import Loading from "../../components/loading";
 
 export default function Authenticate() {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
     console.log(window.location.href);
 
-
- // Lấy Role từ localStorage
-    const role = localStorage.getItem("role"); 
+    // Lấy Role từ localStorage
+    const role = localStorage.getItem("role");
     console.log(window.location.href);
 
-
- // Lấy Role từ localStorage
+    // Lấy Role từ localStorage
     const authCodeRegex = /code=([^&]+)/;
     const isMatch = window.location.href.match(authCodeRegex);
 
@@ -32,21 +30,11 @@ export default function Authenticate() {
           return response.json();
         })
         .then((data) => {
-          setCookie(ACCESS_TOKEN, data.data['access-token'], 30);
-          setIsLogin(true);
+          setCookie(ACCESS_TOKEN, data.data["access-token"], 30);
+          navigate("/");
         });
     }
   }, []);
 
-  useEffect(() => {
-    if (isLogin) {
-      navigate("/");
-    }
-  }, [isLogin, navigate]);
-
-  return (
-    <>
-      auth
-    </>
-  );
+  return <Loading />;
 }

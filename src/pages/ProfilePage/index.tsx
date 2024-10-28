@@ -8,7 +8,7 @@ import Plus from "../../assets/icons/plus.svg";
 import Star from "../../assets/icons/star.svg";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProfileSchema } from "../../utils/validation";
 import { useSelector } from "react-redux";
@@ -19,15 +19,33 @@ import Dropdown from "../../components/dropdown/Dropdown";
 import DropdownSelect from "../../components/dropdown/DropdownSelect";
 import DropdownList from "../../components/dropdown/DropdownList";
 import DropdownOption from "../../components/dropdown/DropdownOption";
-import { District, Province, useAddress, Ward } from "../../hooks/useAddress";
-import { useRole } from "../../hooks/useRole";
-import useFormattedDate from "../../hooks/useFormattedDate";
+import { District, Province, useAddress } from "../../hooks/useAddress";
+import moment, { Moment } from "moment";
 
 export default function ProfilePage() {
-  const { provinces, districts, wards } = useAddress();
-  const { sub } = useRole();
+  const { provinces, districts } = useAddress();
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
-  const formattedDate = useFormattedDate(userProfile?.createdDate || "");
+  const [selectedProvince, setSelectedProvince] = useState<Province>();
+  const [selectedDistrict, setSelectedDistrict] = useState<District>();
+
+  const handleSelectedProvince = (item: Province) => {
+    setSelectedProvince(item);
+    setValue("provinceId", ~~item.id);
+  };
+
+  const handleSelectedDistrict = (item: District) => {
+    setSelectedDistrict(item);
+    setValue("districtId", ~~item.id);
+  };
+
+  const createdDate: Moment | null = userProfile?.createdDate
+    ? moment(userProfile.createdDate, "YYYY-MM-DD")
+    : null;
+
+  // Xử lý ngày sinh
+  const dob: Moment | null = userProfile?.dob
+    ? moment(userProfile.dob, "YYYY-MM-DD")
+    : null;
 
   const {
     control,
@@ -37,6 +55,19 @@ export default function ProfilePage() {
   } = useForm({
     mode: "onChange",
     resolver: yupResolver(ProfileSchema),
+    defaultValues: {
+      fullname: "",
+      phone: "",
+      address: "",
+      dob: "",
+      avatar: "",
+      email: "",
+      provinceId: ~~"01",
+      districtId: ~~"01",
+      createdDate: "",
+      imgFrontOfCard: "",
+      imgBackOfCard: "",
+    },
   });
 
   useEffect(() => {
@@ -48,11 +79,19 @@ export default function ProfilePage() {
 
     if (userProfile) {
       setValue("fullname", userProfile?.fullname);
+      setValue("phone", userProfile?.phone);
       setValue("address", userProfile?.address);
+      setValue("dob", dob ? dob.format("YYYY-MM-DD") : "");
       setValue("avatar", userProfile?.avatar);
-      setValue("email", sub || "");
-      setValue("createdDate", formattedDate);
-      // setValue("star", userProfile.star || 0);
+      setValue("email", userProfile?.email);
+      setValue("provinceId", ~~userProfile?.provinceId);
+      setValue("districtId", ~~userProfile?.districtId);
+      setValue(
+        "createdDate",
+        createdDate ? createdDate.format("YYYY-MM-DD") : ""
+      );
+      setValue("imgFrontOfCard", userProfile?.imgFrontOfCard);
+      setValue("imgBackOfCard", userProfile?.imgBackOfCard);
     }
   }, [userProfile]);
 
@@ -99,7 +138,6 @@ export default function ProfilePage() {
                   setValue("avatar", file);
                 }
               }}
-            
             />
           </div>
           <div className="flex items-end justify-center mb-10 pr-5">
@@ -119,10 +157,10 @@ export default function ProfilePage() {
                 />
               </Field>
               <Field>
-                <Label htmlFor="date">Ngày sinh</Label>
+                <Label htmlFor="dob">Ngày sinh</Label>
                 <Input
-                  type="date"
-                  name="date"
+                  // type="date"
+                  name="dob"
                   placeholder="Nhập ngày tháng năm sinh"
                   control={control}
                 />
@@ -143,22 +181,27 @@ export default function ProfilePage() {
                 <Input
                   name="createdDate"
                   placeholder="Thời gian tham gia"
-                  className="text-center border-none focus:ring-0 invisible"
+                  className="text-center border-none"
+                  disabled={true}
                   control={control}
                 />
               </Field>
             </div>
             <div className="form-layout ">
               <Field>
-                <Label>Tỉnh</Label>
+                <Label>Tỉnh / Thành phố</Label>
                 <Dropdown>
                   <DropdownSelect
-                    value={`${provinces[0]?.name || "Tỉnh"}`}
+                    value={`${selectedProvince?.name || "Tỉnh / Thành phố"}`}
                   ></DropdownSelect>
                   <DropdownList>
                     {(Array.isArray(provinces) ? provinces : []).map(
                       (item: Province) => (
-                        <DropdownOption name="province" key={item.id}>
+                        <DropdownOption
+                          name="provinceId"
+                          key={item.id}
+                          onClick={() => handleSelectedProvince(item)}
+                        >
                           {item.name}
                         </DropdownOption>
                       )
@@ -167,34 +210,23 @@ export default function ProfilePage() {
                 </Dropdown>
               </Field>
               <Field>
-                <Label>Quận</Label>
+                <Label>Quận / Huyện</Label>
                 <Dropdown>
                   <DropdownSelect
-                    value={`${districts[0]?.name || "Quận"}`}
+                    value={`${selectedDistrict?.name || "Quận / Huyện"}`}
                   ></DropdownSelect>
                   <DropdownList>
                     {(Array.isArray(districts) ? districts : []).map(
                       (item: District) => (
-                        <DropdownOption name="district" key={item.id}>
+                        <DropdownOption
+                          name="districtId"
+                          key={item.id}
+                          onClick={() => handleSelectedDistrict(item)}
+                        >
                           {item.name}
                         </DropdownOption>
                       )
                     )}
-                  </DropdownList>
-                </Dropdown>
-              </Field>
-              <Field>
-                <Label>Phường</Label>
-                <Dropdown>
-                  <DropdownSelect
-                    value={`${wards[0]?.name || "Phường"}`}
-                  ></DropdownSelect>
-                  <DropdownList>
-                    {(Array.isArray(wards) ? wards : []).map((item: Ward) => (
-                      <DropdownOption name="ward" key={item.id}>
-                        {item.name}
-                      </DropdownOption>
-                    ))}
                   </DropdownList>
                 </Dropdown>
               </Field>
@@ -219,29 +251,29 @@ export default function ProfilePage() {
             </div>
           </div>
 
-            <div className="mt-24">
-              <Label htmlFor="">Tải ảnh CCCD / CMND</Label>
-              <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5">
-                <div className="form-layout lg:mb-0">
-                  <ImageUploadProps
-                    name="frontCard"
-                    onFileSelect={(file: File | null) => {
-                      if (file) {
-                        setValue("frontCard", file);
-                      }
-                    }}
-                  />
-                  <ImageUploadProps
-                    name="backCard"
-                    onFileSelect={(file: File | null) => {
-                      if (file) {
-                        setValue("backCard", file);
-                      }
-                    }}
-                  />
-                </div>
+          <div className="mt-24">
+            <Label htmlFor="">Tải ảnh CCCD / CMND</Label>
+            <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5">
+              <div className="form-layout lg:mb-0">
+                <ImageUploadProps
+                  name="imgFrontOfCard"
+                  onFileSelect={(file: File | null) => {
+                    if (file) {
+                      setValue("imgFrontOfCard", file);
+                    }
+                  }}
+                />
+                <ImageUploadProps
+                  name="imgBackOfCard"
+                  onFileSelect={(file: File | null) => {
+                    if (file) {
+                      setValue("imgBackOfCard", file);
+                    }
+                  }}
+                />
               </div>
             </div>
+          </div>
 
           <div className="mt-24">
             <Label htmlFor="">Kĩ năng</Label>

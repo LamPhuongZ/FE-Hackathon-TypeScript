@@ -12,40 +12,33 @@ import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProfileSchema } from "../../utils/validation";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/configStore";
+import { DispatchType, RootState } from "../../redux/configStore";
 import { ACCESS_TOKEN } from "../../utils/config";
 import { getCookie } from "../../utils/utilMethod";
 import Dropdown from "../../components/dropdown/Dropdown";
 import DropdownSelect from "../../components/dropdown/DropdownSelect";
 import DropdownList from "../../components/dropdown/DropdownList";
 import DropdownOption from "../../components/dropdown/DropdownOption";
-import { District, Province, useAddress } from "../../hooks/useAddress";
-import moment, { Moment } from "moment";
+import { District, Province, useAddress, Ward } from "../../hooks/useAddress";
+import { useRole } from "../../hooks/useRole";
+import useFormattedDate from "../../hooks/useFormattedDate";
+import { changePasswordAPI, ChangePasswordType } from "../../redux/reducers/userReducer";
+import InputPassword from "../../components/input/InputPassword";
 
 export default function ProfilePage() {
-  const { provinces, districts } = useAddress();
-  const { userProfile } = useSelector((state: RootState) => state.userReducer);
-  const [selectedProvince, setSelectedProvince] = useState<Province>();
-  const [selectedDistrict, setSelectedDistrict] = useState<District>();
+  const { provinces, districts, wards } = useAddress();
+  const { sub } = useRole();
+  const { userProfile, changePassword } = useSelector(
+    (state: RootState) => state.userReducer
+  );
+  const formattedDate = useFormattedDate(userProfile?.createdDate || "");
 
-  const handleSelectedProvince = (item: Province) => {
-    setSelectedProvince(item);
-    setValue("provinceId", ~~item.id);
-  };
+  const dispatch: DispatchType = useDispatch();
 
-  const handleSelectedDistrict = (item: District) => {
-    setSelectedDistrict(item);
-    setValue("districtId", ~~item.id);
-  };
-
-  const createdDate: Moment | null = userProfile?.createdDate
-    ? moment(userProfile.createdDate, "YYYY-MM-DD")
-    : null;
-
-  // Xử lý ngày sinh
-  const dob: Moment | null = userProfile?.dob
-    ? moment(userProfile.dob, "YYYY-MM-DD")
-    : null;
+  // const getDataChangePassword = async (payload: ChangePasswordType) => {
+  //   const actionAPI = changePasswordAPI(payload);
+  //   dispatch(actionAPI);
+  // };
 
   const {
     control,
@@ -79,20 +72,13 @@ export default function ProfilePage() {
 
     if (userProfile) {
       setValue("fullname", userProfile?.fullname);
-      setValue("phone", userProfile?.phone);
       setValue("address", userProfile?.address);
-      setValue("dob", dob ? dob.format("YYYY-MM-DD") : "");
       setValue("avatar", userProfile?.avatar);
-      setValue("email", userProfile?.email);
-      setValue("provinceId", ~~userProfile?.provinceId);
-      setValue("districtId", ~~userProfile?.districtId);
-      setValue(
-        "createdDate",
-        createdDate ? createdDate.format("YYYY-MM-DD") : ""
-      );
-      setValue("imgFrontOfCard", userProfile?.imgFrontOfCard);
-      setValue("imgBackOfCard", userProfile?.imgBackOfCard);
+      setValue("email", sub || "");
+      setValue("createdDate", formattedDate);
+      // setValue("star", userProfile.star || 0);
     }
+
   }, [userProfile]);
 
   const handleUpdateProfile = async (values: ChangePasswordType) => {
@@ -135,7 +121,7 @@ export default function ProfilePage() {
           </div>
         </div>
         <form onSubmit={handleSubmit((handleUpdateProfile))}>
-          {/* <div className="w-[244px] h-[244px] rounded-full mx-auto mb-7">
+          <div className="w-[244px] h-[244px] rounded-full mx-auto mb-7">
             <ImageUploadProps
               listType="picture-circle"
               name="avatar"
@@ -150,15 +136,15 @@ export default function ProfilePage() {
                 }
               }}
             />
-          </div> */}
-          {/* <div className="flex items-center justify-center mb-10 gap-3">
+          </div>
+          <div className="flex items-center justify-center mb-10 gap-3">
             <div className="w-10 h-1w-10">
               <img src={Star} alt="" className="w-full h-full" />
             </div>
             <h1 className="text-4xl font-medium mt-2">4.0</h1>
-          </div> */}
+          </div>
           <div className="border border-solid border-[#D5D5D5] rounded-3xl pt-14 px-8 ">
-            {/* <div className="form-layout">
+            <div className="form-layout">
               <Field>
                 <Label htmlFor="fullname">Họ tên đầy đủ</Label>
                 <Input
@@ -176,8 +162,8 @@ export default function ProfilePage() {
                   control={control}
                 />
               </Field>
-            </div> */}
-            {/* <div className="form-layout ">
+            </div>
+            <div className="form-layout ">
               <Field>
                 <Label htmlFor="phone">Số điện thoại</Label>
                 <Input
@@ -192,8 +178,7 @@ export default function ProfilePage() {
                 <Input
                   name="createdDate"
                   placeholder="Thời gian tham gia"
-                  className="text-center border-none"
-                  disabled={true}
+                  className="text-center border-none focus:ring-0"
                   control={control}
                 />
               </Field>
@@ -261,12 +246,11 @@ export default function ProfilePage() {
                   disabled={true}
                 />
               </Field>
-            </div> */}
+            </div>
             <div className="form-layout">
               <Field>
                 <Label htmlFor="oldPassword">Mật khẩu hiện tại</Label>
-                <Input
-                  type="password"
+                <InputPassword
                   name="oldPassword"
                   placeholder="Nhập mật khẩu hiện tại"
                   control={control}
@@ -274,7 +258,7 @@ export default function ProfilePage() {
               </Field>
               <Field>
                 <Label htmlFor="newPassword">Mật khẩu mới</Label>
-                <Input
+                <InputPassword
                   name="newPassword"
                   placeholder="Nhập mật khẩu mới"
                   control={control}

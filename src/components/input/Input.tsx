@@ -1,10 +1,14 @@
 import { DatePicker } from "antd";
+import { ReactNode } from "react";
 import { Control, useController } from "react-hook-form";
+import { useState } from "react";
+import IconEyeOpen from "../iconEye/IconEyeOpen";
+import IconEyeClose from "../iconEye/IconEyeClose";
 
 type Props = {
   name: string;
   type?: string;
-  content?: string;
+  children?: ReactNode;
   placeholder?: string;
   className?: string;
   control?: object;
@@ -19,7 +23,7 @@ export default function Input({
   name = "",
   type = "text",
   placeholder,
-  content,
+  children,
   control,
   className,
   disabled = false,
@@ -45,6 +49,8 @@ export default function Input({
 
     defaultValue: "",
   });
+
+  const [togglePassword, setTogglePassword] = useState(false);
 
   return (
     <>
@@ -88,17 +94,24 @@ export default function Input({
             value={field.value as string}
           />
         </>
-      ) : type === "password" ? ( // Thêm loại nhập liệu cho mật khẩu
+      ) : type === "password" ? (
         <>
           <input
             id={name}
-            type="password" // Đặt loại là password
+            type={togglePassword ? "text" : "password"} // Toggle giữa text và password
             {...field}
             disabled={disabled}
             className={`w-full px-[20px] py-[16px] rounded-lg font-medium border border-solid border-[#DFDFDF] focus:outline-none focus:ring-1 ${className}`}
             placeholder={placeholder}
             value={field.value as string}
           />
+          {!togglePassword ? (
+            <IconEyeClose
+              onClick={() => setTogglePassword(true)}
+            ></IconEyeClose>
+          ) : (
+            <IconEyeOpen onClick={() => setTogglePassword(false)}></IconEyeOpen>
+          )}
         </>
       ) : (
         <input
@@ -110,7 +123,7 @@ export default function Input({
           placeholder={placeholder}
           value={field.value as string}
         >
-          {content}
+          {children}
         </input>
       )}
     </>

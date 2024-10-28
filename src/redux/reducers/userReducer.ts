@@ -5,7 +5,7 @@ import { UserLoginType } from "../../pages/AuthPage/Login";
 import { routeLink } from "../../main";
 import { UserRegisterType } from "../../pages/AuthPage/Register";
 import { notification } from "antd";
-import { JobSkill } from "./jobSkillReducer";
+// import { JobSkill } from "./jobSkillReducer";
 import { DispatchType } from "../configStore";
 
 export interface LoginState {
@@ -21,17 +21,23 @@ export interface RegisterState {
 }
 
 export interface UserProfileType {
+  // id: number;
+  email: string;
+  phone: string;
   fullname: string;
-  age: string;
+  // age: string;
+  dob: string | null; // day of birth
   avatar: string;
-  isVerified: boolean;
-  numOfJob: number;
-  star: string;
-  createdDate: Date;
+  // isVerified: boolean;
+  // numOfJob: number;
+  // star: string;
+  createdDate: string | null;
   address: string;
   provinceId: string;
   districtId: string;
-  jobSkills: JobSkill[];
+  // jobSkills: JobSkill[];
+  imgFrontOfCard: string;
+  imgBackOfCard: string;
 }
 
 export interface ChangePasswordType {
@@ -228,8 +234,8 @@ export const changePasswordAPI = (changePassword: ChangePasswordType) => {
   };
 };
 
-export const updateProfileUser = () => {
-  return async (userProfile: UserProfileType, dispatch: DispatchType) => {
+export const updateProfileUserAPI = (userProfile: UserProfileType) => {
+  return async (dispatch: DispatchType) => {
     try {
       const response = await httpClient.patch("api/v1/self", userProfile);
 

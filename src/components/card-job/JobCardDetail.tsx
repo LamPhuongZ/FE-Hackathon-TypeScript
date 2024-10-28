@@ -62,7 +62,7 @@ export default function JobCardDetail({ item }: Props) {
             <h1 className="font-medium">Hạn ứng tuyển:</h1>
             <div className="px-4 py-2 rounded-[10px] border border-solid small-tablet:text-center">
               <p className="font-medium">
-              {new Date(item.endDate)
+                {new Date(item.endDate)
                   .toLocaleDateString("vi-VN", {
                     day: "2-digit",
                     month: "2-digit",
@@ -136,42 +136,34 @@ export default function JobCardDetail({ item }: Props) {
         </div>
         <div className="border border-solid"></div>
         <div className="mt-[30px]">
-          {item.images.length > 0 ? (
+          {item.images && item.images.length > 0 ? (
             <>
               <div className="min-w-[80%] h-[350px] 2xl:w-full small-tablet:min-w-[300px] small-tablet:h-[200px]">
                 <img
-                  src={item.images[0].url}
-                  alt=""
+                  src={item.images[0]?.url || "https://via.placeholder.com/350"}
+                  alt="Image 1"
                   className="w-full h-full rounded-[20px] object-cover"
                 />
               </div>
               <div className="flex justify-evenly gap-8 mt-7 mb-9">
-                <div className="w-[250px] h-[128px] 2xl:w-full small-tablet:w-full small-tablet:h-[100px]">
-                  <img
-                    src={item.images[1].url}
-                    alt=""
-                    className="w-full h-full rounded-[20px] object-cover"
-                  />
-                </div>
-                <div className="w-[250px] h-[128px] 2xl:w-full small-tablet:w-full small-tablet:h-[100px]">
-                  <img
-                    src={item.images[2].url}
-                    alt=""
-                    className="w-full h-full rounded-[20px] object-cover"
-                  />
-                </div>
-                <div className="w-[250px] h-[128px] 2xl:w-full small-tablet:w-full small-tablet:h-[100px]">
-                  <img
-                    src={item.images[3].url}
-                    alt=""
-                    className="w-full h-full rounded-[20px] object-cover"
-                  />
-                </div>
+                {item.images.slice(1, 4).map((image, index) => (
+                  <div
+                    key={index}
+                    className="w-[250px] h-[128px] 2xl:w-full small-tablet:w-full small-tablet:h-[100px]"
+                  >
+                    <img
+                      src={image.url || "https://via.placeholder.com/250"}
+                      alt={`Image ${index + 2}`}
+                      className="w-full h-full rounded-[20px] object-cover"
+                    />
+                  </div>
+                ))}
               </div>
             </>
           ) : (
             <p>Không tồn tại hình ảnh</p>
           )}
+
           <div>
             <h1 className="text-[20px] font-semibold mb-2 small-tablet:text-sm">
               Mô tả

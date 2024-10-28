@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProfileSchema } from "../../utils/validation";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/configStore";
+import { DispatchType, RootState } from "../../redux/configStore";
 import { ACCESS_TOKEN } from "../../utils/config";
 import { getCookie } from "../../utils/utilMethod";
 import Dropdown from "../../components/dropdown/Dropdown";
@@ -23,6 +23,7 @@ import { District, Province, useAddress, Ward } from "../../hooks/useAddress";
 import { useRole } from "../../hooks/useRole";
 import useFormattedDate from "../../hooks/useFormattedDate";
 import { changePasswordAPI, ChangePasswordType } from "../../redux/reducers/userReducer";
+import InputPassword from "../../components/input/InputPassword";
 
 export default function ProfilePage() {
   const { provinces, districts, wards } = useAddress();
@@ -34,10 +35,10 @@ export default function ProfilePage() {
 
   const dispatch: DispatchType = useDispatch();
 
-  const getDataChangePassword = async (payload: ChangePasswordType) => {
-    const actionAPI = changePasswordAPI(payload);
-    dispatch(actionAPI);
-  };
+  // const getDataChangePassword = async (payload: ChangePasswordType) => {
+  //   const actionAPI = changePasswordAPI(payload);
+  //   dispatch(actionAPI);
+  // };
 
   const {
     control,
@@ -60,14 +61,14 @@ export default function ProfilePage() {
       return;
     }
 
-    // if (userProfile) {
-    //   setValue("fullname", userProfile?.fullname);
-    //   setValue("address", userProfile?.address);
-    //   setValue("avatar", userProfile?.avatar);
-    //   setValue("email", sub || "");
-    //   setValue("createdDate", formattedDate);
-    //   // setValue("star", userProfile.star || 0);
-    // }
+    if (userProfile) {
+      setValue("fullname", userProfile?.fullname);
+      setValue("address", userProfile?.address);
+      setValue("avatar", userProfile?.avatar);
+      setValue("email", sub || "");
+      setValue("createdDate", formattedDate);
+      // setValue("star", userProfile.star || 0);
+    }
 
   }, [userProfile]);
 
@@ -111,7 +112,7 @@ export default function ProfilePage() {
           </div>
         </div>
         <form onSubmit={handleSubmit((handleUpdateProfile))}>
-          {/* <div className="w-[244px] h-[244px] rounded-full mx-auto mb-7">
+          <div className="w-[244px] h-[244px] rounded-full mx-auto mb-7">
             <ImageUploadProps
               listType="picture-circle"
               name="avatar"
@@ -126,15 +127,15 @@ export default function ProfilePage() {
                 }
               }}
             />
-          </div> */}
-          {/* <div className="flex items-center justify-center mb-10 gap-3">
+          </div>
+          <div className="flex items-center justify-center mb-10 gap-3">
             <div className="w-10 h-1w-10">
               <img src={Star} alt="" className="w-full h-full" />
             </div>
             <h1 className="text-4xl font-medium mt-2">4.0</h1>
-          </div> */}
+          </div>
           <div className="border border-solid border-[#D5D5D5] rounded-3xl pt-14 px-8 ">
-            {/* <div className="form-layout">
+            <div className="form-layout">
               <Field>
                 <Label htmlFor="fullname">Họ tên đầy đủ</Label>
                 <Input
@@ -152,8 +153,8 @@ export default function ProfilePage() {
                   control={control}
                 />
               </Field>
-            </div> */}
-            {/* <div className="form-layout ">
+            </div>
+            <div className="form-layout ">
               <Field>
                 <Label htmlFor="phone">Số điện thoại</Label>
                 <Input
@@ -168,7 +169,7 @@ export default function ProfilePage() {
                 <Input
                   name="createdDate"
                   placeholder="Thời gian tham gia"
-                  className="text-center border-none focus:ring-0 invisible"
+                  className="text-center border-none focus:ring-0"
                   control={control}
                 />
               </Field>
@@ -245,12 +246,11 @@ export default function ProfilePage() {
                   disabled={true}
                 />
               </Field>
-            </div> */}
+            </div>
             <div className="form-layout">
               <Field>
                 <Label htmlFor="oldPassword">Mật khẩu hiện tại</Label>
-                <Input
-                  type="password"
+                <InputPassword
                   name="oldPassword"
                   placeholder="Nhập mật khẩu hiện tại"
                   control={control}
@@ -258,7 +258,7 @@ export default function ProfilePage() {
               </Field>
               <Field>
                 <Label htmlFor="newPassword">Mật khẩu mới</Label>
-                <Input
+                <InputPassword
                   name="newPassword"
                   placeholder="Nhập mật khẩu mới"
                   control={control}

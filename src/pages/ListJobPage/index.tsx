@@ -25,7 +25,7 @@ export default function ListJobPage() {
   // const [selectedCandidateId, setSelectedCandidateId] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const pageSize = 7;
-  const pageSizeCandidate = 6;
+  // const pageSizeCandidate = 6;
 
   const { objJob, objJobDetails } = useSelector(
     (state: RootState) => state.jobReducer
@@ -161,7 +161,7 @@ export default function ListJobPage() {
         }}
         align="center"
         current={currentPage}
-        pageSize={pageSizeCandidate}
+        pageSize={pageSize}
         // total={objCandidate?.totalElements}
         total={objJob?.totalElements}
         onChange={(page) => setCurrentPage(page)}

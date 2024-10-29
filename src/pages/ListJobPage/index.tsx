@@ -58,7 +58,6 @@ export default function ListJobPage() {
     // Use nullish coalescing to ensure `renderJobs` always returns an array
     return (objJob?.content ?? []).map((item: Content) => {
       const handleJobClick = () => {
-        console.log("Kích thước cửa sổ:", window.innerWidth); // Kiểm tra kích thước cửa sổ
         if (window.innerWidth <= 840) {
          
           navigate(`/card-detail-job/${item.jobId}`);

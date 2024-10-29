@@ -5,38 +5,40 @@ import Button from "../../components/button/Button";
 import ImageUploadProps from "../../components/image-upload/ImageUpload";
 import Close from "../../assets/icons/close.svg";
 import Plus from "../../assets/icons/plus.svg";
-import Arrow from "../../assets/icons/double-arrow-right.svg";
 import Star from "../../assets/icons/star.svg";
 import { toast } from "react-toastify";
-import { NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProfileSchema } from "../../utils/validation";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
-import { getProfileAPI } from "../../redux/reducers/userReducer";
 import { ACCESS_TOKEN } from "../../utils/config";
 import { getCookie } from "../../utils/utilMethod";
+import Dropdown from "../../components/dropdown/Dropdown";
+import DropdownSelect from "../../components/dropdown/DropdownSelect";
+import DropdownList from "../../components/dropdown/DropdownList";
+import DropdownOption from "../../components/dropdown/DropdownOption";
+import { District, Province, useAddress, Ward } from "../../hooks/useAddress";
+import { useRole } from "../../hooks/useRole";
+import useFormattedDate from "../../hooks/useFormattedDate";
+import { changePasswordAPI, ChangePasswordType } from "../../redux/reducers/userReducer";
+import InputPassword from "../../components/input/InputPassword";
 
 export default function ProfilePage() {
+  const { provinces, districts, wards } = useAddress();
+  const { sub } = useRole();
+  const { userProfile, changePassword } = useSelector(
+    (state: RootState) => state.userReducer
+  );
+  const formattedDate = useFormattedDate(userProfile?.createdDate || "");
+
   const dispatch: DispatchType = useDispatch();
-  const { userProfile } = useSelector((state: RootState) => state.userReducer);
 
-  const getMe = async () => {
-    const actionAPI = await getProfileAPI();
-    dispatch(actionAPI);
-  };
-
-  useEffect(() => {
-    //reset Token
-    const Token = getCookie(ACCESS_TOKEN);
-    if (!Token) {
-      return;
-    }
-
-    getMe();
-  }, []);
+  // const getDataChangePassword = async (payload: ChangePasswordType) => {
+  //   const actionAPI = changePasswordAPI(payload);
+  //   dispatch(actionAPI);
+  // };
 
   const {
     control,
@@ -46,10 +48,43 @@ export default function ProfilePage() {
   } = useForm({
     mode: "onChange",
     resolver: yupResolver(ProfileSchema),
+    defaultValues: {
+      oldPassword: "",
+      newPassword: "",
+    },
   });
 
-  const handleUpdateProfile = async () => {
+  useEffect(() => {
+    //reset Token
+    const Token = getCookie(ACCESS_TOKEN);
+    if (!Token) {
+      return;
+    }
+
+    if (userProfile) {
+      setValue("fullname", userProfile?.fullname);
+      setValue("address", userProfile?.address);
+      setValue("avatar", userProfile?.avatar);
+      setValue("email", sub || "");
+      setValue("createdDate", formattedDate);
+      // setValue("star", userProfile.star || 0);
+    }
+
+  }, [userProfile]);
+
+  const handleUpdateProfile = async (values: ChangePasswordType) => {
     try {
+        const payload = {
+          ...values,
+          oldPassword: values.oldPassword,
+          newPassword: values.newPassword,
+        };
+
+        const response = await dispatch(changePasswordAPI(payload))
+
+        console.log(response);
+        
+
       toast.success("Đã cập nhật thông tin thành công!");
     } catch (error) {
       toast.error("Cập nhật thất bại!");
@@ -66,9 +101,8 @@ export default function ProfilePage() {
   console.log("🚀 ~ useEffect ~ arrErrors:", Object.values(errors));
 
   return (
-    <div className="py-20 px-[72px]">
-      {!userProfile ? (
-        <div className="bg-white py-4 shadow-md px-11">
+    <div className="px-[30px] pb-[66px]">
+      <div className="bg-white py-4 shadow-md px-11">
         <div className="mb-5 flex items-start justify-between px-11 pt-10">
           <div>
             <h1 className="text-[40px] font-semibold">Thông tin tài khoản</h1>
@@ -77,11 +111,16 @@ export default function ProfilePage() {
             </p>
           </div>
         </div>
-        <form onSubmit={handleSubmit(handleUpdateProfile)}>
+        <form onSubmit={handleSubmit((handleUpdateProfile))}>
           <div className="w-[244px] h-[244px] rounded-full mx-auto mb-7">
             <ImageUploadProps
               listType="picture-circle"
               name="avatar"
+              fileList={
+                userProfile?.avatar
+                  ? [{ url: userProfile.avatar, name: "Avatar" }]
+                  : []
+              }
               onFileSelect={(file: File | null) => {
                 if (file) {
                   setValue("avatar", file);
@@ -89,21 +128,21 @@ export default function ProfilePage() {
               }}
             />
           </div>
-          <div className="flex items-end justify-center mb-10 pr-5">
-            <div className="w-14 h-14">
+          <div className="flex items-center justify-center mb-10 gap-3">
+            <div className="w-10 h-1w-10">
               <img src={Star} alt="" className="w-full h-full" />
             </div>
-            <h1 className="text-4xl font-medium">4.0</h1>
+            <h1 className="text-4xl font-medium mt-2">4.0</h1>
           </div>
           <div className="border border-solid border-[#D5D5D5] rounded-3xl pt-14 px-8 ">
             <div className="form-layout">
               <Field>
-                <Label htmlFor="fullName">Họ tên đầy đủ</Label>
+                <Label htmlFor="fullname">Họ tên đầy đủ</Label>
                 <Input
-                  name="fullName"
+                  name="fullname"
                   placeholder="Nhập họ tên đầy đủ"
                   control={control}
-                ></Input>
+                />
               </Field>
               <Field>
                 <Label htmlFor="date">Ngày sinh</Label>
@@ -112,7 +151,7 @@ export default function ProfilePage() {
                   name="date"
                   placeholder="Nhập ngày tháng năm sinh"
                   control={control}
-                ></Input>
+                />
               </Field>
             </div>
             <div className="form-layout ">
@@ -120,29 +159,83 @@ export default function ProfilePage() {
                 <Label htmlFor="phone">Số điện thoại</Label>
                 <Input
                   name="phone"
+                  type="number"
                   placeholder="Nhập số điện thoại"
                   control={control}
-                ></Input>
+                />
               </Field>
               <Field>
-                <Label htmlFor="join">Tham gia từ</Label>
+                <Label htmlFor="createdDate">Tham gia từ</Label>
                 <Input
-                  name="join"
+                  name="createdDate"
                   placeholder="Thời gian tham gia"
-                  className="text-center border-none focus:ring-0 invisible"
+                  className="text-center border-none focus:ring-0"
                   control={control}
-                ></Input>
+                />
               </Field>
             </div>
             <div className="form-layout ">
+              <Field>
+                <Label>Tỉnh</Label>
+                <Dropdown>
+                  <DropdownSelect
+                    value={`${provinces[0]?.name || "Tỉnh"}`}
+                  ></DropdownSelect>
+                  <DropdownList>
+                    {(Array.isArray(provinces) ? provinces : []).map(
+                      (item: Province) => (
+                        <DropdownOption name="province" key={item.id}>
+                          {item.name}
+                        </DropdownOption>
+                      )
+                    )}
+                  </DropdownList>
+                </Dropdown>
+              </Field>
+              <Field>
+                <Label>Quận</Label>
+                <Dropdown>
+                  <DropdownSelect
+                    value={`${districts[0]?.name || "Quận"}`}
+                  ></DropdownSelect>
+                  <DropdownList>
+                    {(Array.isArray(districts) ? districts : []).map(
+                      (item: District) => (
+                        <DropdownOption name="district" key={item.id}>
+                          {item.name}
+                        </DropdownOption>
+                      )
+                    )}
+                  </DropdownList>
+                </Dropdown>
+              </Field>
+            </div>
+            <div className="form-layout">
+              <Field>
+                <Label>Phường</Label>
+                <Dropdown>
+                  <DropdownSelect
+                    value={`${wards[0]?.name || "Phường"}`}
+                  ></DropdownSelect>
+                  <DropdownList>
+                    {(Array.isArray(wards) ? wards : []).map((item: Ward) => (
+                      <DropdownOption name="ward" key={item.id}>
+                        {item.name}
+                      </DropdownOption>
+                    ))}
+                  </DropdownList>
+                </Dropdown>
+              </Field>
               <Field>
                 <Label htmlFor="address">Địa chỉ</Label>
                 <Input
                   name="address"
                   placeholder="Nhập địa chỉ"
                   control={control}
-                ></Input>
+                />
               </Field>
+            </div>
+            <div className="form-layout">
               <Field>
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -150,12 +243,32 @@ export default function ProfilePage() {
                   placeholder="Nhập email"
                   type="email"
                   control={control}
-                ></Input>
+                  disabled={true}
+                />
+              </Field>
+            </div>
+            <div className="form-layout">
+              <Field>
+                <Label htmlFor="oldPassword">Mật khẩu hiện tại</Label>
+                <InputPassword
+                  name="oldPassword"
+                  placeholder="Nhập mật khẩu hiện tại"
+                  control={control}
+                />
+              </Field>
+              <Field>
+                <Label htmlFor="newPassword">Mật khẩu mới</Label>
+                <InputPassword
+                  name="newPassword"
+                  placeholder="Nhập mật khẩu mới"
+                  control={control}
+                />
               </Field>
             </div>
           </div>
+          {/* </div> */}
 
-          <div className="mt-24">
+          {/* <div className="mt-24">
             <Label htmlFor="">Tải ảnh CCCD / CMND</Label>
             <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5">
               <div className="form-layout lg:mb-0">
@@ -177,9 +290,9 @@ export default function ProfilePage() {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
 
-          <div className="mt-24">
+          {/* <div className="mt-24">
             <Label htmlFor="">Kĩ năng</Label>
             <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5 flex gap-7">
               <div className="inline-block rounded-[20px] bg-[#E8E8E8] px-7 py-5">
@@ -205,61 +318,7 @@ export default function ProfilePage() {
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="mt-24">
-            <Label htmlFor="">Danh sách công việc</Label>
-            <div className="flex justify-between">
-              <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5 w-[550px] 2xl:w-[800px]">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-6">
-                    <p className="text-2xl font-bold">Đã hoàn thành</p>
-                    <div className="rounded-full w-3 h-3 bg-[#2EE498]"></div>
-                    <h1 className="text-2xl font-medium">3</h1>
-                  </div>
-                  <div className="bg-[#2EE498] rounded-2xl p-3">
-                    <NavLink
-                      to="/more-card"
-                      className="text-white flex items-center justify-between gap-10"
-                    >
-                      xem thêm
-                      <div className="w-6 h-6">
-                        <img
-                          src={Arrow}
-                          alt="icon-arrow"
-                          className="w-full h-full"
-                        />
-                      </div>
-                    </NavLink>
-                  </div>
-                </div>
-              </div>
-              <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5 w-[550px] 2xl:w-[800px]">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-6">
-                    <p className="text-2xl font-bold">Đang nộp</p>
-                    <div className="rounded-full w-3 h-3 bg-[#FF5758]"></div>
-                    <h1 className="text-2xl font-medium">5</h1>
-                  </div>
-                  <div className="bg-[#FF5758] rounded-2xl p-3">
-                    <NavLink
-                      to="/more_card"
-                      className="text-white flex items-center justify-between gap-10"
-                    >
-                      xem thêm
-                      <div className="w-6 h-6">
-                        <img
-                          src={Arrow}
-                          alt="icon-arrow"
-                          className="w-full h-full"
-                        />
-                      </div>
-                    </NavLink>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          </div> */}
           <Button
             type="submit"
             title="Cập Nhật"
@@ -267,9 +326,6 @@ export default function ProfilePage() {
           />
         </form>
       </div>
-      ) : (
-        <p>/</p>
-      )}
     </div>
   );
 }

@@ -2,26 +2,19 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export interface Province {
-  id: string;
+  id: number;
   name: string;
 }
 
-export interface Distrist {
-  id: string;
+export interface District {
+  id: number;
   name: string;
-  provinceId: string;
-}
-
-export interface Ward {
-  id: string;
-  name: string;
-  districtId: string;
+  provinceId: number;
 }
 
 export const useAddress = () => {
-  const [provinces, setProvices] = useState<Province[]>([]);
-  const [districts, setDistrists] = useState<Distrist[]>([]);
-  const [wards, setWards] = useState<Ward[]>([]);
+  const [provinces, setProvinces] = useState<Province[]>([]);
+  const [districts, setDistricts] = useState<District[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -36,9 +29,8 @@ export const useAddress = () => {
           },
         });
 
-        setProvices(response.data.province);
-        setDistrists(response.data.district);
-        setWards(response.data.ward);
+        setProvinces(response.data.province);
+        setDistricts(response.data.district);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -51,5 +43,5 @@ export const useAddress = () => {
     getDataAddress();
   }, []);
 
-  return { provinces, districts, wards, loading, error };
+  return { provinces, districts, loading, error };
 };

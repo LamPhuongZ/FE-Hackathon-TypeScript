@@ -5,7 +5,7 @@ import { UserLoginType } from "../../pages/AuthPage/Login";
 import { routeLink } from "../../main";
 import { UserRegisterType } from "../../pages/AuthPage/Register";
 import { notification } from "antd";
-import { JobSkill } from "./jobSkillReducer";
+// import { JobSkill } from "./jobSkillReducer";
 import { DispatchType } from "../configStore";
 
 export interface LoginState {
@@ -21,23 +21,35 @@ export interface RegisterState {
 }
 
 export interface UserProfileType {
+  // id: number;
+  email: string;
+  phone: string;
   fullname: string;
-  age: string;
+  // age: string;
+  dob: string | null; // day of birth
   avatar: string;
-  isVerified: boolean;
-  numOfJob: number;
-  star: string;
-  createdDate: Date;
+  // isVerified: boolean;
+  // numOfJob: number;
+  // star: string;
+  createdDate: string | null;
   address: string;
   provinceId: string;
   districtId: string;
-  jobSkills: JobSkill[];
+  // jobSkills: JobSkill[];
+  imgFrontOfCard: string;
+  imgBackOfCard: string;
+}
+
+export interface ChangePasswordType {
+  oldPassword: string;
+  newPassword: string;
 }
 
 export interface UserState {
   userLogin: LoginState | null;
   userProfile: UserProfileType | null;
   userRegister: RegisterState | null;
+  changePassword: ChangePasswordType | null;
   isLogin: boolean;
   isLoading: boolean;
 }
@@ -46,9 +58,68 @@ const initialState: UserState = {
   userLogin: getCookie(USER_LOGIN) ? JSON.parse(getCookie(USER_LOGIN)!) : null,
   userProfile: null,
   userRegister: null,
+  changePassword: null,
   isLogin: !!getCookie(USER_LOGIN),
   isLoading: false,
 };
+
+const userReducer = createSlice({
+  name: "userReducer",
+  initialState,
+  reducers: {
+    setLoginAction: (state: UserState, action: PayloadAction<LoginState>) => {
+      state.userLogin = action.payload;
+      state.isLoading = false;
+    },
+    setProfileAction: (
+      state: UserState,
+      action: PayloadAction<UserProfileType | null>
+    ) => {
+      state.userProfile = action.payload;
+      state.isLoading = false;
+    },
+    setRegisterAction: (
+      state: UserState,
+      action: PayloadAction<RegisterState>
+    ) => {
+      state.userRegister = action.payload;
+      state.isLoading = false;
+    },
+    setUpdateProfileUser: (
+      state: UserState,
+      action: PayloadAction<UserProfileType | null>
+    ) => {
+      state.userProfile = action.payload;
+      state.isLoading = false;
+    },
+    setChangePasswordAction: (
+      state: UserState,
+      action: PayloadAction<ChangePasswordType | null>
+    ) => {
+      state.changePassword = action.payload;
+      state.isLoading = false;
+    },
+    setIsLoginAction: (state: UserState, action: PayloadAction<boolean>) => {
+      state.isLogin = action.payload;
+    },
+    setLoading: (state: UserState, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
+  },
+});
+
+export const {
+  setLoginAction,
+  setProfileAction,
+  setRegisterAction,
+  setUpdateProfileUser,
+  setChangePasswordAction,
+  setIsLoginAction,
+  setLoading,
+} = userReducer.actions;
+export default userReducer.reducer;
+
+export { userReducer };
 
 export const loginAPI = createAsyncThunk(
   "user/login",
@@ -127,7 +198,7 @@ export const getProfileAPI = () => {
     } catch (error) {
       console.log(error);
       notification.error({
-        message: "Đăng nhập thành công",
+        message: "Lấy thông tin thất bại!!",
         placement: "topRight",
         duration: 1.5,
       });
@@ -138,44 +209,49 @@ export const getProfileAPI = () => {
   };
 };
 
-const userReducer = createSlice({
-  name: "userReducer",
-  initialState,
-  reducers: {
-    setLoginAction: (state: UserState, action: PayloadAction<LoginState>) => {
-      state.userLogin = action.payload;
-      state.isLoading = false;
-    },
-    setProfileAction: (
-      state: UserState,
-      action: PayloadAction<UserProfileType | null>
-    ) => {
-      state.userProfile = action.payload;
-      state.isLoading = false;
-    },
-    setRegisterAction: (
-      state: UserState,
-      action: PayloadAction<RegisterState>
-    ) => {
-      state.userRegister = action.payload;
-      state.isLoading = false;
-    },
-    setIsLoginAction: (state: UserState, action: PayloadAction<boolean>) => {
-      state.isLogin = action.payload;
-    },
-    setLoading: (state: UserState, action: PayloadAction<boolean>) => {
-      state.isLoading = action.payload;
-    },
-  },
-});
+export const changePasswordAPI = (changePassword: ChangePasswordType) => {
+  return async (dispatch: DispatchType) => {
+    try {
+      const response = await httpClient.post(
+        "api/v1/self/change-password",
+        changePassword
+      );
 
-export const {
-  setLoginAction,
-  setProfileAction,
-  setRegisterAction,
-  setIsLoginAction,
-  setLoading,
-} = userReducer.actions;
-export default userReducer.reducer;
+      const action: PayloadAction<ChangePasswordType | null> =
+        setChangePasswordAction(response.data);
+      dispatch(action);
+    } catch (error) {
+      console.log(error);
+      notification.error({
+        message: "Xử lý thất bại!!",
+        placement: "topRight",
+        duration: 1.5,
+      });
+      throw error;
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+};
 
-export { userReducer };
+export const updateProfileUserAPI = (userProfile: UserProfileType) => {
+  return async (dispatch: DispatchType) => {
+    try {
+      const response = await httpClient.patch("api/v1/self", userProfile);
+
+      const action: PayloadAction<UserProfileType | null> =
+        setUpdateProfileUser(response.data);
+      dispatch(action);
+    } catch (error) {
+      console.log(error);
+      notification.error({
+        message: "Xử lý thất bại!!",
+        placement: "topRight",
+        duration: 1.5,
+      });
+      throw error;
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+};

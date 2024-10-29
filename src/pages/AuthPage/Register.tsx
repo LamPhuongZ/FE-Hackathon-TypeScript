@@ -53,6 +53,7 @@ const Register: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
     localStorage.setItem("role", role);
     window.location.href = targetUrl;
   };
+  
   const navigate = useNavigate()
   return (
     <>
@@ -194,8 +195,8 @@ const Register: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
 
         <Form.Item label="Bạn tham gia với vai trò: " name="role">
           <Radio.Group buttonStyle="solid">
-            <Radio.Button value="ROLE_EMPLOYER"> Người tìm việc </Radio.Button>
-            <Radio.Button value="ROLE_APPLIER"> Người thuê </Radio.Button>
+            <Radio.Button value="ROLE_EMPLOYER"> Ứng viên  </Radio.Button>
+            <Radio.Button value="ROLE_APPLIER"> Nhà tuyển dụng</Radio.Button>
           </Radio.Group>
         </Form.Item>
 

@@ -27,17 +27,17 @@ export interface UserProfileType {
   fullname: string;
   // age: string;
   dob: string | null; // day of birth
-  avatar: string;
+  avatar: string | any;
   // isVerified: boolean;
   // numOfJob: number;
   // star: string;
   createdDate: string | null;
   address: string;
-  provinceId: string;
-  districtId: string;
+  provinceId: number;
+  districtId: number;
   // jobSkills: JobSkill[];
-  imgFrontOfCard: string;
-  imgBackOfCard: string;
+  imgFrontOfCard: string | any;
+  imgBackOfCard: string | any;
 }
 
 export interface ChangePasswordType {
@@ -140,7 +140,6 @@ export const loginAPI = createAsyncThunk(
       });
       routeLink.push("/");
     } catch (error) {
-      console.log(error);
       notification.error({
         message: "Đăng nhập thất bại",
         placement: "topRight",
@@ -171,7 +170,6 @@ export const registerAPI = createAsyncThunk(
       });
       routeLink.push("/");
     } catch (error) {
-      console.log(error);
       notification.error({
         message: "Đăng ký không thành công",
         placement: "topRight",
@@ -196,7 +194,6 @@ export const getProfileAPI = () => {
       );
       dispatch(action);
     } catch (error) {
-      console.log(error);
       notification.error({
         message: "Lấy thông tin thất bại!!",
         placement: "topRight",
@@ -243,7 +240,6 @@ export const updateProfileUserAPI = (userProfile: UserProfileType) => {
         setUpdateProfileUser(response.data);
       dispatch(action);
     } catch (error) {
-      console.log(error);
       notification.error({
         message: "Xử lý thất bại!!",
         placement: "topRight",

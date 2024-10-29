@@ -11,8 +11,8 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProfileSchema } from "../../utils/validation";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/configStore";
+import { useDispatch, useSelector } from "react-redux";
+import { DispatchType, RootState } from "../../redux/configStore";
 import { ACCESS_TOKEN } from "../../utils/config";
 import { getCookie } from "../../utils/utilMethod";
 import Dropdown from "../../components/dropdown/Dropdown";
@@ -21,10 +21,12 @@ import DropdownList from "../../components/dropdown/DropdownList";
 import DropdownOption from "../../components/dropdown/DropdownOption";
 import { District, Province, useAddress } from "../../hooks/useAddress";
 import moment, { Moment } from "moment";
+import { updateProfileUserAPI, UserProfileType } from "../../redux/reducers/userReducer";
 
 export default function ProfilePage() {
   const { provinces, districts } = useAddress();
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
+  const dispatch: DispatchType = useDispatch();
   const [selectedProvince, setSelectedProvince] = useState<Province>();
   const [selectedDistrict, setSelectedDistrict] = useState<District>();
 
@@ -95,8 +97,19 @@ export default function ProfilePage() {
     }
   }, [userProfile]);
 
-  const handleUpdateProfile = async () => {
+  const handleUpdateProfile = async (values: UserProfileType) => {
     try {
+      console.log(values);
+
+      const payload = {
+        ...values,
+        provinceId: ~~values.districtId,
+        districtId: ~~values.districtId
+      }
+
+      await dispatch(updateProfileUserAPI(payload));
+     
+
       toast.success("Đã cập nhật thông tin thành công!");
     } catch (error) {
       toast.error("Cập nhật thất bại!");

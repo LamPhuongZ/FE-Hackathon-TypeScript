@@ -1,5 +1,5 @@
 .feedback {
-  @apply flex flex-col items-center gap-4 bg-white pt-[61px] pb-[47px] my-[72px];
+  @apply flex flex-col items-center gap-4 bg-white pt-[61px] pb-[47px] mt-[72px];
 
   & > .feedback__group {
     @apply flex flex-col items-center lg:items-start;

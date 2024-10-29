@@ -1,10 +1,11 @@
 import { DatePicker } from "antd";
+import { ReactNode } from "react";
 import { Control, useController } from "react-hook-form";
 
 type Props = {
   name: string;
   type?: string;
-  content?: string;
+  children?: ReactNode;
   placeholder?: string;
   className?: string;
   control?: object;
@@ -19,7 +20,7 @@ export default function Input({
   name = "",
   type = "text",
   placeholder,
-  content,
+  children,
   control,
   className,
   disabled = false,
@@ -45,7 +46,7 @@ export default function Input({
 
     defaultValue: "",
   });
-  
+
   return (
     <>
       {type === "date" ? (
@@ -98,7 +99,7 @@ export default function Input({
           placeholder={placeholder}
           value={field.value as string}
         >
-          {content}
+          {children}
         </input>
       )}
     </>

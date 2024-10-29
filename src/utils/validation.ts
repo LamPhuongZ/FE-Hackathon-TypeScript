@@ -13,6 +13,9 @@ export const ProfileSchema = yup.object({
   districtId: yup.number().required("Vui lòng chọn quận / huyện"),
   address: yup.string().required("Vui lòng nhập địa chỉ"),
 
+  oldPassword: yup.string().required("Vui lòng nhập mật khẩu cũ"),
+  newPassword: yup.string().required("Vui lòng nhập mật khẩu mới"),
+
   avatar: yup
     .mixed()
     .required("Vui lòng tải ảnh khuôn mặt của bạn"),

@@ -21,7 +21,7 @@ import DropdownList from "../../components/dropdown/DropdownList";
 import DropdownOption from "../../components/dropdown/DropdownOption";
 import { District, Province, useAddress } from "../../hooks/useAddress";
 import InputPassword from "../../components/input/InputPassword";
-// import moment, { Moment } from "moment";
+import moment, { Moment } from "moment";
 
 export default function ProfilePage() {
   const { provinces, districts } = useAddress();
@@ -40,14 +40,14 @@ export default function ProfilePage() {
     setValue("districtId", ~~item.id);
   };
 
-  // const createdDate: Moment | null = userProfile?.createdDate
-  //   ? moment(userProfile.createdDate, "YYYY-MM-DD")
-  //   : null;
+  const createdDate: Moment | null = userProfile?.createdDate
+    ? moment(userProfile.createdDate, "YYYY-MM-DD")
+    : null;
 
-  // // Xử lý ngày sinh
-  // const dob: Moment | null = userProfile?.dob
-  //   ? moment(userProfile.dob, "YYYY-MM-DD")
-  //   : null;
+  // Xử lý ngày sinh
+  const dob: Moment | null = userProfile?.dob
+    ? moment(userProfile.dob, "YYYY-MM-DD")
+    : null;
 
   const {
     control,
@@ -79,22 +79,22 @@ export default function ProfilePage() {
       return;
     }
 
-    // if (userProfile) {
-    //   setValue("fullname", userProfile?.fullname);
-    //   setValue("phone", userProfile?.phone);
-    //   setValue("address", userProfile?.address);
-    //   setValue("dob", dob ? dob.format("YYYY-MM-DD") : "");
-    //   setValue("avatar", userProfile?.avatar);
-    //   setValue("email", userProfile?.email);
-    //   setValue("provinceId", ~~userProfile?.provinceId);
-    //   setValue("districtId", ~~userProfile?.districtId);
-    //   setValue(
-    //     "createdDate",
-    //     createdDate ? createdDate.format("YYYY-MM-DD") : ""
-    //   );
-    //   setValue("imgFrontOfCard", userProfile?.imgFrontOfCard);
-    //   setValue("imgBackOfCard", userProfile?.imgBackOfCard);
-    // }
+    if (userProfile) {
+      setValue("fullname", userProfile?.fullname);
+      setValue("phone", userProfile?.phone);
+      setValue("address", userProfile?.address);
+      setValue("dob", dob ? dob.format("YYYY-MM-DD") : "");
+      setValue("avatar", userProfile?.avatar);
+      setValue("email", userProfile?.email);
+      setValue("provinceId", ~~userProfile?.provinceId);
+      setValue("districtId", ~~userProfile?.districtId);
+      setValue(
+        "createdDate",
+        createdDate ? createdDate.format("YYYY-MM-DD") : ""
+      );
+      setValue("imgFrontOfCard", userProfile?.imgFrontOfCard);
+      setValue("imgBackOfCard", userProfile?.imgBackOfCard);
+    }
   }, [userProfile]);
 
   const handleUpdateProfile = async () => {

@@ -28,6 +28,7 @@ export default function ProfilePage() {
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
   const [selectedProvince, setSelectedProvince] = useState<Province>();
   const [selectedDistrict, setSelectedDistrict] = useState<District>();
+  const [togglePassword, setTogglePassword] = useState(false);
 
   const handleSelectedProvince = (item: Province) => {
     setSelectedProvince(item);
@@ -253,22 +254,24 @@ export default function ProfilePage() {
             <div className="form-layout">
               <Field>
                 <Label htmlFor="oldPassword">Mật khẩu hiện tại</Label>
-                <Input
-                  type="password"
+                <InputPassword
                   name="oldPassword"
                   placeholder="Nhập mật khẩu hiện tại"
                   control={control}
-                  isPasswordToggle={true}
+                  type={togglePassword ? "text" : "password"} 
+                  togglePassword={togglePassword} 
+                  setTogglePassword={setTogglePassword} 
                 />
               </Field>
               <Field>
                 <Label htmlFor="newPassword">Mật khẩu mới</Label>
-                <Input
-                  type="password"
+                <InputPassword
                   name="newPassword"
                   placeholder="Nhập mật khẩu mới"
                   control={control}
-                  isPasswordToggle={true}
+                  type={togglePassword ? "text" : "password"}
+                  togglePassword={togglePassword}
+                  setTogglePassword={setTogglePassword}
                 />
               </Field>
             </div>

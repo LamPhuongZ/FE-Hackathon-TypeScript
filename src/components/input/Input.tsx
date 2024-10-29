@@ -1,9 +1,6 @@
 import { DatePicker } from "antd";
 import { ReactNode } from "react";
 import { Control, useController } from "react-hook-form";
-import { useState } from "react";
-import IconEyeOpen from "../iconEye/IconEyeOpen";
-import IconEyeClose from "../iconEye/IconEyeClose";
 
 type Props = {
   name: string;
@@ -17,7 +14,6 @@ type Props = {
   max?: number;
   dateFormat?: string;
   rules?: object; // Validation rules cho react-hook-form
-  isPasswordToggle?: boolean;
 };
 
 export default function Input({
@@ -32,7 +28,6 @@ export default function Input({
   max,
   dateFormat = "YYYY-DD-MM",
   rules = {}, // Nhận các rule kiểm tra đầu vào
-  isPasswordToggle = false,
 }: Props) {
   const { field } = useController({
     control: control as Control<Props>,
@@ -51,8 +46,6 @@ export default function Input({
 
     defaultValue: "",
   });
-
-  const [togglePassword, setTogglePassword] = useState(false);
 
   return (
     <>
@@ -95,29 +88,6 @@ export default function Input({
             placeholder={placeholder}
             value={field.value as string}
           />
-        </>
-      ) : type === "password" && isPasswordToggle ? (
-        <>
-          <input
-            id={name}
-            type={togglePassword ? "text" : "password"} // Toggle giữa text và password
-            {...field}
-            disabled={disabled}
-            className={`w-full px-[20px] py-[16px] rounded-lg font-medium border border-solid border-[#DFDFDF] focus:outline-none focus:ring-1  ${className}`}
-            placeholder={placeholder}
-            value={field.value as string}
-          />
-          <div>
-            {!togglePassword ? (
-              <IconEyeClose
-                onClick={() => setTogglePassword(true)}
-              ></IconEyeClose>
-            ) : (
-              <IconEyeOpen
-                onClick={() => setTogglePassword(false)}
-              ></IconEyeOpen>
-            )}
-          </div>
         </>
       ) : (
         <input

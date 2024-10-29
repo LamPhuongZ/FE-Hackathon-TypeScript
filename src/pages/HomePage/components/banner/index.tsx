@@ -13,6 +13,7 @@ import { Province, useAddress } from "../../../../hooks/useAddress";
 import { useNavigate } from "react-router-dom";
 import useLoading from "../../../../hooks/useLoading";
 import LoadingData from "../../../../components/loading-data/loadingData";
+import { setSearchInputProvince, setSearchInputTitle } from "../../../../redux/reducers/jobReducer";
 
 export default function Banner() {
   const { provinces } = useAddress();
@@ -25,6 +26,7 @@ export default function Banner() {
   const navigate = useNavigate();
 
   const [searchInput, setSearchInput] = useState("");
+  const [searchProvince, setSearchProvince] = useState(0);
 
   const getDataJobSkillList = async () => {
     const actionAPI = getDataJobSkillAPI();
@@ -40,8 +42,13 @@ export default function Banner() {
   };
 
   const handleSearchClick = () => {
-    if (searchInput) {
-      navigate(`/search?query=${encodeURIComponent(searchInput)}`);
+    if (searchInput && searchProvince ||  searchInput || searchProvince ) {
+      console.log(searchInput)
+      console.log(searchProvince)
+      dispatch(setSearchInputTitle(searchInput));
+      dispatch(setSearchInputProvince(searchProvince));
+      
+      navigate(`/search?query=${encodeURIComponent(searchInput)}&provinceId=${encodeURIComponent(searchProvince)}`);
     }
   };
 
@@ -77,10 +84,13 @@ export default function Banner() {
             onChange={(e) => setSearchInput(e.target.value)}
           />
           <div className="line"></div>
-          <select className="select__area">
+          <select className="select__area" onChange={(e)=>{
+            setSearchProvince(~~(e.target.value))
+            console.log(e.target.value)
+          }}>
             <option value="all">Tất cả địa điểm</option>
             {provinces?.map((province: Province, index: number) => (
-              <option key={`${province.id}_${index}`}>{province.name}</option>
+              <option value={province.id} key={`${province.id}_${index}`}>{province.name}</option>
             ))}
           </select>
           <Button

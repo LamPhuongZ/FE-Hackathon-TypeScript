@@ -103,10 +103,11 @@ export default function Header() {
                   </div>
                   <a className="cursor-pointer max-w-[180px]">
                     <Space
-                      className="font-bold leading-5 overflow-hidden whitespace-nowrap text-ellipsis block"
-                      style={{ maxWidth: "180px" }}
+                      className="font-bold leading-5 overflow-hidden "
+                      style={{ maxWidth: "180px"}}
                     >
-                      {userProfile.fullname}
+                      <p className="whitespace-nowrap !text-ellipsis">{userProfile.fullname}</p>
+                      
                     </Space>
                   </a>
                 </div>

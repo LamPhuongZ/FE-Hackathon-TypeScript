@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { DispatchType } from "../configStore";
+import { DispatchType, RootState } from "../configStore";
 import { httpClient } from "../../utils/config";
 
 export interface Job {
@@ -64,6 +64,8 @@ export interface JobState {
   objJobDetails: Content | null;
   objPostJob: PostJobType | null;
   isLoading: boolean;
+  objTitle: string | null;
+  province: number | null;
 }
 
 const initialState: JobState = {
@@ -71,6 +73,8 @@ const initialState: JobState = {
   objJobDetails: null,
   objPostJob: null,
   isLoading: false,
+  objTitle: null,
+  province: null
 };
 
 const jobReducer = createSlice({
@@ -92,11 +96,23 @@ const jobReducer = createSlice({
     setLoading: (state: JobState, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
+    setSearchInputTitle: (state: JobState, action: PayloadAction<string>) => {
+      state.objTitle = action.payload;
+    },
+    setSearchInputProvince: (state: JobState, action: PayloadAction<number>) => {
+      state.province = action.payload;
+    },
   },
 });
 
-export const { getJobsAction, getJobDetails, postJobsAction, setLoading } =
-  jobReducer.actions;
+export const {
+  getJobsAction,
+  getJobDetails,
+  postJobsAction,
+  setLoading,
+  setSearchInputTitle,
+  setSearchInputProvince
+} = jobReducer.actions;
 
 export default jobReducer.reducer;
 
@@ -148,6 +164,29 @@ export const getSearchDataJobAPI = (
       );
       const action: PayloadAction<Job> = getJobsAction(res.data.data);
       dispatch(action);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+};
+
+export const getSearchJobByTitle = (
+  page?: number,
+  size?: number,
+  title?: string,
+  province?: number,
+) => {
+  return async (dispatch: DispatchType) => {
+    dispatch(setLoading(true));
+    try {
+      const res = await httpClient.get(
+        `/api/v1/job?title=${title}&page=${page}&size=${size}&provinceId=${province}&direction=desc`
+      );
+      const action: PayloadAction<Job> = getJobsAction(res.data.data);
+      dispatch(action);
+      console.log(res)
     } catch (error) {
       console.error(error);
     } finally {

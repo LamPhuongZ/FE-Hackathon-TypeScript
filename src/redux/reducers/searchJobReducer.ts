@@ -1,4 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { DispatchType } from "../configStore";
+import { httpClient } from "../../utils/config";
+import { getJobsAction, Job } from "./jobReducer";
 
 interface SearchState {
   keyword: string;
@@ -31,6 +34,20 @@ const searchReducer = createSlice({
     },
   },
 });
+export const getDataJobAPI = (page: number, size: number) => {
+  return async (dispatch: DispatchType) => {
+
+    try {
+      const res = await httpClient.get(
+        `/api/v1/job?page=${page}&size=${size}&direction=desc`
+      );
+      const action: PayloadAction<Job> = getJobsAction(res.data.data);
+      dispatch(action);
+    } catch (error) {
+      console.error(error);
+    } 
+  };
+};
 
 export const {setSearchAction, resetSearch} = searchReducer.actions;
 

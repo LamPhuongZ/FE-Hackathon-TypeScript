@@ -156,60 +156,6 @@ export const getSearchDataJobAPI = (
   };
 };
 
-// export const postDataJobAPI = (
-//   payload: PostJobType,
-//   dispatch: DispatchType
-// ) => {
-//   return async () => {
-//     dispatch(setLoading(true));
-
-//     try {
-//       const formData = new FormData();
-
-//       for (const key in payload) {
-//         const value = payload[key as keyof PostJobType];
-
-//         // Kiểm tra và thêm file
-//         // if (value && value.pic1 instanceof File) {
-//         //   formData.append("avatar", value.pic1); // Gửi đúng file vào FormData
-//         // }
-//         // else if (typeof value === "number") {
-//         //   formData.append(key, value.toString()); // Convert số sang chuỗi
-//         // } else if (typeof value === "string") {
-//         //   formData.append(key, value); // Thêm chuỗi vào FormData
-//         // }
-
-//         if (Array.isArray(value)) {
-//           value.forEach((img: any) => {
-//             if (img instanceof File) {
-//               formData.append(`imageJobDetails`, img);
-//             } // Gửi file trực tiếp
-//           });
-//         } else if (typeof value === "number") {
-//           formData.append(key, value.toString());
-//         } else if (value instanceof File) {
-//           formData.append(key, value);
-//         } else if (typeof value === "string") {
-//           formData.append(key, value);
-//         }
-//       }
-
-//       const response = await httpClient.patch("/api/v1/job", formData, {
-//         headers: { "Content-Type": "multipart/form-data" },
-//       });
-
-//       console.log(response);
-
-//       const action: PayloadAction<PostJobType> = postJobsAction(response.data);
-//       dispatch(action);
-//     } catch (error) {
-//       console.error("Lỗi khi post dữ liệu:", error);
-//     } finally {
-//       dispatch(setLoading(false));
-//     }
-//   };
-// };
-
 export const postDataJobAPI = (payload: PostJobType) => {
   return async (dispatch: DispatchType) => {
     dispatch(setLoading(true));

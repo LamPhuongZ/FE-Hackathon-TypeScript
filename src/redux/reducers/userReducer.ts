@@ -27,22 +27,22 @@ export interface UserProfileType {
   fullname: string;
   // age: string;
   dob: string | null; // day of birth
-  avatar: string;
+  avatar: [] | any;
   // isVerified: boolean;
   // numOfJob: number;
   // star: string;
   createdDate: string | null;
   address: string;
-  provinceId: string;
-  districtId: string;
+  provinceId: number;
+  districtId: number;
   // jobSkills: JobSkill[];
-  imgFrontOfCard: string;
-  imgBackOfCard: string;
+  imgFrontOfCard: [] | any;
+  imgBackOfCard: [] | any;
 }
 
 export interface ChangePasswordType {
-  oldPassword: string;
-  newPassword: string;
+  oldPassword?: string | null;
+  newPassword?: string | null;
 }
 
 export interface UserState {
@@ -140,7 +140,6 @@ export const loginAPI = createAsyncThunk(
       });
       routeLink.push("/");
     } catch (error) {
-      console.log(error);
       notification.error({
         message: "Đăng nhập thất bại",
         placement: "topRight",
@@ -171,7 +170,6 @@ export const registerAPI = createAsyncThunk(
       });
       routeLink.push("/");
     } catch (error) {
-      console.log(error);
       notification.error({
         message: "Đăng ký không thành công",
         placement: "topRight",
@@ -196,7 +194,6 @@ export const getProfileAPI = () => {
       );
       dispatch(action);
     } catch (error) {
-      console.log(error);
       notification.error({
         message: "Lấy thông tin thất bại!!",
         placement: "topRight",
@@ -237,13 +234,29 @@ export const changePasswordAPI = (changePassword: ChangePasswordType) => {
 export const updateProfileUserAPI = (userProfile: UserProfileType) => {
   return async (dispatch: DispatchType) => {
     try {
-      const response = await httpClient.patch("api/v1/self", userProfile);
+      const formData = new FormData();
+
+      for (const key in userProfile) {
+        const value = userProfile[key as keyof UserProfileType];
+
+        // Kiểm tra và thêm file
+        if (value && value.file instanceof File) {
+          formData.append(key, value.file); // Gửi đúng file vào FormData
+        } else if (typeof value === "number") {
+          formData.append(key, value.toString()); // Convert số sang chuỗi
+        } else if (typeof value === "string") {
+          formData.append(key, value); // Thêm chuỗi vào FormData
+        }
+      }
+
+      const response = await httpClient.patch("/api/v1/self", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       const action: PayloadAction<UserProfileType | null> =
         setUpdateProfileUser(response.data);
       dispatch(action);
     } catch (error) {
-      console.log(error);
       notification.error({
         message: "Xử lý thất bại!!",
         placement: "topRight",

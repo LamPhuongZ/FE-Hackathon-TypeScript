@@ -1,6 +1,12 @@
 import checked from "../../assets/images/checked.png";
 import { Content } from "../../redux/reducers/jobReducer";
 import Button from "../button/Button";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.css";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
+import "./JobCardStyles.scss";
 
 type Props = {
   item: Content;
@@ -8,7 +14,7 @@ type Props = {
 export default function JobCardDetail({ item }: Props) {
   return (
     <div className="bg-white rounded-2xl shadow-md py-12 px-7 small-tablet:w-full">
-      <div className="sticky top-0 bg-white">
+      <div className="sticky top-0 bg-white z-10">
         <div className="flex gap-16 small-tablet:gap-8 small-tablet:justify-between">
           <h1 className="text-[40px] font-semibold small-tablet:text-xl">
             {item.title}
@@ -137,33 +143,29 @@ export default function JobCardDetail({ item }: Props) {
         <div className="border border-solid"></div>
         <div className="mt-[30px]">
           {item.images && item.images.length > 0 ? (
-            <>
-              <div className="min-w-[80%] h-[350px] 2xl:w-full small-tablet:min-w-[300px] small-tablet:h-[200px]">
-                <img
-                  src={item.images[0]?.url || "https://via.placeholder.com/350"}
-                  alt="Image 1"
-                  className="w-full h-full rounded-[20px] object-cover"
-                />
-              </div>
-              <div className="flex justify-evenly gap-8 mt-7 mb-9">
-                {item.images.slice(1, 4).map((image, index) => (
-                  <div
-                    key={index}
-                    className="w-[250px] h-[128px] 2xl:w-full small-tablet:w-full small-tablet:h-[100px]"
-                  >
+            <Swiper
+              spaceBetween={10}
+              slidesPerView={1}
+              pagination={{
+                dynamicBullets: true,
+              }}
+              modules={[Pagination]}
+            >
+              {item.images.slice(0, 4).map((image, index) => (
+                <SwiperSlide key={index}>
+                  <div className="min-w-[80%] h-[350px] 2xl:w-full small-tablet:min-w-[300px] small-tablet:h-[200px] mb-10">
                     <img
-                      src={image.url || "https://via.placeholder.com/250"}
-                      alt={`Image ${index + 2}`}
+                      src={image.url || "https://via.placeholder.com/350"}
+                      alt={`Image ${index + 1}`}
                       className="w-full h-full rounded-[20px] object-cover"
                     />
                   </div>
-                ))}
-              </div>
-            </>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           ) : (
             <p>Không tồn tại hình ảnh</p>
           )}
-
           <div>
             <h1 className="text-[20px] font-semibold mb-2 small-tablet:text-sm">
               Mô tả

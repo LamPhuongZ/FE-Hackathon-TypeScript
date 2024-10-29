@@ -10,8 +10,9 @@ import "./JobCardStyles.scss";
 
 type Props = {
   item: Content;
+  jobType: string;
 };
-export default function JobCardDetail({ item }: Props) {
+export default function JobCardDetail({ item, jobType }: Props) {
   return (
     <div className="bg-white rounded-2xl shadow-md py-12 px-7 small-tablet:w-full">
       <div className="sticky top-0 bg-white z-10">

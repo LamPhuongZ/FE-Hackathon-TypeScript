@@ -3,8 +3,6 @@ import Input from "../../components/input/Input";
 import Field from "../../components/field/Field";
 import Button from "../../components/button/Button";
 import ImageUploadProps from "../../components/image-upload/ImageUpload";
-import Close from "../../assets/icons/close.svg";
-import Plus from "../../assets/icons/plus.svg";
 import Star from "../../assets/icons/star.svg";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";

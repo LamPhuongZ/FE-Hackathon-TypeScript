@@ -11,8 +11,8 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ProfileSchema } from "../../utils/validation";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/configStore";
+import { useDispatch, useSelector } from "react-redux";
+import { DispatchType, RootState } from "../../redux/configStore";
 import { ACCESS_TOKEN } from "../../utils/config";
 import { getCookie } from "../../utils/utilMethod";
 import Dropdown from "../../components/dropdown/Dropdown";
@@ -22,6 +22,7 @@ import DropdownOption from "../../components/dropdown/DropdownOption";
 import { District, Province, useAddress } from "../../hooks/useAddress";
 import InputPassword from "../../components/input/InputPassword";
 import moment, { Moment } from "moment";
+import { changePasswordAPI, ChangePasswordType } from "../../redux/reducers/userReducer";
 
 export default function ProfilePage() {
   const { provinces, districts } = useAddress();
@@ -29,6 +30,7 @@ export default function ProfilePage() {
   const [selectedProvince, setSelectedProvince] = useState<Province>();
   const [selectedDistrict, setSelectedDistrict] = useState<District>();
   const [togglePassword, setTogglePassword] = useState(false);
+  const dispatch = useDispatch<DispatchType>();
 
   const handleSelectedProvince = (item: Province) => {
     setSelectedProvince(item);
@@ -69,6 +71,8 @@ export default function ProfilePage() {
       createdDate: "",
       imgFrontOfCard: "",
       imgBackOfCard: "",
+      oldPassword: "",
+      newPassword: "",
     },
   });
 
@@ -97,8 +101,18 @@ export default function ProfilePage() {
     }
   }, [userProfile]);
 
-  const handleUpdateProfile = async () => {
+  const handleUpdateProfile = async (values: ChangePasswordType) => {
     try {
+      const payload = {
+        ...values,
+        oldPassword: values.oldPassword,
+        newPassword: values.newPassword,
+      };
+
+      const response = await dispatch(changePasswordAPI(payload))
+
+      console.log(response);
+
       toast.success("Đã cập nhật thông tin thành công!");
     } catch (error) {
       toast.error("Cập nhật thất bại!");

@@ -22,7 +22,10 @@ import DropdownOption from "../../components/dropdown/DropdownOption";
 import { District, Province, useAddress } from "../../hooks/useAddress";
 import InputPassword from "../../components/input/InputPassword";
 import moment, { Moment } from "moment";
-import { changePasswordAPI, ChangePasswordType } from "../../redux/reducers/userReducer";
+import {
+  changePasswordAPI,
+  ChangePasswordType,
+} from "../../redux/reducers/userReducer";
 
 export default function ProfilePage() {
   const { provinces, districts } = useAddress();
@@ -109,7 +112,7 @@ export default function ProfilePage() {
         newPassword: values.newPassword,
       };
 
-      const response = await dispatch(changePasswordAPI(payload))
+      const response = await dispatch(changePasswordAPI(payload));
 
       console.log(response);
 
@@ -139,7 +142,7 @@ export default function ProfilePage() {
             </p>
           </div>
         </div>
-        <form onSubmit={handleSubmit((handleUpdateProfile))}>
+        <form onSubmit={handleSubmit(handleUpdateProfile)}>
           <div className="w-[244px] h-[244px] rounded-full mx-auto mb-7">
             <ImageUploadProps
               listType="picture-circle"
@@ -246,6 +249,8 @@ export default function ProfilePage() {
                   </DropdownList>
                 </Dropdown>
               </Field>
+            </div>
+            <div className="form-layout">
               <Field>
                 <Label htmlFor="address">Địa chỉ</Label>
                 <Input
@@ -254,8 +259,6 @@ export default function ProfilePage() {
                   control={control}
                 />
               </Field>
-            </div>
-            <div className="form-layout">
               <Field>
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -274,9 +277,9 @@ export default function ProfilePage() {
                   name="oldPassword"
                   placeholder="Nhập mật khẩu hiện tại"
                   control={control}
-                  type={togglePassword ? "text" : "password"} 
-                  togglePassword={togglePassword} 
-                  setTogglePassword={setTogglePassword} 
+                  type={togglePassword ? "text" : "password"}
+                  togglePassword={togglePassword}
+                  setTogglePassword={setTogglePassword}
                 />
               </Field>
               <Field>
@@ -294,7 +297,7 @@ export default function ProfilePage() {
           </div>
           {/* </div> */}
 
-          {/* <div className="mt-24">
+          <div className="mt-24">
             <Label htmlFor="">Tải ảnh CCCD / CMND</Label>
             <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5">
               <div className="form-layout lg:mb-0">
@@ -316,35 +319,8 @@ export default function ProfilePage() {
                 />
               </div>
             </div>
-          </div> */}
-
-          {/* <div className="mt-24">
-            <Label htmlFor="">Kĩ năng</Label>
-            <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5 flex gap-7">
-              <div className="inline-block rounded-[20px] bg-[#E8E8E8] px-7 py-5">
-                <div className="flex items-center gap-2">
-                  <p className="font-semibold text-2xl">Dọn vệ sinh</p>
-                  <div className="w-6 h-6">
-                    <img
-                      src={Close}
-                      alt="icon-close"
-                      className="w-full h-full"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="inline-block rounded-[20px] bg-[#E8E8E8] px-7 py-5">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6">
-                    <img src={Plus} alt="" className="w-full h-full" />
-                  </div>
-                  <p className="font-semibold text-2xl text-[rgba(10,_22,_41,_0.50)]">
-                    Thêm kỹ năng
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
+
           <Button
             type="submit"
             title="Cập Nhật"

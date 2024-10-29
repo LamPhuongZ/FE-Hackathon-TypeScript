@@ -27,7 +27,7 @@ export interface UserProfileType {
   fullname: string;
   // age: string;
   dob: string | null; // day of birth
-  avatar: string | any;
+  avatar: [] | any;
   // isVerified: boolean;
   // numOfJob: number;
   // star: string;
@@ -36,13 +36,13 @@ export interface UserProfileType {
   provinceId: number;
   districtId: number;
   // jobSkills: JobSkill[];
-  imgFrontOfCard: string | any;
-  imgBackOfCard: string | any;
+  imgFrontOfCard: [] | any;
+  imgBackOfCard: [] | any;
 }
 
 export interface ChangePasswordType {
-  oldPassword: string;
-  newPassword: string;
+  oldPassword?: string | null;
+  newPassword?: string | null;
 }
 
 export interface UserState {
@@ -206,8 +206,8 @@ export const getProfileAPI = () => {
   };
 };
 
-export const changePassword = () => {
-  return async (changePassword: ChangePasswordType, dispatch: DispatchType) => {
+export const changePasswordAPI = (changePassword: ChangePasswordType) => {
+  return async (dispatch: DispatchType) => {
     try {
       const response = await httpClient.post(
         "api/v1/self/change-password",
@@ -234,7 +234,24 @@ export const changePassword = () => {
 export const updateProfileUserAPI = (userProfile: UserProfileType) => {
   return async (dispatch: DispatchType) => {
     try {
-      const response = await httpClient.patch("api/v1/self", userProfile);
+      const formData = new FormData();
+
+      for (const key in userProfile) {
+        const value = userProfile[key as keyof UserProfileType];
+
+        // Kiểm tra và thêm file
+        if (value && value.file instanceof File) {
+          formData.append(key, value.file); // Gửi đúng file vào FormData
+        } else if (typeof value === "number") {
+          formData.append(key, value.toString()); // Convert số sang chuỗi
+        } else if (typeof value === "string") {
+          formData.append(key, value); // Thêm chuỗi vào FormData
+        }
+      }
+
+      const response = await httpClient.patch("/api/v1/self", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       const action: PayloadAction<UserProfileType | null> =
         setUpdateProfileUser(response.data);

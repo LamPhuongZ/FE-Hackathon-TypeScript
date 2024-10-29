@@ -30,7 +30,7 @@ export default function Authenticate() {
           return response.json();
         })
         .then((data) => {
-          setCookie(ACCESS_TOKEN, data.data["access-token"], 30);
+          setCookie(ACCESS_TOKEN, data.data['access-token'], 30);
           navigate("/");
         });
     }

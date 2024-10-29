@@ -20,8 +20,14 @@ import DropdownSelect from "../../components/dropdown/DropdownSelect";
 import DropdownList from "../../components/dropdown/DropdownList";
 import DropdownOption from "../../components/dropdown/DropdownOption";
 import { District, Province, useAddress } from "../../hooks/useAddress";
+import InputPassword from "../../components/input/InputPassword";
 import moment, { Moment } from "moment";
-import { updateProfileUserAPI, UserProfileType } from "../../redux/reducers/userReducer";
+import {
+  updateProfileUserAPI,
+  UserProfileType,
+  changePasswordAPI,
+  ChangePasswordType,
+} from "../../redux/reducers/userReducer";
 
 export default function ProfilePage() {
   const { provinces, districts } = useAddress();
@@ -29,6 +35,7 @@ export default function ProfilePage() {
   const dispatch: DispatchType = useDispatch();
   const [selectedProvince, setSelectedProvince] = useState<Province>();
   const [selectedDistrict, setSelectedDistrict] = useState<District>();
+  const [togglePassword, setTogglePassword] = useState(false);
 
   const handleSelectedProvince = (item: Province) => {
     setSelectedProvince(item);
@@ -62,13 +69,15 @@ export default function ProfilePage() {
       phone: "",
       address: "",
       dob: "",
-      avatar: "",
+      avatar: undefined,
       email: "",
-      provinceId: ~~"01",
-      districtId: ~~"01",
+      provinceId: ~~"1",
+      districtId: ~~"1",
       createdDate: "",
-      imgFrontOfCard: "",
-      imgBackOfCard: "",
+      imgFrontOfCard: undefined,
+      imgBackOfCard: undefined,
+      oldPassword: "",
+      newPassword: "",
     },
   });
 
@@ -94,21 +103,54 @@ export default function ProfilePage() {
       );
       setValue("imgFrontOfCard", userProfile?.imgFrontOfCard);
       setValue("imgBackOfCard", userProfile?.imgBackOfCard);
-    }
-  }, [userProfile]);
 
-  const handleUpdateProfile = async (values: UserProfileType) => {
+      // Cập nhật selectedProvince và selectedDistrict dựa trên dữ liệu userProfile
+      const province = provinces.find(
+        (prov) => prov.id === userProfile.provinceId
+      );
+      const district = districts.find(
+        (dist) => dist.id === userProfile.districtId
+      );
+      if (province) setSelectedProvince(province);
+      if (district) setSelectedDistrict(district);
+    }
+  }, [userProfile, provinces, districts]);
+
+  const handleUpdateProfile = async (
+    values: UserProfileType & ChangePasswordType
+  ) => {
     try {
+      const profilePayload: UserProfileType = {
+        fullname: values.fullname,
+        email: values.email,
+        phone: values.phone,
+        dob: values.dob,
+        avatar: values.avatar,
+        address: values.address,
+        provinceId: values.provinceId,
+        districtId: values.districtId,
+        createdDate: values.createdDate,
+        imgFrontOfCard: values.imgFrontOfCard,
+        imgBackOfCard: values.imgBackOfCard,
+      };
+
+      const passwordPayload: ChangePasswordType | null =
+        values.oldPassword && values.newPassword
+          ? { oldPassword: values.oldPassword, newPassword: values.newPassword }
+          : null;
+
       console.log(values);
 
-      const payload = {
-        ...values,
-        provinceId: ~~values.districtId,
-        districtId: ~~values.districtId
+      if (passwordPayload) {
+        try {
+          await dispatch(changePasswordAPI(passwordPayload));
+        } catch (error) {
+          console.error("Error in changePasswordAPI:", error);
+          toast.error("Đổi mật khẩu thất bại!");
+        }
       }
 
-      await dispatch(updateProfileUserAPI(payload));
-     
+      await dispatch(updateProfileUserAPI(profilePayload));
 
       toast.success("Đã cập nhật thông tin thành công!");
     } catch (error) {
@@ -262,6 +304,30 @@ export default function ProfilePage() {
                 />
               </Field>
             </div>
+            <div className="form-layout">
+              <Field>
+                <Label htmlFor="oldPassword">Mật khẩu hiện tại</Label>
+                <InputPassword
+                  name="oldPassword"
+                  placeholder="Nhập mật khẩu hiện tại"
+                  control={control}
+                  type={togglePassword ? "text" : "password"}
+                  togglePassword={togglePassword}
+                  setTogglePassword={setTogglePassword}
+                />
+              </Field>
+              <Field>
+                <Label htmlFor="newPassword">Mật khẩu mới</Label>
+                <InputPassword
+                  name="newPassword"
+                  placeholder="Nhập mật khẩu mới"
+                  control={control}
+                  type={togglePassword ? "text" : "password"}
+                  togglePassword={togglePassword}
+                  setTogglePassword={setTogglePassword}
+                />
+              </Field>
+            </div>
           </div>
 
           <div className="mt-24">
@@ -270,6 +336,16 @@ export default function ProfilePage() {
               <div className="form-layout lg:mb-0">
                 <ImageUploadProps
                   name="imgFrontOfCard"
+                  fileList={
+                    userProfile?.imgFrontOfCard
+                      ? [
+                          {
+                            url: userProfile.imgFrontOfCard,
+                            name: "imgFrontOfCard",
+                          },
+                        ]
+                      : []
+                  }
                   onFileSelect={(file: File | null) => {
                     if (file) {
                       setValue("imgFrontOfCard", file);
@@ -278,6 +354,16 @@ export default function ProfilePage() {
                 />
                 <ImageUploadProps
                   name="imgBackOfCard"
+                  fileList={
+                    userProfile?.imgBackOfCard
+                      ? [
+                          {
+                            url: userProfile.imgBackOfCard,
+                            name: "imgBackOfCard",
+                          },
+                        ]
+                      : []
+                  }
                   onFileSelect={(file: File | null) => {
                     if (file) {
                       setValue("imgBackOfCard", file);

@@ -1,6 +1,12 @@
 import { NavLink } from "react-router-dom";
+import { RootState } from "../../redux/configStore";
+import { useSelector } from "react-redux";
 
 export default function Sidebar() {
+  const { userProfile } = useSelector(
+    (state: RootState) => state.userReducer
+  );
+
   const Profile = () => (
     <NavLink
       to={`/profile`}
@@ -62,12 +68,12 @@ export default function Sidebar() {
         <div className="flex items-center gap-8 justify-center">
           <div className="w-16 h-16 ">
             <img
-              src=""
+              src={userProfile?.avatar}
               alt="avatar"
               className="w-full h-full object-cover rounded-full bg-slate-300"
             />
           </div>
-          <h3 className="font-semibold text-xl">Nguyễn Văn A</h3>
+          <h3 className="font-semibold text-xl">{userProfile?.fullname}</h3>
         </div>
         <div className="border-2 border-solid"></div>
         <Profile />

@@ -13,41 +13,53 @@ export const ProfileSchema = yup.object({
   districtId: yup.number().required("Vui lòng chọn quận / huyện"),
   address: yup.string().required("Vui lòng nhập địa chỉ"),
 
-  avatar: yup
-    .mixed()
-    .required("Vui lòng tải ảnh khuôn mặt của bạn"),
-    // .test("fileSize", "Kích thước tệp quá lớn", (value) => {
-    //   return value instanceof File ? value.size <= 2000000 : false;
-    // })
-    // .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
-    //   return value instanceof File
-    //     ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-    //     : false;
-    // }),
+  oldPassword: yup.string().nullable(),
+  newPassword: yup.string().nullable(),
+
+  avatar: yup.mixed().nullable().required("Vui lòng tải ảnh khuôn mặt của bạn"),
+  // .test("fileType", "Định dạng ảnh không được hỗ trợ", (value) => {
+  //   if (!value) return false; // Kiểm tra nếu không có giá trị
+  //   return (
+  //     value instanceof File &&
+  //     ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+  //   );
+  // })
+  // .test("fileSize", "Kích thước ảnh quá lớn (tối đa 2MB)", (value) => {
+  //   if (!value) return false; // Kiểm tra nếu không có giá trị
+  //   return value instanceof File && value.size <= 2 * 1024 * 1024;
+  // }),
 
   imgFrontOfCard: yup
     .mixed()
+    .nullable()
     .required("Vui lòng tải CCCD/CMND mặt trước"),
-    // .test("fileSize", "Kích thước tệp quá lớn", (value) => {
-    //   return value instanceof File ? value.size <= 2000000 : false;
-    // })
-    // .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
-    //   return value instanceof File
-    //     ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-    //     : false;
-    // }),
+  // .test("fileType", "Định dạng ảnh không được hỗ trợ", (value) => {
+  //   if (!value) return false; // Kiểm tra nếu không có giá trị
+  //   return (
+  //     value instanceof File &&
+  //     ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+  //   );
+  // })
+  // .test("fileSize", "Kích thước ảnh quá lớn (tối đa 2MB)", (value) => {
+  //   if (!value) return false; // Kiểm tra nếu không có giá trị
+  //   return value instanceof File && value.size <= 2 * 1024 * 1024;
+  // }),
 
   imgBackOfCard: yup
     .mixed()
-    .required("Vui lòng tải CCCD/CMND mặt sau")
-    // .test("fileSize", "Kích thước tệp quá lớn", (value) => {
-    //   return value instanceof File ? value.size <= 2000000 : false;
-    // })
-    // .test("fileType", "Định dạng tệp không được hỗ trợ", (value) => {
-    //   return value instanceof File
-    //     ? ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-    //     : false;
-    // }),
+    .nullable()
+    .required("Vui lòng tải CCCD/CMND mặt sau"),
+  // .test("fileType", "Định dạng ảnh không được hỗ trợ", (value) => {
+  //   if (!value) return false; // Kiểm tra nếu không có giá trị
+  //   return (
+  //     value instanceof File &&
+  //     ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
+  //   );
+  // })
+  // .test("fileSize", "Kích thước ảnh quá lớn (tối đa 2MB)", (value) => {
+  //   if (!value) return false; // Kiểm tra nếu không có giá trị
+  //   return value instanceof File && value.size <= 2 * 1024 * 1024;
+  // }),
 });
 
 export const JobProfileSchema = yup.object({
@@ -68,6 +80,7 @@ export const JobProfileSchema = yup.object({
       yup.object({
         file: yup
           .mixed()
+          .nullable()
           .required("Vui lòng tải lên ảnh") // Bắt buộc phải có file
           .test("fileType", "Định dạng ảnh không được hỗ trợ", (value) => {
             if (!value) return false; // Kiểm tra nếu không có giá trị

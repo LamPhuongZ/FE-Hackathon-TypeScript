@@ -53,7 +53,7 @@ export default function JobCard({
           <div className="flex justify-between">
             <div className="flex items-center gap-1">
               <p
-                className={`text-2xl font-semibold truncate ${width} small-tablet:text-base small-tablet:w-[130px]`}
+                className={`text-lg font-semibold truncate ${width} small-tablet:text-base small-tablet:w-[130px]`}
               >
                 {item.title}
               </p>
@@ -77,7 +77,7 @@ export default function JobCard({
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="text-lg font-medium pt-1 small-tablet:text-base">
+              <p className="text-sm font-medium pt-1 small-tablet:text-base">
                 {new Date(item.startDate)
                   .toLocaleDateString("vi-VN")
                   .replace(/\//g, "-")}
@@ -87,12 +87,12 @@ export default function JobCard({
           <div className="border border-solid border-[#E4E6E8] w-full"></div>
           <div className="flex justify-between">
             <div className="bg-[#E8E8E8] rounded-[20px]">
-              <p className="text-sm font-medium px-[10px] py-[5px] small-tablet:text-sm small-tablet:px-[5px] small-tablet:py-[3px]">
+              <p className="text-xs font-medium px-[10px] py-[5px] small-tablet:text-sm small-tablet:px-[5px] small-tablet:py-[3px]">
                 {item.jobType.name}
               </p>
             </div>
-            <div className={`flex items-center justify-end gap-1`}>
-              <div className="w-5 h-5 small-tablet:w-4 small-tablet:h-4">
+            <div className={`flex items-center justify-end text-end gap-1`}>
+              <div className="w-5 h-5 small-tablet:w-4 small-tablet:h-4 flex items-center justify-end">
                 <img
                   src={location}
                   alt="location"
@@ -100,7 +100,8 @@ export default function JobCard({
                 />
               </div>
               <p
-                className={`pt-1 small-tablet:text-sm truncate ${widthAddress}`}
+                className={`pt-1 text-sm truncate ${widthAddress}`}
+                title={item.address}
               >
                 {item.address}
               </p>

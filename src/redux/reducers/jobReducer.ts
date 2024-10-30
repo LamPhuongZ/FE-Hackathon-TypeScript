@@ -64,6 +64,7 @@ export interface JobState {
   objJobDetails: Content | null;
   objPostJob: PostJobType | null;
   isLoading: boolean;
+  objJobType: Job | null;
 }
 
 const initialState: JobState = {
@@ -71,6 +72,7 @@ const initialState: JobState = {
   objJobDetails: null,
   objPostJob: null,
   isLoading: false,
+  objJobType: null,
 };
 
 const jobReducer = createSlice({
@@ -92,10 +94,14 @@ const jobReducer = createSlice({
     setLoading: (state: JobState, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
+    getJobTypeId: (state: JobState, action: PayloadAction<Job>) => {
+      state.objJobType = action.payload;
+      state.isLoading = false;
+    },
   },
 });
 
-export const { getJobsAction, getJobDetails, postJobsAction, setLoading } =
+export const { getJobsAction, getJobDetails, postJobsAction,getJobTypeId, setLoading } =
   jobReducer.actions;
 
 export default jobReducer.reducer;
@@ -194,6 +200,22 @@ export const postDataJobAPI = (payload: PostJobType) => {
       dispatch(action);
     } catch (error) {
       console.error("Lỗi khi post dữ liệu:", error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+};
+
+export const getDataJobTypeAPI = (id: number) => {
+  return async (dispatch: DispatchType) => {
+    dispatch(setLoading(true));
+
+    try {
+      const res = await httpClient.get(`api/v1/job?jobTypeId=${id}`);
+      const action: PayloadAction<Job> = getJobTypeId(res.data.data);
+      dispatch(action);
+    } catch (error) {
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }

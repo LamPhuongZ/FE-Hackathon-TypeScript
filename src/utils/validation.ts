@@ -16,7 +16,8 @@ export const ProfileSchema = yup.object({
   oldPassword: yup.string().nullable(),
   newPassword: yup.string().nullable(),
 
-  avatar: yup.mixed().nullable().required("Vui lòng tải ảnh khuôn mặt của bạn"),
+  avatar: yup.mixed().nullable()
+  .required("Vui lòng tải ảnh khuôn mặt của bạn"),
   // .test("fileType", "Định dạng ảnh không được hỗ trợ", (value) => {
   //   if (!value) return false; // Kiểm tra nếu không có giá trị
   //   return (

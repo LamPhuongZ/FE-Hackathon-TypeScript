@@ -21,16 +21,11 @@ export interface RegisterState {
 }
 
 export interface UserProfileType {
-  // id: number;
   email: string;
   phone: string;
   fullname: string;
-  // age: string;
   dob: string | null; // day of birth
   avatar: [] | any;
-  // isVerified: boolean;
-  // numOfJob: number;
-  // star: string;
   createdDate: string | null;
   address: string;
   provinceId: number;
@@ -240,21 +235,23 @@ export const updateProfileUserAPI = (userProfile: UserProfileType) => {
         const value = userProfile[key as keyof UserProfileType];
 
         // Kiểm tra và thêm file
-        if (value && value.file instanceof File) {
-          formData.append(key, value.file); // Gửi đúng file vào FormData
-        } else if (typeof value === "number") {
-          formData.append(key, value.toString()); // Convert số sang chuỗi
-        } else if (typeof value === "string") {
-          formData.append(key, value); // Thêm chuỗi vào FormData
+        if (value) {
+          if (key === "avatar" && value instanceof File) {
+            formData.append("avatar", value);
+          } else if (key === "imgFrontOfCard" && value instanceof File) {
+            formData.append("imgFrontOfCard", value);
+          } else if (key === "imgBackOfCard" && value instanceof File) {
+            formData.append("imgBackOfCard", value);
+          } else if (typeof value === "number" || typeof value === "string") {
+            formData.append(key, value.toString());
+          }
         }
       }
 
-      const response = await httpClient.patch("/api/v1/self", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await httpClient.patch("/api/v1/self", formData);
 
       const action: PayloadAction<UserProfileType | null> =
-        setUpdateProfileUser(response.data);
+        setUpdateProfileUser(response.data.data);
       dispatch(action);
     } catch (error) {
       notification.error({

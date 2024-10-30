@@ -256,77 +256,77 @@
   "district": [
     {
       "provinceId": "1",
-      "id": "001",
+      "id": "1",
       "name": "Quận Ba Đình"
     },
     {
       "provinceId": "1",
-      "id": "002",
+      "id": "2",
       "name": "Quận Hoàn Kiếm"
     },
     {
       "provinceId": "1",
-      "id": "003",
+      "id": "3",
       "name": "Quận Tây Hồ"
     },
     {
       "provinceId": "1",
-      "id": "004",
+      "id": "4",
       "name": "Quận Long Biên"
     },
     {
       "provinceId": "1",
-      "id": "005",
+      "id": "5",
       "name": "Quận Cầu Giấy"
     },
     {
       "provinceId": "1",
-      "id": "006",
+      "id": "6",
       "name": "Quận Đống Đa"
     },
     {
       "provinceId": "1",
-      "id": "007",
+      "id": "7",
       "name": "Quận Hai Bà Trưng"
     },
     {
       "provinceId": "1",
-      "id": "008",
+      "id": "8",
       "name": "Quận Hoàng Mai"
     },
     {
       "provinceId": "1",
-      "id": "009",
+      "id": "9",
       "name": "Quận Thanh Xuân"
     },
     {
       "provinceId": "1",
-      "id": "016",
+      "id": "16",
       "name": "Huyện Sóc Sơn"
     },
     {
       "provinceId": "1",
-      "id": "017",
+      "id": "17",
       "name": "Huyện Đông Anh"
     },
     {
       "provinceId": "1",
-      "id": "018",
+      "id": "18",
       "name": "Huyện Gia Lâm"
     },
     {
       "provinceId": "1",
-      "id": "019",
+      "id": "19",
       "name": "Quận Nam Từ Liêm"
     },
     {
       "provinceId": "1",
-      "id": "020",
+      "id": "20",
       "name": "Huyện Thanh Trì"
     },
     {
       "provinceId": "1",
-      "id": "021",
+      "id": "21",
       "name": "Quận Bắc Từ Liêm"
     },
     {
@@ -406,257 +406,257 @@
     },
     {
       "provinceId": "2",
-      "id": "024",
+      "id": "24",
       "name": "Thành phố Hà Giang"
     },
     {
       "provinceId": "2",
-      "id": "026",
+      "id": "26",
       "name": "Huyện Đồng Văn"
     },
     {
       "provinceId": "2",
-      "id": "027",
+      "id": "27",
       "name": "Huyện Mèo Vạc"
     },
     {
       "provinceId": "2",
-      "id": "028",
+      "id": "28",
       "name": "Huyện Yên Minh"
     },
     {
       "provinceId": "2",
-      "id": "029",
+      "id": "29",
       "name": "Huyện Quản Bạ"
     },
     {
       "provinceId": "2",
-      "id": "030",
+      "id": "30",
       "name": "Huyện Vị Xuyên"
     },
     {
       "provinceId": "2",
-      "id": "031",
+      "id": "31",
       "name": "Huyện Bắc Mê"
     },
     {
       "provinceId": "2",
-      "id": "032",
+      "id": "32",
       "name": "Huyện Hoàng Su Phì"
     },
     {
       "provinceId": "2",
-      "id": "033",
+      "id": "33",
       "name": "Huyện Xín Mần"
     },
     {
       "provinceId": "2",
-      "id": "034",
+      "id": "34",
       "name": "Huyện Bắc Quang"
     },
     {
       "provinceId": "2",
-      "id": "035",
+      "id": "35",
       "name": "Huyện Quang Bình"
     },
     {
       "provinceId": "4",
-      "id": "040",
+      "id": "40",
       "name": "Thành phố Cao Bằng"
     },
     {
       "provinceId": "4",
-      "id": "042",
+      "id": "42",
       "name": "Huyện Bảo Lâm"
     },
     {
       "provinceId": "4",
-      "id": "043",
+      "id": "43",
       "name": "Huyện Bảo Lạc"
     },
     {
       "provinceId": "4",
-      "id": "045",
+      "id": "45",
       "name": "Huyện Hà Quảng"
     },
     {
       "provinceId": "4",
-      "id": "047",
+      "id": "47",
       "name": "Huyện Trùng Khánh"
     },
     {
       "provinceId": "4",
-      "id": "048",
+      "id": "48",
       "name": "Huyện Hạ Lang"
     },
     {
       "provinceId": "4",
-      "id": "049",
+      "id": "49",
       "name": "Huyện Quảng Hòa"
     },
     {
       "provinceId": "4",
-      "id": "051",
+      "id": "51",
       "name": "Huyện Hoà An"
     },
     {
       "provinceId": "4",
-      "id": "052",
+      "id": "52",
       "name": "Huyện Nguyên Bình"
     },
     {
       "provinceId": "4",
-      "id": "053",
+      "id": "53",
       "name": "Huyện Thạch An"
     },
     {
       "provinceId": "6",
-      "id": "058",
+      "id": "58",
       "name": "Thành Phố Bắc Kạn"
     },
     {
       "provinceId": "6",
-      "id": "060",
+      "id": "60",
       "name": "Huyện Pác Nặm"
     },
     {
       "provinceId": "6",
-      "id": "061",
+      "id": "61",
       "name": "Huyện Ba Bể"
     },
     {
       "provinceId": "6",
-      "id": "062",
+      "id": "62",
       "name": "Huyện Ngân Sơn"
     },
     {
       "provinceId": "6",
-      "id": "063",
+      "id": "63",
       "name": "Huyện Bạch Thông"
     },
     {
       "provinceId": "6",
-      "id": "064",
+      "id": "64",
       "name": "Huyện Chợ Đồn"
     },
     {
       "provinceId": "6",
-      "id": "065",
+      "id": "65",
       "name": "Huyện Chợ Mới"
     },
     {
       "provinceId": "6",
-      "id": "066",
+      "id": "66",
       "name": "Huyện Na Rì"
     },
     {
       "provinceId": "8",
-      "id": "070",
+      "id": "70",
       "name": "Thành phố Tuyên Quang"
     },
     {
       "provinceId": "8",
-      "id": "071",
+      "id": "71",
       "name": "Huyện Lâm Bình"
     },
     {
       "provinceId": "8",
-      "id": "072",
+      "id": "72",
       "name": "Huyện Na Hang"
     },
     {
       "provinceId": "8",
-      "id": "073",
+      "id": "73",
       "name": "Huyện Chiêm Hóa"
     },
     {
       "provinceId": "8",
-      "id": "074",
+      "id": "74",
       "name": "Huyện Hàm Yên"
     },
     {
       "provinceId": "8",
-      "id": "075",
+      "id": "75",
       "name": "Huyện Yên Sơn"
     },
     {
       "provinceId": "8",
-      "id": "076",
+      "id": "76",
       "name": "Huyện Sơn Dương"
     },
     {
       "provinceId": "10",
-      "id": "080",
+      "id": "80",
       "name": "Thành phố Lào Cai"
     },
     {
       "provinceId": "10",
-      "id": "082",
+      "id": "82",
       "name": "Huyện Bát Xát"
     },
     {
       "provinceId": "10",
-      "id": "083",
+      "id": "83",
       "name": "Huyện Mường Khương"
     },
     {
       "provinceId": "10",
-      "id": "084",
+      "id": "84",
       "name": "Huyện Si Ma Cai"
     },
     {
       "provinceId": "10",
-      "id": "085",
+      "id": "85",
       "name": "Huyện Bắc Hà"
     },
     {
       "provinceId": "10",
-      "id": "086",
+      "id": "86",
       "name": "Huyện Bảo Thắng"
     },
     {
       "provinceId": "10",
-      "id": "087",
+      "id": "87",
       "name": "Huyện Bảo Yên"
     },
     {
       "provinceId": "10",
-      "id": "088",
+      "id": "88",
       "name": "Thị xã Sa Pa"
     },
     {
       "provinceId": "10",
-      "id": "089",
+      "id": "89",
       "name": "Huyện Văn Bàn"
     },
     {
       "provinceId": "11",
-      "id": "094",
+      "id": "94",
       "name": "Thành phố Điện Biên Phủ"
     },
     {
       "provinceId": "11",
-      "id": "095",
+      "id": "95",
       "name": "Thị Xã Mường Lay"
     },
     {
       "provinceId": "11",
-      "id": "096",
+      "id": "96",
       "name": "Huyện Mường Nhé"
     },
     {
       "provinceId": "11",
-      "id": "097",
+      "id": "97",
       "name": "Huyện Mường Chà"
     },
     {
       "provinceId": "11",
-      "id": "098",
+      "id": "98",
       "name": "Huyện Tủa Chùa"
     },
     {
       "provinceId": "11",
-      "id": "099",
+      "id": "99",
       "name": "Huyện Tuần Giáo"
     },
     {

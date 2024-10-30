@@ -62,55 +62,50 @@ export default function ProfilePage() {
   } = useForm({
     mode: "onChange",
     resolver: yupResolver(ProfileSchema),
-    defaultValues: {
-      fullname: "",
-      phone: "",
-      address: "",
-      dob: "",
-      avatar: undefined,
-      email: "",
-      provinceId: ~~"1",
-      districtId: ~~"1",
-      createdDate: "",
-      imgFrontOfCard: undefined,
-      imgBackOfCard: undefined,
-      oldPassword: "",
-      newPassword: "",
-    },
   });
 
   useEffect(() => {
+    console.log("useEffect: ", userProfile);
+    
     //reset Token
     const Token = getCookie(ACCESS_TOKEN);
-    if (!Token) {
+    if (!Token || !provinces.length || !districts.length) {
       return;
     }
 
-    if (userProfile) {
+    // Cập nhật selectedProvince và selectedDistrict dựa trên dữ liệu userProfile
+    const province = provinces.find(
+      (prov) => ~~prov.id === userProfile?.provinceId
+    );
+    const district = districts.find(
+      (dist) => ~~dist.id === userProfile?.districtId
+    );
+    if (province) {
+      setSelectedProvince(province);
+      setValue("provinceId", province.id, { // Thêm kiểm tra ở đây
+        shouldValidate: true,
+      });
+    }
+    if (district) {
+      setSelectedDistrict(district);
+      setValue("districtId", district.id, { // Thêm kiểm tra ở đây
+        shouldValidate: true,
+      });
+    }
+
+    if (userProfile && provinces.length && districts.length) {
       setValue("fullname", userProfile?.fullname);
       setValue("phone", userProfile?.phone);
       setValue("address", userProfile?.address);
       setValue("dob", dob ? dob.format("YYYY-MM-DD") : "");
       setValue("avatar", userProfile?.avatar);
       setValue("email", userProfile?.email);
-      setValue("provinceId", ~~userProfile?.provinceId);
-      setValue("districtId", ~~userProfile?.districtId);
       setValue(
         "createdDate",
         createdDate ? createdDate.format("YYYY-MM-DD") : ""
       );
       setValue("imgFrontOfCard", userProfile?.imgFrontOfCard);
       setValue("imgBackOfCard", userProfile?.imgBackOfCard);
-
-      // Cập nhật selectedProvince và selectedDistrict dựa trên dữ liệu userProfile
-      const province = provinces.find(
-        (prov) => prov.id === userProfile.provinceId
-      );
-      const district = districts.find(
-        (dist) => dist.id === userProfile.districtId
-      );
-      if (province) setSelectedProvince(province);
-      if (district) setSelectedDistrict(district);
     }
   }, [userProfile, provinces, districts]);
 
@@ -118,6 +113,9 @@ export default function ProfilePage() {
     values: UserProfileType & ChangePasswordType
   ) => {
     try {
+      console.log("value trc: ", values);
+
+
       const profilePayload: UserProfileType = {
         fullname: values.fullname,
         email: values.email,
@@ -137,7 +135,6 @@ export default function ProfilePage() {
           ? { oldPassword: values.oldPassword, newPassword: values.newPassword }
           : null;
 
-      console.log(values);
 
       if (passwordPayload) {
         try {
@@ -245,7 +242,11 @@ export default function ProfilePage() {
                 <Label>Tỉnh / Thành phố</Label>
                 <Dropdown>
                   <DropdownSelect
-                    value={`${selectedProvince?.name || "Tỉnh / Thành phố"}`}
+                    value={
+                      selectedProvince
+                        ? selectedProvince?.name
+                        : "Tỉnh / Thành phố"
+                    }
                   ></DropdownSelect>
                   <DropdownList>
                     {(Array.isArray(provinces) ? provinces : []).map(
@@ -266,7 +267,9 @@ export default function ProfilePage() {
                 <Label>Quận / Huyện</Label>
                 <Dropdown>
                   <DropdownSelect
-                    value={`${selectedDistrict?.name || "Quận / Huyện"}`}
+                    value={
+                      selectedDistrict ? selectedDistrict?.name : "Quận / Huyện"
+                    }
                   ></DropdownSelect>
                   <DropdownList>
                     {(Array.isArray(districts) ? districts : []).map(

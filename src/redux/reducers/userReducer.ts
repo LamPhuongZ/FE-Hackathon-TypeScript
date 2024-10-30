@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { getCookie, setCookie } from "../../utils/utilMethod";
+import { delCookie, getCookie, setCookie } from "../../utils/utilMethod";
 import { ACCESS_TOKEN, httpClient, USER_LOGIN } from "../../utils/config";
 import { UserLoginType } from "../../pages/AuthPage/Login";
 import { routeLink } from "../../main";
@@ -119,6 +119,15 @@ export const loginAPI = createAsyncThunk(
   "user/login",
   async (userLogin: UserLoginType, { dispatch }) => {
     dispatch(setLoading(true));
+     // your code to check if the user is logged in
+
+    // If the user is not logged in, delete the cookies
+    if (!initialState.isLogin) {
+      delCookie('access_token');
+      delCookie('userLogin');
+      delCookie('username');
+      delCookie('password');
+    }
     try {
       const response = await httpClient.post("/api/v1/auth/sign-in", userLogin);
       setCookie(USER_LOGIN, JSON.stringify(response.data), 30);

@@ -42,14 +42,24 @@ export default function Banner() {
   };
 
   const handleSearchClick = () => {
-    if (searchInput && searchProvince ||  searchInput || searchProvince ) {
-      console.log(searchInput)
-      console.log(searchProvince)
-      dispatch(setSearchInputTitle(searchInput));
-      dispatch(setSearchInputProvince(searchProvince));
-      
-      navigate(`/search?query=${encodeURIComponent(searchInput)}&provinceId=${encodeURIComponent(searchProvince)}`);
+    dispatch(setSearchInputTitle(searchInput || ''));
+
+    const params = new URLSearchParams();
+  
+    if (searchInput) {
+      params.append('query', searchInput);
     }
+  
+    if (searchProvince && searchProvince !== 0) {
+      dispatch(setSearchInputProvince(searchProvince));
+      params.append('provinceId', searchProvince.toString());
+    } else {
+      dispatch(setSearchInputProvince(0));
+      params.delete('provinceId');
+    }
+  
+    navigate(`/search${params.toString() ? `?${params.toString()}` : ''}`);
+    
   };
 
   if (!Array.isArray(objJobSkill) || objJobSkill.length === 0) {

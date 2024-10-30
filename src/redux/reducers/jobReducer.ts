@@ -172,28 +172,34 @@ export const getSearchDataJobAPI = (
   };
 };
 
-export const getSearchJobByTitle = (
-  page?: number,
-  size?: number,
-  title?: string,
-  province?: number,
-) => {
-  return async (dispatch: DispatchType) => {
-    dispatch(setLoading(true));
-    try {
-      const res = await httpClient.get(
-        `/api/v1/job?title=${title}&page=${page}&size=${size}&provinceId=${province}&direction=desc`
-      );
-      const action: PayloadAction<Job> = getJobsAction(res.data.data);
-      dispatch(action);
-      console.log(res)
-    } catch (error) {
-      console.error(error);
-    } finally {
-      dispatch(setLoading(false));
-    }
-  };
-};
+// export const getSearchJobByTitle = (
+//   page?: number,
+//   size?: number,
+//   title?: string,
+//   province?: number,
+// ) => {
+//   return async (dispatch: DispatchType) => {
+//     dispatch(setLoading(true));
+
+//     try {
+//       let url = `/api/v1/job?title=${title}&page=${page}&size=${size}&direction=desc`;
+
+//       if (province && province !== 0) {
+//         url += `&provinceId=${province}`;
+//       }
+
+//       const res = await httpClient.get(url);
+//       const action: PayloadAction<Job> = getJobsAction(res.data.data);
+//       dispatch(action);
+//       console.log(res);
+//     } catch (error) {
+//       console.error(error);
+//     } finally {
+//       dispatch(setLoading(false));
+//     }
+//   };
+// };
+
 
 // export const postDataJobAPI = (
 //   payload: PostJobType,
@@ -248,6 +254,43 @@ export const getSearchJobByTitle = (
 //     }
 //   };
 // };
+export const getSearchJobByTitle = (
+  page?: number,
+  size?: number,
+  title?: string,
+  province?: number,
+) => {
+  return async (dispatch: DispatchType) => {
+    dispatch(setLoading(true));
+
+    try {
+      const params = new URLSearchParams();
+      params.append('page', page?.toString() || '');
+      params.append('size', size?.toString() || '');
+      params.append('direction', 'desc');
+
+      if (title) {
+        params.append('title', title);
+      }
+
+      if (province && province !== 0) {
+        params.append('provinceId', province.toString());
+      }else if(province === 0){
+        params.delete('provinceId')
+      }
+      
+      const res = await httpClient.get(`/api/v1/job?${params.toString()}`);
+      const action: PayloadAction<Job> = getJobsAction(res.data.data);
+      dispatch(action);
+      console.log(res);
+      console.log(params.toString())
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+};
 
 export const postDataJobAPI = (payload: PostJobType) => {
   return async (dispatch: DispatchType) => {

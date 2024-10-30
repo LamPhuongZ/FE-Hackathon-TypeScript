@@ -52,7 +52,7 @@ export default function JobCardDetailPage() {
               key={item.jobId}
               item={item}
               width="w-[191px]"
-              widthAddress="w-[160px]"
+              widthAddress="w-auto max-w-[160px]"
               onSelect={() => navigate(`/card-detail-job/${item.jobId}`)}
         />
       ));
@@ -70,7 +70,7 @@ export default function JobCardDetailPage() {
       {/* <div>{objCandiDetails && <CandiCardDetail item={objCandiDetails} />}</div> */}
       <div className="flex flex-col gap-6 small-tablet:hidden">
         <div className="flex flex-col items-end">
-          <h1 className="text-2xl font-medium">Việc liên quan</h1>
+          <h1 className="text-2xl font-medium">Loại công việc liên quan</h1>
           <div className="border-2 border-solid border-[#2EE498] w-[292px] "></div>
         </div>
         <div className=" flex flex-col gap-10">

@@ -76,7 +76,7 @@ export default function FindJob() {
               onSelect={() => navigate(`/card-detail-job/${item.jobId}`)}
               showImages={true}
               width="w-[250px]"
-              widthAddress="w-[160px]"
+              widthAddress="w-auto max-w-[160px]"
             />
           </div>
         ))}

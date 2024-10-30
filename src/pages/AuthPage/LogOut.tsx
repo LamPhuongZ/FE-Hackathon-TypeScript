@@ -23,7 +23,7 @@ const LogOut: React.FC = () => {
     // setIsLogin(false)
     notification.success({
       message: "Đăng xuất thành công",
-      placement: "topRight",
+      placement: "bottomRight",
       duration: 1.5,
     });
   };
@@ -49,7 +49,7 @@ const LogOut: React.FC = () => {
       console.log("Bạn chưa đăng nhập vào ", error);
       notification.error({
         message: "Bạn chưa đăng nhập",
-        placement: "topRight",
+        placement: "bottomRight",
         duration: 1.5,
       });
     }

@@ -48,13 +48,15 @@ export default function Banner() {
   
     if (searchInput) {
       params.append('query', searchInput);
+    }else{
+      params.delete('query');
     }
   
     if (searchProvince && searchProvince !== 0) {
       dispatch(setSearchInputProvince(searchProvince));
       params.append('provinceId', searchProvince.toString());
-    } else {
-      dispatch(setSearchInputProvince(0));
+    } else if(searchProvince && searchProvince === 0) {
+      dispatch(setSearchInputProvince(searchProvince));
       params.delete('provinceId');
     }
   

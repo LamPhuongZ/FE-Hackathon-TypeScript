@@ -190,7 +190,6 @@ export const registerAPI = createAsyncThunk(
 export const getProfileAPI = () => {
   return async (dispatch: DispatchType) => {
     dispatch(setLoading(true));
-
     try {
       const response = await httpClient.get("/api/v1/self");
 

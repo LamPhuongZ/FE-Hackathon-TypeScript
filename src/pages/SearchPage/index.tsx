@@ -24,7 +24,7 @@ export default function SearchPage() {
     }
   }, [currentPage, objTitle, province ]);
 
-  console.log(objJob)
+  // console.log(objJob)
 
   return (
     <div className="search">

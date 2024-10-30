@@ -169,7 +169,7 @@ export default function JobCardDetail({ item }: Props) {
             <h1 className="text-[20px] font-semibold mb-2 small-tablet:text-sm">
               Mô tả
             </h1>
-            <div className="border border-solid rounded-[20px] px-[26px] py-[18px] small-tablet:px-[10px] small-tablet:py-[10px]">
+            <div className="border border-solid rounded-[20px] px-[26px] py-[18px] h-[170px] small-tablet:px-[10px] small-tablet:py-[10px]">
               <p className=" font-medium text-[#91929E] small-tablet:text-sm">
                 {item.description}
               </p>

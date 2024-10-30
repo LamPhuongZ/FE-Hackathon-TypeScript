@@ -73,7 +73,7 @@ export default function JobCardDetailPage() {
           <h1 className="text-2xl font-medium">Loại công việc liên quan</h1>
           <div className="border-2 border-solid border-[#2EE498] w-[292px] "></div>
         </div>
-        <div className=" flex flex-col gap-10">
+        <div className=" flex flex-col gap-8">
           {renderJobCards()}
           {/* {renderCandiCards()} */}
         </div>

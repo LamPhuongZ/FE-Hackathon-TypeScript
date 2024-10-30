@@ -2,10 +2,13 @@ import Card from "../../components/card/Card";
 import imgJob from "../../assets/images/img-job.png";
 import redAddress from "../../assets/icons/icon-red-address.svg";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
-import { getDataJobDetailAPI } from "../../redux/reducers/jobReducer";
+import {
+  getDataJobDetailAPI,
+  getDataJobTypeAPI,
+} from "../../redux/reducers/jobReducer";
 // import CandiCardDetail from "../../components/card-candidates/CandiCardDetail";
 // import CandiCard from "../../components/card-candidates/CandiCard";
 // import {
@@ -15,26 +18,45 @@ import JobCardDetail from "../../components/card-job/JobCardDetail";
 import JobCard from "../../components/card-job/JobCard";
 
 export default function JobCardDetailPage() {
+  const navigate = useNavigate();
   const { jobId } = useParams();
   const dispatch: DispatchType = useDispatch();
-  const { objJobDetails } = useSelector((state: RootState) => state.jobReducer);
+  const { objJobDetails, objJobType } = useSelector(
+    (state: RootState) => state.jobReducer
+  );
   // const { objCandiDetails } = useSelector(
   //   (state: RootState) => state.candidateReducer
   // );
 
   // useEffect(() => {
   //   if (id) {
-  //     dispatch(getDataCandidateDetailAPI(Number(id))); 
+  //     dispatch(getDataCandidateDetailAPI(Number(id)));
   //   }
   // }, [id, dispatch]);
 
   useEffect(() => {
     if (jobId) {
       dispatch(getDataJobDetailAPI(Number(jobId)));
+      if (objJobDetails) {
+        dispatch(getDataJobTypeAPI(objJobDetails.jobType.id));
+      }
     }
-  }, [jobId, dispatch]);
+  }, [jobId, dispatch, objJobDetails]);
 
- 
+  const renderJobCards = (): JSX.Element[] => {
+    return (objJobType?.content ?? [])
+          .filter((item) => item.jobId !== objJobDetails?.jobId)
+          .slice(0, 7)
+          .map((item) => (
+            <JobCard
+              key={item.jobId}
+              item={item}
+              width="w-[191px]"
+              widthAddress="w-[160px]"
+              onSelect={() => navigate(`/card-detail-job/${item.jobId}`)}
+        />
+      ));
+  };
 
   // const renderCandiCards = (): JSX.Element[] => {
   //   return Array.from({ length: 7 }, (_, index) => (
@@ -52,8 +74,7 @@ export default function JobCardDetailPage() {
           <div className="border-2 border-solid border-[#2EE498] w-[292px] "></div>
         </div>
         <div className=" flex flex-col gap-10">
-          {objJobDetails && <JobCard item={objJobDetails} />}
-
+          {renderJobCards()}
           {/* {renderCandiCards()} */}
         </div>
       </div>

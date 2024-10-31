@@ -13,10 +13,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
 import { ACCESS_TOKEN } from "../../utils/config";
 import { getCookie } from "../../utils/utilMethod";
-// import Dropdown from "../../components/dropdown/Dropdown";
-// import DropdownSelect from "../../components/dropdown/DropdownSelect";
-// import DropdownList from "../../components/dropdown/DropdownList";
-// import DropdownOption from "../../components/dropdown/DropdownOption";
+import Dropdown from "../../components/dropdown/Dropdown";
+import DropdownSelect from "../../components/dropdown/DropdownSelect";
+import DropdownList from "../../components/dropdown/DropdownList";
+import DropdownOption from "../../components/dropdown/DropdownOption";
 import InputPassword from "../../components/input/InputPassword";
 import moment, { Moment } from "moment";
 import {
@@ -26,15 +26,22 @@ import {
   ChangePasswordType,
 } from "../../redux/reducers/userReducer";
 import { Select } from "antd";
-import { JobSkill } from "../../redux/reducers/jobSkillReducer";
+import { useAddress } from "../../hooks/useAddress";
 
 export default function ProfilePage() {
   const [togglePassword, setTogglePassword] = useState(false);
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
-  const { objJobSkill } = useSelector(
-    (state: RootState) => state.jobSkillReducer
-  );
+  // const { objJobSkill } = useSelector(
+  //   (state: RootState) => state.jobSkillReducer
+  // );
   const dispatch: DispatchType = useDispatch();
+
+  const {provinces, getDistrictsByProvince} = useAddress();
+
+  console.log({provinces});
+  console.log({getDistrictsByProvince});
+  
+
 
   const createdDate: Moment | null = userProfile?.createdDate
     ? moment(userProfile.createdDate, "YYYY-MM-DD")
@@ -44,33 +51,6 @@ export default function ProfilePage() {
   const dob: Moment | null = userProfile?.dob
     ? moment(userProfile.dob, "YYYY-MM-DD")
     : null;
-
-  const options = Array.isArray(objJobSkill)
-    ? objJobSkill?.map((item: JobSkill) => ({
-        value: item.id,
-        label: item.skill,
-      }))
-    : [];
-
-  const [selectedJobSkill, setSelectedSkill] = useState<JobSkill[]>([]);
-
-  useEffect(() => {
-    console.log("userProfile: ", userProfile);
-
-    if (Array.isArray(userProfile?.jobSkills) && Array.isArray(objJobSkill)) {
-      const selectedSkills = objJobSkill
-        .filter((skill) => userProfile.jobSkills?.includes(skill.id))
-        .map((skill) => skill.id); // Lấy ID kỹ năng
-
-      console.log("selectedSkills: ", selectedSkills); // Kiểm tra giá trị
-      setSelectedSkill(selectedSkills);
-    }
-  }, [userProfile, objJobSkill]);
-
-  const handleChangeJobSkill = (value: JobSkill[]) => {
-    setSelectedSkill(value);
-    setValue("jobSkills", value);
-  };
 
   const {
     control,
@@ -106,14 +86,6 @@ export default function ProfilePage() {
       setValue("imgBackOfCard", userProfile?.imgBackOfCard);
       setValue("provinceId", userProfile.provinceId);
       setValue("districtId", userProfile.districtId);
-
-      // Cập nhật selectedJobSkill từ userProfile
-      // if (Array.isArray(userProfile.jobSkills)) {
-      //   const selectedSkills = userProfile.jobSkills; // Lấy ID kỹ năng
-      //   console.log("userProfile.jobSkills: ", selectedSkills); // Kiểm tra giá trị
-      //   setSelectedSkill(selectedSkills);
-      //   setValue("jobSkills", selectedSkills);
-      // }
     }
   }, [userProfile]);
 
@@ -135,7 +107,7 @@ export default function ProfilePage() {
         createdDate: values.createdDate,
         imgFrontOfCard: values.imgFrontOfCard,
         imgBackOfCard: values.imgBackOfCard,
-        jobSkills: selectedJobSkill, // Lấy id từ jobSkills
+        // jobSkills: selectedJobSkill, // Lấy id từ jobSkills
       };
 
       const passwordPayload: ChangePasswordType | null =
@@ -243,7 +215,7 @@ export default function ProfilePage() {
                 />
               </Field>
             </div>
-            {/* <div className="form-layout ">
+            <div className="form-layout ">
               <Field>
                 <Label>Tỉnh / Thành phố</Label>
                 <Dropdown>
@@ -288,7 +260,7 @@ export default function ProfilePage() {
                   </DropdownList>
                 </Dropdown>
               </Field>
-            </div> */}
+            </div>
             <div className="form-layout">
               <Field>
                 <Label htmlFor="address">Địa chỉ</Label>
@@ -345,9 +317,9 @@ export default function ProfilePage() {
                 }}
                 mode="multiple"
                 placeholder="Chọn kỹ năng"
-                options={options}
-                value={selectedJobSkill} // Lấy ID cho value
-                onChange={handleChangeJobSkill}
+                // options={options}
+                // value={selectedJobSkill} // Lấy ID cho value
+                // onChange={handleChangeJobSkill}
               />
             </Field>
           </div>

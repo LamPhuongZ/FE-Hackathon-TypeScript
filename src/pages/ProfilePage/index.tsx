@@ -30,7 +30,7 @@ import { Select } from "antd";
 import { JobSkill } from "../../redux/reducers/jobSkillReducer";
 
 export default function ProfilePage() {
-  const { provinces, districts } = useAddress();
+  const { provinces, getDistrictsByProvince } = useAddress();
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
   const { objJobSkill } = useSelector(
     (state: RootState) => state.jobSkillReducer
@@ -38,12 +38,18 @@ export default function ProfilePage() {
   const dispatch: DispatchType = useDispatch();
   const [selectedProvince, setSelectedProvince] = useState<Province>();
   const [selectedDistrict, setSelectedDistrict] = useState<District>();
-  const [filteredDistricts, setFilteredDistricts] = useState<District[]>([]);
+  const [districts, setDistricts] = useState<District[]>([]);
   const [togglePassword, setTogglePassword] = useState(false);
 
-  const handleSelectedProvince = (item: Province) => {
+  const handleSelectedProvince = async (item: Province) => {
     setSelectedProvince(item);
     setValue("provinceId", ~~item.id);
+
+    // Gọi hàm lấy danh sách quận/huyện theo tỉnh
+    const updatedDistricts = await getDistrictsByProvince(item.id);
+    setDistricts(updatedDistricts); // Cập nhật districts với kết quả từ hàm
+    setSelectedDistrict(undefined);
+    setValue("districtId", 0);
   };
 
   const handleSelectedDistrict = (item: District) => {
@@ -64,11 +70,7 @@ export default function ProfilePage() {
   const province = provinces.find(
     (prov) => prov.id === userProfile?.provinceId
   );
-  const district = districts.find(
-    (dist) => dist.id === userProfile?.districtId
-  );
   if (province) setSelectedProvince(province);
-  if (district) setSelectedDistrict(district);
 
   const options = Array.isArray(objJobSkill)
     ? objJobSkill?.map((item: JobSkill) => ({
@@ -101,16 +103,10 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (selectedProvince) {
-      const filtered = districts.filter(
-        (district) => district.provinceId === selectedProvince.id
-      );
-      setFilteredDistricts(filtered);
-      // Reset lại quận đã chọn khi tỉnh thay đổi
       setSelectedDistrict(undefined);
       setValue("districtId", 0);
     }
   }, [selectedProvince, districts]);
-  
 
   const {
     control,
@@ -131,26 +127,15 @@ export default function ProfilePage() {
       return;
     }
 
-    // Cập nhật selectedProvince và selectedDistrict dựa trên dữ liệu userProfile
-    const province = provinces.find(
-      (prov) => ~~prov.id === userProfile?.provinceId
-    );
-    const district = districts.find(
-      (dist) => ~~dist.id === userProfile?.districtId
-    );
     if (province) {
-      setSelectedProvince(province);
-      setValue("provinceId", province.id, {
-        // Thêm kiểm tra ở đây
-        shouldValidate: true,
-      });
-    }
-    if (district) {
-      setSelectedDistrict(district);
-      setValue("districtId", district.id, {
-        // Thêm kiểm tra ở đây
-        shouldValidate: true,
-      });
+      (async () => {
+        const initialDistricts = await getDistrictsByProvince(province.id);
+        setDistricts(initialDistricts);
+        const district = initialDistricts.find(
+          (dist) => dist.id === userProfile?.districtId
+        );
+        if (district) setSelectedDistrict(district);
+      })();
     }
 
     if (userProfile && provinces.length && districts.length) {
@@ -338,7 +323,7 @@ export default function ProfilePage() {
                     }
                   ></DropdownSelect>
                   <DropdownList>
-                    {(Array.isArray(filteredDistricts) ? filteredDistricts : []).map(
+                    {(Array.isArray(districts) ? districts : []).map(
                       (item: District) => (
                         <DropdownOption
                           name="districtId"

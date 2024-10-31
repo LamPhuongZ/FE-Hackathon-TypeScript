@@ -54,6 +54,12 @@ export default function ProfilePage() {
     ? moment(userProfile.dob, "YYYY-MM-DD")
     : null;
 
+  // Cập nhật selectedProvince và selectedDistrict dựa trên dữ liệu userProfile
+  const province = provinces.find((prov) => prov.id === userProfile?.provinceId);
+  const district = districts.find((dist) => dist.id === userProfile?.districtId);
+  if (province) setSelectedProvince(province);
+  if (district) setSelectedDistrict(district);
+
   const {
     control,
     handleSubmit,
@@ -101,16 +107,6 @@ export default function ProfilePage() {
       );
       setValue("imgFrontOfCard", userProfile?.imgFrontOfCard);
       setValue("imgBackOfCard", userProfile?.imgBackOfCard);
-
-      // Cập nhật selectedProvince và selectedDistrict dựa trên dữ liệu userProfile
-      const province = provinces.find(
-        (prov) => prov.id === userProfile.provinceId
-      );
-      const district = districts.find(
-        (dist) => dist.id === userProfile.districtId
-      );
-      if (province) setSelectedProvince(province);
-      if (district) setSelectedDistrict(district);
     }
   }, [userProfile, provinces, districts]);
 

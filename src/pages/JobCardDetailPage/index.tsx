@@ -33,17 +33,7 @@ export default function JobCardDetailPage() {
   //     dispatch(getDataCandidateDetailAPI(Number(id)));
   //   }
   // }, [id, dispatch]);
-
-  const getDataJobTypeList = async (id: number) => {
-    const actionAPI = getDataJobTypeAPI(id);
-    dispatch(actionAPI);
-  };
-
-  const getDataJobDetail = async (id: number) => {
-    const actionAPI = getDataJobDetailAPI(id);
-    dispatch(actionAPI);
-  };
-
+  
   useEffect(() => {
     if (jobId) {
       dispatch(getDataJobDetailAPI(Number(jobId)));

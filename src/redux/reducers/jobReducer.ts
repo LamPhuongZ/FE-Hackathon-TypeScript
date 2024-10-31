@@ -24,7 +24,7 @@ export interface Content {
   endDate: Date;
   duration: number;
   jobType: JobType;
-  images: Image[];
+  images: Image[] | null | undefined | "";
   description: string;
   postedDate: Date;
   verified: boolean;
@@ -252,6 +252,22 @@ export const postDataJobAPI = (payload: PostJobType) => {
       dispatch(action);
     } catch (error) {
       console.error("Lỗi khi post dữ liệu:", error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+};
+
+export const getDataJobTypeAPI = (id: number) => {
+  return async (dispatch: DispatchType) => {
+    dispatch(setLoading(true));
+
+    try {
+      const res = await httpClient.get(`api/v1/job?jobTypeId=${id}`);
+      const action: PayloadAction<Job> = getJobTypeId(res.data.data);
+      dispatch(action);
+    } catch (error) {
+      console.error(error);
     } finally {
       dispatch(setLoading(false));
     }

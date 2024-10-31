@@ -1,6 +1,11 @@
 import checked from "../../assets/images/checked.png";
 import { Content } from "../../redux/reducers/jobReducer";
 import Button from "../button/Button";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.css";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
 
 type Props = {
   item: Content;
@@ -8,9 +13,9 @@ type Props = {
 export default function JobCardDetail({ item }: Props) {
   return (
     <div className="bg-white rounded-2xl shadow-md py-12 px-7 small-tablet:w-full">
-      <div className="sticky top-0 bg-white">
+      <div className="sticky top-0 bg-white z-10">
         <div className="flex gap-16 small-tablet:gap-8 small-tablet:justify-between">
-          <h1 className="text-[40px] font-semibold small-tablet:text-xl">
+          <h1 className="text-[30px] font-semibold small-tablet:text-xl">
             {item.title}
           </h1>
           <div className="flex gap-2 items-center small-tablet:text-sm">
@@ -33,10 +38,10 @@ export default function JobCardDetail({ item }: Props) {
       </div>
       <div className="h-auto max-h-[1235px] overflow-y-auto px-2">
         <div className="flex flex-col gap-7 mt-7">
-          <div className="flex gap-x-2 small-tablet:text-sm">
+          <div className="flex items-center gap-x-2 small-tablet:text-sm">
             <h1 className="font-medium ">Loại công việc:</h1>
-            <div className="px-4 rounded-[10px] border border-solid flex">
-              <p className="font-medium">{item.jobType.name}</p>
+            <div className="px-4 py-2 rounded-[10px] border border-solid flex">
+              <p className="font-medium text-sm">{item.jobType.name}</p>
             </div>
           </div>
           <div className="flex gap-x-2 items-center small-tablet:text-sm small-tablet:grid small-tablet:grid-cols-1 small-tablet:gap-y-2">
@@ -62,7 +67,7 @@ export default function JobCardDetail({ item }: Props) {
             <h1 className="font-medium">Hạn ứng tuyển:</h1>
             <div className="px-4 py-2 rounded-[10px] border border-solid small-tablet:text-center">
               <p className="font-medium">
-              {new Date(item.endDate)
+                {new Date(item.endDate)
                   .toLocaleDateString("vi-VN", {
                     day: "2-digit",
                     month: "2-digit",
@@ -81,32 +86,32 @@ export default function JobCardDetail({ item }: Props) {
           <div className="border border-solid"></div>
         </div>
         <div className="my-7">
-          <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
+          <h1 className="mb-2 font-medium small-tablet:text-sm">
             Địa chỉ làm việc:
           </h1>
-          <div className="py-[20px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
-            <p className="text-xl font-medium small-tablet:text-sm">
+          <div className="py-[10px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
+            <p className="font-medium text-lg small-tablet:text-sm">
               {item.address}
             </p>
           </div>
         </div>
         <div className="flex justify-between my-7 small-tablet:grid small-tablet:grid-cols-1 small-tablet:gap-7">
           <div className="w-[350px] large-desktop:w-[350px] small-tablet:w-full">
-            <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
+            <h1 className="mb-2 font-medium small-tablet:text-sm">
               Số điện thoại:
             </h1>
-            <div className="py-[20px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
-              <p className="text-xl font-medium  small-tablet:text-sm">
+            <div className="py-[10px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
+              <p className="text-lg font-medium  small-tablet:text-sm">
                 {item.phone}
               </p>
             </div>
           </div>
           <div className="w-[350px] large-desktop:w-[350px] small-tablet:w-full">
-            <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
+            <h1 className=" mb-2 font-medium small-tablet:text-sm">
               Người liên hệ:
             </h1>
-            <div className="py-[20px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
-              <p className="text-xl font-medium small-tablet:text-sm">
+            <div className="py-[10px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
+              <p className="text-lg font-medium  small-tablet:text-sm">
                 {item.contactPerson}
               </p>
             </div>
@@ -114,21 +119,21 @@ export default function JobCardDetail({ item }: Props) {
         </div>
         <div className="flex justify-between my-10 small-tablet:grid small-tablet:grid-cols-1 small-tablet:gap-7">
           <div className="w-[350px] large-desktop:w-[350px] small-tablet:w-full">
-            <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
+            <h1 className="mb-2 font-medium small-tablet:text-sm">
               Ngày bắt đầu làm việc:
             </h1>
-            <div className="py-[20px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
-              <p className="text-xl font-medium small-tablet:text-sm">
+            <div className="py-[10px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
+              <p className="text-lg font-medium  small-tablet:text-sm">
                 {new Date(item.startDate).toLocaleDateString("vi-VN")}
               </p>
             </div>
           </div>
           <div className="w-[350px] large-desktop:w-[350px] small-tablet:w-full">
-            <h1 className="text-xl mb-2 font-medium small-tablet:text-sm">
+            <h1 className="mb-2 font-medium small-tablet:text-sm">
               Thời gian làm việc (Đơn vị: <strong>Giờ</strong>):
             </h1>
-            <div className="py-[20px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
-              <p className="text-xl font-medium small-tablet:text-sm">
+            <div className="py-[10px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
+              <p className="text-lg font-medium  small-tablet:text-sm">
                 {item.duration / 60}
               </p>
             </div>
@@ -136,39 +141,27 @@ export default function JobCardDetail({ item }: Props) {
         </div>
         <div className="border border-solid"></div>
         <div className="mt-[30px]">
-          {item.images.length > 0 ? (
-            <>
-              <div className="min-w-[80%] h-[350px] 2xl:w-full small-tablet:min-w-[300px] small-tablet:h-[200px]">
-                <img
-                  src={item.images[0].url}
-                  alt=""
-                  className="w-full h-full rounded-[20px] object-cover"
-                />
-              </div>
-              <div className="flex justify-evenly gap-8 mt-7 mb-9">
-                <div className="w-[250px] h-[128px] 2xl:w-full small-tablet:w-full small-tablet:h-[100px]">
-                  <img
-                    src={item.images[1].url}
-                    alt=""
-                    className="w-full h-full rounded-[20px] object-cover"
-                  />
-                </div>
-                <div className="w-[250px] h-[128px] 2xl:w-full small-tablet:w-full small-tablet:h-[100px]">
-                  <img
-                    src={item.images[2].url}
-                    alt=""
-                    className="w-full h-full rounded-[20px] object-cover"
-                  />
-                </div>
-                <div className="w-[250px] h-[128px] 2xl:w-full small-tablet:w-full small-tablet:h-[100px]">
-                  <img
-                    src={item.images[3].url}
-                    alt=""
-                    className="w-full h-full rounded-[20px] object-cover"
-                  />
-                </div>
-              </div>
-            </>
+          {item.images && item.images.length > 0 ? (
+            <Swiper
+              spaceBetween={10}
+              slidesPerView={1}
+              pagination={{
+                dynamicBullets: true,
+              }}
+              modules={[Pagination]}
+            >
+              {item.images.slice(0, 4).map((image, index) => (
+                <SwiperSlide key={index}>
+                  <div className="min-w-[80%] h-[400px] 2xl:w-full small-tablet:min-w-[300px] small-tablet:h-[200px] mb-10">
+                    <img
+                      src={image.url || "https://via.placeholder.com/350"}
+                      alt={`Image ${index + 1}`}
+                      className="w-full h-full rounded-[20px] object-cover"
+                    />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           ) : (
             <p>Không tồn tại hình ảnh</p>
           )}
@@ -176,7 +169,7 @@ export default function JobCardDetail({ item }: Props) {
             <h1 className="text-[20px] font-semibold mb-2 small-tablet:text-sm">
               Mô tả
             </h1>
-            <div className="border border-solid rounded-[20px] px-[26px] py-[18px] small-tablet:px-[10px] small-tablet:py-[10px]">
+            <div className="border border-solid rounded-[20px] px-[26px] py-[18px] h-[170px] small-tablet:px-[10px] small-tablet:py-[10px]">
               <p className=" font-medium text-[#91929E] small-tablet:text-sm">
                 {item.description}
               </p>

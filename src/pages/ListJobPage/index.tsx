@@ -25,7 +25,7 @@ export default function ListJobPage() {
   // const [selectedCandidateId, setSelectedCandidateId] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(0);
   const pageSize = 7;
-  const pageSizeCandidate = 6;
+  // const pageSizeCandidate = 6;
 
   const { objJob, objJobDetails } = useSelector(
     (state: RootState) => state.jobReducer
@@ -121,7 +121,7 @@ export default function ListJobPage() {
             }
             onSelect={handleJobClick}
             width="w-[191px]"
-            widthAddress="w-[160px]"
+            widthAddress="w-auto max-w-[160px]"
           />
         </div>
       );
@@ -146,7 +146,13 @@ export default function ListJobPage() {
   return (
     <div>
       <div className="grid grid-cols-[453px_minmax(0,_1fr)] gap-x-7 py-4 px-[72px] small-tablet:grid-cols-1 small-tablet:px-[20px]">
-        <div className="flex flex-col gap-8">{renderJobs()}</div>
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col items-start">
+            <h1 className="text-2xl font-medium">Danh sách</h1>
+            <div className="border-2 border-solid border-[#DC2E55] w-[292px] "></div>
+          </div>
+          <div className="flex flex-col gap-8">{renderJobs()}</div>
+        </div>
         {/* <div className="flex flex-col gap-8">{renderCandiCards()}</div> */}
         <div className="small-tablet:hidden">
           {objJobDetails && <JobCardDetail item={objJobDetails} />}
@@ -161,7 +167,7 @@ export default function ListJobPage() {
         }}
         align="center"
         current={currentPage}
-        pageSize={pageSizeCandidate}
+        pageSize={pageSize}
         // total={objCandidate?.totalElements}
         total={objJob?.totalElements}
         onChange={(page) => setCurrentPage(page)}

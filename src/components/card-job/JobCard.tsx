@@ -35,18 +35,25 @@ export default function JobCard({
       onClick={onSelect}
     >
       <div className="flex justify-center items-center gap-5">
-        {showImages && item.images && item.images.length > 0 && (
-          <img
-            src={item.images[0].url || "https://plus.unsplash.com/premium_photo-1729708654660-8c14ff5e408c?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
-            alt={`Job Image 1`}
-            className="w-[150px] h-[135px] rounded-3xl small-tablet:hidden"
-          />
-        )}
+        {showImages &&
+          (item.images && item.images.length > 0 ? (
+            <img
+              src={item.images[0].url}
+              alt={`Job Image 1`}
+              className="w-[150px] h-[135px] rounded-3xl small-tablet:hidden"
+            />
+          ) : (
+            <img
+              src={"https://via.placeholder.com/250x250"}
+              alt={`Job Image 1`}
+              className="w-[150px] h-[135px] rounded-3xl small-tablet:hidden"
+            />
+          ))}
         <div className="w-full flex flex-col justify-between gap-5">
           <div className="flex justify-between">
             <div className="flex items-center gap-1">
               <p
-                className={`text-2xl font-semibold truncate ${width} small-tablet:text-base small-tablet:w-[130px]`}
+                className={`text-lg font-semibold truncate ${width} small-tablet:text-base small-tablet:w-[130px]`}
               >
                 {item.title}
               </p>
@@ -70,7 +77,7 @@ export default function JobCard({
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="text-lg font-medium pt-1 small-tablet:text-base">
+              <p className="text-sm font-medium pt-1 small-tablet:text-base">
                 {new Date(item.startDate)
                   .toLocaleDateString("vi-VN")
                   .replace(/\//g, "-")}
@@ -80,27 +87,37 @@ export default function JobCard({
           <div className="border border-solid border-[#E4E6E8] w-full"></div>
           <div className="flex justify-between">
             <div className="bg-[#E8E8E8] rounded-[20px]">
-              <p className="text-sm font-medium px-[10px] py-[5px] small-tablet:text-sm small-tablet:px-[5px] small-tablet:py-[3px]">
-              {item.jobType.name}
+              <p className="text-xs font-medium px-[10px] py-[5px] small-tablet:text-sm small-tablet:px-[5px] small-tablet:py-[3px]">
+                {item.jobType.name}
               </p>
             </div>
-            <div className={`flex items-center justify-end gap-1`}>
-              <div className="w-5 h-5 small-tablet:w-4 small-tablet:h-4">
+            <div className={`flex items-center justify-end text-end gap-1`}>
+              <div className="w-5 h-5 small-tablet:w-4 small-tablet:h-4 flex items-center justify-end">
                 <img
                   src={location}
                   alt="location"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className={`pt-1 small-tablet:text-sm truncate ${widthAddress}`}>
-              {item.address}
+              <p
+                className={`pt-1 text-sm truncate ${widthAddress}`}
+                title={item.address}
+              >
+                {item.address}
               </p>
             </div>
           </div>
         </div>
 
         {/* Kiểm tra nếu `showButton` là true thì hiển thị button */}
-        {showButton && <Button title="Ứng Viên" color="delete" className="w-1/5" circle={false}  />}
+        {showButton && (
+          <Button
+            title="Ứng Viên"
+            color="delete"
+            className="w-1/5"
+            circle={false}
+          />
+        )}
       </div>
     </div>
   );

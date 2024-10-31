@@ -53,6 +53,7 @@ const Register: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
     localStorage.setItem("role", role);
     window.location.href = targetUrl;
   };
+  
   const navigate = useNavigate()
   return (
     <>

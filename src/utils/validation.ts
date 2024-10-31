@@ -12,7 +12,7 @@ export const ProfileSchema = yup.object({
   provinceId: yup.number().required("Vui lòng chọn tỉnh / thành phố"),
   districtId: yup.number().required("Vui lòng chọn quận / huyện"),
   address: yup.string().required("Vui lòng nhập địa chỉ"),
-  jobSkillsId: yup.array().min(1, "Vui lòng chọn ít nhất một kỹ năng").nullable(),
+  jobSkills: yup.array().min(1, "Vui lòng chọn ít nhất một kỹ năng").nullable(),
 
   oldPassword: yup.string().nullable(),
   newPassword: yup.string().nullable(),

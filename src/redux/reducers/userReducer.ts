@@ -25,12 +25,12 @@ export interface UserProfileType {
   phone: string;
   fullname: string;
   dob: string | null; // day of birth
-  avatar: [] | any;
+  avatar: [] | any | null;
   createdDate: string | null;
   address: string;
   provinceId: number;
   districtId: number;
-  jobSkills?: JobSkill[] | null; // Thay đổi thành number[]
+  jobSkills?: JobSkill[] | null;
   imgFrontOfCard: [] | any;
   imgBackOfCard: [] | any;
 }
@@ -203,6 +203,8 @@ export const getProfileAPI = () => {
 
 export const changePasswordAPI = (changePassword: ChangePasswordType) => {
   return async (dispatch: DispatchType) => {
+    dispatch(setLoading(true));
+
     try {
       const response = await httpClient.post(
         "api/v1/self/change-password",
@@ -228,6 +230,8 @@ export const changePasswordAPI = (changePassword: ChangePasswordType) => {
 
 export const updateProfileUserAPI = (userProfile: UserProfileType) => {
   return async (dispatch: DispatchType) => {
+    dispatch(setLoading(true));
+
     try {
       const formData = new FormData();
 
@@ -249,12 +253,11 @@ export const updateProfileUserAPI = (userProfile: UserProfileType) => {
           }
 
           if (key === "jobSkills" && Array.isArray(value)) {
-            // Truyền danh sách các id vào formData
-            value.forEach((skill: JobSkill) => {
-              formData.append("jobSkills[]", skill.id.toString());
+            // Thay đổi ở đây để truyền danh sách ID vào formData
+            value.forEach((skillId: number) => {
+              formData.append("jobSkills[]", skillId.toString());
             });
           }
-          
         }
       }
 

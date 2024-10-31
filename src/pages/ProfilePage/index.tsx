@@ -38,6 +38,7 @@ export default function ProfilePage() {
   const dispatch: DispatchType = useDispatch();
   const [selectedProvince, setSelectedProvince] = useState<Province>();
   const [selectedDistrict, setSelectedDistrict] = useState<District>();
+  const [filteredDistricts, setFilteredDistricts] = useState<District[]>([]);
   const [togglePassword, setTogglePassword] = useState(false);
 
   const handleSelectedProvince = (item: Province) => {
@@ -59,18 +60,57 @@ export default function ProfilePage() {
     ? moment(userProfile.dob, "YYYY-MM-DD")
     : null;
 
+  // Cập nhật selectedProvince và selectedDistrict dựa trên dữ liệu userProfile
+  const province = provinces.find(
+    (prov) => prov.id === userProfile?.provinceId
+  );
+  const district = districts.find(
+    (dist) => dist.id === userProfile?.districtId
+  );
+  if (province) setSelectedProvince(province);
+  if (district) setSelectedDistrict(district);
+
+  const options = Array.isArray(objJobSkill)
+    ? objJobSkill?.map((item: JobSkill) => ({
+        value: item.id,
+        label: item.skill,
+      }))
+    : [];
+
   const [selectedJobSkill, setSelectedSkill] = useState<JobSkill[]>([]);
 
   useEffect(() => {
-    // Giả sử bạn đã có userProfile từ state hoặc props
-    if (userProfile?.jobSkills) {
-      // Tìm các kỹ năng từ objJobSkill dựa trên jobSkillsId
-      const selectedSkills = objJobSkill?.filter((skill) =>
-        userProfile?.jobSkills.includes(skill.id)
-      );
+    console.log("userProfile: ", userProfile);
+
+    if (Array.isArray(userProfile?.jobSkills) && Array.isArray(objJobSkill)) {
+      const selectedSkills = objJobSkill
+        .filter((skill) => userProfile.jobSkills?.includes(skill.id))
+        .map((skill) => skill.id); // Lấy ID kỹ năng
+
+      console.log("selectedSkills: ", selectedSkills); // Kiểm tra giá trị
       setSelectedSkill(selectedSkills);
     }
   }, [userProfile, objJobSkill]);
+
+  const handleChangeJobSkill = (value: JobSkill[]) => {
+    setSelectedSkill(value);
+    setValue("jobSkills", value);
+  };
+
+  console.log({ selectedJobSkill });
+
+  useEffect(() => {
+    if (selectedProvince) {
+      const filtered = districts.filter(
+        (district) => district.provinceId === selectedProvince.id
+      );
+      setFilteredDistricts(filtered);
+      // Reset lại quận đã chọn khi tỉnh thay đổi
+      setSelectedDistrict(undefined);
+      setValue("districtId", 0);
+    }
+  }, [selectedProvince, districts]);
+  
 
   const {
     control,
@@ -126,7 +166,14 @@ export default function ProfilePage() {
       );
       setValue("imgFrontOfCard", userProfile?.imgFrontOfCard);
       setValue("imgBackOfCard", userProfile?.imgBackOfCard);
-      setValue("jobSkillsId", userProfile?.jobSkillsId); // Cập nhật form với id của kỹ năng
+
+      // Cập nhật selectedJobSkill từ userProfile
+      if (Array.isArray(userProfile.jobSkills)) {
+        const selectedSkills = userProfile.jobSkills; // Lấy ID kỹ năng
+        console.log("userProfile.jobSkills: ", selectedSkills); // Kiểm tra giá trị
+        setSelectedSkill(selectedSkills);
+        setValue("jobSkills", selectedSkills);
+      }
     }
   }, [userProfile, provinces, districts]);
 
@@ -148,7 +195,7 @@ export default function ProfilePage() {
         createdDate: values.createdDate,
         imgFrontOfCard: values.imgFrontOfCard,
         imgBackOfCard: values.imgBackOfCard,
-        jobSkillsId: values.jobSkillsId, // Lấy id từ jobSkills
+        jobSkills: selectedJobSkill, // Lấy id từ jobSkills
       };
 
       const passwordPayload: ChangePasswordType | null =
@@ -291,7 +338,7 @@ export default function ProfilePage() {
                     }
                   ></DropdownSelect>
                   <DropdownList>
-                    {(Array.isArray(districts) ? districts : []).map(
+                    {(Array.isArray(filteredDistricts) ? filteredDistricts : []).map(
                       (item: District) => (
                         <DropdownOption
                           name="districtId"
@@ -362,17 +409,9 @@ export default function ProfilePage() {
                 }}
                 mode="multiple"
                 placeholder="Chọn kỹ năng"
-                options={objJobSkill?.map((item) => ({
-                  value: item.id,
-                  label: item.skill,
-                }))}
-                value={selectedJobSkill.map((skill) => skill.id)} // Lấy ID cho value
-                onChange={(value) => {
-                  const selectedSkills = objJobSkill?.filter((skill) =>
-                    value.includes(skill.id)
-                  );
-                  setSelectedSkill(selectedSkills);
-                }}
+                options={options}
+                value={selectedJobSkill} // Lấy ID cho value
+                onChange={handleChangeJobSkill}
               />
             </Field>
           </div>

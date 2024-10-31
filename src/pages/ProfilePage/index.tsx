@@ -26,10 +26,15 @@ import {
   changePasswordAPI,
   ChangePasswordType,
 } from "../../redux/reducers/userReducer";
+import { Select } from "antd";
+import { JobSkill } from "../../redux/reducers/jobSkillReducer";
 
 export default function ProfilePage() {
   const { provinces, districts } = useAddress();
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
+  const { objJobSkill } = useSelector(
+    (state: RootState) => state.jobSkillReducer
+  );
   const dispatch: DispatchType = useDispatch();
   const [selectedProvince, setSelectedProvince] = useState<Province>();
   const [selectedDistrict, setSelectedDistrict] = useState<District>();
@@ -54,6 +59,19 @@ export default function ProfilePage() {
     ? moment(userProfile.dob, "YYYY-MM-DD")
     : null;
 
+  const [selectedJobSkill, setSelectedSkill] = useState<JobSkill[]>([]);
+
+  useEffect(() => {
+    // Giả sử bạn đã có userProfile từ state hoặc props
+    if (userProfile?.jobSkills) {
+      // Tìm các kỹ năng từ objJobSkill dựa trên jobSkillsId
+      const selectedSkills = objJobSkill?.filter((skill) =>
+        userProfile?.jobSkills.includes(skill.id)
+      );
+      setSelectedSkill(selectedSkills);
+    }
+  }, [userProfile, objJobSkill]);
+
   const {
     control,
     handleSubmit,
@@ -66,7 +84,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     console.log("useEffect: ", userProfile);
-    
+
     //reset Token
     const Token = getCookie(ACCESS_TOKEN);
     if (!Token || !provinces.length || !districts.length) {
@@ -82,13 +100,15 @@ export default function ProfilePage() {
     );
     if (province) {
       setSelectedProvince(province);
-      setValue("provinceId", province.id, { // Thêm kiểm tra ở đây
+      setValue("provinceId", province.id, {
+        // Thêm kiểm tra ở đây
         shouldValidate: true,
       });
     }
     if (district) {
       setSelectedDistrict(district);
-      setValue("districtId", district.id, { // Thêm kiểm tra ở đây
+      setValue("districtId", district.id, {
+        // Thêm kiểm tra ở đây
         shouldValidate: true,
       });
     }
@@ -106,6 +126,7 @@ export default function ProfilePage() {
       );
       setValue("imgFrontOfCard", userProfile?.imgFrontOfCard);
       setValue("imgBackOfCard", userProfile?.imgBackOfCard);
+      setValue("jobSkillsId", userProfile?.jobSkillsId); // Cập nhật form với id của kỹ năng
     }
   }, [userProfile, provinces, districts]);
 
@@ -114,7 +135,6 @@ export default function ProfilePage() {
   ) => {
     try {
       console.log("value trc: ", values);
-
 
       const profilePayload: UserProfileType = {
         fullname: values.fullname,
@@ -128,13 +148,13 @@ export default function ProfilePage() {
         createdDate: values.createdDate,
         imgFrontOfCard: values.imgFrontOfCard,
         imgBackOfCard: values.imgBackOfCard,
+        jobSkillsId: values.jobSkillsId, // Lấy id từ jobSkills
       };
 
       const passwordPayload: ChangePasswordType | null =
         values.oldPassword && values.newPassword
           ? { oldPassword: values.oldPassword, newPassword: values.newPassword }
           : null;
-
 
       if (passwordPayload) {
         try {
@@ -160,7 +180,6 @@ export default function ProfilePage() {
       toast.error(arrErrors[0]?.message);
     }
   }, [errors]);
-  console.log("🚀 ~ useEffect ~ arrErrors:", Object.values(errors));
 
   return (
     <div className="px-[30px]">
@@ -332,7 +351,31 @@ export default function ProfilePage() {
               </Field>
             </div>
           </div>
-          {/* </div> */}
+
+          <div className="border border-solid border-[#D5D5D5] rounded-3xl py-14 px-8 mt-7">
+            <Field>
+              <Label htmlFor="">Kỹ năng</Label>
+              <Select
+                id="jobSkills"
+                style={{
+                  width: "100%",
+                }}
+                mode="multiple"
+                placeholder="Chọn kỹ năng"
+                options={objJobSkill?.map((item) => ({
+                  value: item.id,
+                  label: item.skill,
+                }))}
+                value={selectedJobSkill.map((skill) => skill.id)} // Lấy ID cho value
+                onChange={(value) => {
+                  const selectedSkills = objJobSkill?.filter((skill) =>
+                    value.includes(skill.id)
+                  );
+                  setSelectedSkill(selectedSkills);
+                }}
+              />
+            </Field>
+          </div>
 
           <div className="mt-24">
             <Label htmlFor="">Tải ảnh CCCD / CMND</Label>

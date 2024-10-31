@@ -104,8 +104,6 @@ export default function FormApplication() {
           ? moment(values.endDate).format("YYYY-MM-DDTHH:mm:ss.ssssss")
           : null,
       };
-      console.log("Dữ liệu form:", payload); // Kiểm tra dữ liệu
-
       // Gửi request thông qua dispatch action
       await dispatch(postDataJobAPI(payload));
 

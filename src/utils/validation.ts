@@ -12,55 +12,22 @@ export const ProfileSchema = yup.object({
   provinceId: yup.number().required("Vui lòng chọn tỉnh / thành phố"),
   districtId: yup.number().required("Vui lòng chọn quận / huyện"),
   address: yup.string().required("Vui lòng nhập địa chỉ"),
+  jobSkillsId: yup.array().min(1, "Vui lòng chọn ít nhất một kỹ năng").nullable(),
 
   oldPassword: yup.string().nullable(),
   newPassword: yup.string().nullable(),
 
-  avatar: yup.mixed().nullable()
-  .required("Vui lòng tải ảnh khuôn mặt của bạn"),
-  // .test("fileType", "Định dạng ảnh không được hỗ trợ", (value) => {
-  //   if (!value) return false; // Kiểm tra nếu không có giá trị
-  //   return (
-  //     value instanceof File &&
-  //     ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-  //   );
-  // })
-  // .test("fileSize", "Kích thước ảnh quá lớn (tối đa 2MB)", (value) => {
-  //   if (!value) return false; // Kiểm tra nếu không có giá trị
-  //   return value instanceof File && value.size <= 2 * 1024 * 1024;
-  // }),
+  avatar: yup.mixed().nullable().required("Vui lòng tải ảnh khuôn mặt của bạn"),
 
   imgFrontOfCard: yup
     .mixed()
     .nullable()
     .required("Vui lòng tải CCCD/CMND mặt trước"),
-  // .test("fileType", "Định dạng ảnh không được hỗ trợ", (value) => {
-  //   if (!value) return false; // Kiểm tra nếu không có giá trị
-  //   return (
-  //     value instanceof File &&
-  //     ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-  //   );
-  // })
-  // .test("fileSize", "Kích thước ảnh quá lớn (tối đa 2MB)", (value) => {
-  //   if (!value) return false; // Kiểm tra nếu không có giá trị
-  //   return value instanceof File && value.size <= 2 * 1024 * 1024;
-  // }),
 
   imgBackOfCard: yup
     .mixed()
     .nullable()
     .required("Vui lòng tải CCCD/CMND mặt sau"),
-  // .test("fileType", "Định dạng ảnh không được hỗ trợ", (value) => {
-  //   if (!value) return false; // Kiểm tra nếu không có giá trị
-  //   return (
-  //     value instanceof File &&
-  //     ["image/jpeg", "image/png", "image/jpg"].includes(value.type)
-  //   );
-  // })
-  // .test("fileSize", "Kích thước ảnh quá lớn (tối đa 2MB)", (value) => {
-  //   if (!value) return false; // Kiểm tra nếu không có giá trị
-  //   return value instanceof File && value.size <= 2 * 1024 * 1024;
-  // }),
 });
 
 export const JobProfileSchema = yup.object({

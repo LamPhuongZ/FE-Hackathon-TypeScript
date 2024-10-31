@@ -5,7 +5,7 @@ import { UserLoginType } from "../../pages/AuthPage/Login";
 import { routeLink } from "../../main";
 import { UserRegisterType } from "../../pages/AuthPage/Register";
 import { notification } from "antd";
-// import { JobSkill } from "./jobSkillReducer";
+import { JobSkill } from "./jobSkillReducer";
 import { DispatchType } from "../configStore";
 
 export interface LoginState {
@@ -30,7 +30,7 @@ export interface UserProfileType {
   address: string;
   provinceId: number;
   districtId: number;
-  // jobSkills: JobSkill[];
+  jobSkills?: JobSkill[] | null; // Thay đổi thành number[]
   imgFrontOfCard: [] | any;
   imgBackOfCard: [] | any;
 }
@@ -242,9 +242,19 @@ export const updateProfileUserAPI = (userProfile: UserProfileType) => {
             formData.append("imgFrontOfCard", value);
           } else if (key === "imgBackOfCard" && value instanceof File) {
             formData.append("imgBackOfCard", value);
+          } else if (value instanceof File) {
+            formData.append(key, value); // Thêm tệp trực tiếp
           } else if (typeof value === "number" || typeof value === "string") {
             formData.append(key, value.toString());
           }
+
+          if (key === "jobSkills" && Array.isArray(value)) {
+            // Truyền danh sách các id vào formData
+            value.forEach((skill: JobSkill) => {
+              formData.append("jobSkills[]", skill.id.toString());
+            });
+          }
+          
         }
       }
 

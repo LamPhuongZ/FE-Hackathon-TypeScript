@@ -1,96 +1,59 @@
-import Card from "../../components/card/Card";
-import imgJob from "../../assets/images/img-job.png";
-import redAddress from "../../assets/icons/icon-red-address.svg";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
-import { getDataJobDetailAPI } from "../../redux/reducers/jobReducer";
+import {
+  getDataJobDetailAPI,
+  getDataJobTypeAPI,
+} from "../../redux/reducers/jobReducer";
 // import CandiCardDetail from "../../components/card-candidates/CandiCardDetail";
 // import CandiCard from "../../components/card-candidates/CandiCard";
 // import {
 //   getDataCandidateDetailAPI,
 // } from "../../redux/reducers/candidateReducer";
 import JobCardDetail from "../../components/card-job/JobCardDetail";
+import JobCard from "../../components/card-job/JobCard";
 
 export default function JobCardDetailPage() {
+  const navigate = useNavigate();
   const { jobId } = useParams();
   const dispatch: DispatchType = useDispatch();
-  const { objJobDetails } = useSelector((state: RootState) => state.jobReducer);
+  const { objJobDetails, objJobType } = useSelector(
+    (state: RootState) => state.jobReducer
+  );
   // const { objCandiDetails } = useSelector(
   //   (state: RootState) => state.candidateReducer
   // );
 
   // useEffect(() => {
   //   if (id) {
-  //     dispatch(getDataCandidateDetailAPI(Number(id))); 
+  //     dispatch(getDataCandidateDetailAPI(Number(id)));
   //   }
   // }, [id, dispatch]);
 
   useEffect(() => {
     if (jobId) {
       dispatch(getDataJobDetailAPI(Number(jobId)));
+      if (objJobDetails) {
+        dispatch(getDataJobTypeAPI(objJobDetails.jobType.id));
+      }
     }
-  }, [jobId, dispatch]);
+  }, [jobId, dispatch, objJobDetails]);
 
-  const jobData = [
-    {
-      id: "1",
-      title: "Vệ sinh căn hộ, gia đình",
-      address: "Số 5 đường 5, phường 5",
-      description:
-        "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ ...",
-      image: imgJob,
-    },
-    {
-      id: "2",
-      title: "Vệ sinh căn hộ, gia đình",
-      address: "Số 5 đường 5, phường 5",
-      description:
-        "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ ...",
-      image: imgJob,
-    },
-    {
-      id: "3",
-      title: "Vệ sinh căn hộ, gia đình",
-      address: "Số 5 đường 5, phường 5",
-      description:
-        "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ ...",
-      image: imgJob,
-    },
-    {
-      id: "4",
-      title: "Vệ sinh căn hộ, gia đình",
-      address: "Số 5 đường 5, phường 5",
-      description:
-        "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ này cần thêm thông tin. Vui lòng xem thêm",
-      image: imgJob,
-    },
-    {
-      id: "5",
-      title: "Vệ sinh căn hộ, gia đình",
-      address: "Số 5 đường 5, phường 5",
-      description:
-        "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ ...",
-      image: imgJob,
-    },
-    {
-      id: "6",
-      title: "Vệ sinh căn hộ, gia đình",
-      address: "Số 5 đường 5, phường 5",
-      description:
-        "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ ...",
-      image: imgJob,
-    },
-    {
-      id: "7",
-      title: "Vệ sinh căn hộ, gia đình",
-      address: "Số 5 đường 5, phường 5",
-      description:
-        "Mô tả chung về dịch vụ vệ sinh căn hộ, gia đình. Mô tả chung về dịch vụ ...",
-      image: imgJob,
-    },
-  ];
+  const renderJobCards = (): JSX.Element[] => {
+    return (objJobType?.content ?? [])
+          .filter((item) => item.jobId !== objJobDetails?.jobId)
+          .slice(0, 7)
+          .map((item) => (
+            <JobCard
+              key={item.jobId}
+              item={item}
+              width="w-[191px]"
+              widthAddress="w-auto max-w-[160px]"
+              onSelect={() => navigate(`/card-detail-job/${item.jobId}`)}
+        />
+      ));
+  };
 
   // const renderCandiCards = (): JSX.Element[] => {
   //   return Array.from({ length: 7 }, (_, index) => (
@@ -104,44 +67,11 @@ export default function JobCardDetailPage() {
       {/* <div>{objCandiDetails && <CandiCardDetail item={objCandiDetails} />}</div> */}
       <div className="flex flex-col gap-6 small-tablet:hidden">
         <div className="flex flex-col items-end">
-          <h1 className="text-2xl font-medium">Việc liên quan</h1>
+          <h1 className="text-2xl font-medium">Loại công việc liên quan</h1>
           <div className="border-2 border-solid border-[#2EE498] w-[292px] "></div>
         </div>
-        <div className=" flex flex-col gap-10">
-          {jobData.map((job, index) => (
-            <Card
-              key={index}
-              className="w-full h-[205px] p-[23px_43px_39px_31px]  rounded-3xl bg-white shadow-md "
-            >
-              <div className="card-top flex flex-row items-center gap-5 pb-2 border-b-2">
-                <div className="w-20 h-20">
-                  <img
-                    className="object-cover w-full h-full rounded-lg"
-                    src={job.image}
-                    alt={`Image for ${job.title}`}
-                    width={95}
-                    height={70}
-                  />
-                </div>
-                <div className="card-info flex flex-col gap-8">
-                  <h4 className="text-[18px] font-bold overflow-hidden whitespace-nowrap text-ellipsis">
-                    {job.title}
-                  </h4>
-                  <p className="flex justify-start items-center gap-2">
-                    <img src={redAddress} alt="icon-address" />
-                    <small>{job.address}</small>
-                  </p>
-                </div>
-              </div>
-              <div className="card-desc pt-2 flex flex-col gap-1">
-                <h3 className="text-base font-semibold">Mô tả</h3>
-                <p className="truncate text-sm text-[#91929e] ">
-                  {job.description}
-                </p>
-              </div>
-            </Card>
-          ))}
-
+        <div className=" flex flex-col gap-8">
+          {renderJobCards()}
           {/* {renderCandiCards()} */}
         </div>
       </div>

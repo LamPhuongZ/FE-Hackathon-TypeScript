@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { setCookie } from "../../utils/utilMethod";
@@ -21,23 +20,18 @@ export default function Authenticate() {
 
     if (isMatch) {
       const authCode = isMatch ? isMatch[1] : null;
-
-      // Thay thế đoạn fetch bằng axios
-      axios
-        .post(`https://api.easyjob.io.vn/api/v1/auth/outbound`, {
-          params: {
-            code: authCode,
-            role: role,
-          },
-        })
+      fetch(
+        `https://api.easyjob.io.vn/api/v1/auth/outbound?code=${authCode}&role=${role}`,
+        {
+          method: "POST",
+        }
+      )
         .then((response) => {
-          // Truy cập dữ liệu từ response
-          setCookie(ACCESS_TOKEN, response.data.data["access-token"], 30);
-          navigate("/");
+          return response.json();
         })
-        .catch((error) => {
-          console.error("Error during authentication:", error);
-          // Xử lý lỗi nếu cần thiết
+        .then((data) => {
+          setCookie(ACCESS_TOKEN, data.data['access-token'], 30);
+          navigate("/");
         });
     }
   }, []);

@@ -1,7 +1,7 @@
 import "./SearchPage.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
-import { Content, getDataJobAPI, getSearchDataJobAPI, getSearchJobByTitle } from "../../redux/reducers/jobReducer";
+import { Content, getSearchJobByTitle } from "../../redux/reducers/jobReducer";
 import { useEffect, useState } from "react";
 import JobCard from "../../components/card-job/JobCard";
 import { Pagination } from "antd";

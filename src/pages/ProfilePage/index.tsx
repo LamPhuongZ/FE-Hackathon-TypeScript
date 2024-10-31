@@ -13,11 +13,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
 import { ACCESS_TOKEN } from "../../utils/config";
 import { getCookie } from "../../utils/utilMethod";
-import Dropdown from "../../components/dropdown/Dropdown";
-import DropdownSelect from "../../components/dropdown/DropdownSelect";
-import DropdownList from "../../components/dropdown/DropdownList";
-import DropdownOption from "../../components/dropdown/DropdownOption";
-import { District, Province, useAddress } from "../../hooks/useAddress";
+// import Dropdown from "../../components/dropdown/Dropdown";
+// import DropdownSelect from "../../components/dropdown/DropdownSelect";
+// import DropdownList from "../../components/dropdown/DropdownList";
+// import DropdownOption from "../../components/dropdown/DropdownOption";
 import InputPassword from "../../components/input/InputPassword";
 import moment, { Moment } from "moment";
 import {
@@ -30,32 +29,12 @@ import { Select } from "antd";
 import { JobSkill } from "../../redux/reducers/jobSkillReducer";
 
 export default function ProfilePage() {
-  const { provinces, getDistrictsByProvince } = useAddress();
+  const [togglePassword, setTogglePassword] = useState(false);
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
   const { objJobSkill } = useSelector(
     (state: RootState) => state.jobSkillReducer
   );
   const dispatch: DispatchType = useDispatch();
-  const [selectedProvince, setSelectedProvince] = useState<Province>();
-  const [selectedDistrict, setSelectedDistrict] = useState<District>();
-  const [districts, setDistricts] = useState<District[]>([]);
-  const [togglePassword, setTogglePassword] = useState(false);
-
-  const handleSelectedProvince = async (item: Province) => {
-    setSelectedProvince(item);
-    setValue("provinceId", ~~item.id);
-
-    // Gọi hàm lấy danh sách quận/huyện theo tỉnh
-    const updatedDistricts = await getDistrictsByProvince(item.id);
-    setDistricts(updatedDistricts); // Cập nhật districts với kết quả từ hàm
-    setSelectedDistrict(undefined);
-    setValue("districtId", 0);
-  };
-
-  const handleSelectedDistrict = (item: District) => {
-    setSelectedDistrict(item);
-    setValue("districtId", ~~item.id);
-  };
 
   const createdDate: Moment | null = userProfile?.createdDate
     ? moment(userProfile.createdDate, "YYYY-MM-DD")
@@ -65,12 +44,6 @@ export default function ProfilePage() {
   const dob: Moment | null = userProfile?.dob
     ? moment(userProfile.dob, "YYYY-MM-DD")
     : null;
-
-  // Cập nhật selectedProvince và selectedDistrict dựa trên dữ liệu userProfile
-  const province = provinces.find(
-    (prov) => prov.id === userProfile?.provinceId
-  );
-  if (province) setSelectedProvince(province);
 
   const options = Array.isArray(objJobSkill)
     ? objJobSkill?.map((item: JobSkill) => ({
@@ -99,15 +72,6 @@ export default function ProfilePage() {
     setValue("jobSkills", value);
   };
 
-  console.log({ selectedJobSkill });
-
-  useEffect(() => {
-    if (selectedProvince) {
-      setSelectedDistrict(undefined);
-      setValue("districtId", 0);
-    }
-  }, [selectedProvince, districts]);
-
   const {
     control,
     handleSubmit,
@@ -123,22 +87,11 @@ export default function ProfilePage() {
 
     //reset Token
     const Token = getCookie(ACCESS_TOKEN);
-    if (!Token || !provinces.length || !districts.length) {
+    if (!Token) {
       return;
     }
 
-    if (province) {
-      (async () => {
-        const initialDistricts = await getDistrictsByProvince(province.id);
-        setDistricts(initialDistricts);
-        const district = initialDistricts.find(
-          (dist) => dist.id === userProfile?.districtId
-        );
-        if (district) setSelectedDistrict(district);
-      })();
-    }
-
-    if (userProfile && provinces.length && districts.length) {
+    if (userProfile) {
       setValue("fullname", userProfile?.fullname);
       setValue("phone", userProfile?.phone);
       setValue("address", userProfile?.address);
@@ -151,16 +104,18 @@ export default function ProfilePage() {
       );
       setValue("imgFrontOfCard", userProfile?.imgFrontOfCard);
       setValue("imgBackOfCard", userProfile?.imgBackOfCard);
+      setValue("provinceId", userProfile.provinceId);
+      setValue("districtId", userProfile.districtId);
 
       // Cập nhật selectedJobSkill từ userProfile
-      if (Array.isArray(userProfile.jobSkills)) {
-        const selectedSkills = userProfile.jobSkills; // Lấy ID kỹ năng
-        console.log("userProfile.jobSkills: ", selectedSkills); // Kiểm tra giá trị
-        setSelectedSkill(selectedSkills);
-        setValue("jobSkills", selectedSkills);
-      }
+      // if (Array.isArray(userProfile.jobSkills)) {
+      //   const selectedSkills = userProfile.jobSkills; // Lấy ID kỹ năng
+      //   console.log("userProfile.jobSkills: ", selectedSkills); // Kiểm tra giá trị
+      //   setSelectedSkill(selectedSkills);
+      //   setValue("jobSkills", selectedSkills);
+      // }
     }
-  }, [userProfile, provinces, districts]);
+  }, [userProfile]);
 
   const handleUpdateProfile = async (
     values: UserProfileType & ChangePasswordType
@@ -288,7 +243,7 @@ export default function ProfilePage() {
                 />
               </Field>
             </div>
-            <div className="form-layout ">
+            {/* <div className="form-layout ">
               <Field>
                 <Label>Tỉnh / Thành phố</Label>
                 <Dropdown>
@@ -300,17 +255,15 @@ export default function ProfilePage() {
                     }
                   ></DropdownSelect>
                   <DropdownList>
-                    {(Array.isArray(provinces) ? provinces : []).map(
-                      (item: Province) => (
-                        <DropdownOption
-                          name="provinceId"
-                          key={item.id}
-                          onClick={() => handleSelectedProvince(item)}
-                        >
-                          {item.name}
-                        </DropdownOption>
-                      )
-                    )}
+                    {provinces.map((item: Province) => (
+                      <DropdownOption
+                        name="provinceId"
+                        key={item.id}
+                        onClick={() => handleSelectedProvince(item)}
+                      >
+                        {item.name}
+                      </DropdownOption>
+                    ))}
                   </DropdownList>
                 </Dropdown>
               </Field>
@@ -323,21 +276,19 @@ export default function ProfilePage() {
                     }
                   ></DropdownSelect>
                   <DropdownList>
-                    {(Array.isArray(districts) ? districts : []).map(
-                      (item: District) => (
-                        <DropdownOption
-                          name="districtId"
-                          key={item.id}
-                          onClick={() => handleSelectedDistrict(item)}
-                        >
-                          {item.name}
-                        </DropdownOption>
-                      )
-                    )}
+                    {districts.map((item: District) => (
+                      <DropdownOption
+                        name="districtId"
+                        key={item.id}
+                        onClick={() => handleSelectedDistrict(item)}
+                      >
+                        {item.name}
+                      </DropdownOption>
+                    ))}
                   </DropdownList>
                 </Dropdown>
               </Field>
-            </div>
+            </div> */}
             <div className="form-layout">
               <Field>
                 <Label htmlFor="address">Địa chỉ</Label>

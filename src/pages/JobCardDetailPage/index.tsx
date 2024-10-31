@@ -1,3 +1,6 @@
+import Card from "../../components/card/Card";
+import imgJob from "../../assets/images/img-job.png";
+import redAddress from "../../assets/icons/icon-red-address.svg";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,14 +34,24 @@ export default function JobCardDetailPage() {
   //   }
   // }, [id, dispatch]);
 
+  const getDataJobTypeList = async (id: number) => {
+    const actionAPI = getDataJobTypeAPI(id);
+    dispatch(actionAPI);
+  };
+
+  const getDataJobDetail = async (id: number) => {
+    const actionAPI = getDataJobDetailAPI(id);
+    dispatch(actionAPI);
+  };
+
   useEffect(() => {
     if (jobId) {
-      dispatch(getDataJobDetailAPI(Number(jobId)));
+      getDataJobDetail(Number(jobId));
       if (objJobDetails) {
-        dispatch(getDataJobTypeAPI(objJobDetails.jobType.id));
+        getDataJobTypeList(objJobDetails.jobType.id);
       }
     }
-  }, [jobId, dispatch, objJobDetails]);
+  }, [jobId, objJobDetails]);
 
   const renderJobCards = (): JSX.Element[] => {
     return (objJobType?.content ?? [])

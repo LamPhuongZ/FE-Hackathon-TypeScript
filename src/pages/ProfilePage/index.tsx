@@ -26,7 +26,7 @@ import {
   ChangePasswordType,
 } from "../../redux/reducers/userReducer";
 import { Select } from "antd";
-import { useAddress } from "../../hooks/useAddress";
+import { District, Province, useAddress } from "../../hooks/useAddress";
 
 export default function ProfilePage() {
   const [togglePassword, setTogglePassword] = useState(false);
@@ -36,11 +36,55 @@ export default function ProfilePage() {
   // );
   const dispatch: DispatchType = useDispatch();
 
-  const {provinces, getDistrictsByProvince} = useAddress();
+  const { provinces, districts, setProvinceAndFetchDistricts, loading } =
+    useAddress();
 
-  console.log({provinces});
-  console.log({getDistrictsByProvince});
-  
+  const [selectedProvince, setSelectedProvince] = useState<Province | null>(
+    null
+  );
+  const [selectedDistrict, setSelectedDistrict] = useState<District | null>(
+    null
+  );
+
+  const [initialized, setInitialized] = useState(false); // Thêm trạng thái để theo dõi lần khởi tạo
+
+  useEffect(() => {
+    if (userProfile && !loading && provinces.length > 0 && !initialized) {
+      const province = provinces.find((p) => ~~p.id === userProfile.provinceId);
+      const district = districts.find((d) => ~~d.id === userProfile.districtId);
+      
+      if (province) {
+        setSelectedProvince(province);
+        setValue("provinceId", province.id);
+        setProvinceAndFetchDistricts(province.id); // Gọi để lấy danh sách huyện
+      }
+
+      if (district) {
+        setSelectedDistrict(district);
+        setValue("districtId", district.id);
+      }
+
+      setInitialized(true);
+    }
+  }, [userProfile, provinces, loading, initialized]);
+
+  const handleSelectedProvince = (province: Province) => {
+    setSelectedProvince(province);
+    setValue("provinceId", province.id);
+    setProvinceAndFetchDistricts(province.id); // Cập nhật danh sách huyện
+  };
+
+  const handleSelectedDistrict = (district: District) => {
+    setSelectedDistrict(district);
+    setValue("districtId", district.id);
+  };
+
+  // Theo dõi khi selectedProvince thay đổi để cập nhật danh sách huyện
+  useEffect(() => {
+    if (selectedProvince) {
+      setProvinceAndFetchDistricts(selectedProvince.id); // Gọi API để lấy huyện mới
+    }
+  }, [selectedProvince]);
 
 
   const createdDate: Moment | null = userProfile?.createdDate
@@ -84,8 +128,6 @@ export default function ProfilePage() {
       );
       setValue("imgFrontOfCard", userProfile?.imgFrontOfCard);
       setValue("imgBackOfCard", userProfile?.imgBackOfCard);
-      setValue("provinceId", userProfile.provinceId);
-      setValue("districtId", userProfile.districtId);
     }
   }, [userProfile]);
 
@@ -187,7 +229,7 @@ export default function ProfilePage() {
               <Field>
                 <Label htmlFor="dob">Ngày sinh</Label>
                 <Input
-                  // type="date"
+                  type="date"
                   name="dob"
                   placeholder="Nhập ngày tháng năm sinh"
                   control={control}
@@ -222,7 +264,7 @@ export default function ProfilePage() {
                   <DropdownSelect
                     value={
                       selectedProvince
-                        ? selectedProvince?.name
+                        ? selectedProvince.name
                         : "Tỉnh / Thành phố"
                     }
                   ></DropdownSelect>

@@ -14,13 +14,18 @@ export interface District {
 
 export const useAddress = () => {
   const [provinces, setProvinces] = useState<Province[]>([]);
-  const [districts, setDistricts] = useState<District[]>([]);
+  const [allDistricts, setAllDistricts] = useState<District[]>([]); // Lưu tất cả districts
+  const [districts, setDistricts] = useState<District[]>([]); // Lưu districts sau khi lọc
+  const [selectedProvinceId, setSelectedProvinceId] = useState<number | null>(
+    null
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const getProvinces = async () => {
+    const getDataAddress = async () => {
       setLoading(true);
+
       try {
         const response = await axios.get("/datas/address.json", {
           headers: {
@@ -28,53 +33,33 @@ export const useAddress = () => {
           },
         });
 
-        setProvinces(
-          response.data.province.map((prov: Province) => ({
-            id: Number(prov.id),
-            name: prov.name,
-          }))
-        );
+        setProvinces(response.data.province);
+        setAllDistricts(response.data.district); // Lưu tất cả districts
         setLoading(false);
       } catch (error) {
-        console.error("Error loading provinces:", error);
-        setError("Failed to load province data");
+        console.log(error);
+
+        setError("Failed to load address data");
         setLoading(false);
       }
     };
 
-    getProvinces();
+    getDataAddress();
   }, []);
 
-  const getDistrictsByProvince = async (
-    provinceId: number
-  ): Promise<District[]> => {
-    setLoading(true);
-    try {
-      const response = await axios.get("/datas/address.json", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      // Lọc quận theo provinceId
-      const filteredDistricts = response.data.district
-        .filter((district: District) => Number(district.provinceId) === provinceId)
-        .map((district: District) => ({
-          id: Number(district.id), // Chuyển đổi id thành số
-          name: district.name,
-          provinceId: Number(district.provinceId), // Chuyển đổi provinceId thành số
-        }));
-
-      setDistricts(filteredDistricts); // Cập nhật danh sách quận
-      setLoading(false);
-      return filteredDistricts; // Trả về District[]
-    } catch (error) {
-      console.error("Error loading districts:", error);
-      setError("Failed to load district data");
-      setLoading(false);
-      return []; // Trả về mảng rỗng trong trường hợp lỗi
+  useEffect(() => {
+    // Mỗi khi selectedProvinceId thay đổi, cập nhật districts
+    if (selectedProvinceId !== null) {
+      const filteredDistricts = allDistricts.filter(
+        (district) => district.provinceId === selectedProvinceId
+      );
+      setDistricts(filteredDistricts);
     }
+  }, [selectedProvinceId, allDistricts]);
+
+  const setProvinceAndFetchDistricts = (provinceId: number) => {
+    setSelectedProvinceId(provinceId);
   };
 
-  return { provinces, districts, loading, error, getDistrictsByProvince };
+  return { provinces, districts, setProvinceAndFetchDistricts, loading, error };
 };

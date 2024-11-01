@@ -8,3 +8,4 @@ export const OAuthConfig = {
   // redirectUri: "https://api.easyjob.io.vn/authenticate",
   authUri: "https://accounts.google.com/o/oauth2/auth",
 };
+ 

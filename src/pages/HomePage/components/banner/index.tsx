@@ -35,10 +35,16 @@ export default function Banner() {
 
   useEffect(() => {
     getDataJobSkillList();
+    
   }, []);
 
   const handleSkillClick = (skill: string) => {
-    setSearchInput(skill);
+    dispatch(setSearchInputTitle(skill));
+
+  const params = new URLSearchParams();
+  params.append('query', skill);
+
+  navigate(`/search?${params.toString()}`);
   };
 
   const handleSearchClick = () => {
@@ -100,7 +106,7 @@ export default function Banner() {
             setSearchProvince(~~(e.target.value))
             console.log(e.target.value)
           }}>
-            <option value="all">Tất cả địa điểm</option>
+            <option value="0">Tất cả địa điểm</option>
             {provinces?.map((province: Province, index: number) => (
               <option value={province.id} key={`${province.id}_${index}`}>{province.name}</option>
             ))}

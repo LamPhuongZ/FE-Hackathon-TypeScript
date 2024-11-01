@@ -13,15 +13,17 @@ export default function SearchPage() {
   const { objJob, objTitle, province } = useSelector((state: RootState) => state.jobReducer);
   const dispatch: DispatchType = useDispatch();
 
-  const getDataJobList = async (page: number, size: number, objTitle: string, province:number) => {
+  const getDataJobList = async (page: number, size: number, objTitle?: string, province?:number) => {
     const actionAPI = getSearchJobByTitle(page, size, objTitle,province);
     dispatch(actionAPI);
   };
 
+  
+
   useEffect(() => {
-    if(objTitle && province){
+   
       getDataJobList(currentPage - 1, pageSize, objTitle, province);
-    }
+    
   }, [currentPage, objTitle, province ]);
 
   // console.log(objJob)
@@ -35,8 +37,8 @@ export default function SearchPage() {
 
       <div className="search__content">
         {objJob?.content.map((item: Content) => (
-          <div key={item.jobId}>
-            <JobCard item={item} showImages={true} showButton={true} />
+          <div key={item.jobId} >
+            <JobCard  item={item} showImages={true} showButton={true} />
           </div>
         ))}
 

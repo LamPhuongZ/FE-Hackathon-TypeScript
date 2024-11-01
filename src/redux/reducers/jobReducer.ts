@@ -192,8 +192,10 @@ export const getSearchJobByTitle = (
         params.append('title', title);
       }
 
-      if (province && province !== 0) {
+      if (province) {
         params.append('provinceId', province.toString());
+      } else if(province === 0){
+        params.delete('provinceId');
       }
 
       let url = '/api/v1/job';

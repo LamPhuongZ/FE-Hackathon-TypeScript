@@ -24,7 +24,7 @@ export interface UserProfileType {
   email: string;
   phone: string;
   fullname: string;
-  dob: Date; // day of birth
+  dob: string | null; // day of birth
   avatar: [] | any | null;
   createdDate: string | null;
   address: string;

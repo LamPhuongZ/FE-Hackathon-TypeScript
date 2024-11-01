@@ -18,7 +18,7 @@ import DropdownSelect from "../../components/dropdown/DropdownSelect";
 import DropdownList from "../../components/dropdown/DropdownList";
 import DropdownOption from "../../components/dropdown/DropdownOption";
 import InputPassword from "../../components/input/InputPassword";
-import moment from "moment";
+import moment, { Moment } from "moment";
 import {
   updateProfileUserAPI,
   UserProfileType,
@@ -86,16 +86,19 @@ export default function ProfilePage() {
     }
   }, [selectedProvince]);
 
-  const createdDate = userProfile?.createdDate
+  const createdDate: Moment | null = userProfile?.createdDate
     ? moment(userProfile.createdDate, "YYYY-MM-DD")
     : null;
 
+    const dob = userProfile?.dob ? new Date(userProfile.dob) : null;
+
   // Xử lý ngày sinh
-  const dob: Date | null = userProfile?.dob
-    ? moment(userProfile.dob, "YYYY-MM-DD").isValid()
-      ? moment(userProfile.dob, "YYYY-MM-DD").toDate()
-      : null
-    : null;
+  const formattedDob = dob 
+    ? `${dob.getFullYear()}-${new Date(dob.getMonth() + 1).padStart(2, '0')}-${String(dob.getDate()).padStart(2, '0')}`
+    : "";
+
+console.log(formattedDob); // Hiển thị "YYYY-MM-DD"
+
 
   const {
     control,
@@ -120,12 +123,7 @@ export default function ProfilePage() {
       setValue("fullname", userProfile?.fullname);
       setValue("phone", userProfile?.phone);
       setValue("address", userProfile?.address);
-      // Nếu `dob` hợp lệ, định dạng và truyền vào `setValue`
-      if (dob) {
-        const formattedDob = moment(dob).format("YYYY-MM-DD");
-        setValue("dob", dob); // Sử dụng `dob` dưới dạng `Date`
-        console.log(formattedDob); // In ra định dạng "YYYY-MM-DD" của `dob`
-      }
+      setValue("dob", formattedDob); // Truyền `dob` vào `setValue` dưới dạng `Date`
       setValue("avatar", userProfile?.avatar);
       setValue("email", userProfile?.email);
       setValue(

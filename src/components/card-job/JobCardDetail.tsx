@@ -6,11 +6,31 @@ import "swiper/swiper-bundle.css";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { getCookie } from "../../utils/utilMethod";
+import { applyJobAPI } from "../../redux/reducers/jobSkillReducer";
+import { useNavigate } from "react-router-dom";
+import { ThunkDispatch } from 'redux-thunk';
 
 type Props = {
   item: Content;
 };
 export default function JobCardDetail({ item }: Props) {
+  const [applied, setApplied] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+
+  const handleApply = () => {
+    const accessToken = getCookie("access_token");
+    if(accessToken){
+      dispatch(applyJobAPI(item.jobId, accessToken) as any);
+      setApplied(true);
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <div className="bg-white rounded-2xl shadow-md py-12 px-7 small-tablet:w-full">
       <div className="sticky top-0 bg-white z-10">
@@ -33,7 +53,7 @@ export default function JobCardDetail({ item }: Props) {
             )}
           </div>
         </div>
-        <Button title="Ứng Tuyển" className="w-full h-16 mt-9" />
+        <Button title="Ứng Tuyển" className="w-full h-16 mt-9" onClick={handleApply} disabled={applied} />
         <div className="border border-solid mt-4"></div>
       </div>
       <div className="h-auto max-h-[1235px] overflow-y-auto px-2">

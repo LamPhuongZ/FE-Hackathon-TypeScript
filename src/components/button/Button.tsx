@@ -11,6 +11,7 @@ interface ButtonProps {
   iconPosition?: "left" | "right";
   color?: "primary" | "secondary" | "delete" | "update" | "custom";
   circle?: boolean;
+  disabled?: boolean;
 }
 
 /**

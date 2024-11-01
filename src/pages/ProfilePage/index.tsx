@@ -18,7 +18,7 @@ import DropdownSelect from "../../components/dropdown/DropdownSelect";
 import DropdownList from "../../components/dropdown/DropdownList";
 import DropdownOption from "../../components/dropdown/DropdownOption";
 import InputPassword from "../../components/input/InputPassword";
-import moment, { Moment } from "moment";
+import moment from "moment";
 import {
   updateProfileUserAPI,
   UserProfileType,
@@ -52,7 +52,7 @@ export default function ProfilePage() {
     if (userProfile && !loading && provinces.length > 0 && !initialized) {
       const province = provinces.find((p) => ~~p.id === userProfile.provinceId);
       const district = districts.find((d) => ~~d.id === userProfile.districtId);
-      
+
       if (province) {
         setSelectedProvince(province);
         setValue("provinceId", province.id);
@@ -86,14 +86,15 @@ export default function ProfilePage() {
     }
   }, [selectedProvince]);
 
-
-  const createdDate: Moment | null = userProfile?.createdDate
+  const createdDate = userProfile?.createdDate
     ? moment(userProfile.createdDate, "YYYY-MM-DD")
     : null;
 
   // Xử lý ngày sinh
-  const dob: Moment | null = userProfile?.dob
-    ? moment(userProfile.dob, "YYYY-MM-DD")
+  const dob: Date | null = userProfile?.dob
+    ? moment(userProfile.dob, "YYYY-MM-DD").isValid()
+      ? moment(userProfile.dob, "YYYY-MM-DD").toDate()
+      : null
     : null;
 
   const {
@@ -119,7 +120,12 @@ export default function ProfilePage() {
       setValue("fullname", userProfile?.fullname);
       setValue("phone", userProfile?.phone);
       setValue("address", userProfile?.address);
-      setValue("dob", dob ? dob.format("YYYY-MM-DD") : "");
+      // Nếu `dob` hợp lệ, định dạng và truyền vào `setValue`
+      if (dob) {
+        const formattedDob = moment(dob).format("YYYY-MM-DD");
+        setValue("dob", dob); // Sử dụng `dob` dưới dạng `Date`
+        console.log(formattedDob); // In ra định dạng "YYYY-MM-DD" của `dob`
+      }
       setValue("avatar", userProfile?.avatar);
       setValue("email", userProfile?.email);
       setValue(

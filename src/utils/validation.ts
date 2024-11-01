@@ -6,7 +6,10 @@ export const ProfileSchema = yup.object({
     .string()
     .email("Vui lòng nhập đúng email")
     .required("Vui lòng nhập email đầy đủ"),
-  dob: yup.string().required("Vui lòng nhập ngày sinh"),
+  dob: yup
+    .date()
+    .typeError("Giá trị phải là ngày hợp lệ") // Thêm lỗi thông báo khi không hợp lệ
+    .required("Vui lòng nhập ngày sinh"),
   phone: yup.string().required("Vui lòng nhập số điện thoại"),
   createdDate: yup.string().required("Vui lòng kiểm tra lại ngày tham gia"),
   provinceId: yup.number().required("Vui lòng chọn tỉnh / thành phố"),

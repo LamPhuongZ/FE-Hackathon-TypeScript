@@ -40,7 +40,8 @@ export default function Banner() {
 
   const handleSkillClick = (skill: string) => {
     dispatch(setSearchInputTitle(skill));
-
+    setSearchProvince(0)
+    dispatch(setSearchInputProvince(searchProvince));
   const params = new URLSearchParams();
   params.append('query', skill);
 
@@ -57,13 +58,15 @@ export default function Banner() {
     }else{
       params.delete('query');
     }
+    
   
-    if (searchProvince && searchProvince !== 0) {
+    if (searchProvince !== 0) {
       dispatch(setSearchInputProvince(searchProvince));
       params.append('provinceId', searchProvince.toString());
-    } else if(searchProvince && searchProvince === 0) {
+      
+    } else {
       dispatch(setSearchInputProvince(searchProvince));
-      params.delete('provinceId');
+      params.delete('provinceId'); // Sửa lỗi chính tả '+provinceId'
     }
   
     navigate(`/search${params.toString() ? `?${params.toString()}` : ''}`);

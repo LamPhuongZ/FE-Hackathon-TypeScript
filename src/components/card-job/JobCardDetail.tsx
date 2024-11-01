@@ -5,7 +5,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Pagination } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
+import { PiSealWarningFill } from "react-icons/pi";
 
 type Props = {
   item: Content;
@@ -28,6 +29,9 @@ export default function JobCardDetail({ item }: Props) {
               </div>
             ) : (
               <div className="flex gap-2 items-center">
+                <div className="w-8 h-8 small-tablet:w-4 small-tablet:h-4">
+                  <PiSealWarningFill className="text-[#faad15] text-[30px]" />
+                </div>
                 <p className="font-medium text-gray-400">Chưa xác thực</p>
               </div>
             )}
@@ -134,7 +138,7 @@ export default function JobCardDetail({ item }: Props) {
             </h1>
             <div className="py-[10px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
               <p className="text-lg font-medium  small-tablet:text-sm">
-                {item.duration / 60}
+                {item.duration}
               </p>
             </div>
           </div>
@@ -143,12 +147,16 @@ export default function JobCardDetail({ item }: Props) {
         <div className="mt-[30px]">
           {item.images && item.images.length > 0 ? (
             <Swiper
+              navigation={{
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+              }}
               spaceBetween={10}
               slidesPerView={1}
               pagination={{
                 dynamicBullets: true,
               }}
-              modules={[Pagination]}
+              modules={[Pagination, Navigation]}
             >
               {item.images.slice(0, 4).map((image, index) => (
                 <SwiperSlide key={index}>
@@ -161,9 +169,11 @@ export default function JobCardDetail({ item }: Props) {
                   </div>
                 </SwiperSlide>
               ))}
+              <div className="swiper-button-next"></div>
+              <div className="swiper-button-prev"></div>
             </Swiper>
           ) : (
-            <p>Không tồn tại hình ảnh</p>
+            <p className="mb-10">Không tồn tại hình ảnh</p>
           )}
           <div>
             <h1 className="text-[20px] font-semibold mb-2 small-tablet:text-sm">

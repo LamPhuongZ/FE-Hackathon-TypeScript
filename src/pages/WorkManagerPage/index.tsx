@@ -1,5 +1,3 @@
-// import JobCardV2 from "../../components/card-candidates/JobCardV2";
-
 import { useEffect, useState } from "react";
 import Dropdown from "../../components/dropdown/Dropdown";
 import DropdownList from "../../components/dropdown/DropdownList";
@@ -10,12 +8,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
 import JobCardV2 from "../../components/card-candidates/JobCardV2";
 import { Pagination } from "antd";
-// import { jobApprovalStatusEnum } from "./enum";
+import { jobApprovalStatusEnum } from "./enum";
+import Label from "../../components/label/Label";
 
 export default function WorkManagerPage() {
-  const [selectedStatus, setSelectedStatus] = useState<Content>();
+  const [selectedStatus, setSelectedStatus] = useState<jobApprovalStatusEnum>();
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const pageSize = 7;
+  const pageSize = 4;
 
   const { objJobManager } = useSelector((state: RootState) => state.jobReducer);
 
@@ -27,7 +26,11 @@ export default function WorkManagerPage() {
   };
 
   useEffect(() => {
-    getDataStatus(currentPage, pageSize, selectedStatus?.jobApprovalStatus ?? "PENDING");
+    getDataStatus(
+      currentPage,
+      pageSize,
+      selectedStatus ?? jobApprovalStatusEnum.PENDING
+    );
   }, [currentPage, selectedStatus]);
 
   const renderJobManager = (): JSX.Element[] => {
@@ -36,32 +39,33 @@ export default function WorkManagerPage() {
     });
   };
 
-  const handleClickOption = async (item: Content) => {
+  const handleClickOption = async (item: jobApprovalStatusEnum) => {
     setSelectedStatus(item);
   };
 
   return (
     <div className="px-[30px]">
       <div className="bg-white shadow-md py-4 px-11 rounded-[20px]">
-        <div className="flex justify-center items-center gap-20">
-          <Dropdown>
-            <DropdownSelect
-              value={`${selectedStatus?.jobApprovalStatus}`}
-            ></DropdownSelect>
-            <DropdownList>
-            {(Array.isArray(objJobManager) ? objJobManager : []).map(
-                    (item: Content) => (
-                      <DropdownOption
-                        name="jobApprovalStatus"
-                        key={item.jobId}
-                        onClick={() => handleClickOption(item)}
-                      >
-                        {item.jobApprovalStatus}
-                      </DropdownOption>
-                    )
-                  )}
-            </DropdownList>
-          </Dropdown>
+        <div className="flex justify-between items-center gap-10">
+          <Label marginBottom="mb-0">Trạng thái công việc</Label>
+          <div>
+            <Dropdown width="w-[600px]">
+              <DropdownSelect
+                value={`${selectedStatus ?? jobApprovalStatusEnum.PENDING}`}
+              ></DropdownSelect>
+              <DropdownList height="h-[170px]">
+                {Object.values(jobApprovalStatusEnum).map((item) => (
+                  <DropdownOption
+                    name="jobApprovalStatus"
+                    key={item}
+                    onClick={() => handleClickOption(item)}
+                  >
+                    {item}
+                  </DropdownOption>
+                ))}
+              </DropdownList>
+            </Dropdown>
+          </div>
         </div>
         <div className="flex flex-col gap-11 mt-10">{renderJobManager()}</div>
         <Pagination

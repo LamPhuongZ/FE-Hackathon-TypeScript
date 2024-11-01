@@ -1,11 +1,12 @@
 type Props = {
     htmlFor?:string;
-    children:string
+    children:string;
+    marginBottom?: string;
 }
 
-export default function Label({htmlFor = "", children}: Props) {
+export default function Label({htmlFor = "", children, marginBottom = "mb-8" }: Props) {
   return (
-    <label htmlFor={htmlFor} className='font-semibold cursor-pointer text-2xl mb-8'>
+    <label htmlFor={htmlFor} className={`font-semibold cursor-pointer text-2xl  ${marginBottom}`}>
         {children}
     </label>
   )

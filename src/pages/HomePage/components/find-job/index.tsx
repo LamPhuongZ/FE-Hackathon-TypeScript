@@ -46,7 +46,7 @@ export default function FindJob() {
     <section className="findJob">
       <div className="findJob__top">
         <h1 className="title ">Tìm việc</h1>
-        <Link to="/list-job" className="findJob__link">
+        <Link to={`/list-job/${objJob.content[0].jobId}`} className="findJob__link">
           <p className="see__more">Xem thêm</p>
           <div>
             <svg

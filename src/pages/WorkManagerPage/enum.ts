@@ -1,5 +1,5 @@
 export enum jobApprovalStatusEnum {
-  PENDING = "PENDING",
   APPROVED = "APPROVED",
+  PENDING = "PENDING",
   REJECTED = "REJECTED",
 }

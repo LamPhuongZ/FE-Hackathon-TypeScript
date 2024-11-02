@@ -3,9 +3,7 @@ import { RootState } from "../../redux/configStore";
 import { useSelector } from "react-redux";
 
 export default function Sidebar() {
-  const { userProfile } = useSelector(
-    (state: RootState) => state.userReducer
-  );
+  const { userProfile } = useSelector((state: RootState) => state.userReducer);
 
   const Profile = () => (
     <NavLink
@@ -34,6 +32,17 @@ export default function Sidebar() {
       <span className="mt-1 text-xl">Thông Tin Cá Nhân</span>
     </NavLink>
   );
+  const danhSachUngVien = () => (
+    <NavLink
+      to={`/list-candidated`}
+      className={({ isActive }) =>
+        `flex items-center justify-center gap-4 p-3 font-medium cursor-pointer hover:bg-blue-200 rounded-xl ${
+          isActive ? " bg-blue-200 rounded-xl font-semibold text-[#3F8CFF]" : ""
+        }`
+      }
+    ></NavLink>
+  );
+
   const WorkManager = () => (
     <NavLink
       to={`/work-manager`}
@@ -42,6 +51,7 @@ export default function Sidebar() {
           isActive ? " bg-blue-200 rounded-xl font-semibold text-[#3F8CFF]" : ""
         }`
       }
+      end
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

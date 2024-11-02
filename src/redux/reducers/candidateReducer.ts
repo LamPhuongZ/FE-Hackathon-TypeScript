@@ -96,13 +96,13 @@ export const getDataCandidateAPI = (jobId: number, page: number, size: number) =
   };
 };
 
-export const getDataCandidateDetailAPI = (idPage: number,idCandidate: number ) => {
+export const getDataCandidateDetailAPI = (idPage: number, idCandidate: number) => {
   return async (dispatch: DispatchType) => {
     dispatch(setLoading(true));
 
     try {
       const res = await httpClient.get(
-        `/api/v1/apply-job/${idPage}/WAITING?page=0&size=10&sort=string`
+        `/api/v1/apply-job/${idPage}/WAITING?page=0&size=1&sort=string`
         // `/api/v1/apply-job`
       );
       const candidateDetail = res.data.data?.content.find(

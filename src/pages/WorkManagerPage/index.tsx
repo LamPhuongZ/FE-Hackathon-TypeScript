@@ -29,7 +29,7 @@ export default function WorkManagerPage() {
     getDataStatus(
       currentPage,
       pageSize,
-      selectedStatus ?? jobApprovalStatusEnum.PENDING
+      selectedStatus ?? jobApprovalStatusEnum.APPROVED
     );
   }, [currentPage, selectedStatus]);
 
@@ -51,7 +51,7 @@ export default function WorkManagerPage() {
           <div>
             <Dropdown width="w-[600px]">
               <DropdownSelect
-                value={`${selectedStatus ?? jobApprovalStatusEnum.PENDING}`}
+                value={`${selectedStatus ?? jobApprovalStatusEnum.APPROVED}`}
               ></DropdownSelect>
               <DropdownList height="h-[170px]">
                 {Object.values(jobApprovalStatusEnum).map((item) => (

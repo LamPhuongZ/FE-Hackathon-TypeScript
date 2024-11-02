@@ -14,8 +14,8 @@ export default function ListCandidatedPage() {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const jobId = query.get("id");
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
 
   const dispatch: DispatchType = useDispatch();
 
@@ -26,7 +26,11 @@ export default function ListCandidatedPage() {
     (state: RootState) => state.candidateReducer
   );
 
-  const getDataCandidateList = async (id: number, page: number, size: number) => {
+  const getDataCandidateList = async (
+    id: number,
+    page: number,
+    size: number
+  ) => {
     const actionAPI = getDataCandidateAPI(id, page, size);
     dispatch(actionAPI);
   };
@@ -41,7 +45,14 @@ export default function ListCandidatedPage() {
     return (objCandidate?.content ?? []).map((item: Content) => {
       return (
         <div key={item.id}>
-          <CandiCard item={item} showAmount={true} onSelect={() => navigate(`/card-candidate-detail-job/${item.id}`)} />
+          <CandiCard
+            className="cursor-pointer"
+            item={item}
+            showAmount={true}
+            onSelect={() =>
+              navigate(`/card-candidate-detail-job/${jobId}/${item.id}`)
+            }
+          />
         </div>
       );
     });

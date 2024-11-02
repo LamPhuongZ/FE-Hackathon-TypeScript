@@ -46,7 +46,7 @@ root.render(
           ./pages/ListCandidatedPage
           <Route path="" element={<HomeTemplate />}>
             <Route path="/" element={<HomePage />} />
-            <Route path="/list-job" element={<ListJobPage />} />
+            <Route path="/list-job/:id" element={<ListJobPage />} />
             <Route path="/landing-page" element={<LandingPage />} />
             <Route
               path="/card-detail-job/:jobId"
@@ -61,7 +61,7 @@ root.render(
               {/*list candidate của nhà tuyển dụng*/}
               <Route path="/list-candidated" element={<ListCandidatedPage />} />
               <Route
-                path="/card-candidate-detail-job/:id"
+                path="/card-candidate-detail-job/:jobId/:id"
                 element={<CandidateDetailPage />}
               />
             </Route>

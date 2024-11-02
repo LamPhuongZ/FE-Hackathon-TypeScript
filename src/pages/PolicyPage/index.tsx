@@ -1,8 +1,20 @@
+import { useEffect, useRef } from "react";
 import img from "../../assets/images/101.png"
+import { useLocation } from "react-router-dom";
 
 export default function PolicyPage() {
+  const query = new URLSearchParams(useLocation().search);
+  const section = query.get("section");
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (section === "policy" && ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [section]);
+
     return (
-      <>
+      <div ref={ref}>
         <div className="px-10 bg-blue-200 py-3 font-medium text-3xl">
           Chính Sách
         </div>
@@ -50,6 +62,6 @@ export default function PolicyPage() {
             />
           </div>
         </div>
-      </>
+      </div>
     );
 }

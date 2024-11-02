@@ -70,7 +70,6 @@ export default function JobCardDetail({ item }: Props) {
           title="Ứng Tuyển"
           className="w-full h-16 mt-9"
           onClick={() => handleApply(Number(jobId))}
-          disabled={!token || loading}
         />
         <div className="border border-solid mt-4"></div>
       </div>

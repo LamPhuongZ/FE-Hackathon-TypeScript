@@ -67,6 +67,7 @@ export interface JobState {
   isLoading: boolean;
   objJobType: Job | null;
   objJobManager: Job | null;
+  objApply: Job | null;
 }
 
 const initialState: JobState = {
@@ -76,6 +77,7 @@ const initialState: JobState = {
   isLoading: false,
   objJobType: null,
   objJobManager: null,
+  objApply: null,
 };
 
 const jobReducer = createSlice({
@@ -95,7 +97,7 @@ const jobReducer = createSlice({
       state.isLoading = false;
     },
     postApplyAction: (state: JobState, action: PayloadAction<Job>) => {
-      state.objJob = action.payload;
+      state.objApply = action.payload;
       state.isLoading = false;
     },
     setLoading: (state: JobState, action: PayloadAction<boolean>) => {

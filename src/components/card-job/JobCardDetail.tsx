@@ -1,5 +1,9 @@
 import checked from "../../assets/images/checked.png";
-import { applyForJobAPI, Content, setHasApplied } from "../../redux/reducers/jobReducer";
+import {
+  applyForJobAPI,
+  Content,
+  setHasApplied,
+} from "../../redux/reducers/jobReducer";
 import Button from "../button/Button";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
@@ -24,24 +28,27 @@ export default function JobCardDetail({ item }: Props) {
   const token = getCookie(ACCESS_TOKEN);
 
   useEffect(() => {
-    if (token) return;
-
     const hasApplied = localStorage.getItem(`hasApplied_${jobId}`);
-    if (hasApplied === 'true') {
-      dispatch(setHasApplied(true));
+    if (hasApplied === "true") {
+      dispatch(setHasApplied(true)); // Cập nhật trạng thái vào Redux
     }
-  }, [dispatch, jobId]);
+  }, [jobId, dispatch]); 
 
-  const { hasApplied, isLoading } = useSelector((state: RootState) => state.jobReducer);
-
+  const { hasApplied, isLoading } = useSelector(
+    (state: RootState) => state.jobReducer
+  );
 
   const handleApply = async (jobId: number) => {
     await dispatch(applyForJobAPI(Number(jobId)));
+
+    // Lưu trạng thái ứng tuyển vào localStorage chỉ khi nút được nhấn
+    localStorage.setItem(`hasApplied_${jobId}`, 'true');
+    dispatch(setHasApplied(true)); // Cập nhật trạng thái ứng tuyển trong Redux
+
   };
 
   useEffect(() => {
     if (token) return;
-
     if (jobId) {
       handleApply(Number(jobId));
     }
@@ -73,7 +80,7 @@ export default function JobCardDetail({ item }: Props) {
           </div>
         </div>
         <Button
-          title="Ứng Tuyển"
+          title={!hasApplied ? "Ứng Tuyển" : "Đã Ứng Tuyển"}
           className="w-full h-16 mt-9"
           onClick={() => handleApply(Number(jobId))}
           disabled={hasApplied || isLoading} // Disable nút nếu đã ứng tuyển hoặc đang loading

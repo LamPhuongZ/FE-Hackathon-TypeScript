@@ -282,8 +282,6 @@ export const applyForJobAPI = (jobId: number) => {
       const action: PayloadAction<Job> = postApplyAction(response.data.data);
       dispatch(action);
 
-      // Lưu trạng thái ứng tuyển vào localStorage
-      localStorage.setItem(`hasApplied_${jobId}`, 'true');
     } catch (error) {
       console.error(error);
     } finally {

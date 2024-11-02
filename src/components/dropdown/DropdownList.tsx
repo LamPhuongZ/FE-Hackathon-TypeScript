@@ -3,14 +3,16 @@ import { useDropdown } from "./DropdownContext";
 
 type Props = {
   children: ReactNode;
+  height?: string;
+  width?: string; 
 };
 
-export default function DropdownList({ children }: Props) {
+export default function DropdownList({ children, height = "h-[500px]", width = "w-full"  }: Props) {
   const { show } = useDropdown();
   return (
     <>
       {show && (
-        <div className="absolute top-full left-0 w-full bg-white shadow-sm h-[500px] max-h-[300px] overflow-y-auto z-[99999999]">
+        <div className={`absolute top-full left-0 w-full bg-white shadow-sm ${height} max-h-[300px] overflow-y-auto z-[99999999] ${width}`}>
           {children}
         </div>
       )}

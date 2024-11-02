@@ -1,14 +1,21 @@
 import Button from "../button/Button";
 import location from "../../assets/images/location.png";
 import calendar from "../../assets/images/calendar.png";
+import { Content } from "../../redux/reducers/jobReducer";
 
 type Props = {
+  item: Content;
   width?: string;
   className?: string;
   type?: boolean;
 };
 
-export default function JobCardV2({ width, className, type = true }: Props) {
+export default function JobCardV2({
+  item,
+  width,
+  className,
+  type = true,
+}: Props) {
   return (
     <div
       className={`cursor-pointer w-full px-6 py-10 bg-white rounded-2xl shadow-md hover:shadow-xl flex flex-col gap-6 small-tablet:h-[137px] small-tablet:min-w-[330px] small-tablet:px-[15px] small-tablet:py-[10px] ${className}`}
@@ -20,7 +27,7 @@ export default function JobCardV2({ width, className, type = true }: Props) {
               <p
                 className={`text-3xl font-semibold truncate ${width} small-tablet:text-base small-tablet:w-[130px]`}
               >
-                Giao hàng
+                {item.title}
               </p>
             </div>
             <div className="flex items-center gap-3">
@@ -32,7 +39,9 @@ export default function JobCardV2({ width, className, type = true }: Props) {
                 />
               </div>
               <p className="text-xl font-medium pt-1 small-tablet:text-base">
-                07-10-2024
+                {new Date(item.startDate)
+                  .toLocaleDateString("vi-VN")
+                  .replace(/\//g, "-")}
               </p>
             </div>
           </div>
@@ -40,7 +49,7 @@ export default function JobCardV2({ width, className, type = true }: Props) {
           <div className="flex justify-between">
             <div className="bg-[#E8E8E8] rounded-[20px]">
               <p className="text-sm font-medium px-[10px] py-[5px] small-tablet:text-sm small-tablet:px-[5px] small-tablet:py-[3px]">
-                Giao hàng
+                {item.jobType.name}
               </p>
             </div>
             <div className="flex items-center gap-1">
@@ -51,20 +60,22 @@ export default function JobCardV2({ width, className, type = true }: Props) {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className=" pt-1 small-tablet:text-sm">
-                số 5, phường 5, quận 5
+              <p className=" pt-1 small-tablet:text-sm" title={item.address}>
+                {item.address}
               </p>
             </div>
           </div>
         </div>
 
-       {type && <Button
-          title="Ứng Viên"
-          color="custom"
-          className="w-2/6 bg-[#DC2E55]"
-          circle={false}
-          to="/list-candidated"
-        />}
+        {type && (
+          <Button
+            title="Ứng Viên"
+            color="custom"
+            className="w-1/6 bg-[#DC2E55]"
+            circle={false}
+            to="/list-candidated"
+          />
+        )}
       </div>
     </div>
   );

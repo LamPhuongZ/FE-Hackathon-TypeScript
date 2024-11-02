@@ -28,6 +28,7 @@ export interface Content {
   description: string;
   postedDate: Date;
   verified: boolean;
+  jobApprovalStatus: string;
 }
 
 export interface PostJobType {
@@ -63,18 +64,22 @@ export interface JobState {
   objJob: Job | null;
   objJobDetails: Content | null;
   objPostJob: PostJobType | null;
-  isLoading: boolean;
+  objJobType: Job | null;
+  objJobManager: Job | null;
   objTitle: string | null;
   province: number | null;
+  isLoading: boolean;
 }
 
 const initialState: JobState = {
   objJob: null,
   objJobDetails: null,
   objPostJob: null,
-  isLoading: false,
+  objJobType: null,
+  objJobManager: null,
   objTitle: null,
-  province: null
+  province: null,
+  isLoading: false,
 };
 
 const jobReducer = createSlice({
@@ -93,14 +98,19 @@ const jobReducer = createSlice({
       state.objPostJob = action.payload;
       state.isLoading = false;
     },
-    setLoading: (state: JobState, action: PayloadAction<boolean>) => {
-      state.isLoading = action.payload;
-    },
-    setSearchInputTitle: (state: JobState, action: PayloadAction<string>) => {
-      state.objTitle = action.payload;
-    },
     setSearchInputProvince: (state: JobState, action: PayloadAction<number>) => {
       state.province = action.payload;
+    },
+    getJobTypeId: (state: JobState, action: PayloadAction<Job>) => {
+      state.objJobType = action.payload;
+      state.isLoading = false;
+    },
+    getJobsManager: (state: JobState, action: PayloadAction<Job>) => {
+      state.objJobManager = action.payload;
+      state.isLoading = false;
+    },
+    setLoading: (state: JobState, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
     },
   },
 });
@@ -109,9 +119,10 @@ export const {
   getJobsAction,
   getJobDetails,
   postJobsAction,
+  getJobsManager,
+  getJobTypeId,
+  setSearchInputProvince,
   setLoading,
-  setSearchInputTitle,
-  setSearchInputProvince
 } = jobReducer.actions;
 
 export default jobReducer.reducer;
@@ -149,29 +160,6 @@ export const getDataJobDetailAPI = (id: number) => {
     }
   };
 };
-
-export const getSearchDataJobAPI = (
-  page: number,
-  size: number,
-  jobTypeId: number
-) => {
-  return async (dispatch: DispatchType) => {
-    dispatch(setLoading(true));
-
-    try {
-      const res = await httpClient.get(
-        `/api/v1/job?jobTypeId=${jobTypeId}&page=${page}&size=${size}&direction=desc`
-      );
-      const action: PayloadAction<Job> = getJobsAction(res.data.data);
-      dispatch(action);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      dispatch(setLoading(false));
-    }
-  };
-};
-
 
 export const getSearchJobByTitle = (
   page?: number,
@@ -280,8 +268,30 @@ export const getDataJobTypeAPI = (id: number) => {
     dispatch(setLoading(true));
 
     try {
-      const res = await httpClient.get(`api/v1/job?jobTypeId=${id}`);
+      const res = await httpClient.get(`/api/v1/job?jobTypeId=${id}`);
       const action: PayloadAction<Job> = getJobTypeId(res.data.data);
+      dispatch(action);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+};
+
+export const getDataJobManagerAPI = (
+  page: number,
+  size: number,
+  status: string
+) => {
+  return async (dispatch: DispatchType) => {
+    dispatch(setLoading(true));
+
+    try {
+      const res = await httpClient.get(
+        `/api/v1/job/job-my-self?page=${page}&size=${size}&sort=id&jobApprovalStatusEnum=${status}`
+      );
+      const action: PayloadAction<Job> = getJobsManager(res.data.data);
       dispatch(action);
     } catch (error) {
       console.error(error);

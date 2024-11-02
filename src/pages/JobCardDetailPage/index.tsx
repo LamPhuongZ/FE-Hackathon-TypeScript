@@ -30,15 +30,19 @@ export default function JobCardDetailPage() {
   //     dispatch(getDataCandidateDetailAPI(Number(id)));
   //   }
   // }, [id, dispatch]);
-
+  
   useEffect(() => {
     if (jobId) {
       dispatch(getDataJobDetailAPI(Number(jobId)));
-      if (objJobDetails) {
-        dispatch(getDataJobTypeAPI(objJobDetails.jobType.id));
-      }
     }
-  }, [jobId, dispatch, objJobDetails]);
+  }, [jobId]);
+
+  useEffect(() => {
+    // Chỉ gọi API getDataJobTypeAPI nếu objJobDetails đã có giá trị
+    if (objJobDetails && objJobDetails.jobType) {
+      dispatch(getDataJobTypeAPI(objJobDetails.jobType.id));
+    }
+  }, [objJobDetails]);
 
   const renderJobCards = (): JSX.Element[] => {
     return (objJobType?.content ?? [])

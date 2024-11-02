@@ -17,6 +17,12 @@ export default function Header() {
   const dispatch: DispatchType = useDispatch();
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
 
+  const handleScrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const items: MenuProps["items"] = [
     {
       key: "1",
@@ -72,13 +78,28 @@ export default function Header() {
         <nav className="nav">
           <ul className="menu">
             <li>
-              <Link to="/find-job">Tìm việc</Link>
+              <Link
+                to="/list-job?section=listJob"
+                onClick={() => handleScrollToSection}
+              >
+                Tìm việc
+              </Link>
             </li>
             <li>
-              <Link to="/policy-page">Chính sách</Link>
+              <Link
+                to="/policy-page?section=policy"
+                onClick={() => handleScrollToSection}
+              >
+                Chính sách
+              </Link>
             </li>
             <li>
-              <Link to="/landing-page">Về chúng tôi</Link>
+              <Link
+                to="/landing-page?section=about"
+                onClick={() => handleScrollToSection}
+              >
+                Về chúng tôi
+              </Link>
             </li>
           </ul>
           <div className="btn__auth">

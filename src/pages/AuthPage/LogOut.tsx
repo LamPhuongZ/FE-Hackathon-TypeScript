@@ -29,7 +29,7 @@ const LogOut: React.FC = () => {
   };
 
   const handleLogOutApi = async () => {
-    const token = getCookie("access_token");
+    const token = getCookie("access_token"); 
     try {
       const response = await axios.post(
         "https://api.easyjob.io.vn/api/v1/auth/sign-out",

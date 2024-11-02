@@ -64,18 +64,24 @@ export interface JobState {
   objJob: Job | null;
   objJobDetails: Content | null;
   objPostJob: PostJobType | null;
-  isLoading: boolean;
   objJobType: Job | null;
   objJobManager: Job | null;
+  objTitle: string | null;
+  province: number | null;
+  jobSkillId: number | null;
+  isLoading: boolean;
 }
 
 const initialState: JobState = {
   objJob: null,
   objJobDetails: null,
   objPostJob: null,
-  isLoading: false,
   objJobType: null,
   objJobManager: null,
+  objTitle: null,
+  province: null,
+  jobSkillId: null,
+  isLoading: false,
 };
 
 const jobReducer = createSlice({
@@ -94,8 +100,14 @@ const jobReducer = createSlice({
       state.objPostJob = action.payload;
       state.isLoading = false;
     },
-    setLoading: (state: JobState, action: PayloadAction<boolean>) => {
-      state.isLoading = action.payload;
+    setSearchInputTitle: (state: JobState, action: PayloadAction<string>) => {
+      state.objTitle = action.payload;
+    },
+    setSearchInputProvince: (state: JobState, action: PayloadAction<number>) => {
+      state.province = action.payload;
+    },
+    setSearchInputSkill: (state: JobState, action: PayloadAction<number>) => {
+      state.jobSkillId = action.payload;
     },
     getJobTypeId: (state: JobState, action: PayloadAction<Job>) => {
       state.objJobType = action.payload;
@@ -105,6 +117,9 @@ const jobReducer = createSlice({
       state.objJobManager = action.payload;
       state.isLoading = false;
     },
+    setLoading: (state: JobState, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
   },
 });
 
@@ -112,8 +127,11 @@ export const {
   getJobsAction,
   getJobDetails,
   postJobsAction,
-  getJobTypeId,
   getJobsManager,
+  getJobTypeId,
+  setSearchInputTitle,
+  setSearchInputProvince,
+  setSearchInputSkill,
   setLoading,
 } = jobReducer.actions;
 
@@ -153,17 +171,16 @@ export const getDataJobDetailAPI = (id: number) => {
   };
 };
 
-export const getSearchDataJobAPI = (
+export const getSearchDataJobByJobSkillIdAPI = (
   page: number,
   size: number,
-  jobTypeId: number
+  jobSkillId: number | null
 ) => {
   return async (dispatch: DispatchType) => {
     dispatch(setLoading(true));
-
     try {
       const res = await httpClient.get(
-        `/api/v1/job?jobTypeId=${jobTypeId}&page=${page}&size=${size}&direction=desc`
+        `/api/v1/job?jobSkillId=${jobSkillId}&page=${page}&size=${size}&direction=desc`
       );
       const action: PayloadAction<Job> = getJobsAction(res.data.data);
       dispatch(action);
@@ -174,6 +191,72 @@ export const getSearchDataJobAPI = (
     }
   };
 };
+
+export const getSearchJobByTitle = (
+  page?: number,
+  size?: number,
+  title?: string | null,
+  province?: number | null,
+  jobSkillId?: number | null
+) => {
+  return async (dispatch: DispatchType) => {
+    dispatch(setLoading(true));
+
+    if(title === '' && province === 0){
+      const params = new URLSearchParams();
+      params.append('page', page?.toString() || '');
+      params.append('size', size?.toString() || '');
+      params.append('direction', 'desc');
+      const url = `/api/v1/job?${params.toString()}`;
+      const res = await httpClient.get(url);
+      const action: PayloadAction<Job> = getJobsAction(res.data.data);
+      dispatch(action);
+      return;
+    }
+
+    try {
+      const params = new URLSearchParams();
+      params.append('page', page?.toString() || '');
+      params.append('size', size?.toString() || '');
+      params.append('direction', 'desc');
+
+      if (title) {
+        params.append('title', title);
+      }
+
+      if (province && province !== 0) {
+        params.append('provinceId', province.toString());
+      } else if(province && province === 0){
+        params.delete('provinceId')
+      }
+
+      if(jobSkillId && jobSkillId !== 0) {
+        params.append('jobSkillId', jobSkillId.toString());
+      } else if(jobSkillId && jobSkillId === 0){
+        params.delete('jobSkillId')
+      }
+
+      console.log(province)
+
+      let url = '/api/v1/job';
+      if (params.toString()) {
+        url += `?${params.toString()}`;
+      }
+      console.log(httpClient.get(url));
+
+      const res = await httpClient.get(url);
+      const action: PayloadAction<Job> = getJobsAction(res.data.data);
+      dispatch(action);
+      console.log(res);
+      console.log(params.toString());
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+};
+
 
 export const postDataJobAPI = (payload: PostJobType) => {
   return async (dispatch: DispatchType) => {
@@ -224,7 +307,7 @@ export const getDataJobTypeAPI = (id: number) => {
     dispatch(setLoading(true));
 
     try {
-      const res = await httpClient.get(`api/v1/job?jobTypeId=${id}`);
+      const res = await httpClient.get(`/api/v1/job?jobTypeId=${id}`);
       const action: PayloadAction<Job> = getJobTypeId(res.data.data);
       dispatch(action);
     } catch (error) {

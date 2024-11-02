@@ -13,6 +13,11 @@ import { Province, useAddress } from "../../../../hooks/useAddress";
 import { useNavigate } from "react-router-dom";
 import useLoading from "../../../../hooks/useLoading";
 import LoadingData from "../../../../components/loading-data/loadingData";
+import {
+  setSearchInputProvince,
+  setSearchInputSkill,
+  setSearchInputTitle,
+} from "../../../../redux/reducers/jobReducer";
 
 export default function Banner() {
   const { provinces } = useAddress();
@@ -25,6 +30,7 @@ export default function Banner() {
   const navigate = useNavigate();
 
   const [searchInput, setSearchInput] = useState("");
+  const [searchProvince, setSearchProvince] = useState(0);
 
   const getDataJobSkillList = async () => {
     const actionAPI = getDataJobSkillAPI();
@@ -35,14 +41,37 @@ export default function Banner() {
     getDataJobSkillList();
   }, []);
 
-  const handleSkillClick = (skill: string) => {
-    setSearchInput(skill);
+  const handleSkillClick = (skillId: number, skillName: string) => {
+
+    if (objJobSkill && objJobSkill.id) {
+      dispatch(setSearchInputSkill(objJobSkill.id));
+    }
+    const params = new URLSearchParams();
+    params.append("jobSkillId", skillId.toString()); // Chuyển skillId thành chuỗi
+
+    navigate(`/search?${params.toString()}&&skillName=${skillName}`);
   };
 
   const handleSearchClick = () => {
+    dispatch(setSearchInputTitle(searchInput || ""));
+    dispatch(setSearchInputProvince(searchProvince));
+    const params = new URLSearchParams();
+
     if (searchInput) {
-      navigate(`/search?query=${encodeURIComponent(searchInput)}`);
+      params.append("query", searchInput);
+    } else {
+      params.delete("query");
     }
+
+    if (searchProvince !== 0) {
+      dispatch(setSearchInputProvince(searchProvince));
+      params.append("provinceId", searchProvince.toString());
+    } else {
+      dispatch(setSearchInputProvince(searchProvince));
+      params.delete("provinceId"); // Sửa lỗi chính tả '+provinceId'
+    }
+
+    navigate(`/search${params.toString() ? `?${params.toString()}` : ""}`);
   };
 
   if (!Array.isArray(objJobSkill) || objJobSkill.length === 0) {
@@ -77,10 +106,18 @@ export default function Banner() {
             onChange={(e) => setSearchInput(e.target.value)}
           />
           <div className="line"></div>
-          <select className="select__area">
-            <option value="all">Tất cả địa điểm</option>
+          <select
+            className="select__area"
+            onChange={(e) => {
+              setSearchProvince(~~e.target.value);
+              console.log(e.target.value);
+            }}
+          >
+            <option value="0">Tất cả địa điểm</option>
             {provinces?.map((province: Province, index: number) => (
-              <option key={`${province.id}_${index}`}>{province.name}</option>
+              <option value={province.id} key={`${province.id}_${index}`}>
+                {province.name}
+              </option>
             ))}
           </select>
           <Button
@@ -105,7 +142,7 @@ export default function Banner() {
                       className="btn__jobSkill"
                       circle={false}
                       color="custom"
-                      onClick={() => handleSkillClick(keyword.skill)}
+                      onClick={() => handleSkillClick(keyword.id, keyword.skill)}
                     />
                   ))
               ) : (

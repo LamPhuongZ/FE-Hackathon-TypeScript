@@ -68,6 +68,7 @@ export interface JobState {
   objJobManager: Job | null;
   objTitle: string | null;
   province: number | null;
+  jobSkillId: number | null;
   isLoading: boolean;
 }
 
@@ -79,6 +80,7 @@ const initialState: JobState = {
   objJobManager: null,
   objTitle: null,
   province: null,
+  jobSkillId: null,
   isLoading: false,
 };
 
@@ -98,8 +100,14 @@ const jobReducer = createSlice({
       state.objPostJob = action.payload;
       state.isLoading = false;
     },
+    setSearchInputTitle: (state: JobState, action: PayloadAction<string>) => {
+      state.objTitle = action.payload;
+    },
     setSearchInputProvince: (state: JobState, action: PayloadAction<number>) => {
       state.province = action.payload;
+    },
+    setSearchInputSkill: (state: JobState, action: PayloadAction<number>) => {
+      state.jobSkillId = action.payload;
     },
     getJobTypeId: (state: JobState, action: PayloadAction<Job>) => {
       state.objJobType = action.payload;
@@ -121,7 +129,9 @@ export const {
   postJobsAction,
   getJobsManager,
   getJobTypeId,
+  setSearchInputTitle,
   setSearchInputProvince,
+  setSearchInputSkill,
   setLoading,
 } = jobReducer.actions;
 
@@ -161,11 +171,33 @@ export const getDataJobDetailAPI = (id: number) => {
   };
 };
 
+export const getSearchDataJobByJobSkillIdAPI = (
+  page: number,
+  size: number,
+  jobSkillId: number | null
+) => {
+  return async (dispatch: DispatchType) => {
+    dispatch(setLoading(true));
+    try {
+      const res = await httpClient.get(
+        `/api/v1/job?jobSkillId=${jobSkillId}&page=${page}&size=${size}&direction=desc`
+      );
+      const action: PayloadAction<Job> = getJobsAction(res.data.data);
+      dispatch(action);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+};
+
 export const getSearchJobByTitle = (
   page?: number,
   size?: number,
-  title?: string,
-  province?: number,
+  title?: string | null,
+  province?: number | null,
+  jobSkillId?: number | null
 ) => {
   return async (dispatch: DispatchType) => {
     dispatch(setLoading(true));
@@ -197,6 +229,13 @@ export const getSearchJobByTitle = (
       } else if(province && province === 0){
         params.delete('provinceId')
       }
+
+      if(jobSkillId && jobSkillId !== 0) {
+        params.append('jobSkillId', jobSkillId.toString());
+      } else if(jobSkillId && jobSkillId === 0){
+        params.delete('jobSkillId')
+      }
+
       console.log(province)
 
       let url = '/api/v1/job';

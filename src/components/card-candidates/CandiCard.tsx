@@ -69,7 +69,7 @@ export default function CandiCard({
             <div className="w-6 h-6">
               <img src={star} alt="" className="w-full h-full" />
             </div>
-            <p className="text-3xl font-medium pt-1">{item.star}</p>
+            <p className="text-3xl font-medium pt-1">{item.star && item.star ? item.star : 0}</p>
           </div>
         </div>
       </div>

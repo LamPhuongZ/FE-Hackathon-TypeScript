@@ -2,6 +2,7 @@ import Button from "../button/Button";
 import location from "../../assets/images/location.png";
 import calendar from "../../assets/images/calendar.png";
 import { Content } from "../../redux/reducers/jobReducer";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   item: Content;
@@ -16,6 +17,12 @@ export default function JobCardV2({
   className,
   type = true,
 }: Props) {
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    navigate(`/list-candidated?id=${item.jobId}`); 
+  };
+
   return (
     <div
       className={`cursor-pointer w-full px-6 py-10 bg-white rounded-2xl shadow-md hover:shadow-xl flex flex-col gap-6 small-tablet:h-[137px] small-tablet:min-w-[330px] small-tablet:px-[15px] small-tablet:py-[10px] ${className}`}
@@ -73,7 +80,7 @@ export default function JobCardV2({
             color="custom"
             className="w-1/6 bg-[#DC2E55]"
             circle={false}
-            to="/list-candidated"
+            onClick={handleButtonClick}
           />
         )}
       </div>

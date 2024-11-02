@@ -75,14 +75,14 @@ export const { getCandidateAction, getCandidateDetail, setLoading } =
 
 export default candidateReducer.reducer;
 
-export const getDataCandidateAPI = (page: number, size: number) => {
+export const getDataCandidateAPI = (jobId: number, page: number, size: number) => {
   return async (dispatch: DispatchType) => {
     dispatch(setLoading(true));
 
     try {
       const res = await httpClient.get(
-        // `/api/v1/apply-job/1/WAITING?page=${page}&size=${size}&sort=string`
-        `/api/v1/apply-job?page=${page}&size=${size}&sort=string`
+        `/api/v1/apply-job/${jobId}/WAITING?page=${page}&size=${size}&sort=string`
+        // `/api/v1/apply-job?page=${page}&size=${size}&sort=string`
       );
       const action: PayloadAction<Candidate> = getCandidateAction(
         res.data.data

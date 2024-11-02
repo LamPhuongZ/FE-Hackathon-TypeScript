@@ -1,6 +1,8 @@
 import { DatePicker } from "antd";
+import dayjs from "dayjs";
 import { ReactNode } from "react";
 import { Control, useController } from "react-hook-form";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 
 type Props = {
   name: string;
@@ -47,16 +49,31 @@ export default function Input({
     defaultValue: "",
   });
 
+  dayjs.extend(customParseFormat);
+
   return (
     <>
       {type === "date" ? (
         <DatePicker
           format={dateFormat}
+          value={
+            typeof field.value === "string" || typeof field.value === "number"
+              ? dayjs(field.value).isValid()
+                ? dayjs(field.value)
+                : null
+              : null
+          }
           size="large"
-          {...field}
           disabled={disabled}
           placeholder={placeholder}
           className={`w-full px-[20px] py-[16px] rounded-lg font-medium border border-solid border-[#DFDFDF] ${className}`}
+          onChange={(date) => {
+            field.onChange(
+              date
+                ? date.format(dateFormat)
+                : dayjs("1900-01-01").format(dateFormat)
+            );
+          }}
         />
       ) : type === "tel" ? (
         <>

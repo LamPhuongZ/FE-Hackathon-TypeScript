@@ -18,7 +18,7 @@ import DropdownOption from "../../components/dropdown/DropdownOption";
 import { JobProfileSchema } from "../../utils/validation";
 import { District, Province, useAddress } from "../../hooks/useAddress";
 import { postDataJobAPI, PostJobType } from "../../redux/reducers/jobReducer";
-import moment from "moment";
+import dayjs from "dayjs";
 
 export default function FormApplication() {
   const {
@@ -45,7 +45,8 @@ export default function FormApplication() {
     },
   });
   const [resetTrigger, setResetTrigger] = useState(false); // Reset trigger state
-  const { provinces, districts } = useAddress();
+  const { provinces, districts, setProvinceAndFetchDistricts } =
+    useAddress();
 
   const { objJobType } = useSelector((state: RootState) => state.typeReducer);
   const dispatch: DispatchType = useDispatch();
@@ -62,6 +63,8 @@ export default function FormApplication() {
   const handleSelectedProvince = (item: Province) => {
     setSelectedProvince(item);
     setValue("provinceId", ~~item.id);
+    setSelectedDistrict(undefined); // Reset quận/huyện đã chọn
+    setProvinceAndFetchDistricts(item.id); // Gọi hàm để lấy quận/huyện
   };
 
   const handleSelectedDistrict = (item: District) => {
@@ -98,10 +101,10 @@ export default function FormApplication() {
       const payload = {
         ...values,
         startDate: values.startDate
-          ? moment(values.startDate).format("YYYY-MM-DDTHH:mm:ss.ssssss")
+          ? dayjs(values.startDate).format("YYYY-MM-DDTHH:mm:ss.SSSSSS") // Chuyển qua dayjs
           : null,
         endDate: values.endDate
-          ? moment(values.endDate).format("YYYY-MM-DDTHH:mm:ss.ssssss")
+          ? dayjs(values.endDate).format("YYYY-MM-DDTHH:mm:ss.SSSSSS") // Chuyển qua dayjs
           : null,
       };
       // Gửi request thông qua dispatch action
@@ -243,20 +246,22 @@ export default function FormApplication() {
                 <Label>Tỉnh / Thành phố</Label>
                 <Dropdown>
                   <DropdownSelect
-                    value={`${selectedProvince?.name || "Tỉnh / Thành phố"}`}
+                    value={
+                      selectedProvince
+                        ? selectedProvince.name
+                        : "Tỉnh / Thành phố"
+                    }
                   ></DropdownSelect>
                   <DropdownList>
-                    {(Array.isArray(provinces) ? provinces : []).map(
-                      (item: Province) => (
-                        <DropdownOption
-                          name="provinceId"
-                          key={item.id}
-                          onClick={() => handleSelectedProvince(item)}
-                        >
-                          {item.name}
-                        </DropdownOption>
-                      )
-                    )}
+                    {provinces.map((item: Province) => (
+                      <DropdownOption
+                        name="provinceId"
+                        key={item.id}
+                        onClick={() => handleSelectedProvince(item)}
+                      >
+                        {item.name}
+                      </DropdownOption>
+                    ))}
                   </DropdownList>
                 </Dropdown>
               </Field>
@@ -266,20 +271,20 @@ export default function FormApplication() {
                 <Label>Quận / Huyện</Label>
                 <Dropdown>
                   <DropdownSelect
-                    value={`${selectedDistrict?.name || "Quận / Huyện"}`}
+                    value={
+                      selectedDistrict ? selectedDistrict?.name : "Quận / Huyện"
+                    }
                   ></DropdownSelect>
                   <DropdownList>
-                    {(Array.isArray(districts) ? districts : []).map(
-                      (item: District) => (
-                        <DropdownOption
-                          name="districtId"
-                          key={item.id}
-                          onClick={() => handleSelectedDistrict(item)}
-                        >
-                          {item.name}
-                        </DropdownOption>
-                      )
-                    )}
+                    {districts.map((item: District) => (
+                      <DropdownOption
+                        name="districtId"
+                        key={item.id}
+                        onClick={() => handleSelectedDistrict(item)}
+                      >
+                        {item.name}
+                      </DropdownOption>
+                    ))}
                   </DropdownList>
                 </Dropdown>
               </Field>

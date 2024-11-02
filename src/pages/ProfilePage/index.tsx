@@ -18,7 +18,6 @@ import DropdownSelect from "../../components/dropdown/DropdownSelect";
 import DropdownList from "../../components/dropdown/DropdownList";
 import DropdownOption from "../../components/dropdown/DropdownOption";
 import InputPassword from "../../components/input/InputPassword";
-import moment, { Moment } from "moment";
 import {
   updateProfileUserAPI,
   UserProfileType,
@@ -27,6 +26,7 @@ import {
 } from "../../redux/reducers/userReducer";
 import { Select } from "antd";
 import { District, Province, useAddress } from "../../hooks/useAddress";
+import dayjs from "dayjs";
 
 export default function ProfilePage() {
   const [togglePassword, setTogglePassword] = useState(false);
@@ -86,20 +86,6 @@ export default function ProfilePage() {
     }
   }, [selectedProvince]);
 
-  const createdDate: Moment | null = userProfile?.createdDate
-    ? moment(userProfile.createdDate, "YYYY-MM-DD")
-    : null;
-
-    const dob = userProfile?.dob ? new Date(userProfile.dob) : null;
-
-  // Xử lý ngày sinh
-  const formattedDob = dob 
-    ? `${dob.getFullYear()}-${new Date(dob.getMonth() + 1).padStart(2, '0')}-${String(dob.getDate()).padStart(2, '0')}`
-    : "";
-
-console.log(formattedDob); // Hiển thị "YYYY-MM-DD"
-
-
   const {
     control,
     handleSubmit,
@@ -123,12 +109,12 @@ console.log(formattedDob); // Hiển thị "YYYY-MM-DD"
       setValue("fullname", userProfile?.fullname);
       setValue("phone", userProfile?.phone);
       setValue("address", userProfile?.address);
-      setValue("dob", formattedDob); // Truyền `dob` vào `setValue` dưới dạng `Date`
+      setValue("dob", dayjs(userProfile?.dob).format("YYYY-MM-DD"));
       setValue("avatar", userProfile?.avatar);
       setValue("email", userProfile?.email);
       setValue(
         "createdDate",
-        createdDate ? createdDate.format("YYYY-MM-DD") : ""
+        dayjs(userProfile?.createdDate).format("YYYY-MM-DD")
       );
       setValue("imgFrontOfCard", userProfile?.imgFrontOfCard);
       setValue("imgBackOfCard", userProfile?.imgBackOfCard);
@@ -145,7 +131,7 @@ console.log(formattedDob); // Hiển thị "YYYY-MM-DD"
         fullname: values.fullname,
         email: values.email,
         phone: values.phone,
-        dob: values.dob,
+        dob: dayjs(values.dob).format("YYYY-MM-DD"),
         avatar: values.avatar,
         address: values.address,
         provinceId: values.provinceId,
@@ -234,6 +220,7 @@ console.log(formattedDob); // Hiển thị "YYYY-MM-DD"
                 <Label htmlFor="dob">Ngày sinh</Label>
                 <Input
                   type="date"
+                  dateFormat="YYYY-MM-DD"
                   name="dob"
                   placeholder="Nhập ngày tháng năm sinh"
                   control={control}

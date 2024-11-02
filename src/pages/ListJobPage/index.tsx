@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import JobCard from "../../components/card-job/JobCard";
 import JobCardDetail from "../../components/card-job/JobCardDetail";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,8 @@ import {
   getDataJobDetailAPI,
 } from "../../redux/reducers/jobReducer";
 import { Pagination } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import Banner from "../HomePage/components/banner";
 // import CandiCardDetail from "../../components/card-candidates/CandiCardDetail";
 // import CandiCard from "../../components/card-candidates/CandiCard";
 // import {
@@ -142,10 +143,21 @@ export default function ListJobPage() {
   //   });
   // };
 
+  const query = new URLSearchParams(useLocation().search);
+  const section = query.get("section");
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (section === "listJob" && ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [section]);
+
   //
   return (
     <div>
-      <div className="grid grid-cols-[453px_minmax(0,_1fr)] gap-x-7 py-4 px-[72px] small-tablet:grid-cols-1 small-tablet:px-[20px]">
+      <Banner />
+      <div ref={ref} className="grid grid-cols-[453px_minmax(0,_1fr)] gap-x-7 pt-[66px] py-4 px-[72px] small-tablet:grid-cols-1 small-tablet:px-[20px]">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col items-start">
             <h1 className="text-2xl font-medium">Danh sách</h1>

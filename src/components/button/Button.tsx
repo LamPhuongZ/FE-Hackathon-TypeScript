@@ -38,8 +38,7 @@ export default function Button({
   iconPosition = "left",
   color = "primary",
   circle = true,
-  to,
-}: ButtonProps & { to?: string }) {
+}: ButtonProps) {
   const bgColor =
     color === "secondary"
       ? "btn-secondary"

@@ -1,7 +1,7 @@
 import CandiCard from "../../components/card-candidates/CandiCard";
 
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Content,
   getDataCandidateAPI,
@@ -14,6 +14,8 @@ export default function ListCandidatedPage() {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const jobId = query.get("id");
+  const navigate = useNavigate();
+
 
   const dispatch: DispatchType = useDispatch();
 
@@ -39,7 +41,7 @@ export default function ListCandidatedPage() {
     return (objCandidate?.content ?? []).map((item: Content) => {
       return (
         <div key={item.id}>
-          <CandiCard item={item} showAmount={true} />
+          <CandiCard item={item} showAmount={true} onSelect={() => navigate(`/card-candidate-detail-job/${item.id}`)} />
         </div>
       );
     });

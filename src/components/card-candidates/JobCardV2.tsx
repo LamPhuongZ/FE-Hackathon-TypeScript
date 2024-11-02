@@ -3,6 +3,7 @@ import location from "../../assets/images/location.png";
 import calendar from "../../assets/images/calendar.png";
 import { Content } from "../../redux/reducers/jobReducer";
 import { useNavigate } from "react-router-dom";
+import { jobApprovalStatusEnum } from "../../pages/WorkManagerPage/enum";
 
 type Props = {
   item: Content;
@@ -74,7 +75,7 @@ export default function JobCardV2({
           </div>
         </div>
 
-        {type && (
+        {type && !(item.jobApprovalStatus === jobApprovalStatusEnum.PENDING || item.jobApprovalStatus === jobApprovalStatusEnum.REJECTED) && (
           <Button
             title="Ứng Viên"
             color="custom"

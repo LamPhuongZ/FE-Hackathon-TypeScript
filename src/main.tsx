@@ -16,7 +16,9 @@ import Loading from "./components/loading";
 import Authenticate from "./pages/AuthPage/Authenticate";
 
 const HomeTemplate = lazy(() => import("./templates/HomeTemplate"));
-const DashboardLayout = lazy(() => import("./components/layout/DashboardLayout"));
+const DashboardLayout = lazy(
+  () => import("./components/layout/DashboardLayout")
+);
 const HomePage = lazy(() => import("./pages/HomePage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 const LandingPage = lazy(() => import("./pages/LandingPage"));
@@ -29,6 +31,7 @@ const SearchPage = lazy(() => import("./pages/SearchPage"));
 const PolicyPage = lazy(() => import("./pages/PolicyPage"));
 const ListCandidatedPage = lazy(() => import("./pages/ListCandidatedPage"));
 const WorkManagerPage = lazy(() => import("./pages/WorkManagerPage"));
+const CandidateDetailPage = lazy(() => import("./pages/CandidateDetailPage"));
 
 export const routeLink: any = createBrowserHistory();
 
@@ -39,7 +42,8 @@ root.render(
   <Provider store={store}>
     <Suspense fallback={<Loading />}>
       <HistoryRouter history={routeLink}>
-        <Routes>./pages/ListCandidatedPage
+        <Routes>
+          ./pages/ListCandidatedPage
           <Route path="" element={<HomeTemplate />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/list-job" element={<ListJobPage />} />
@@ -50,23 +54,22 @@ root.render(
             />
 
             {/* API đang bị hạn quyền cần kiểm tra lại */}
-            {/* <Route
-              path="/card-detail-job/:id"
-              element={<JobCardDetailPage />}
-            /> */}
             <Route path="/search" element={<SearchPage />} />
             <Route element={<DashboardLayout />}>
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/work-manager" element={<WorkManagerPage />} />
               {/*list candidate của nhà tuyển dụng*/}
               <Route path="/list-candidated" element={<ListCandidatedPage />} />
+              <Route
+                path="/card-candidate-detail-job/:id"
+                element={<CandidateDetailPage />}
+              />
             </Route>
 
             {/*form-application của nhà tuyển dụng*/}
             <Route path="/form-application" element={<FormApplicationPage />} />
             <Route path="/policy-page" element={<PolicyPage />} />
           </Route>
-
           <Route path="/login" element={<LoginAndRegister />} />
           <Route path="/authenticate" element={<Authenticate />} />
           <Route path="*" element={<NotFoundPage />} />

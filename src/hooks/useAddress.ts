@@ -14,7 +14,11 @@ export interface District {
 
 export const useAddress = () => {
   const [provinces, setProvinces] = useState<Province[]>([]);
-  const [districts, setDistricts] = useState<District[]>([]);
+  const [allDistricts, setAllDistricts] = useState<District[]>([]); // Lưu tất cả districts
+  const [districts, setDistricts] = useState<District[]>([]); // Lưu districts sau khi lọc
+  const [selectedProvinceId, setSelectedProvinceId] = useState<number | null>(
+    null
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -30,7 +34,7 @@ export const useAddress = () => {
         });
 
         setProvinces(response.data.province);
-        setDistricts(response.data.district);
+        setAllDistricts(response.data.district); // Lưu tất cả districts
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -43,5 +47,19 @@ export const useAddress = () => {
     getDataAddress();
   }, []);
 
-  return { provinces, districts, loading, error };
+  useEffect(() => {
+    // Mỗi khi selectedProvinceId thay đổi, cập nhật districts
+    if (selectedProvinceId !== null) {
+      const filteredDistricts = allDistricts.filter(
+        (district) => district.provinceId === selectedProvinceId
+      );
+      setDistricts(filteredDistricts);
+    }
+  }, [selectedProvinceId, allDistricts]);
+
+  const setProvinceAndFetchDistricts = (provinceId: number) => {
+    setSelectedProvinceId(provinceId);
+  };
+
+  return { provinces, districts, setProvinceAndFetchDistricts, loading, error };
 };

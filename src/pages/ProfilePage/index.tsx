@@ -17,48 +17,74 @@ import Dropdown from "../../components/dropdown/Dropdown";
 import DropdownSelect from "../../components/dropdown/DropdownSelect";
 import DropdownList from "../../components/dropdown/DropdownList";
 import DropdownOption from "../../components/dropdown/DropdownOption";
-import { District, Province, useAddress } from "../../hooks/useAddress";
 import InputPassword from "../../components/input/InputPassword";
-import moment, { Moment } from "moment";
 import {
   updateProfileUserAPI,
   UserProfileType,
   changePasswordAPI,
   ChangePasswordType,
 } from "../../redux/reducers/userReducer";
+import { Select } from "antd";
+import { District, Province, useAddress } from "../../hooks/useAddress";
+import dayjs from "dayjs";
 
 export default function ProfilePage() {
-  const { provinces, districts } = useAddress();
-  const { userProfile } = useSelector((state: RootState) => state.userReducer);
-  const dispatch: DispatchType = useDispatch();
-  const [selectedProvince, setSelectedProvince] = useState<Province>();
-  const [selectedDistrict, setSelectedDistrict] = useState<District>();
   const [togglePassword, setTogglePassword] = useState(false);
+  const { userProfile } = useSelector((state: RootState) => state.userReducer);
+  // const { objJobSkill } = useSelector(
+  //   (state: RootState) => state.jobSkillReducer
+  // );
+  const dispatch: DispatchType = useDispatch();
 
-  const handleSelectedProvince = (item: Province) => {
-    setSelectedProvince(item);
-    setValue("provinceId", ~~item.id);
+  const { provinces, districts, setProvinceAndFetchDistricts, loading } =
+    useAddress();
+
+  const [selectedProvince, setSelectedProvince] = useState<Province | null>(
+    null
+  );
+  const [selectedDistrict, setSelectedDistrict] = useState<District | null>(
+    null
+  );
+
+  const [initialized, setInitialized] = useState(false); // Thêm trạng thái để theo dõi lần khởi tạo
+
+  useEffect(() => {
+    if (userProfile && !loading && provinces.length > 0 && !initialized) {
+      const province = provinces.find((p) => ~~p.id === userProfile.provinceId);
+      const district = districts.find((d) => ~~d.id === userProfile.districtId);
+
+      if (province) {
+        setSelectedProvince(province);
+        setValue("provinceId", province.id);
+        setProvinceAndFetchDistricts(province.id); // Gọi để lấy danh sách huyện
+      }
+
+      if (district) {
+        setSelectedDistrict(district);
+        setValue("districtId", district.id);
+      }
+
+      setInitialized(true);
+    }
+  }, [userProfile, provinces, loading, initialized]);
+
+  const handleSelectedProvince = (province: Province) => {
+    setSelectedProvince(province);
+    setValue("provinceId", province.id);
+    setProvinceAndFetchDistricts(province.id); // Cập nhật danh sách huyện
   };
 
-  const handleSelectedDistrict = (item: District) => {
-    setSelectedDistrict(item);
-    setValue("districtId", ~~item.id);
+  const handleSelectedDistrict = (district: District) => {
+    setSelectedDistrict(district);
+    setValue("districtId", district.id);
   };
 
-  const createdDate: Moment | null = userProfile?.createdDate
-    ? moment(userProfile.createdDate, "YYYY-MM-DD")
-    : null;
-
-  // Xử lý ngày sinh
-  const dob: Moment | null = userProfile?.dob
-    ? moment(userProfile.dob, "YYYY-MM-DD")
-    : null;
-
-  // Cập nhật selectedProvince và selectedDistrict dựa trên dữ liệu userProfile
-  const province = provinces.find((prov) => prov.id === userProfile?.provinceId);
-  const district = districts.find((dist) => dist.id === userProfile?.districtId);
-  if (province) setSelectedProvince(province);
-  if (district) setSelectedDistrict(district);
+  // Theo dõi khi selectedProvince thay đổi để cập nhật danh sách huyện
+  useEffect(() => {
+    if (selectedProvince) {
+      setProvinceAndFetchDistricts(selectedProvince.id); // Gọi API để lấy huyện mới
+    }
+  }, [selectedProvince]);
 
   const {
     control,
@@ -68,24 +94,11 @@ export default function ProfilePage() {
   } = useForm({
     mode: "onChange",
     resolver: yupResolver(ProfileSchema),
-    defaultValues: {
-      fullname: "",
-      phone: "",
-      address: "",
-      dob: "",
-      avatar: undefined,
-      email: "",
-      provinceId: ~~"1",
-      districtId: ~~"1",
-      createdDate: "",
-      imgFrontOfCard: undefined,
-      imgBackOfCard: undefined,
-      oldPassword: "",
-      newPassword: "",
-    },
   });
 
   useEffect(() => {
+    console.log("useEffect: ", userProfile);
+
     //reset Token
     const Token = getCookie(ACCESS_TOKEN);
     if (!Token) {
@@ -96,29 +109,29 @@ export default function ProfilePage() {
       setValue("fullname", userProfile?.fullname);
       setValue("phone", userProfile?.phone);
       setValue("address", userProfile?.address);
-      setValue("dob", dob ? dob.format("YYYY-MM-DD") : "");
+      setValue("dob", dayjs(userProfile?.dob).format("YYYY-MM-DD"));
       setValue("avatar", userProfile?.avatar);
       setValue("email", userProfile?.email);
-      setValue("provinceId", ~~userProfile?.provinceId);
-      setValue("districtId", ~~userProfile?.districtId);
       setValue(
         "createdDate",
-        createdDate ? createdDate.format("YYYY-MM-DD") : ""
+        dayjs(userProfile?.createdDate).format("YYYY-MM-DD")
       );
       setValue("imgFrontOfCard", userProfile?.imgFrontOfCard);
       setValue("imgBackOfCard", userProfile?.imgBackOfCard);
     }
-  }, [userProfile, provinces, districts]);
+  }, [userProfile]);
 
   const handleUpdateProfile = async (
     values: UserProfileType & ChangePasswordType
   ) => {
     try {
+      console.log("value trc: ", values);
+
       const profilePayload: UserProfileType = {
         fullname: values.fullname,
         email: values.email,
         phone: values.phone,
-        dob: values.dob,
+        dob: dayjs(values.dob).format("YYYY-MM-DD"),
         avatar: values.avatar,
         address: values.address,
         provinceId: values.provinceId,
@@ -126,14 +139,13 @@ export default function ProfilePage() {
         createdDate: values.createdDate,
         imgFrontOfCard: values.imgFrontOfCard,
         imgBackOfCard: values.imgBackOfCard,
+        // jobSkills: selectedJobSkill, // Lấy id từ jobSkills
       };
 
       const passwordPayload: ChangePasswordType | null =
         values.oldPassword && values.newPassword
           ? { oldPassword: values.oldPassword, newPassword: values.newPassword }
           : null;
-
-      console.log(values);
 
       if (passwordPayload) {
         try {
@@ -159,7 +171,6 @@ export default function ProfilePage() {
       toast.error(arrErrors[0]?.message);
     }
   }, [errors]);
-  console.log("🚀 ~ useEffect ~ arrErrors:", Object.values(errors));
 
   return (
     <div className="px-[30px]">
@@ -208,7 +219,8 @@ export default function ProfilePage() {
               <Field>
                 <Label htmlFor="dob">Ngày sinh</Label>
                 <Input
-                  // type="date"
+                  type="date"
+                  dateFormat="YYYY-MM-DD"
                   name="dob"
                   placeholder="Nhập ngày tháng năm sinh"
                   control={control}
@@ -241,20 +253,22 @@ export default function ProfilePage() {
                 <Label>Tỉnh / Thành phố</Label>
                 <Dropdown>
                   <DropdownSelect
-                    value={`${selectedProvince?.name || "Tỉnh / Thành phố"}`}
+                    value={
+                      selectedProvince
+                        ? selectedProvince.name
+                        : "Tỉnh / Thành phố"
+                    }
                   ></DropdownSelect>
                   <DropdownList>
-                    {(Array.isArray(provinces) ? provinces : []).map(
-                      (item: Province) => (
-                        <DropdownOption
-                          name="provinceId"
-                          key={item.id}
-                          onClick={() => handleSelectedProvince(item)}
-                        >
-                          {item.name}
-                        </DropdownOption>
-                      )
-                    )}
+                    {provinces.map((item: Province) => (
+                      <DropdownOption
+                        name="provinceId"
+                        key={item.id}
+                        onClick={() => handleSelectedProvince(item)}
+                      >
+                        {item.name}
+                      </DropdownOption>
+                    ))}
                   </DropdownList>
                 </Dropdown>
               </Field>
@@ -262,20 +276,20 @@ export default function ProfilePage() {
                 <Label>Quận / Huyện</Label>
                 <Dropdown>
                   <DropdownSelect
-                    value={`${selectedDistrict?.name || "Quận / Huyện"}`}
+                    value={
+                      selectedDistrict ? selectedDistrict?.name : "Quận / Huyện"
+                    }
                   ></DropdownSelect>
                   <DropdownList>
-                    {(Array.isArray(districts) ? districts : []).map(
-                      (item: District) => (
-                        <DropdownOption
-                          name="districtId"
-                          key={item.id}
-                          onClick={() => handleSelectedDistrict(item)}
-                        >
-                          {item.name}
-                        </DropdownOption>
-                      )
-                    )}
+                    {districts.map((item: District) => (
+                      <DropdownOption
+                        name="districtId"
+                        key={item.id}
+                        onClick={() => handleSelectedDistrict(item)}
+                      >
+                        {item.name}
+                      </DropdownOption>
+                    ))}
                   </DropdownList>
                 </Dropdown>
               </Field>
@@ -325,7 +339,23 @@ export default function ProfilePage() {
               </Field>
             </div>
           </div>
-          {/* </div> */}
+
+          <div className="border border-solid border-[#D5D5D5] rounded-3xl py-14 px-8 mt-7">
+            <Field>
+              <Label htmlFor="">Kỹ năng</Label>
+              <Select
+                id="jobSkills"
+                style={{
+                  width: "100%",
+                }}
+                mode="multiple"
+                placeholder="Chọn kỹ năng"
+                // options={options}
+                // value={selectedJobSkill} // Lấy ID cho value
+                // onChange={handleChangeJobSkill}
+              />
+            </Field>
+          </div>
 
           <div className="mt-24">
             <Label htmlFor="">Tải ảnh CCCD / CMND</Label>

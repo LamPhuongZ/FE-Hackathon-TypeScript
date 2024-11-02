@@ -27,6 +27,7 @@ export default function JobCard({
   showButton = false,
   widthAddress = "",
 }: Props) {
+  
   return (
     <div
       className={`cursor-pointer w-full px-6 py-10 bg-white rounded-2xl shadow-md hover:shadow-xl flex flex-col gap-6 small-tablet:h-[137px] small-tablet:min-w-[330px] small-tablet:px-[15px] small-tablet:py-[10px] ${className} ${

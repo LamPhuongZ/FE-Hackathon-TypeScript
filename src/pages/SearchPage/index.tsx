@@ -1,27 +1,61 @@
 import "./SearchPage.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
-import { Content, getDataJobAPI } from "../../redux/reducers/jobReducer";
+import {
+  Content,
+  getSearchDataJobByJobSkillIdAPI,
+  getSearchJobByTitle,
+} from "../../redux/reducers/jobReducer";
 import { useEffect, useState } from "react";
 import JobCard from "../../components/card-job/JobCard";
 import { Pagination } from "antd";
 import Banner from "../HomePage/components/banner";
+import { useLocation } from "react-router-dom";
+
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
 
 export default function SearchPage() {
+  const query = useQuery();
+  const queryValue: string | null = query.get("jobSkillId");
+  const skillName: string | null = query.get("skillName");
+
   const [currentPage, setCurrentPage] = useState<number>(0);
   const pageSize = 10;
 
-  const { objJob } = useSelector((state: RootState) => state.jobReducer);
+  const { objJob, objTitle, province } = useSelector(
+    (state: RootState) => state.jobReducer
+  );
   const dispatch: DispatchType = useDispatch();
 
-  const getDataJobList = async (page: number, size: number) => {
-    const actionAPI = getDataJobAPI(page, size);
+  const getDataJobList = async (
+    page: number,
+    size: number,
+    objTitle?: string | null,
+    province?: number | null
+  ) => {
+    const actionAPI = getSearchJobByTitle(page, size, objTitle, province);
+    dispatch(actionAPI);
+  };
+
+  const getDataJobListBySkillId = async (
+    page: number,
+    size: number,
+    jobSkillId: number | null
+  ) => {
+    const actionAPI = getSearchDataJobByJobSkillIdAPI(page, size, jobSkillId);
     dispatch(actionAPI);
   };
 
   useEffect(() => {
-    getDataJobList(currentPage - 1, pageSize);
-  }, [currentPage]);
+    if (queryValue) {
+      const jobSkillId = Number(queryValue);
+      getDataJobListBySkillId(currentPage - 1, pageSize, jobSkillId);
+    } else {
+      getDataJobList(currentPage - 1, pageSize, objTitle, province);
+    }
+  }, [currentPage, objTitle, province, queryValue]);
 
   return (
     <>
@@ -29,13 +63,15 @@ export default function SearchPage() {
       <div className="search">
         <div className="search__top">
           <h1 className="title">Công việc: </h1>
-          <p>Giao Hàng</p>
+          <p>
+            {queryValue ? `${skillName}` : `${objTitle}`}{" "}
+          </p>
         </div>
 
         <div className="search__content">
           {objJob?.content.map((item: Content) => (
             <div key={item.jobId}>
-              <JobCard item={item} showImages={true} showButton={true} />
+              <JobCard item={item} showImages={true} />
             </div>
           ))}
 

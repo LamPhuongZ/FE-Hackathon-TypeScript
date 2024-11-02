@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, notification } from "antd";
+import { notification } from "antd";
 import { delCookie, getCookie } from "../../utils/utilMethod";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -13,6 +13,9 @@ const LogOut: React.FC = () => {
   const [api, contextHolder] = notification.useNotification();
   const dispatch: DispatchType = useDispatch();
 
+  console.log(api);
+  
+
   const handleDeleteToken = () => {
     delCookie("access_token");
     delCookie("userLogin");
@@ -21,9 +24,9 @@ const LogOut: React.FC = () => {
     // Clear the user profile data from the Redux store
     dispatch(setProfileAction(null));
     // setIsLogin(false)
-    api.success({
+    notification.success({
       message: "Đăng xuất thành công",
-      placement: "topRight",
+      placement: "bottomRight",
       duration: 1.5,
     });
   };
@@ -47,9 +50,9 @@ const LogOut: React.FC = () => {
       dispatch(setIsLoginAction(false));
     } catch (error) {
       console.log("Bạn chưa đăng nhập vào ", error);
-      api.error({
+      notification.error({
         message: "Bạn chưa đăng nhập",
-        placement: "topRight",
+        placement: "bottomRight",
         duration: 1.5,
       });
     }
@@ -59,7 +62,7 @@ const LogOut: React.FC = () => {
   return (
     <>
       {contextHolder}
-      <Button className="border-0 text-xl " onClick={handleLogOutApi}><PiSignOutBold />Đăng xuất</Button>
+      <h1 className="text-xl flex items-center gap-2 p-3 hover:bg-red-500 w-full hover:text-white rounded transition" onClick={handleLogOutApi}><PiSignOutBold />Đăng xuất</h1>
     </>
   );
 };

@@ -138,7 +138,7 @@ export default function JobCardDetail({ item }: Props) {
             </h1>
             <div className="py-[10px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
               <p className="text-lg font-medium  small-tablet:text-sm">
-                {item.duration}
+                {item.duration / 60}
               </p>
             </div>
           </div>

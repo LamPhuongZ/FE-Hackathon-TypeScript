@@ -1,5 +1,9 @@
 import "./AuthPage.css";
-import { EyeInvisibleOutlined, EyeTwoTone, HomeTwoTone } from "@ant-design/icons";
+import {
+  EyeInvisibleOutlined,
+  EyeTwoTone,
+  HomeTwoTone,
+} from "@ant-design/icons";
 import {
   Button,
   Form,
@@ -37,17 +41,16 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
   const { Link, Title, Text } = Typography;
   const [api, contextHolder] = notification.useNotification();
   const [role, setRole] = useState("ROLE_EMPLOYER");
-  // const RoleToken = useRole().role
   console.log(api);
-  
+
   const onFinish = (values: UserLoginType) => {
     const actionAsync = loginAPI(values);
     dispatch(actionAsync);
     dispatch(setIsLoginAction(true));
     if (values.remember) {
-      const encodedToken = encodePassword(values.password)
-      setCookie('username',values.username, 30)
-      setCookie('password',encodedToken, 30)
+      const encodedToken = encodePassword(values.password);
+      setCookie("username", values.username, 30);
+      setCookie("password", encodedToken, 30);
     }
   };
 
@@ -68,24 +71,18 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
   };
 
   useEffect(() => {
-    const username = getCookie('username');
-    let password = getCookie ('password');
+    const username = getCookie("username");
+    let password = getCookie("password");
 
-  if (username && password) {
-    password = decodePassword(password)
-    // console.log(password)
-     const actionAsync = loginAPI({username,password});
+    if (username && password) {
+      password = decodePassword(password);
+      const actionAsync = loginAPI({ username, password });
       dispatch(actionAsync);
       dispatch(setIsLoginAction(true));
-    form.setFieldsValue({ username, password });
-    
-  }
-    
+      form.setFieldsValue({ username, password });
     }
-    
-  , [])
-  
-  
+  }, []);
+
   const handleRoleChange = (key: string) => {
     // Update the role based on the selected tab
     if (key === "1") {
@@ -94,7 +91,7 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
       setRole("ROLE_APPLIER");
     }
   };
-  
+
   const navigate = useNavigate();
   return (
     <>
@@ -105,14 +102,25 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
         defaultActiveKey="1"
         onChange={handleRoleChange}
       >
-        <Tabs.TabPane tab={<div>
-            <Button color="primary" variant="text" className="w-[50px] h-[50px]" onClick={()=>{
-              navigate('/', { replace: true });
-            }}><HomeTwoTone style={{fontSize:'30px'}}/></Button>
-          </div>}></Tabs.TabPane>
+        <Tabs.TabPane
+          tab={
+            <div>
+              <Button
+                color="primary"
+                variant="text"
+                className="w-[50px] h-[50px]"
+                onClick={() => {
+                  navigate("/", { replace: true });
+                }}
+              >
+                <HomeTwoTone style={{ fontSize: "30px" }} />
+              </Button>
+            </div>
+          }
+        ></Tabs.TabPane>
         <Tabs.TabPane tab="Ứng viên" key="1">
           {/* Employer login form */}
-          
+
           <div className="flex flex-col items-center gap-3">
             <div>
               <Title level={1} className="text-[20px] !mb-0 text-center">
@@ -160,7 +168,12 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
                   },
                 ]}
               >
-                <Input placeholder="Nhập email" required type="text" className="h-10" />
+                <Input
+                  placeholder="Nhập email"
+                  required
+                  type="text"
+                  className="h-10"
+                />
               </Form.Item>
 
               <Form.Item
@@ -173,7 +186,7 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
                 ]}
               >
                 <Input.Password
-                className="h-10"
+                  className="h-10"
                   placeholder="Nhập mật khẩu"
                   iconRender={(visible) =>
                     visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
@@ -253,7 +266,12 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
                   },
                 ]}
               >
-                <Input className="h-10" placeholder="Nhập email" required type="text" />
+                <Input
+                  className="h-10"
+                  placeholder="Nhập email"
+                  required
+                  type="text"
+                />
               </Form.Item>
 
               <Form.Item
@@ -266,7 +284,7 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
                 ]}
               >
                 <Input.Password
-                className="h-10"
+                  className="h-10"
                   placeholder="Nhập mật khẩu"
                   iconRender={(visible) =>
                     visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
@@ -299,5 +317,6 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
         </Tabs.TabPane>
       </Tabs>
     </>
-  );}
+  );
+};
 export default Login;

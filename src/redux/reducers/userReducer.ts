@@ -5,7 +5,7 @@ import { UserLoginType } from "../../pages/AuthPage/Login";
 import { routeLink } from "../../main";
 import { UserRegisterType } from "../../pages/AuthPage/Register";
 import { notification } from "antd";
-// import { JobSkill } from "./jobSkillReducer";
+import { JobSkill } from "./jobSkillReducer";
 import { DispatchType } from "../configStore";
 
 export interface LoginState {
@@ -21,21 +21,16 @@ export interface RegisterState {
 }
 
 export interface UserProfileType {
-  // id: number;
   email: string;
   phone: string;
   fullname: string;
-  // age: string;
-  dob: string | null; // day of birth
-  avatar: [] | any;
-  // isVerified: boolean;
-  // numOfJob: number;
-  // star: string;
+  dob: string; // day of birth
+  avatar: [] | any | null;
   createdDate: string | null;
   address: string;
   provinceId: number;
   districtId: number;
-  // jobSkills: JobSkill[];
+  jobSkills?: JobSkill[] | null;
   imgFrontOfCard: [] | any;
   imgBackOfCard: [] | any;
 }
@@ -211,6 +206,8 @@ export const getProfileAPI = () => {
 
 export const changePasswordAPI = (changePassword: ChangePasswordType) => {
   return async (dispatch: DispatchType) => {
+    dispatch(setLoading(true));
+
     try {
       const response = await httpClient.post(
         "api/v1/self/change-password",
@@ -236,6 +233,8 @@ export const changePasswordAPI = (changePassword: ChangePasswordType) => {
 
 export const updateProfileUserAPI = (userProfile: UserProfileType) => {
   return async (dispatch: DispatchType) => {
+    dispatch(setLoading(true));
+
     try {
       const formData = new FormData();
 
@@ -243,21 +242,32 @@ export const updateProfileUserAPI = (userProfile: UserProfileType) => {
         const value = userProfile[key as keyof UserProfileType];
 
         // Kiểm tra và thêm file
-        if (value && value.file instanceof File) {
-          formData.append(key, value.file); // Gửi đúng file vào FormData
-        } else if (typeof value === "number") {
-          formData.append(key, value.toString()); // Convert số sang chuỗi
-        } else if (typeof value === "string") {
-          formData.append(key, value); // Thêm chuỗi vào FormData
+        if (value) {
+          if (key === "avatar" && value instanceof File) {
+            formData.append("avatar", value);
+          } else if (key === "imgFrontOfCard" && value instanceof File) {
+            formData.append("imgFrontOfCard", value);
+          } else if (key === "imgBackOfCard" && value instanceof File) {
+            formData.append("imgBackOfCard", value);
+          } else if (value instanceof File) {
+            formData.append(key, value); // Thêm tệp trực tiếp
+          } else if (typeof value === "number" || typeof value === "string") {
+            formData.append(key, value.toString());
+          }
+
+          if (key === "jobSkills" && Array.isArray(value)) {
+            // Thay đổi ở đây để truyền danh sách ID vào formData
+            value.forEach((skillId: number) => {
+              formData.append("jobSkills[]", skillId.toString());
+            });
+          }
         }
       }
 
-      const response = await httpClient.patch("/api/v1/self", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await httpClient.patch("/api/v1/self", formData);
 
       const action: PayloadAction<UserProfileType | null> =
-        setUpdateProfileUser(response.data);
+        setUpdateProfileUser(response.data.data);
       dispatch(action);
     } catch (error) {
       notification.error({

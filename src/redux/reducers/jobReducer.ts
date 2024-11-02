@@ -28,6 +28,7 @@ export interface Content {
   description: string;
   postedDate: Date;
   verified: boolean;
+  jobApprovalStatus: string;
 }
 
 export interface PostJobType {
@@ -65,6 +66,7 @@ export interface JobState {
   objPostJob: PostJobType | null;
   isLoading: boolean;
   objJobType: Job | null;
+  objJobManager: Job | null;
 }
 
 const initialState: JobState = {
@@ -73,6 +75,7 @@ const initialState: JobState = {
   objPostJob: null,
   isLoading: false,
   objJobType: null,
+  objJobManager: null,
 };
 
 const jobReducer = createSlice({
@@ -102,11 +105,22 @@ const jobReducer = createSlice({
       state.objJobType = action.payload;
       state.isLoading = false;
     },
+    getJobsManager: (state: JobState, action: PayloadAction<Job>) => {
+      state.objJobManager = action.payload;
+      state.isLoading = false;
+    },
   },
 });
 
-export const { getJobsAction, getJobDetails, postJobsAction, getJobTypeId, postApplyAction, setLoading } =
-  jobReducer.actions;
+export const {
+  getJobsAction,
+  getJobDetails,
+  postJobsAction,
+  getJobTypeId,
+  getJobsManager,
+  postApplyAction,
+  setLoading,
+} = jobReducer.actions;
 
 export default jobReducer.reducer;
 
@@ -226,12 +240,36 @@ export const getDataJobTypeAPI = (id: number) => {
   };
 };
 
+export const getDataJobManagerAPI = (
+  page: number,
+  size: number,
+  status: string
+) => {
+  return async (dispatch: DispatchType) => {
+    dispatch(setLoading(true));
+
+    try {
+      const res = await httpClient.get(
+        `/api/v1/job/job-my-self?page=${page}&size=${size}&sort=id&jobApprovalStatusEnum=${status}`
+      );
+      const action: PayloadAction<Job> = getJobsManager(res.data.data);
+      dispatch(action);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+};
+
 export const applyForJobAPI = (jobId: number) => {
   return async (dispatch: DispatchType) => {
     dispatch(setLoading(true));
 
     try {
-      const response = await httpClient.post(`https://api.easyjob.io.vn/api/v1/apply-job/${jobId}`);
+      const response = await httpClient.post(
+        `https://api.easyjob.io.vn/api/v1/apply-job/${jobId}`
+      );
       const action: PayloadAction<Job> = postApplyAction(response.data.data);
       dispatch(action);
     } catch (error) {

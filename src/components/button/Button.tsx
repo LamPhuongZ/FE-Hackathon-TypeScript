@@ -1,5 +1,4 @@
-import axios from "axios";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 
 interface ButtonProps {
@@ -12,7 +11,6 @@ interface ButtonProps {
   iconPosition?: "left" | "right";
   color?: "primary" | "secondary" | "delete" | "update" | "custom";
   circle?: boolean;
-  disabled?: boolean;
 }
 
 /**
@@ -41,31 +39,7 @@ export default function Button({
   color = "primary",
   circle = true,
   to,
-  disabled,
 }: ButtonProps & { to?: string }) {
-  const [applied, setApplied] = useState(false);
-
-  useEffect(() => {
-    const isApplied = localStorage.getItem("applied");
-    if (isApplied === "true") {
-      setApplied(true);
-    }
-  }, []);
-
- const handleClick = async (jobId:number) => {
-   if (!applied) {
-     setApplied(true);
-     localStorage.setItem("applied", "true"); // Lưu trạng thái vào localStorage
-
-     // Ghi lên API backend với axios
-     try {
-       await axios.post(`https://api.easyjob.io.vn/api/v1/apply-job/${jobId}`); 
-     } catch (error) {
-       console.error("Lỗi khi gửi yêu cầu:", error); 
-     }
-   }
- };
-
   const bgColor =
     color === "secondary"
       ? "btn-secondary"
@@ -92,42 +66,35 @@ export default function Button({
       {to ? ( // Kiểm tra nếu có prop to
         <NavLink
           to={to}
-          className={`btn-component group ${bgColor} ${className} ${applied ? 'bg-gray-500' : ''}`}
-          onClick={applied ? undefined : handleClick}
+          className={`btn-component group ${bgColor} ${className}`}
+          onClick={onClick}
         >
-          {applied ? "Đã ứng tuyển" : title}
-          {/* {circle && circles} */}
+          {circle && circles}
           <span className="relative z-20">
-            {applied ? null : (
-              <>
-                {icon && iconPosition === "left" && (
-                  <span className="mr-2">{icon}</span>
-                )}
-                {icon && iconPosition === "right" && (
-                  <span className="ml-2">{icon}</span>
-                )}
-              </>
+            {icon && iconPosition === "left" && (
+              <span className="mr-2">{icon}</span>
+            )}
+            {title}
+            {icon && iconPosition === "right" && (
+              <span className="ml-2">{icon}</span>
             )}
           </span>
         </NavLink>
       ) : ( // Nếu không có prop to, sử dụng button thông thường
         <button
           type={type as "button" | "submit" | "reset"}
-          className={`btn-component group ${bgColor} ${className} ${applied ? 'bg-gray-500' : ''}`}
-          onClick={applied ? undefined : handleClick}
-          disabled={loading || applied}
+          className={`btn-component group ${bgColor} ${className}`}
+          onClick={onClick}
+          disabled={loading}
         >
-          {applied ? "Đã ứng tuyển" : title}
+          {circle && circles} {/* Hiển thị các div circle khi circle là true */}
           <span className="relative z-20">
-            {applied ? null : (
-              <>
-                {icon && iconPosition === "left" && (
-                  <span className="mr-2">{icon}</span>
-                )}
-                {icon && iconPosition === "right" && (
-                  <span className="ml-2">{icon}</span>
-                )}
-              </>
+            {icon && iconPosition === "left" && (
+              <span className="mr-2">{icon}</span>
+            )}
+            {title}
+            {icon && iconPosition === "right" && (
+              <span className="ml-2">{icon}</span>
             )}
           </span>
         </button>

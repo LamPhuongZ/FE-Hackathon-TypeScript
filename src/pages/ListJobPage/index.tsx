@@ -160,7 +160,7 @@ export default function ListJobPage() {
       <div ref={ref} className="grid grid-cols-[453px_minmax(0,_1fr)] gap-x-7 pt-[66px] py-4 px-[72px] small-tablet:grid-cols-1 small-tablet:px-[20px]">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col items-start">
-            <h1 className="text-2xl font-medium">Danh sách</h1>
+            <h1 className="text-2xl font-semibold">Có tất cả {objJob?.totalElements} công việc</h1>
             <div className="border-2 border-solid border-[#DC2E55] w-[292px] "></div>
           </div>
           <div className="flex flex-col gap-8">{renderJobs()}</div>

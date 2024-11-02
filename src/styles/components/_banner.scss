@@ -5,20 +5,20 @@
     @apply flex items-center justify-between;
 
     & > :is(.banner__left, .banner__right) {
-      @apply w-52 h-52;
+      @apply w-52 h-52 lg:w-44 lg:h-44;
     }
 
     & > .banner__content {
-      @apply lg:w-[1250px] text-center;
+      @apply lg:w-[1200px] text-center;
 
       & > .text {
-        @apply text-[50px] font-semibold capitalize text-tw-text-opacity;
+        @apply text-[50px] font-semibold capitalize text-tw-text-opacity lg:text-[45px];
       }
     }
   }
 
   & > .banner__group {
-    @apply px-[267px] flex flex-col gap-10;
+    @apply px-[267px] flex flex-col gap-10 lg:px-[150px];
 
     & > .banner__search {
       @apply bg-white px-5 py-3 rounded-[20px] flex gap-4;
@@ -41,7 +41,7 @@
     }
 
     & > .popular__keywords {
-      @apply mx-5 mt-5 mb-[76px];
+      @apply mx-5 mt-5 mb-[76px] lg:mx-3 lg:mb-[40px];
 
       & > .popular__keywords__group {
         @apply flex gap-4;

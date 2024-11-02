@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, notification } from "antd";
+import { notification } from "antd";
 import { delCookie, getCookie } from "../../utils/utilMethod";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -12,6 +12,9 @@ import { PiSignOutBold } from "react-icons/pi";
 const LogOut: React.FC = () => {
   const [api, contextHolder] = notification.useNotification();
   const dispatch: DispatchType = useDispatch();
+
+  console.log(api);
+  
 
   const handleDeleteToken = () => {
     delCookie("access_token");

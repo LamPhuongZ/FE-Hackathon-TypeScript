@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { DispatchType, RootState } from "../configStore";
+import { DispatchType } from "../configStore";
 import { httpClient } from "../../utils/config";
 
 export interface Job {

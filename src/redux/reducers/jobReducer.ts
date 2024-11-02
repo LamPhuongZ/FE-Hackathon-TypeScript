@@ -28,6 +28,7 @@ export interface Content {
   description: string;
   postedDate: Date;
   verified: boolean;
+  jobApprovalStatus: string;
 }
 
 export interface PostJobType {
@@ -65,6 +66,7 @@ export interface JobState {
   objPostJob: PostJobType | null;
   isLoading: boolean;
   objJobType: Job | null;
+  objJobManager: Job | null;
 }
 
 const initialState: JobState = {
@@ -73,6 +75,7 @@ const initialState: JobState = {
   objPostJob: null,
   isLoading: false,
   objJobType: null,
+  objJobManager: null,
 };
 
 const jobReducer = createSlice({
@@ -98,11 +101,21 @@ const jobReducer = createSlice({
       state.objJobType = action.payload;
       state.isLoading = false;
     },
+    getJobsManager: (state: JobState, action: PayloadAction<Job>) => {
+      state.objJobManager = action.payload;
+      state.isLoading = false;
+    },
   },
 });
 
-export const { getJobsAction, getJobDetails, postJobsAction,getJobTypeId, setLoading } =
-  jobReducer.actions;
+export const {
+  getJobsAction,
+  getJobDetails,
+  postJobsAction,
+  getJobTypeId,
+  getJobsManager,
+  setLoading,
+} = jobReducer.actions;
 
 export default jobReducer.reducer;
 
@@ -213,6 +226,28 @@ export const getDataJobTypeAPI = (id: number) => {
     try {
       const res = await httpClient.get(`api/v1/job?jobTypeId=${id}`);
       const action: PayloadAction<Job> = getJobTypeId(res.data.data);
+      dispatch(action);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+};
+
+export const getDataJobManagerAPI = (
+  page: number,
+  size: number,
+  status: string
+) => {
+  return async (dispatch: DispatchType) => {
+    dispatch(setLoading(true));
+
+    try {
+      const res = await httpClient.get(
+        `/api/v1/job/job-my-self?page=${page}&size=${size}&sort=id&jobApprovalStatusEnum=${status}`
+      );
+      const action: PayloadAction<Job> = getJobsManager(res.data.data);
       dispatch(action);
     } catch (error) {
       console.error(error);

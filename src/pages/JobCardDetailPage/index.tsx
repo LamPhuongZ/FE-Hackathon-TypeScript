@@ -30,7 +30,7 @@ export default function JobCardDetailPage() {
   //     dispatch(getDataCandidateDetailAPI(Number(id)));
   //   }
   // }, [id, dispatch]);
-
+  
   useEffect(() => {
     if (jobId) {
       dispatch(getDataJobDetailAPI(Number(jobId)));

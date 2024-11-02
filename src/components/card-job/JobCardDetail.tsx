@@ -27,34 +27,32 @@ export default function JobCardDetail({ item }: Props) {
   const dispatch: DispatchType = useDispatch();
   const token = getCookie(ACCESS_TOKEN);
 
-  useEffect(() => {
-    const hasApplied = localStorage.getItem(`hasApplied_${jobId}`);
-    if (hasApplied === "true") {
-      dispatch(setHasApplied(true)); // Cập nhật trạng thái vào Redux
-    }
-  }, [jobId, dispatch]);
-
   const { hasApplied, isLoading } = useSelector(
     (state: RootState) => state.jobReducer
   );
 
-  console.log(hasApplied);
-  
+  useEffect(() => {
+    // Kiểm tra trạng thái ứng tuyển từ localStorage và cập nhật vào Redux
+    const hasApplied = localStorage.getItem(`hasApplied_${jobId}`);
+
+    if (hasApplied === "true") {
+      dispatch(setHasApplied(true)); // Cập nhật trạng thái vào Redux
+    } else {
+      dispatch(setHasApplied(false)); // Cập nhật trạng thái vào Redux
+    }
+  }, [jobId, dispatch]);
 
   const handleApply = async (jobId: number) => {
-    await dispatch(applyForJobAPI(Number(jobId)));
+    // Kiểm tra xem người dùng đã đăng nhập hay chưa
+    if (!token) {
+      return;
+    }
 
-    // Lưu trạng thái ứng tuyển vào localStorage chỉ khi nút được nhấn
-    localStorage.setItem(`hasApplied_${jobId}`, "true");
+    // Gọi API ứng tuyển và cập nhật trạng thái sau khi ứng tuyển thành công
+    await dispatch(applyForJobAPI(jobId));
+    localStorage.setItem(`hasApplied_${jobId}`, "true"); // Lưu trạng thái ứng tuyển vào localStorage
     dispatch(setHasApplied(true)); // Cập nhật trạng thái ứng tuyển trong Redux
   };
-
-  useEffect(() => {
-    if (token) return;
-    if (jobId) {
-      handleApply(Number(jobId));
-    }
-  }, [jobId]);
 
   return (
     <div className="bg-white rounded-2xl shadow-md py-12 px-7 small-tablet:w-full">

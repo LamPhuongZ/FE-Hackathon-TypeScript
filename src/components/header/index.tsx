@@ -26,13 +26,14 @@ export default function Header() {
   const items: MenuProps["items"] = [
     {
       key: "1",
+      style:{background:'none'},
       label: (
         <button
           onClick={() => {
             navigate("/profile");
           }}
         >
-          <h1 className="text-xl flex items-center gap-2 p-3">
+          <h1 className="text-xl flex items-center gap-2 p-3 hover:bg-green-500 w-full hover:text-white rounded transition">
             <LuUserCircle2 className="text-xl" />
             Trang cá nhân
           </h1>
@@ -40,6 +41,7 @@ export default function Header() {
       ),
     },
     {
+      style:{background:'none'},
       key: "2",
       label: <LogOut />,
     },
@@ -122,10 +124,11 @@ export default function Header() {
                   </div>
                   <a className="cursor-pointer max-w-[180px]">
                     <Space
-                      className="font-bold leading-5 overflow-hidden whitespace-nowrap text-ellipsis block"
-                      style={{ maxWidth: "180px" }}
+                      className="font-bold leading-5 overflow-hidden "
+                      style={{ maxWidth: "180px"}}
                     >
-                      {userProfile.fullname}
+                      <p className="whitespace-nowrap !text-ellipsis">{userProfile.fullname}</p>
+                      
                     </Space>
                   </a>
                 </div>

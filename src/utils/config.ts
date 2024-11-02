@@ -60,6 +60,7 @@ httpClient.interceptors.response.use(
             if (decodedToken.exp * 1000 < currentDate.getTime()) {
               console.log("Token expired.");
               // Remove user login cookie
+              delCookie(ACCESS_TOKEN);
               delCookie(USER_LOGIN);
               // Redirect to login
               routeLink.push("/login");

@@ -163,6 +163,9 @@ export const registerAPI = createAsyncThunk(
         userRegister
       );
       dispatch(setRegisterAction(response.data));
+      
+      console.log("🚀 ~ file: userReducer.ts:184 ~ response:", response.data);
+
       notification.success({
         message: "Đăng Ký thành công",
         placement: "topRight",

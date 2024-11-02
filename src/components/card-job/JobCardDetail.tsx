@@ -1,5 +1,5 @@
 import checked from "../../assets/images/checked.png";
-import { applyForJobAPI, Content } from "../../redux/reducers/jobReducer";
+import { applyForJobAPI, Content, setHasApplied } from "../../redux/reducers/jobReducer";
 import Button from "../button/Button";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
@@ -8,9 +8,9 @@ import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 import { PiSealWarningFill } from "react-icons/pi";
 import { useParams } from "react-router-dom";
-import { DispatchType } from "../../redux/configStore";
-import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { DispatchType, RootState } from "../../redux/configStore";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import { getCookie } from "../../utils/utilMethod";
 import { ACCESS_TOKEN } from "../../utils/config";
 
@@ -20,17 +20,23 @@ type Props = {
 
 export default function JobCardDetail({ item }: Props) {
   const { jobId } = useParams();
-  const [loading, setLoading] = useState(false);
-
-  console.log({ jobId });
-
   const dispatch: DispatchType = useDispatch();
   const token = getCookie(ACCESS_TOKEN);
 
+  useEffect(() => {
+    if (token) return;
+
+    const hasApplied = localStorage.getItem(`hasApplied_${jobId}`);
+    if (hasApplied === 'true') {
+      dispatch(setHasApplied(true));
+    }
+  }, [dispatch, jobId]);
+
+  const { hasApplied, isLoading } = useSelector((state: RootState) => state.jobReducer);
+
+
   const handleApply = async (jobId: number) => {
-    setLoading(true);
     await dispatch(applyForJobAPI(Number(jobId)));
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -70,6 +76,7 @@ export default function JobCardDetail({ item }: Props) {
           title="Ứng Tuyển"
           className="w-full h-16 mt-9"
           onClick={() => handleApply(Number(jobId))}
+          disabled={hasApplied || isLoading} // Disable nút nếu đã ứng tuyển hoặc đang loading
         />
         <div className="border border-solid mt-4"></div>
       </div>
@@ -171,7 +178,7 @@ export default function JobCardDetail({ item }: Props) {
             </h1>
             <div className="py-[10px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
               <p className="text-lg font-medium  small-tablet:text-sm">
-                {item.duration}
+                {item.duration / 60}
               </p>
             </div>
           </div>

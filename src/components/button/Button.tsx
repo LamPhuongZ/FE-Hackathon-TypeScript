@@ -10,6 +10,7 @@ interface ButtonProps {
   iconPosition?: "left" | "right";
   color?: "primary" | "secondary" | "delete" | "update" | "custom";
   circle?: boolean;
+  disabled?: boolean;
 }
 
 /**
@@ -23,6 +24,7 @@ interface ButtonProps {
   icon?: ReactNode;
   iconPosition?: "left" | "right";
   color?: "primary" | "secondary" | "delete" | "update" | "custom";
+  disabled?: boolean
 
   *Note: width and height are self-defined
  */
@@ -37,6 +39,7 @@ export default function Button({
   iconPosition = "left",
   color = "primary",
   circle = true,
+  disabled
 }: ButtonProps) {
   const bgColor =
     color === "secondary"
@@ -65,7 +68,7 @@ export default function Button({
         type={type as "button" | "submit" | "reset"}
         className={`btn-component group ${bgColor} ${className}`}
         onClick={onClick}
-        disabled={loading}
+        disabled={disabled || loading}
       >
         {circle && circles} {/* Hiển thị các div circle khi circle là true */}
         <span className="relative z-20">

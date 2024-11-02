@@ -64,20 +64,22 @@ export interface JobState {
   objJob: Job | null;
   objJobDetails: Content | null;
   objPostJob: PostJobType | null;
-  isLoading: boolean;
   objJobType: Job | null;
   objJobManager: Job | null;
   objApply: Job | null;
+  isLoading: boolean;
+  hasApplied: boolean; // Thêm thuộc tính để theo dõi trạng thái ứng tuyển
 }
 
 const initialState: JobState = {
   objJob: null,
   objJobDetails: null,
   objPostJob: null,
-  isLoading: false,
   objJobType: null,
   objJobManager: null,
   objApply: null,
+  isLoading: false,
+  hasApplied: false, // Mặc định là chưa ứng tuyển
 };
 
 const jobReducer = createSlice({
@@ -99,9 +101,7 @@ const jobReducer = createSlice({
     postApplyAction: (state: JobState, action: PayloadAction<Job>) => {
       state.objApply = action.payload;
       state.isLoading = false;
-    },
-    setLoading: (state: JobState, action: PayloadAction<boolean>) => {
-      state.isLoading = action.payload;
+      state.hasApplied = true; // Cập nhật trạng thái đã ứng tuyển
     },
     getJobTypeId: (state: JobState, action: PayloadAction<Job>) => {
       state.objJobType = action.payload;
@@ -110,6 +110,12 @@ const jobReducer = createSlice({
     getJobsManager: (state: JobState, action: PayloadAction<Job>) => {
       state.objJobManager = action.payload;
       state.isLoading = false;
+    },
+    setLoading: (state: JobState, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
+    setHasApplied: (state: JobState, action: PayloadAction<boolean>) => {
+      state.hasApplied = action.payload; // Action để cập nhật trạng thái ứng tuyển
     },
   },
 });
@@ -122,6 +128,7 @@ export const {
   getJobsManager,
   postApplyAction,
   setLoading,
+  setHasApplied
 } = jobReducer.actions;
 
 export default jobReducer.reducer;
@@ -270,10 +277,13 @@ export const applyForJobAPI = (jobId: number) => {
 
     try {
       const response = await httpClient.post(
-        `https://api.easyjob.io.vn/api/v1/apply-job/${jobId}`
+        `/api/v1/apply-job/${jobId}`
       );
       const action: PayloadAction<Job> = postApplyAction(response.data.data);
       dispatch(action);
+
+      // Lưu trạng thái ứng tuyển vào localStorage
+      localStorage.setItem(`hasApplied_${jobId}`, 'true');
     } catch (error) {
       console.error(error);
     } finally {

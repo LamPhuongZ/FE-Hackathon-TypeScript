@@ -32,19 +32,21 @@ export default function JobCardDetail({ item }: Props) {
     if (hasApplied === "true") {
       dispatch(setHasApplied(true)); // Cập nhật trạng thái vào Redux
     }
-  }, [jobId, dispatch]); 
+  }, [jobId, dispatch]);
 
   const { hasApplied, isLoading } = useSelector(
     (state: RootState) => state.jobReducer
   );
 
+  console.log(hasApplied);
+  
+
   const handleApply = async (jobId: number) => {
     await dispatch(applyForJobAPI(Number(jobId)));
 
     // Lưu trạng thái ứng tuyển vào localStorage chỉ khi nút được nhấn
-    localStorage.setItem(`hasApplied_${jobId}`, 'true');
+    localStorage.setItem(`hasApplied_${jobId}`, "true");
     dispatch(setHasApplied(true)); // Cập nhật trạng thái ứng tuyển trong Redux
-
   };
 
   useEffect(() => {

@@ -1,35 +1,45 @@
 import checked from "../../assets/images/checked.png";
-import { Content } from "../../redux/reducers/jobReducer";
+import { applyForJobAPI, Content } from "../../redux/reducers/jobReducer";
 import Button from "../button/Button";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Pagination } from "swiper/modules";
-import { useState } from "react";
+import { Navigation, Pagination } from "swiper/modules";
+import { PiSealWarningFill } from "react-icons/pi";
+import { useParams } from "react-router-dom";
+import { DispatchType } from "../../redux/configStore";
 import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 import { getCookie } from "../../utils/utilMethod";
-import { applyJobAPI } from "../../redux/reducers/jobSkillReducer";
-import { useNavigate } from "react-router-dom";
-import { ThunkDispatch } from 'redux-thunk';
+import { ACCESS_TOKEN } from "../../utils/config";
 
 type Props = {
   item: Content;
 };
-export default function JobCardDetail({ item }: Props) {
-  const [applied, setApplied] = useState(false);
-  const navigate = useNavigate();
-  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
-  const handleApply = () => {
-    const accessToken = getCookie("access_token");
-    if(accessToken){
-      dispatch(applyJobAPI(item.jobId, accessToken) as any);
-      setApplied(true);
-    } else {
-      navigate("/login");
-    }
+export default function JobCardDetail({ item }: Props) {
+  const { jobId } = useParams();
+  const [loading, setLoading] = useState(false);
+
+  console.log({ jobId });
+
+  const dispatch: DispatchType = useDispatch();
+  const token = getCookie(ACCESS_TOKEN);
+
+  const handleApply = async (jobId: number) => {
+    setLoading(true);
+    await dispatch(applyForJobAPI(Number(jobId)));
+    setLoading(false);
   };
+
+  useEffect(() => {
+    if (token) return;
+
+    if (jobId) {
+      handleApply(Number(jobId));
+    }
+  }, [jobId]);
 
   return (
     <div className="bg-white rounded-2xl shadow-md py-12 px-7 small-tablet:w-full">
@@ -48,12 +58,20 @@ export default function JobCardDetail({ item }: Props) {
               </div>
             ) : (
               <div className="flex gap-2 items-center">
+                <div className="w-8 h-8 small-tablet:w-4 small-tablet:h-4">
+                  <PiSealWarningFill className="text-[#faad15] text-[30px]" />
+                </div>
                 <p className="font-medium text-gray-400">Chưa xác thực</p>
               </div>
             )}
           </div>
         </div>
-        <Button title="Ứng Tuyển" className="w-full h-16 mt-9" onClick={handleApply} disabled={applied} />
+        <Button
+          title="Ứng Tuyển"
+          className="w-full h-16 mt-9"
+          onClick={() => handleApply(Number(jobId))}
+          disabled={!token || loading}
+        />
         <div className="border border-solid mt-4"></div>
       </div>
       <div className="h-auto max-h-[1235px] overflow-y-auto px-2">
@@ -154,7 +172,7 @@ export default function JobCardDetail({ item }: Props) {
             </h1>
             <div className="py-[10px] flex items-center justify-center border border-solid rounded-[20px] small-tablet:py-[10px] small-tablet:rounded-[10px]">
               <p className="text-lg font-medium  small-tablet:text-sm">
-                {item.duration / 60}
+                {item.duration}
               </p>
             </div>
           </div>
@@ -163,12 +181,16 @@ export default function JobCardDetail({ item }: Props) {
         <div className="mt-[30px]">
           {item.images && item.images.length > 0 ? (
             <Swiper
+              navigation={{
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+              }}
               spaceBetween={10}
               slidesPerView={1}
               pagination={{
                 dynamicBullets: true,
               }}
-              modules={[Pagination]}
+              modules={[Pagination, Navigation]}
             >
               {item.images.slice(0, 4).map((image, index) => (
                 <SwiperSlide key={index}>
@@ -181,9 +203,11 @@ export default function JobCardDetail({ item }: Props) {
                   </div>
                 </SwiperSlide>
               ))}
+              <div className="swiper-button-next"></div>
+              <div className="swiper-button-prev"></div>
             </Swiper>
           ) : (
-            <p>Không tồn tại hình ảnh</p>
+            <p className="mb-10">Không tồn tại hình ảnh</p>
           )}
           <div>
             <h1 className="text-[20px] font-semibold mb-2 small-tablet:text-sm">

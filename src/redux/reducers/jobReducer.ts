@@ -91,6 +91,10 @@ const jobReducer = createSlice({
       state.objPostJob = action.payload;
       state.isLoading = false;
     },
+    postApplyAction: (state: JobState, action: PayloadAction<Job>) => {
+      state.objJob = action.payload;
+      state.isLoading = false;
+    },
     setLoading: (state: JobState, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
@@ -101,7 +105,7 @@ const jobReducer = createSlice({
   },
 });
 
-export const { getJobsAction, getJobDetails, postJobsAction,getJobTypeId, setLoading } =
+export const { getJobsAction, getJobDetails, postJobsAction, getJobTypeId, postApplyAction, setLoading } =
   jobReducer.actions;
 
 export default jobReducer.reducer;
@@ -213,6 +217,22 @@ export const getDataJobTypeAPI = (id: number) => {
     try {
       const res = await httpClient.get(`api/v1/job?jobTypeId=${id}`);
       const action: PayloadAction<Job> = getJobTypeId(res.data.data);
+      dispatch(action);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      dispatch(setLoading(false));
+    }
+  };
+};
+
+export const applyForJobAPI = (jobId: number) => {
+  return async (dispatch: DispatchType) => {
+    dispatch(setLoading(true));
+
+    try {
+      const response = await httpClient.post(`https://api.easyjob.io.vn/api/v1/apply-job/${jobId}`);
+      const action: PayloadAction<Job> = postApplyAction(response.data.data);
       dispatch(action);
     } catch (error) {
       console.error(error);

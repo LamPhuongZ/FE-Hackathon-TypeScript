@@ -55,31 +55,4 @@ export const getDataJobSkillAPI = () => {
   };
 };
 
-//Thêm action applyJob
-export const applyJobAPI = (jobId: number, accessToken: string) => {
-  return async (dispatch: DispatchType) => {
-    dispatch(setLoading(true));
-    try {
-      const response = await httpClient.post(
-        `api/v1/apply-job/${jobId}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
 
-      if (response.status === 200) {
-        alert("Ứng tuyển thành công");
-      } else {
-        alert("Có lỗi xảy ra khi ứng tuyển");
-      }
-    } catch (error) {
-      console.error("Error applying for job:", error);
-      alert("Có lỗi xảy ra khi ứng tuyển");
-    } finally {
-      dispatch(setLoading(false));
-    }
-  };
-};

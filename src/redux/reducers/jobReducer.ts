@@ -215,6 +215,7 @@ export const getSearchJobByTitle = (
       if (params.toString()) {
         url += `?${params.toString()}`;
       }
+      console.log(httpClient.get(url));
 
       const res = await httpClient.get(url);
       const action: PayloadAction<Job> = getJobsAction(res.data.data);

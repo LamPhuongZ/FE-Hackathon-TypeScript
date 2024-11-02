@@ -50,7 +50,7 @@ export default function Banner() {
 
   const handleSearchClick = () => {
     dispatch(setSearchInputTitle(searchInput || ''));
-
+    dispatch(setSearchInputProvince(searchProvince))
     const params = new URLSearchParams();
   
     if (searchInput) {

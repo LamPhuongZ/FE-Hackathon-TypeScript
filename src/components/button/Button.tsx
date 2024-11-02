@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 
 interface ButtonProps {
   title?: string | ReactNode;
@@ -39,18 +39,25 @@ export default function Button({
   iconPosition = "left",
   color = "primary",
   circle = true,
-  disabled
+  disabled,
 }: ButtonProps) {
-  const bgColor =
-    color === "secondary"
-      ? "btn-secondary"
-      : color === "delete"
-      ? "btn-delete"
-      : color === "update"
-      ? "btn-update"
-      : color === "custom"
-      ? "btn-custom"
-      : "btn-primary";
+  // State to track hover status
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Background color based on button's color prop and disabled status
+  const bgColor = disabled
+    ? isHovered
+      ? "rgba(255, 0, 0, 0.4)" // Red overlay when disabled and hovered
+      : "bg-gray-400"
+    : color === "secondary"
+    ? "btn-secondary"
+    : color === "delete"
+    ? "btn-delete"
+    : color === "update"
+    ? "btn-update"
+    : color === "custom"
+    ? "btn-custom"
+    : "btn-primary";
 
   // Thêm biến để chứa các div circle
   const circles = (
@@ -67,8 +74,14 @@ export default function Button({
       <button
         type={type as "button" | "submit" | "reset"}
         className={`btn-component group ${bgColor} ${className}`}
-        onClick={onClick}
+        onClick={disabled || loading ? undefined : onClick}
         disabled={disabled || loading}
+        style={{
+          backgroundColor: bgColor, // Apply conditional background color
+          cursor: disabled ? "not-allowed" : "pointer",
+        }}
+        onMouseEnter={() => disabled && setIsHovered(true)} // Show red overlay on hover if disabled
+        onMouseLeave={() => disabled && setIsHovered(false)} // Remove red overlay when not hovering
       >
         {circle && circles} {/* Hiển thị các div circle khi circle là true */}
         <span className="relative z-20">

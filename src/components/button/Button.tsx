@@ -1,5 +1,4 @@
-import { ReactNode } from "react";
-import { NavLink } from "react-router-dom";
+import { ReactNode, useState } from "react";
 
 interface ButtonProps {
   title?: string | ReactNode;
@@ -11,6 +10,7 @@ interface ButtonProps {
   iconPosition?: "left" | "right";
   color?: "primary" | "secondary" | "delete" | "update" | "custom";
   circle?: boolean;
+  disabled?: boolean;
 }
 
 /**
@@ -24,6 +24,7 @@ interface ButtonProps {
   icon?: ReactNode;
   iconPosition?: "left" | "right";
   color?: "primary" | "secondary" | "delete" | "update" | "custom";
+  disabled?: boolean
 
   *Note: width and height are self-defined
  */
@@ -38,18 +39,25 @@ export default function Button({
   iconPosition = "left",
   color = "primary",
   circle = true,
-  to,
-}: ButtonProps & { to?: string }) {
-  const bgColor =
-    color === "secondary"
-      ? "btn-secondary"
-      : color === "delete"
-      ? "btn-delete"
-      : color === "update"
-      ? "btn-update"
-      : color === "custom"
-      ? "btn-custom"
-      : "btn-primary";
+  disabled,
+}: ButtonProps) {
+  // State to track hover status
+  const [isHovered, setIsHovered] = useState(false);
+
+  // Background color based on button's color prop and disabled status
+  const bgColor = disabled
+    ? isHovered
+      ? "rgba(255, 0, 0, 0.4)" // Red overlay when disabled and hovered
+      : "bg-gray-400"
+    : color === "secondary"
+    ? "btn-secondary"
+    : color === "delete"
+    ? "btn-delete"
+    : color === "update"
+    ? "btn-update"
+    : color === "custom"
+    ? "btn-custom"
+    : "btn-primary";
 
   // Thêm biến để chứa các div circle
   const circles = (
@@ -62,43 +70,30 @@ export default function Button({
   );
 
   return (
-   <>
-      {to ? ( // Kiểm tra nếu có prop to
-        <NavLink
-          to={to}
-          className={`btn-component group ${bgColor} ${className}`}
-          onClick={onClick}
-        >
-          {circle && circles}
-          <span className="relative z-20">
-            {icon && iconPosition === "left" && (
-              <span className="mr-2">{icon}</span>
-            )}
-            {title}
-            {icon && iconPosition === "right" && (
-              <span className="ml-2">{icon}</span>
-            )}
-          </span>
-        </NavLink>
-      ) : ( // Nếu không có prop to, sử dụng button thông thường
-        <button
-          type={type as "button" | "submit" | "reset"}
-          className={`btn-component group ${bgColor} ${className}`}
-          onClick={onClick}
-          disabled={loading}
-        >
-          {circle && circles} {/* Hiển thị các div circle khi circle là true */}
-          <span className="relative z-20">
-            {icon && iconPosition === "left" && (
-              <span className="mr-2">{icon}</span>
-            )}
-            {title}
-            {icon && iconPosition === "right" && (
-              <span className="ml-2">{icon}</span>
-            )}
-          </span>
-        </button>
-      )}
+    <>
+      <button
+        type={type as "button" | "submit" | "reset"}
+        className={`btn-component group ${bgColor} ${className}`}
+        onClick={disabled || loading ? undefined : onClick}
+        disabled={disabled || loading}
+        style={{
+          backgroundColor: bgColor, // Apply conditional background color
+          cursor: disabled ? "not-allowed" : "pointer",
+        }}
+        onMouseEnter={() => disabled && setIsHovered(true)} // Show red overlay on hover if disabled
+        onMouseLeave={() => disabled && setIsHovered(false)} // Remove red overlay when not hovering
+      >
+        {circle && circles} {/* Hiển thị các div circle khi circle là true */}
+        <span className="relative z-20">
+          {icon && iconPosition === "left" && (
+            <span className="mr-2">{icon}</span>
+          )}
+          {title}
+          {icon && iconPosition === "right" && (
+            <span className="ml-2">{icon}</span>
+          )}
+        </span>
+      </button>
     </>
   );
 }

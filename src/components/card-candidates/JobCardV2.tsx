@@ -73,7 +73,6 @@ export default function JobCardV2({
             color="custom"
             className="w-1/6 bg-[#DC2E55]"
             circle={false}
-            to="/list-candidated"
           />
         )}
       </div>

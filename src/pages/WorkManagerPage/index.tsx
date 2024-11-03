@@ -71,7 +71,7 @@ export default function WorkManagerPage() {
           <div>
             <Dropdown width="w-[600px]">
               <DropdownSelect
-                value={`${selectedStatus ?? JobApprovalStatusEnum.PENDING}`}
+                value={`${selectedStatus ?? JobApprovalStatusEnum.APPROVED}`}
               ></DropdownSelect>
               <DropdownList height="h-[170px]">
                 {Object.values(JobApprovalStatusEnum).map((item) => (

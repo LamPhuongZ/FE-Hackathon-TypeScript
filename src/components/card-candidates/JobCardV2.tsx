@@ -3,7 +3,7 @@ import location from "../../assets/images/location.png";
 import calendar from "../../assets/images/calendar.png";
 import { Content } from "../../redux/reducers/jobReducer";
 import { useNavigate } from "react-router-dom";
-import { jobApprovalStatusEnum } from "../../pages/WorkManagerPage/enum";
+import { JobApprovalStatusEnum } from "../../enums/jobApproval.enum";
 
 type Props = {
   item: Content & { jobDetail?: { size: number } };
@@ -75,7 +75,7 @@ export default function JobCardV2({
           </div>
         </div>
 
-        {type && !(item.jobApprovalStatus === jobApprovalStatusEnum.PENDING || item.jobApprovalStatus === jobApprovalStatusEnum.REJECTED) && (
+        {type && !(item.jobApprovalStatus === JobApprovalStatusEnum.PENDING || item.jobApprovalStatus === JobApprovalStatusEnum.REJECTED) && (
           <Button
             title="Ứng Viên"
             color="custom"

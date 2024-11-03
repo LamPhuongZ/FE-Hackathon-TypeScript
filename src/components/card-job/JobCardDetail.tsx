@@ -19,6 +19,7 @@ import { getCookie } from "../../utils/utilMethod";
 import { ACCESS_TOKEN } from "../../utils/config";
 import { toast } from "react-toastify";
 import { useRole } from "../../hooks/useRole";
+import { UserRole } from "../../enums/role.enum";
 
 type Props = {
   item: Content;
@@ -26,11 +27,14 @@ type Props = {
 
 export default function JobCardDetail({ item }: Props) {
   const { jobId } = useParams();
-  const { sub } = useRole();
+  const { sub, role, isTokenExp } = useRole();
   const navigate = useNavigate();
   const location = useLocation(); // Lấy thông tin vị trí hiện tại
   const dispatch: DispatchType = useDispatch();
   const token = getCookie(ACCESS_TOKEN);
+
+  // Kiểm tra phân quyền
+  const isApplier = role === UserRole.ROLE_APPLIER;
 
   const { hasApplied, isLoading } = useSelector(
     (state: RootState) => state.jobReducer
@@ -47,7 +51,16 @@ export default function JobCardDetail({ item }: Props) {
         dispatch(setHasApplied(false)); // Cập nhật trạng thái vào Redux
       }
     }
-  }, [jobId, sub, dispatch, token]);
+  }, [jobId, sub, dispatch, isApplier]);
+
+  if (isTokenExp) {
+    return <div>Token đã hết hạn, vui lòng đăng nhập lại.</div>;
+  }
+
+  if (!isApplier) {
+    return <div>Bạn không có quyền truy cập vào trang này.</div>;
+  }
+
 
   const handleApply = async (jobId: number) => {
     // Kiểm tra xem người dùng đã đăng nhập hay chưa

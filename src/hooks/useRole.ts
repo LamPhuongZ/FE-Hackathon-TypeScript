@@ -33,16 +33,22 @@ export const useRole = () => {
         const currentTime = Date.now() / 1000; // convert to seconds
         if (decodedToken.exp < currentTime) {
           setIsTokenExp(true); // Token has expired
+          setTokenData({ role: null, sub: null }); // Reset token data
         } else {
-          setTokenData({ role: decodedToken.role, sub: decodedToken.sub }); // Get role and sub from token
+          setTokenData({
+            role: decodedToken.role || null, // Ensure role is valid
+            sub: decodedToken.sub || null,
+          });
           setIsTokenExp(false);
         }
       } catch (error) {
         console.error("Token không hợp lệ hoặc lỗi khi giải mã token", error);
         setTokenData({ role: null, sub: null });
+        setIsTokenExp(true); // Có thể thiết lập là hết hạn nếu không giải mã được
       }
     } else {
       setTokenData({ role: null, sub: null }); // Token not found
+      setIsTokenExp(true); // Thiết lập là hết hạn nếu không tìm thấy token
     }
   }, []);
 

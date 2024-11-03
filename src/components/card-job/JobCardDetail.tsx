@@ -18,6 +18,7 @@ import { useEffect } from "react";
 import { getCookie } from "../../utils/utilMethod";
 import { ACCESS_TOKEN } from "../../utils/config";
 import { toast } from "react-toastify";
+import { useRole } from "../../hooks/useRole";
 
 type Props = {
   item: Content;
@@ -25,6 +26,7 @@ type Props = {
 
 export default function JobCardDetail({ item }: Props) {
   const { jobId } = useParams();
+  const { sub } = useRole();
   const navigate = useNavigate();
   const location = useLocation(); // Lấy thông tin vị trí hiện tại
   const dispatch: DispatchType = useDispatch();
@@ -35,15 +37,17 @@ export default function JobCardDetail({ item }: Props) {
   );
 
   useEffect(() => {
-    // Kiểm tra trạng thái ứng tuyển từ localStorage và cập nhật vào Redux
-    const hasApplied = localStorage.getItem(`hasApplied_${jobId}`);
+    if (token && sub) {
+      // Kiểm tra trạng thái ứng tuyển từ localStorage và cập nhật vào Redux
+      const hasApplied = localStorage.getItem(`hasApplied_${jobId}_${sub}`);
 
-    if (hasApplied === "true") {
-      dispatch(setHasApplied(true)); // Cập nhật trạng thái vào Redux
-    } else {
-      dispatch(setHasApplied(false)); // Cập nhật trạng thái vào Redux
+      if (hasApplied === "true") {
+        dispatch(setHasApplied(true)); // Cập nhật trạng thái vào Redux
+      } else {
+        dispatch(setHasApplied(false)); // Cập nhật trạng thái vào Redux
+      }
     }
-  }, [jobId, dispatch]);
+  }, [jobId, sub, dispatch, token]);
 
   const handleApply = async (jobId: number) => {
     // Kiểm tra xem người dùng đã đăng nhập hay chưa
@@ -54,7 +58,7 @@ export default function JobCardDetail({ item }: Props) {
 
     // Gọi API ứng tuyển và cập nhật trạng thái sau khi ứng tuyển thành công
     await dispatch(applyForJobAPI(jobId));
-    localStorage.setItem(`hasApplied_${jobId}`, "true"); // Lưu trạng thái ứng tuyển vào localStorage
+    localStorage.setItem(`hasApplied_${jobId}_${sub}`, "true"); // Lưu trạng thái ứng tuyển vào localStorage
     dispatch(setHasApplied(true)); // Cập nhật trạng thái ứng tuyển trong Redux
   };
 

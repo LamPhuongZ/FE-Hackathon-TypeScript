@@ -53,7 +53,6 @@ export default function JobCardDetail({ item }: Props) {
     }
   }, [jobId, sub, dispatch, token]);
 
-
   const handleApply = async (jobId: number) => {
     // Kiểm tra xem người dùng đã đăng nhập hay chưa
     if (!token) {
@@ -67,6 +66,7 @@ export default function JobCardDetail({ item }: Props) {
 
     // Gọi API ứng tuyển và cập nhật trạng thái sau khi ứng tuyển thành công
     await dispatch(applyForJobAPI(jobId));
+
     localStorage.setItem(`hasApplied_${jobId}_${sub}`, "true"); // Lưu trạng thái ứng tuyển vào localStorage
     dispatch(setHasApplied(true)); // Cập nhật trạng thái ứng tuyển trong Redux
   };

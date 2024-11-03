@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { jobApprovalStatusEnum } from "../../pages/WorkManagerPage/enum";
 
 type Props = {
-  item: Content;
+  item: Content & { jobDetail?: { size: number } };
   width?: string;
   className?: string;
   type?: boolean;
@@ -21,7 +21,7 @@ export default function JobCardV2({
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    navigate(`/list-candidated?id=${item.jobId}`); 
+    navigate(`/list-candidated?id=${item.jobId}`);
   };
 
   return (

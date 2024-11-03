@@ -14,6 +14,7 @@ export default function ListCandidatedPage() {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const jobId = query.get("id");
+  // const size = query.get("size");
 
   const navigate = useNavigate();
 

@@ -14,6 +14,10 @@ export interface Candidate {
   empty: boolean;
 }
 
+export interface SizeCandidate {
+  size: number;
+}
+
 export interface Content {
   id: number;
   address: string;
@@ -26,6 +30,7 @@ export interface Content {
   star: null;
   createdDate: Date;
   jobSkills: jobSkills[];
+  SizeCandidate?: SizeCandidate;
 }
 
 export interface jobSkills {
@@ -96,18 +101,21 @@ export const getDataCandidateAPI = (jobId: number, page: number, size: number) =
   };
 };
 
-export const getDataCandidateDetailAPI = (idPage: number, idCandidate: number) => {
+export const getDataCandidateDetailAPI = (idPage: number, idCandidate: number, size: number) => {
   return async (dispatch: DispatchType) => {
     dispatch(setLoading(true));
 
     try {
       const res = await httpClient.get(
-        `/api/v1/apply-job/${idPage}/WAITING?page=0&size=1&sort=string`
+        `/api/v1/apply-job/${idPage}/WAITING?page=0&size=${size}&sort=string`
         // `/api/v1/apply-job`
       );
       const candidateDetail = res.data.data?.content.find(
         (item: Content) => item.id === idCandidate
       );
+      if (candidateDetail) {
+        candidateDetail.SizeCandidate = { size: res.data.data.size };
+      }
       const action: PayloadAction<Content> =
         getCandidateDetail(candidateDetail);
       dispatch(action);

@@ -3,12 +3,10 @@ import CandiCardDetail from "../../components/card-candidates/CandiCardDetail";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
 import { getDataCandidateDetailAPI } from "../../redux/reducers/candidateReducer";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default function CandidateDetailPage() {
-  const { id, jobId } = useParams();
-  console.log("🚀 ~ CandidateDetailPage ~ jobId:", jobId)
-  console.log("🚀 ~ CandidateDetailPage ~ id:", id)
+  const { id, jobId, size } = useParams();
   const dispatch: DispatchType = useDispatch();
   const { objCandiDetails } = useSelector(
     (state: RootState) => state.candidateReducer
@@ -16,7 +14,9 @@ export default function CandidateDetailPage() {
 
   useEffect(() => {
     if (id) {
-      dispatch(getDataCandidateDetailAPI(Number(jobId), Number(id)));
+      dispatch(
+        getDataCandidateDetailAPI(Number(jobId), Number(id), Number(size))
+      );
     }
   }, [id, dispatch]);
 
@@ -27,7 +27,9 @@ export default function CandidateDetailPage() {
           <h1 className="text-2xl font-medium">Thông tin ứng viên</h1>
         </div>
         <div className="flex">
-          {objCandiDetails && <CandiCardDetail item={objCandiDetails} className="w-full" />}
+          {objCandiDetails && (
+            <CandiCardDetail item={objCandiDetails} className="w-full" />
+          )}
         </div>
       </div>
     </div>

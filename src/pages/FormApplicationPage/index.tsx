@@ -19,11 +19,17 @@ import { JobProfileSchema } from "../../utils/validation";
 import { District, Province, useAddress } from "../../hooks/useAddress";
 import { postDataJobAPI, PostJobType } from "../../redux/reducers/jobReducer";
 import dayjs from "dayjs";
+import { useRole } from "../../hooks/useRole";
+import { UserRole } from "../../enums/role.enum";
+import { getCookie } from "../../utils/utilMethod";
+import { ACCESS_TOKEN } from "../../utils/config";
+import NotFoundPage from "../NotFoundPage";
 
 export default function FormApplication() {
   const {
     control,
     handleSubmit,
+    watch,
     setValue,
     reset,
     formState: { errors },
@@ -44,10 +50,12 @@ export default function FormApplication() {
       imageJobDetails: undefined,
     },
   });
-  const [resetTrigger, setResetTrigger] = useState(false); // Reset trigger state
-  const { provinces, districts, setProvinceAndFetchDistricts } =
-    useAddress();
+  const { role } = useRole();
+  const token = getCookie(ACCESS_TOKEN);
+  const isEmployer = role === UserRole.ROLE_EMPLOYER;
 
+  const [resetTrigger, setResetTrigger] = useState(false); // Reset trigger state
+  const { provinces, districts, setProvinceAndFetchDistricts } = useAddress();
   const { objJobType } = useSelector((state: RootState) => state.typeReducer);
   const dispatch: DispatchType = useDispatch();
 
@@ -63,8 +71,8 @@ export default function FormApplication() {
   const handleSelectedProvince = (item: Province) => {
     setSelectedProvince(item);
     setValue("provinceId", ~~item.id);
-    setSelectedDistrict(undefined); // Reset quận/huyện đã chọn
-    setProvinceAndFetchDistricts(item.id); // Gọi hàm để lấy quận/huyện
+    setSelectedDistrict(undefined);
+    setProvinceAndFetchDistricts(item.id);
   };
 
   const handleSelectedDistrict = (item: District) => {
@@ -96,15 +104,27 @@ export default function FormApplication() {
     });
   };
 
+  const startDate = watch("startDate");
+  const duration = watch("duration");
+
+  useEffect(() => {
+    if (startDate && duration) {
+      const calEndDate = dayjs(startDate)
+        .add(duration, "minute")
+        .format("YYYY-MM-DDTHH:mm:ss.SSSSSS");
+      setValue("endDate", calEndDate); // Cập nhật endDate vào form
+    }
+  }, [startDate, duration, setValue]);
+
   const handlePost = async (values: PostJobType) => {
     try {
       const payload = {
         ...values,
         startDate: values.startDate
-          ? dayjs(values.startDate).format("YYYY-MM-DDTHH:mm:ss.SSSSSS") // Chuyển qua dayjs
+          ? dayjs(values.startDate).format("YYYY-MM-DDTHH:mm:ss.SSSSSS")
           : null,
         endDate: values.endDate
-          ? dayjs(values.endDate).format("YYYY-MM-DDTHH:mm:ss.SSSSSS") // Chuyển qua dayjs
+          ? dayjs(values.endDate).format("YYYY-MM-DDTHH:mm:ss.SSSSSS")
           : null,
       };
       // Gửi request thông qua dispatch action
@@ -137,7 +157,10 @@ export default function FormApplication() {
       toast.error(arrErrors[0]?.message);
     }
   }, [errors]);
-  console.log("🚀 ~ useEffect ~ arrErrors:", Object.values(errors));
+
+  if (!isEmployer || !token) {
+    return <NotFoundPage />;
+  }
 
   return (
     <div className="py-20 px-[72px]">
@@ -168,26 +191,29 @@ export default function FormApplication() {
                   type="date"
                   dateFormat="YYYY-MM-DDTHH:mm:ss.ssssss"
                   name="startDate"
-                  placeholder="Nhập ngày bắt đầu"
+                  placeholder="YYYY-MM-DD"
                   control={control}
                 />
               </Field>
             </div>
             <div className="col-span-1">
               <Field>
-                <Label htmlFor="endDate">Ngày kết thúc</Label>
+                <Label htmlFor="endDate">Ngày kết thúc ứng tuyển</Label>
                 <Input
                   type="date"
                   dateFormat="YYYY-MM-DDTHH:mm:ss.ssssss"
                   name="endDate"
-                  placeholder="Nhập ngày kết thúc"
+                  placeholder="YYYY-MM-DD"
                   control={control}
+                  disabled={true}
                 />
               </Field>
             </div>
             <div className="col-span-2">
               <Field>
-                <Label htmlFor="duration">Khoảng thời gian</Label>
+                <Label htmlFor="duration">
+                  Khoảng thời gian (Đơn vị tính: phút)
+                </Label>
                 <Input
                   type="number"
                   name="duration"

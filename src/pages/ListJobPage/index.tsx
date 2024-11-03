@@ -43,8 +43,8 @@ export default function ListJobPage() {
     dispatch(actionAPI);
   };
 
-  const getDataJobDetail = async (id: number) => {
-    const actionAPI = getDataJobDetailAPI(id);
+  const getDataJobDetail = async (jobId: number) => {
+    const actionAPI = getDataJobDetailAPI(jobId);
     dispatch(actionAPI);
   };
 
@@ -75,7 +75,7 @@ export default function ListJobPage() {
       if (newItem) {
         setSelectedJobCard(newItem.jobId);
         getDataJobDetail(newItem.jobId);
-        navigate(`/list-job/${newItem.jobId}`)
+        navigate(`/list-job/${newItem.jobId}`);
       }
     }
   }, [objJob]);
@@ -92,10 +92,10 @@ export default function ListJobPage() {
   // }, [objCandidate]);
 
   //job
-  const handleSelectJobCard = (id: number) => {
-    setSelectedJobCard(id);
-    getDataJobDetail(id);
-    navigate(`/list-job/${id}`)
+  const handleSelectJobCard = (jobId: number) => {
+    setSelectedJobCard(jobId);
+    getDataJobDetail(jobId);
+    navigate(`/list-job/${jobId}`);
   };
 
   // candidate
@@ -159,10 +159,15 @@ export default function ListJobPage() {
   return (
     <div>
       <Banner />
-      <div ref={ref} className="grid grid-cols-[453px_minmax(0,_1fr)] gap-x-7 pt-[66px] py-4 px-[72px] small-tablet:grid-cols-1 small-tablet:px-[20px]">
+      <div
+        ref={ref}
+        className="grid grid-cols-[453px_minmax(0,_1fr)] gap-x-7 pt-[66px] py-4 px-[72px] small-tablet:grid-cols-1 small-tablet:px-[20px]"
+      >
         <div className="flex flex-col gap-6">
           <div className="flex flex-col items-start">
-            <h1 className="text-2xl font-semibold">Có tất cả {objJob?.totalElements} công việc</h1>
+            <h1 className="text-2xl font-semibold">
+              Có tất cả {objJob?.totalElements} công việc
+            </h1>
             <div className="border-2 border-solid border-[#DC2E55] w-[292px] "></div>
           </div>
           <div className="flex flex-col gap-8">{renderJobs()}</div>

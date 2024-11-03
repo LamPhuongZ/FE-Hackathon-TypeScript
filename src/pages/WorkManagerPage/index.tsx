@@ -39,7 +39,7 @@ export default function WorkManagerPage() {
     getDataStatus(
       currentPage,
       pageSize,
-      selectedStatus ?? JobApprovalStatusEnum.PENDING
+      selectedStatus ?? JobApprovalStatusEnum.APPROVED
     );
   }, [isEmployer, currentPage, selectedStatus]);
 

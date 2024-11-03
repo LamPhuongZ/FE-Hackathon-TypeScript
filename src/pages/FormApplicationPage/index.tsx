@@ -24,6 +24,7 @@ export default function FormApplication() {
   const {
     control,
     handleSubmit,
+    getValues,
     setValue,
     reset,
     formState: { errors },
@@ -45,8 +46,7 @@ export default function FormApplication() {
     },
   });
   const [resetTrigger, setResetTrigger] = useState(false); // Reset trigger state
-  const { provinces, districts, setProvinceAndFetchDistricts } =
-    useAddress();
+  const { provinces, districts, setProvinceAndFetchDistricts } = useAddress();
 
   const { objJobType } = useSelector((state: RootState) => state.typeReducer);
   const dispatch: DispatchType = useDispatch();
@@ -96,15 +96,27 @@ export default function FormApplication() {
     });
   };
 
+  useEffect(() => {
+    const startDate = getValues("startDate");
+    const duration = getValues("duration");
+
+    if (startDate && duration) {
+      const calEndDate = dayjs(startDate)
+        .add(duration, "minute")
+        .format("YYYY-MM-DDTHH:mm:ss.SSSSSS");
+      setValue("endDate", calEndDate); // Cập nhật endDate vào form
+    }
+  }, [getValues, setValue]);
+
   const handlePost = async (values: PostJobType) => {
     try {
       const payload = {
         ...values,
         startDate: values.startDate
-          ? dayjs(values.startDate).format("YYYY-MM-DDTHH:mm:ss.SSSSSS") // Chuyển qua dayjs
+          ? dayjs(values.startDate).format("YYYY-MM-DDTHH:mm:ss.SSSSSS")
           : null,
         endDate: values.endDate
-          ? dayjs(values.endDate).format("YYYY-MM-DDTHH:mm:ss.SSSSSS") // Chuyển qua dayjs
+          ? dayjs(values.endDate).format("YYYY-MM-DDTHH:mm:ss.SSSSSS")
           : null,
       };
       // Gửi request thông qua dispatch action
@@ -168,26 +180,29 @@ export default function FormApplication() {
                   type="date"
                   dateFormat="YYYY-MM-DDTHH:mm:ss.ssssss"
                   name="startDate"
-                  placeholder="Nhập ngày bắt đầu"
+                  placeholder="YYYY-MM-DD"
                   control={control}
                 />
               </Field>
             </div>
             <div className="col-span-1">
               <Field>
-                <Label htmlFor="endDate">Ngày kết thúc</Label>
+                <Label htmlFor="endDate">Ngày kết thúc ứng tuyển</Label>
                 <Input
                   type="date"
                   dateFormat="YYYY-MM-DDTHH:mm:ss.ssssss"
                   name="endDate"
-                  placeholder="Nhập ngày kết thúc"
+                  placeholder="YYYY-MM-DD"
                   control={control}
+                  disabled={true}
                 />
               </Field>
             </div>
             <div className="col-span-2">
               <Field>
-                <Label htmlFor="duration">Khoảng thời gian</Label>
+                <Label htmlFor="duration">
+                  Khoảng thời gian (Đơn vị tính: phút)
+                </Label>
                 <Input
                   type="number"
                   name="duration"

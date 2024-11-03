@@ -12,18 +12,38 @@ export default function Footer() {
       <div className="footer__detail">
         <div className="footerLine">
           <div className="footerLine__left">
-            <img src={logoCompany} alt="Company Logo" className="h-10" />
+            <img
+              src={logoCompany}
+              alt="Company Logo"
+              className="h-10"
+              loading="lazy"
+            />
             <h1 className="title">Việc Làm Dễ</h1>
           </div>
           <div className="footerLine__right">
-            <Link to={""} >
-              <img src={logoFacebook} alt="Facebook Logo" className="h-8" />
+            <Link to={""}>
+              <img
+                src={logoFacebook}
+                alt="Facebook Logo"
+                className="h-8"
+                loading="lazy"
+              />
             </Link>
             <Link to={""}>
-              <img src={logoInstagram} alt="Instagram Logo" className="h-8" />
+              <img
+                src={logoInstagram}
+                alt="Instagram Logo"
+                className="h-8"
+                loading="lazy"
+              />
             </Link>
             <Link to={""}>
-              <img src={logoTwitter} alt="Twitter Logo" className="h-8" />
+              <img
+                src={logoTwitter}
+                alt="Twitter Logo"
+                className="h-8"
+                loading="lazy"
+              />
             </Link>
           </div>
         </div>
@@ -64,13 +84,13 @@ export default function Footer() {
             <h3 className="title">Liên hệ</h3>
             <div className="footer__col3__detail">
               <div className="phone-detail flex gap-2">
-                <img src={iconPhone} alt="icon-phone" />
+                <img src={iconPhone} alt="icon-phone" loading="lazy" />
                 <a href="tel:+84867133779" className="font-semibold">
                   (+84) 86 713 3779
                 </a>
               </div>
               <div className="address-detail flex gap-2">
-                <img src={iconAddress} alt="icon-address" />
+                <img src={iconAddress} alt="icon-address" loading="lazy" />
                 <p className="font-semibold">Quận 7, Hồ Chí Minh</p>
               </div>
             </div>

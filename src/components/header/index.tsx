@@ -79,7 +79,7 @@ export default function Header() {
           <ul className="menu">
             <li>
               <Link
-                to="/list-job?section=listJob"
+                to="/list-job/:id?section=listJob"
                 onClick={() => handleScrollToSection}
               >
                 Tìm việc

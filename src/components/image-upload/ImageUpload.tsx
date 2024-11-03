@@ -81,7 +81,7 @@ export default function ImageUploadProps({
       />
       {!imageSelect ? (
         <div className="flex flex-col items-center text-center pointer-events-none">
-          <img src={upIMG} alt="upload-img" className="max-w-[80px] mb-5" />
+          <img src={upIMG} alt="upload-img" className="max-w-[80px] mb-5" loading="lazy" />
           <p className="font-semibold">Chọn hình ảnh đại diện</p>
         </div>
       ) : (

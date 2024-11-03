@@ -9,9 +9,11 @@ import {
   setProfileAction,
 } from "../../redux/reducers/userReducer";
 import { PiSignOutBold } from "react-icons/pi";
+import { useNavigate } from "react-router-dom";
 const LogOut: React.FC = () => {
   const [api, contextHolder] = notification.useNotification();
   const dispatch: DispatchType = useDispatch();
+  const navigate = useNavigate();
 
   console.log(api);
   
@@ -34,7 +36,7 @@ const LogOut: React.FC = () => {
   const handleLogOutApi = async () => {
     const token = getCookie("access_token"); 
     try {
-      const response = await axios.post(
+      await axios.post(
         "https://api.easyjob.io.vn/api/v1/auth/sign-out",
         {},
         {
@@ -45,9 +47,9 @@ const LogOut: React.FC = () => {
         }
       );
       dispatch(setIsLoginAction(false));
-      console.log(response.data);
       handleDeleteToken();
       dispatch(setIsLoginAction(false));
+      navigate("/");
     } catch (error) {
       console.log("Bạn chưa đăng nhập vào ", error);
       notification.error({

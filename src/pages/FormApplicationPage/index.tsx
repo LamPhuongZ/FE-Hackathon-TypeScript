@@ -19,12 +19,17 @@ import { JobProfileSchema } from "../../utils/validation";
 import { District, Province, useAddress } from "../../hooks/useAddress";
 import { postDataJobAPI, PostJobType } from "../../redux/reducers/jobReducer";
 import dayjs from "dayjs";
+import { useRole } from "../../hooks/useRole";
+import { UserRole } from "../../enums/role.enum";
+import { getCookie } from "../../utils/utilMethod";
+import { ACCESS_TOKEN } from "../../utils/config";
+import NotFoundPage from "../NotFoundPage";
 
 export default function FormApplication() {
   const {
     control,
     handleSubmit,
-    getValues,
+    watch,
     setValue,
     reset,
     formState: { errors },
@@ -45,9 +50,12 @@ export default function FormApplication() {
       imageJobDetails: undefined,
     },
   });
+  const { role } = useRole();
+  const token = getCookie(ACCESS_TOKEN);
+  const isEmployer = role === UserRole.ROLE_EMPLOYER;
+
   const [resetTrigger, setResetTrigger] = useState(false); // Reset trigger state
   const { provinces, districts, setProvinceAndFetchDistricts } = useAddress();
-
   const { objJobType } = useSelector((state: RootState) => state.typeReducer);
   const dispatch: DispatchType = useDispatch();
 
@@ -63,8 +71,8 @@ export default function FormApplication() {
   const handleSelectedProvince = (item: Province) => {
     setSelectedProvince(item);
     setValue("provinceId", ~~item.id);
-    setSelectedDistrict(undefined); // Reset quận/huyện đã chọn
-    setProvinceAndFetchDistricts(item.id); // Gọi hàm để lấy quận/huyện
+    setSelectedDistrict(undefined);
+    setProvinceAndFetchDistricts(item.id);
   };
 
   const handleSelectedDistrict = (item: District) => {
@@ -96,17 +104,17 @@ export default function FormApplication() {
     });
   };
 
-  useEffect(() => {
-    const startDate = getValues("startDate");
-    const duration = getValues("duration");
+  const startDate = watch("startDate");
+  const duration = watch("duration");
 
+  useEffect(() => {
     if (startDate && duration) {
       const calEndDate = dayjs(startDate)
         .add(duration, "minute")
         .format("YYYY-MM-DDTHH:mm:ss.SSSSSS");
       setValue("endDate", calEndDate); // Cập nhật endDate vào form
     }
-  }, [getValues, setValue]);
+  }, [startDate, duration, setValue]);
 
   const handlePost = async (values: PostJobType) => {
     try {
@@ -149,7 +157,10 @@ export default function FormApplication() {
       toast.error(arrErrors[0]?.message);
     }
   }, [errors]);
-  console.log("🚀 ~ useEffect ~ arrErrors:", Object.values(errors));
+
+  if (!isEmployer || !token) {
+    return <NotFoundPage />;
+  }
 
   return (
     <div className="py-20 px-[72px]">

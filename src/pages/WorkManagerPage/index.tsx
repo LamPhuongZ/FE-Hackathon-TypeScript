@@ -8,12 +8,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
 import JobCardV2 from "../../components/card-candidates/JobCardV2";
 import { Pagination } from "antd";
-import { jobApprovalStatusEnum } from "./enum";
+import { JobApprovalStatusEnum } from "../../enums/jobApproval.enum";
 import Label from "../../components/label/Label";
+import { useRole } from "../../hooks/useRole";
+import { UserRole } from "../../enums/role.enum";
 
 export default function WorkManagerPage() {
-  const [selectedStatus, setSelectedStatus] = useState<jobApprovalStatusEnum>();
+  const [selectedStatus, setSelectedStatus] = useState<JobApprovalStatusEnum>();
   const [currentPage, setCurrentPage] = useState<number>(0);
+  const { role, isTokenExp } = useRole();
+
+  // Kiểm tra phân quyền
+  const isEmployer = role === UserRole.ROLE_EMPLOYER;
+  // const isApplier = role === UserRole.ROLE_APPLIER;
+
   const pageSize = 4;
 
   const { objJobManager } = useSelector((state: RootState) => state.jobReducer);
@@ -26,12 +34,24 @@ export default function WorkManagerPage() {
   };
 
   useEffect(() => {
+    if (!isEmployer) return; // Chỉ tiếp tục nếu là Employer
+
     getDataStatus(
       currentPage,
       pageSize,
-      selectedStatus ?? jobApprovalStatusEnum.PENDING
+      selectedStatus ?? JobApprovalStatusEnum.APPROVED
     );
-  }, [currentPage, selectedStatus]);
+  }, [isEmployer, currentPage, selectedStatus]);
+
+  
+  if (isTokenExp) {
+    return <div>Token đã hết hạn, vui lòng đăng nhập lại.</div>;
+  }
+
+  if (!isEmployer) {
+    return <div>Bạn không có quyền truy cập vào trang này.</div>;
+  }
+
 
   const renderJobManager = (): JSX.Element[] => {
     return (objJobManager?.content ?? []).map((item: Content) => {
@@ -39,7 +59,7 @@ export default function WorkManagerPage() {
     });
   };
 
-  const handleClickOption = async (item: jobApprovalStatusEnum) => {
+  const handleClickOption = async (item: JobApprovalStatusEnum) => {
     setSelectedStatus(item);
   };
 
@@ -51,10 +71,10 @@ export default function WorkManagerPage() {
           <div>
             <Dropdown width="w-[600px]">
               <DropdownSelect
-                value={`${selectedStatus ?? jobApprovalStatusEnum.PENDING}`}
+                value={`${selectedStatus ?? JobApprovalStatusEnum.APPROVED}`}
               ></DropdownSelect>
               <DropdownList height="h-[170px]">
-                {Object.values(jobApprovalStatusEnum).map((item) => (
+                {Object.values(JobApprovalStatusEnum).map((item) => (
                   <DropdownOption
                     name="jobApprovalStatus"
                     key={item}

@@ -6,11 +6,12 @@ import { Content } from "../../redux/reducers/candidateReducer";
 
 type Props = {
   item: Content;
+  className?: string;
 };
 
-export default function CandiCardDetail({ item }: Props) {
+export default function CandiCardDetail({ item, className }: Props) {
   return (
-    <div className="bg-white rounded-2xl shadow-md py-12 px-7 small-tablet:w-full flex flex-col justify-evenly gap-10">
+    <div className={`bg-white rounded-2xl shadow-md py-12 px-7 small-tablet:w-full flex flex-col justify-evenly gap-10 ${className}`}>
       <div className="flex gap-5">
         <div className="w-[180px] h-[150px]">
           <img

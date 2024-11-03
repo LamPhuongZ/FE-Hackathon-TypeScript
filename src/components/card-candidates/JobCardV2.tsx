@@ -2,9 +2,11 @@ import Button from "../button/Button";
 import location from "../../assets/images/location.png";
 import calendar from "../../assets/images/calendar.png";
 import { Content } from "../../redux/reducers/jobReducer";
+import { useNavigate } from "react-router-dom";
+import { JobApprovalStatusEnum } from "../../enums/jobApproval.enum";
 
 type Props = {
-  item: Content;
+  item: Content & { jobDetail?: { size: number } };
   width?: string;
   className?: string;
   type?: boolean;
@@ -16,6 +18,12 @@ export default function JobCardV2({
   className,
   type = true,
 }: Props) {
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    navigate(`/list-candidated?id=${item.jobId}`);
+  };
+
   return (
     <div
       className={`cursor-pointer w-full px-6 py-10 bg-white rounded-2xl shadow-md hover:shadow-xl flex flex-col gap-6 small-tablet:h-[137px] small-tablet:min-w-[330px] small-tablet:px-[15px] small-tablet:py-[10px] ${className}`}
@@ -67,12 +75,13 @@ export default function JobCardV2({
           </div>
         </div>
 
-        {type && (
+        {type && !(item.jobApprovalStatus === JobApprovalStatusEnum.PENDING || item.jobApprovalStatus === JobApprovalStatusEnum.REJECTED) && (
           <Button
             title="Ứng Viên"
             color="custom"
             className="w-1/6 bg-[#DC2E55]"
             circle={false}
+            onClick={handleButtonClick}
           />
         )}
       </div>

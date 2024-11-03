@@ -44,7 +44,7 @@ export default function JobCard({
               className="w-[150px] h-[135px] rounded-3xl small-tablet:hidden"
             />
           ) : (
-            <img
+            <img     
               src={"https://via.placeholder.com/250x250"}
               alt={`Job Image 1`}
               className="w-[150px] h-[135px] rounded-3xl small-tablet:hidden"

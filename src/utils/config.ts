@@ -7,6 +7,7 @@ import axios, {
 import { routeLink } from "../main";
 import { delCookie, getCookie } from "./utilMethod";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
 
 //setup hằng số
 export const ACCESS_TOKEN: string = "access_token";
@@ -24,7 +25,10 @@ httpClient.interceptors.request.use(
     //   const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const accessToken = getCookie(ACCESS_TOKEN);
     if (req.headers) {
-      req.headers.set("Authorization", accessToken ? `Bearer ${accessToken}` : "");
+      req.headers.set(
+        "Authorization",
+        accessToken ? `Bearer ${accessToken}` : ""
+      );
     }
     return req;
   },
@@ -93,7 +97,15 @@ httpClient.interceptors.response.use(
           break;
         case 500:
           // Xử lý lỗi 500 Internal Server Error
-          alert("Internal server error.");
+          // Kiểm tra nội dung thông báo lỗi có chứa từ "duplicate"
+          const errorMessage =
+            (error.response.data as { message?: string })?.message || "";
+          if (errorMessage.toLowerCase().includes("duplicate")) {
+            toast.info("Dữ liệu này đã tồn tại");
+          } else {
+            alert("Internal server error.");
+          }
+
           break;
         default:
           // Xử lý các mã lỗi khác

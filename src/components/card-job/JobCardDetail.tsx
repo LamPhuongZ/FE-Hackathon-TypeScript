@@ -27,7 +27,7 @@ type Props = {
 
 export default function JobCardDetail({ item }: Props) {
   const { jobId } = useParams();
-  const { sub, role, isTokenExp } = useRole();
+  const { sub, role } = useRole();
   const navigate = useNavigate();
   const location = useLocation(); // Lấy thông tin vị trí hiện tại
   const dispatch: DispatchType = useDispatch();
@@ -51,15 +51,7 @@ export default function JobCardDetail({ item }: Props) {
         dispatch(setHasApplied(false)); // Cập nhật trạng thái vào Redux
       }
     }
-  }, [jobId, sub, dispatch, isApplier]);
-
-  if (isTokenExp) {
-    return <div>Token đã hết hạn, vui lòng đăng nhập lại.</div>;
-  }
-
-  if (!isApplier) {
-    return <div>Bạn không có quyền truy cập vào trang này.</div>;
-  }
+  }, [jobId, sub, dispatch, token]);
 
 
   const handleApply = async (jobId: number) => {
@@ -67,6 +59,10 @@ export default function JobCardDetail({ item }: Props) {
     if (!token) {
       toast.info("Vui lòng đăng nhập để được ứng tuyển công việc này!!");
       return navigate("/login", { state: { from: location } });
+    }
+
+    if (!isApplier) {
+      return toast.error("Bạn không có quyền ứng tuyển vào công việc này.");
     }
 
     // Gọi API ứng tuyển và cập nhật trạng thái sau khi ứng tuyển thành công

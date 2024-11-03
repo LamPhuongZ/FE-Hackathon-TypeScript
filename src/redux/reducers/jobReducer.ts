@@ -72,6 +72,7 @@ export interface JobState {
   objApply: Job | null;
   isLoading: boolean;
   hasApplied: boolean; // Thêm thuộc tính để theo dõi trạng thái ứng tuyển
+  isDuplicateError: boolean;
 }
 
 const initialState: JobState = {
@@ -86,6 +87,7 @@ const initialState: JobState = {
   objApply: null,
   isLoading: false,
   hasApplied: false, // Mặc định là chưa ứng tuyển
+  isDuplicateError: false,
 };
 
 const jobReducer = createSlice({
@@ -135,6 +137,9 @@ const jobReducer = createSlice({
     setHasApplied: (state: JobState, action: PayloadAction<boolean>) => {
       state.hasApplied = action.payload; // Action để cập nhật trạng thái ứng tuyển
     },
+    setDuplicateError: (state: JobState, action: PayloadAction<boolean>) => {
+      state.isDuplicateError = action.payload;
+    },
   },
 });
 
@@ -150,6 +155,7 @@ export const {
   postApplyAction,
   setLoading,
   setHasApplied,
+  setDuplicateError,
 } = jobReducer.actions;
 
 export default jobReducer.reducer;
@@ -366,6 +372,7 @@ export const applyForJobAPI = (jobId: number) => {
       dispatch(action);
     } catch (error) {
       console.error(error);
+      throw error;
     } finally {
       dispatch(setLoading(false));
     }

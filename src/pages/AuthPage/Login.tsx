@@ -40,7 +40,7 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
   const dispatch: DispatchType = useDispatch();
   const { Link, Title, Text } = Typography;
   const [api, contextHolder] = notification.useNotification();
-  const [role, setRole] = useState("ROLE_EMPLOYER");
+  const [roleValue, setRoleValue] = useState("ROLE_EMPLOYER");
   console.log(api);
 
   const navigate = useNavigate();
@@ -75,7 +75,7 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
       callbackUrl
     )}&response_type=code&client_id=${googleClientId}&scope=openid%20email%20profile`;
 
-    localStorage.setItem("role", role);
+    localStorage.setItem("role", roleValue);
     dispatch(setIsLoginAction(true));
     window.location.href = targetUrl;
   };
@@ -96,9 +96,9 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
   const handleRoleChange = (key: string) => {
     // Update the role based on the selected tab
     if (key === "1") {
-      setRole("ROLE_APPLIER");
+      setRoleValue("ROLE_APPLIER");
     } else if (key === "2") {
-      setRole("ROLE_EMPLOYER");
+      setRoleValue("ROLE_EMPLOYER");
     }
   };
 

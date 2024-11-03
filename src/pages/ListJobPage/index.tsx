@@ -75,6 +75,7 @@ export default function ListJobPage() {
       if (newItem) {
         setSelectedJobCard(newItem.jobId);
         getDataJobDetail(newItem.jobId);
+        navigate(`/list-job/${newItem.jobId}`)
       }
     }
   }, [objJob]);
@@ -94,6 +95,7 @@ export default function ListJobPage() {
   const handleSelectJobCard = (id: number) => {
     setSelectedJobCard(id);
     getDataJobDetail(id);
+    navigate(`/list-job/${id}`)
   };
 
   // candidate

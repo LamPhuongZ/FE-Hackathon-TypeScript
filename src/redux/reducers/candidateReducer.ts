@@ -14,6 +14,10 @@ export interface Candidate {
   empty: boolean;
 }
 
+export interface SizeCandidate {
+  size: number;
+}
+
 export interface Content {
   id: number;
   address: string;
@@ -26,6 +30,7 @@ export interface Content {
   star: null;
   createdDate: Date;
   jobSkills: jobSkills[];
+  SizeCandidate?: SizeCandidate;
 }
 
 export interface jobSkills {
@@ -75,14 +80,14 @@ export const { getCandidateAction, getCandidateDetail, setLoading } =
 
 export default candidateReducer.reducer;
 
-export const getDataCandidateAPI = (page: number, size: number) => {
+export const getDataCandidateAPI = (jobId: number, page: number, size: number) => {
   return async (dispatch: DispatchType) => {
     dispatch(setLoading(true));
 
     try {
       const res = await httpClient.get(
-        // `/api/v1/apply-job/1/WAITING?page=${page}&size=${size}&sort=string`
-        `/api/v1/apply-job?page=${page}&size=${size}&sort=string`
+        `/api/v1/apply-job/${jobId}/WAITING?page=${page}&size=${size}&sort=string`
+        // `/api/v1/apply-job?page=${page}&size=${size}&sort=string`
       );
       const action: PayloadAction<Candidate> = getCandidateAction(
         res.data.data
@@ -96,18 +101,21 @@ export const getDataCandidateAPI = (page: number, size: number) => {
   };
 };
 
-export const getDataCandidateDetailAPI = (id: number) => {
+export const getDataCandidateDetailAPI = (idPage: number, idCandidate: number, size: number) => {
   return async (dispatch: DispatchType) => {
     dispatch(setLoading(true));
 
     try {
       const res = await httpClient.get(
-        // `/api/v1/apply-job/1/WAITING?page=0&size=10&sort=string`
-        `/api/v1/apply-job`
+        `/api/v1/apply-job/${idPage}/WAITING?page=0&size=${size}&sort=string`
+        // `/api/v1/apply-job`
       );
       const candidateDetail = res.data.data?.content.find(
-        (item: Content) => item.id === id
+        (item: Content) => item.id === idCandidate
       );
+      if (candidateDetail) {
+        candidateDetail.SizeCandidate = { size: res.data.data.size };
+      }
       const action: PayloadAction<Content> =
         getCandidateDetail(candidateDetail);
       dispatch(action);

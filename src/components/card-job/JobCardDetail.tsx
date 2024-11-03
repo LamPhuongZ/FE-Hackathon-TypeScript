@@ -11,12 +11,13 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 import { PiSealWarningFill } from "react-icons/pi";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { DispatchType, RootState } from "../../redux/configStore";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getCookie } from "../../utils/utilMethod";
 import { ACCESS_TOKEN } from "../../utils/config";
+import { toast } from "react-toastify";
 
 type Props = {
   item: Content;
@@ -24,6 +25,8 @@ type Props = {
 
 export default function JobCardDetail({ item }: Props) {
   const { jobId } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation(); // Lấy thông tin vị trí hiện tại
   const dispatch: DispatchType = useDispatch();
   const token = getCookie(ACCESS_TOKEN);
 
@@ -45,7 +48,8 @@ export default function JobCardDetail({ item }: Props) {
   const handleApply = async (jobId: number) => {
     // Kiểm tra xem người dùng đã đăng nhập hay chưa
     if (!token) {
-      return;
+      toast.info("Vui lòng đăng nhập để được ứng tuyển công việc này!!");
+      return navigate("/login", { state: { from: location } });
     }
 
     // Gọi API ứng tuyển và cập nhật trạng thái sau khi ứng tuyển thành công

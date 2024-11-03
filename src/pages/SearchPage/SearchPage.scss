@@ -4,6 +4,10 @@
     & > .search__top {        
         @apply w-full py-[26px] px-[77px] flex justify-start gap-3 capitalize text-[32px] font-medium;    
         background-color: rgba(63, 140, 255, 0.06);
+
+        & > p {
+            @apply font-extrabold;
+        }
     } 
 
     & > .search__content {

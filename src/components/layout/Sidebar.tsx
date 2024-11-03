@@ -32,16 +32,16 @@ export default function Sidebar() {
       <span className="mt-1 text-xl">Thông Tin Cá Nhân</span>
     </NavLink>
   );
-  const danhSachUngVien = () => (
-    <NavLink
-      to={`/list-candidated`}
-      className={({ isActive }) =>
-        `flex items-center justify-center gap-4 p-3 font-medium cursor-pointer hover:bg-blue-200 rounded-xl ${
-          isActive ? " bg-blue-200 rounded-xl font-semibold text-[#3F8CFF]" : ""
-        }`
-      }
-    ></NavLink>
-  );
+  // const danhSachUngVien = () => (
+  //   <NavLink
+  //     to={`/list-candidated`}
+  //     className={({ isActive }) =>
+  //       `flex items-center justify-center gap-4 p-3 font-medium cursor-pointer hover:bg-blue-200 rounded-xl ${
+  //         isActive ? " bg-blue-200 rounded-xl font-semibold text-[#3F8CFF]" : ""
+  //       }`
+  //     }
+  //   ></NavLink>
+  // );
 
   const WorkManager = () => (
     <NavLink

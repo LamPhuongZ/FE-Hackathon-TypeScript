@@ -1,5 +1,9 @@
 import checked from "../../assets/images/checked.png";
-import { Content } from "../../redux/reducers/jobReducer";
+import {
+  applyForJobAPI,
+  Content,
+  setHasApplied,
+} from "../../redux/reducers/jobReducer";
 import Button from "../button/Button";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
@@ -7,11 +11,53 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 import { PiSealWarningFill } from "react-icons/pi";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { DispatchType, RootState } from "../../redux/configStore";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getCookie } from "../../utils/utilMethod";
+import { ACCESS_TOKEN } from "../../utils/config";
+import { toast } from "react-toastify";
 
 type Props = {
   item: Content;
 };
+
 export default function JobCardDetail({ item }: Props) {
+  const { jobId } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation(); // Lấy thông tin vị trí hiện tại
+  const dispatch: DispatchType = useDispatch();
+  const token = getCookie(ACCESS_TOKEN);
+
+  const { hasApplied, isLoading } = useSelector(
+    (state: RootState) => state.jobReducer
+  );
+
+  useEffect(() => {
+    // Kiểm tra trạng thái ứng tuyển từ localStorage và cập nhật vào Redux
+    const hasApplied = localStorage.getItem(`hasApplied_${jobId}`);
+
+    if (hasApplied === "true") {
+      dispatch(setHasApplied(true)); // Cập nhật trạng thái vào Redux
+    } else {
+      dispatch(setHasApplied(false)); // Cập nhật trạng thái vào Redux
+    }
+  }, [jobId, dispatch]);
+
+  const handleApply = async (jobId: number) => {
+    // Kiểm tra xem người dùng đã đăng nhập hay chưa
+    if (!token) {
+      toast.info("Vui lòng đăng nhập để được ứng tuyển công việc này!!");
+      return navigate("/login", { state: { from: location } });
+    }
+
+    // Gọi API ứng tuyển và cập nhật trạng thái sau khi ứng tuyển thành công
+    await dispatch(applyForJobAPI(jobId));
+    localStorage.setItem(`hasApplied_${jobId}`, "true"); // Lưu trạng thái ứng tuyển vào localStorage
+    dispatch(setHasApplied(true)); // Cập nhật trạng thái ứng tuyển trong Redux
+  };
+
   return (
     <div className="bg-white rounded-2xl shadow-md py-12 px-7 small-tablet:w-full">
       <div className="sticky top-0 bg-white z-10">
@@ -37,7 +83,12 @@ export default function JobCardDetail({ item }: Props) {
             )}
           </div>
         </div>
-        <Button title="Ứng Tuyển" className="w-full h-16 mt-9" />
+        <Button
+          title={!hasApplied ? "Ứng Tuyển" : "Đã Ứng Tuyển"}
+          className="w-full h-16 mt-9"
+          onClick={() => handleApply(Number(jobId))}
+          disabled={hasApplied || isLoading} // Disable nút nếu đã ứng tuyển hoặc đang loading
+        />
         <div className="border border-solid mt-4"></div>
       </div>
       <div className="h-auto max-h-[1235px] overflow-y-auto px-2">

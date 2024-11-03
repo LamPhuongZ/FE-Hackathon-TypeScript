@@ -43,7 +43,7 @@ export default function JobCardDetailPage() {
       dispatch(getDataJobTypeAPI(objJobDetails.jobType.id));
     }
   }, [objJobDetails]);
-
+  
   const renderJobCards = (): JSX.Element[] => {
     return (objJobType?.content ?? [])
           .filter((item) => item.jobId !== objJobDetails?.jobId)

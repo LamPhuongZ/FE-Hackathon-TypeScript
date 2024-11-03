@@ -20,7 +20,7 @@ import { loginAPI, setIsLoginAction } from "../../redux/reducers/userReducer";
 import { useDispatch } from "react-redux";
 import { DispatchType } from "../../redux/configStore";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getCookie, setCookie } from "../../utils/utilMethod";
 import { decodePassword, encodePassword } from "../../hooks/useTokenize";
 
@@ -43,10 +43,20 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
   const [role, setRole] = useState("ROLE_EMPLOYER");
   console.log(api);
 
-  const onFinish = (values: UserLoginType) => {
+  const navigate = useNavigate();
+  const location = useLocation(); // sử dụng useLocation
+
+  const onFinish = async (values: UserLoginType) => {
     const actionAsync = loginAPI(values);
-    dispatch(actionAsync);
+    const isLoginSuccessful = await dispatch(actionAsync);
     dispatch(setIsLoginAction(true));
+
+    if (isLoginSuccessful) {
+      // Lấy trang trước đó hoặc trang mặc định
+      const from = location.state?.from?.pathname || "/";
+      navigate(from); // Điều hướng về trang trước đó sau khi đăng nhập
+    }
+
     if (values.remember) {
       const encodedToken = encodePassword(values.password);
       setCookie("username", values.username, 30);
@@ -92,7 +102,6 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
     }
   };
 
-  const navigate = useNavigate();
   return (
     <>
       {contextHolder}

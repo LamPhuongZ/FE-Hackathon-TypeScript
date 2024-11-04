@@ -42,12 +42,14 @@ export default function JobCard({
               src={item.images[0].url}
               alt={`Job Image 1`}
               className="w-[150px] h-[135px] rounded-3xl small-tablet:hidden"
+              loading="lazy"
             />
           ) : (
             <img     
               src={"https://via.placeholder.com/250x250"}
               alt={`Job Image 1`}
               className="w-[150px] h-[135px] rounded-3xl small-tablet:hidden"
+              loading="lazy"
             />
           ))}
         <div className="w-full flex flex-col justify-between gap-5">
@@ -64,6 +66,7 @@ export default function JobCard({
                     src={checked}
                     alt="checked"
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
               ) : (
@@ -76,6 +79,7 @@ export default function JobCard({
                   src={calendar}
                   alt="calendar"
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
               <p className="text-sm font-medium pt-1 small-tablet:text-base">
@@ -98,6 +102,7 @@ export default function JobCard({
                   src={location}
                   alt="location"
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
               <p

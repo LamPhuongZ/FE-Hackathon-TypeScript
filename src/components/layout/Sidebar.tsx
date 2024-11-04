@@ -81,6 +81,7 @@ export default function Sidebar() {
               src={userProfile?.avatar}
               alt="avatar"
               className="w-full h-full object-cover rounded-full bg-slate-300"
+              loading="lazy"
             />
           </div>
           <h3 className="font-semibold text-xl">{userProfile?.fullname}</h3>

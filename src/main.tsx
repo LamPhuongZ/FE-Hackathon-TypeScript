@@ -32,6 +32,7 @@ const PolicyPage = lazy(() => import("./pages/PolicyPage"));
 const ListCandidatedPage = lazy(() => import("./pages/ListCandidatedPage"));
 const WorkManagerPage = lazy(() => import("./pages/WorkManagerPage"));
 const CandidateDetailPage = lazy(() => import("./pages/CandidateDetailPage"));
+const ChangePasswordPage = lazy(() => import("./pages/ChangePasswordPage"));
 
 export const routeLink: any = createBrowserHistory();
 
@@ -58,6 +59,7 @@ root.render(
             <Route element={<DashboardLayout />}>
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/work-manager" element={<WorkManagerPage />} />
+              <Route path="/change-password" element={<ChangePasswordPage />} />
               {/*list candidate của nhà tuyển dụng*/}
               <Route path="/list-candidated" element={<ListCandidatedPage />} />
               <Route

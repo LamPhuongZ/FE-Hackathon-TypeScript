@@ -40,6 +40,10 @@ export default function ProfilePage() {
     (state: RootState) => state.jobSkillReducer
   );
 
+
+  console.log({userProfile});
+  
+
   const dispatch: DispatchType = useDispatch();
   const { provinces, districts, setProvinceAndFetchDistricts, loading } =
     useAddress();
@@ -58,15 +62,22 @@ export default function ProfilePage() {
       }))
     : [];
 
-    console.log({objJobSkill});
-    
+  console.log({ objJobSkill });
 
-  const [selectedJobSkill, setSelectedJobSkill] = useState([]);
+  const [selectedJobSkill, setSelectedJobSkill] = useState<number[]>([]);
 
-  // Hàm xử lý khi chọn kỹ năng
-  const handleChangeJobSkill = (value: any) => {
-    setSelectedJobSkill(value); // value là mảng các ID kỹ năng đã chọn
+  // Assuming userProfile is an object containing user information
+  useEffect(() => {
+    if (userProfile?.jobSkills) {
+      const skillIds = userProfile.jobSkills.map((skill) => skill.id); // Extract IDs from jobSkills
+      setSelectedJobSkill(skillIds); // Set selectedJobSkill with the extracted IDs
+    }
+  }, [userProfile?.jobSkills]); // Run effect when jobSkills changes
+
+  const handleChangeJobSkill = (value: number[]) => {
+    setSelectedJobSkill(value); // Directly set the array of IDs
   };
+
   // Thiết lập selectedProvince và gọi API để lấy danh sách huyện theo userProfile
   useEffect(() => {
     if (userProfile && !loading && provinces.length > 0) {

@@ -105,7 +105,6 @@ export default function FormApplication() {
     });
   };
 
-
   const handlePost = async (values: PostJobType) => {
     try {
       const payload = {
@@ -227,7 +226,7 @@ export default function FormApplication() {
               <Label>Loại công việc</Label>
               <Dropdown>
                 <DropdownSelect
-                  value={`${selectedJobType?.name || "Loại công việc"}`}
+                  value={`${selectedJobType?.name || "Loại công việc - Mức phí dịch vụ"} ${selectedJobType?.minPrice && selectedJobType?.maxPrice ? ` (${selectedJobType.minPrice} - ${selectedJobType.maxPrice}) / Giờ` : ''}`}
                 ></DropdownSelect>
                 <DropdownList>
                   {(Array.isArray(objJobType) ? objJobType : []).map(
@@ -237,7 +236,12 @@ export default function FormApplication() {
                         key={item.id}
                         onClick={() => handleClickOption(item)}
                       >
-                        {item.name}
+                        <div className="flex items-center gap-2">
+                          <div>{item.name}</div>
+                          <div className="text-gray-400">
+                            ( {item.minPrice} - {item.maxPrice} ) / Giờ
+                          </div>
+                        </div>
                       </DropdownOption>
                     )
                   )}

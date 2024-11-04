@@ -34,6 +34,7 @@ export default function JobCardDetail({ item }: Props) {
   // Kiểm tra phân quyền
   const isApplier = role === UserRole.ROLE_APPLIER;
   const isEmployer = role === UserRole.ROLE_EMPLOYER;
+  console.log("🚀 ~ JobCardDetail ~ role:", role);
 
   const { hasApplied, isLoading } = useSelector(
     (state: RootState) => state.jobReducer
@@ -88,10 +89,20 @@ export default function JobCardDetail({ item }: Props) {
       </div>
       <div className="h-auto max-h-[1235px] overflow-y-auto px-2">
         <div className="flex flex-col gap-7 mt-7">
-          <div className="flex items-center gap-x-2 small-tablet:text-sm">
-            <h1 className="font-medium ">Loại công việc:</h1>
-            <div className="px-4 py-2 rounded-[10px] border border-solid flex">
-              <p className="font-medium text-sm">{item.jobType.name}</p>
+          <div className="flex justify-between">
+            <div className="flex items-center gap-x-2 small-tablet:text-sm">
+              <h1 className="font-medium ">Loại công việc:</h1>
+              <div className="px-4 py-2 rounded-[10px] border border-solid flex">
+                <p className="font-medium text-sm">{item.jobType.name}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-x-2 small-tablet:text-sm">
+              <h1 className="font-medium ">Mức phí dịch vụ:</h1>
+              <div className="px-4 py-2 rounded-[10px] border border-solid flex">
+                <p className="font-medium text-xl">
+                  {item.jobType.minPrice} - {item.jobType.maxPrice} / Giờ
+                </p>
+              </div>
             </div>
           </div>
           <div className="flex gap-x-2 items-center small-tablet:text-sm small-tablet:grid small-tablet:grid-cols-1 small-tablet:gap-y-2">

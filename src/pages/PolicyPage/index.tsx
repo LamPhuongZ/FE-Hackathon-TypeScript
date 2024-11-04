@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import img from "../../assets/images/101.png"
 import { useLocation } from "react-router-dom";
 
 export default function PolicyPage() {

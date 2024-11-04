@@ -1,4 +1,3 @@
-import checked from "../../assets/images/checked.png";
 import {
   applyForJobAPI,
   Content,
@@ -10,7 +9,6 @@ import "swiper/swiper-bundle.css";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
-import { PiSealWarningFill } from "react-icons/pi";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { DispatchType, RootState } from "../../redux/configStore";
 import { useDispatch, useSelector } from "react-redux";
@@ -79,28 +77,6 @@ export default function JobCardDetail({ item }: Props) {
           <h1 className="text-[30px] font-semibold small-tablet:text-xl">
             {item.title}
           </h1>
-          <div className="flex gap-2 items-center small-tablet:text-sm">
-            {item.verified ? (
-              <div className="flex gap-2 items-center">
-                <div className="w-8 h-8 small-tablet:w-4 small-tablet:h-4">
-                  <img
-                    src={checked}
-                    alt=""
-                    className="w-full h-full"
-                    loading="lazy"
-                  />
-                </div>
-                <p className="font-medium">Đã xác thực</p>
-              </div>
-            ) : (
-              <div className="flex gap-2 items-center">
-                <div className="w-8 h-8 small-tablet:w-4 small-tablet:h-4">
-                  <PiSealWarningFill className="text-[#faad15] text-[30px]" />
-                </div>
-                <p className="font-medium text-gray-400">Chưa xác thực</p>
-              </div>
-            )}
-          </div>
         </div>
         <Button
           title={!hasApplied ? "Ứng Tuyển" : "Đã Ứng Tuyển"}

@@ -167,7 +167,12 @@ export const registerAPI = createAsyncThunk(
         userRegister
       );
       dispatch(setRegisterAction(response.data));
-      
+      setCookie(USER_LOGIN, JSON.stringify(response.data), 30);
+      setCookie(ACCESS_TOKEN, response.data.data["access-token"], 30);
+      const action: PayloadAction<LoginState> = setLoginAction(response.data);
+      dispatch(action);
+      dispatch(setLoginAction(response.data));
+      dispatch(setIsLoginAction(true));
       console.log("🚀 ~ file: userReducer.ts:184 ~ response:", response.data);
 
       notification.success({

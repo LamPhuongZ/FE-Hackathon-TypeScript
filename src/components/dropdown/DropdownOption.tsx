@@ -16,7 +16,7 @@ export default function DropdownOption({ onClick, children, name }: Props) {
   return (
     <div
       id={name}
-      className="px-5 py-4 cursor-pointer flex items-center justify-between hover:bg-gray-100"
+      className="px-5 py-4 cursor-pointer flex items-center justify-between hover:bg-gray-100 transition-colors duration-250"
       onClick={handleClick}
     >
       {children}

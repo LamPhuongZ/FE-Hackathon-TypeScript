@@ -8,8 +8,6 @@ import { Content } from "../../../../redux/reducers/jobReducer";
 import JobCard from "../../../../components/card-job/JobCard";
 import useLoading from "../../../../hooks/useLoading";
 import LoadingData from "../../../../components/loading-data/loadingData";
-import { useRole } from "../../../../hooks/useRole";
-import { UserRole } from "../../../../enums/role.enum";
 
 export default function FindJob() {
   const page = 0;
@@ -18,11 +16,6 @@ export default function FindJob() {
   const showLoading = useLoading();
   const dispatch: DispatchType = useDispatch();
   const { objJob } = useSelector((state: RootState) => state.jobReducer);
-
-  const { role } = useRole();
-  const isEmployer = role === UserRole.ROLE_EMPLOYER;
-
-  console.log("🚀 ~ FindJob ~ role:", role);
 
   const getDataJobList = async (page: number, size: number) => {
     const actionAPI = getDataJobAPI(page, size);
@@ -40,7 +33,6 @@ export default function FindJob() {
   return (
     <section className="findJob">
       <div className="findJob__top">
-        {!isEmployer && (
           <>
             <h1 className="title ">Tìm việc</h1>
             <Link
@@ -66,11 +58,9 @@ export default function FindJob() {
               </div>
             </Link>
           </>
-        )}
       </div>
 
       {/* Job Item */}
-      {!isEmployer && (
         <div className="findJob__content">
           {objJob?.content.map((item: Content) => (
             <div key={item.jobId}>
@@ -84,7 +74,6 @@ export default function FindJob() {
             </div>
           ))}
         </div>
-      )}
     </section>
   );
 }

@@ -35,6 +35,7 @@ export default function JobCardDetail({ item }: Props) {
 
   // Kiểm tra phân quyền
   const isApplier = role === UserRole.ROLE_APPLIER;
+  const isEmployer = role === UserRole.ROLE_EMPLOYER;
 
   const { hasApplied, isLoading } = useSelector(
     (state: RootState) => state.jobReducer
@@ -100,7 +101,7 @@ export default function JobCardDetail({ item }: Props) {
           title={!hasApplied ? "Ứng Tuyển" : "Đã Ứng Tuyển"}
           className="w-full h-16 mt-9"
           onClick={() => handleApply(Number(jobId))}
-          disabled={hasApplied || isLoading} // Disable nút nếu đã ứng tuyển hoặc đang loading
+          disabled={hasApplied || isLoading || isEmployer} // Disable nút nếu đã ứng tuyển, đang loading hoặc là nhà tuyển dụng
         />
         <div className="border border-solid mt-4"></div>
       </div>

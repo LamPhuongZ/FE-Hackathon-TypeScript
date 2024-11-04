@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import JobCard from "../../components/card-job/JobCard";
 import { Pagination } from "antd";
 import Banner from "../HomePage/components/banner";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -18,6 +18,8 @@ const useQuery = () => {
 
 export default function SearchPage() {
   const query = useQuery();
+  const navigate = useNavigate();
+
   const queryValue: string | null = query.get("jobSkillId");
   const skillName: string | null = query.get("skillName");
 
@@ -63,15 +65,17 @@ export default function SearchPage() {
       <div className="search">
         <div className="search__top">
           <h1 className="title">Công việc: </h1>
-          <p>
-            {queryValue ? `${skillName}` : `${objTitle}`}{" "}
-          </p>
+          <p>{queryValue ? `${skillName}` : `${objTitle}`} </p>
         </div>
 
         <div className="search__content">
           {objJob?.content.map((item: Content) => (
             <div key={item.jobId}>
-              <JobCard item={item} showImages={true} />
+              <JobCard
+                item={item}
+                showImages={true}
+                onSelect={() => navigate(`/card-detail-job/${item.jobId}`)}
+              />
             </div>
           ))}
 

@@ -75,28 +75,10 @@ export default function JobCardDetail({ item }: Props) {
   return (
     <div className="bg-white rounded-2xl shadow-md py-12 px-7 small-tablet:w-full">
       <div className="sticky top-0 bg-white z-10">
-        <div className="flex gap-16 small-tablet:gap-8 small-tablet:justify-between">
-          <h1 className="text-[30px] font-semibold small-tablet:text-xl">
-            {item.title}
-          </h1>
-          <div className="flex gap-2 items-center small-tablet:text-sm">
-            {item.verified ? (
-              <div className="flex gap-2 items-center">
-                <div className="w-8 h-8 small-tablet:w-4 small-tablet:h-4">
-                  <img src={checked} alt="" className="w-full h-full" />
-                </div>
-                <p className="font-medium">Đã xác thực</p>
-              </div>
-            ) : (
-              <div className="flex gap-2 items-center">
-                <div className="w-8 h-8 small-tablet:w-4 small-tablet:h-4">
-                  <PiSealWarningFill className="text-[#faad15] text-[30px]" />
-                </div>
-                <p className="font-medium text-gray-400">Chưa xác thực</p>
-              </div>
-            )}
-          </div>
-        </div>
+        <h1 className="text-[30px] font-semibold small-tablet:text-xl">
+          {item.title}
+        </h1>
+
         <Button
           title={!hasApplied ? "Ứng Tuyển" : "Đã Ứng Tuyển"}
           className="w-full h-16 mt-9"

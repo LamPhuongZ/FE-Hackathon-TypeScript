@@ -352,7 +352,7 @@ export default function FormApplication() {
               ></Textarea>
             </Field>
           </div>
-          <Button type="submit" title="Đăng Bài" className="w-full mt-10" />
+          <Button type="submit" title="Đăng Bài" className="w-full mt-10 h-16" />
         </form>
       </div>
     </div>

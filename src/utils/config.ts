@@ -93,7 +93,13 @@ httpClient.interceptors.response.use(
           break;
         case 404:
           // Xử lý lỗi 404 Not Found
-          alert("Resource not found.");
+          const errorMessageStatus404 =
+            (error.response.data as { message?: string })?.message || "";
+          if (errorMessageStatus404.includes("account not verified")) {
+            toast.info("Vui lòng xác thực tài khoản");
+          } else {
+            toast.error("Resource not found.");
+          }
           break;
         case 500:
           // Xử lý lỗi 500 Internal Server Error
@@ -103,7 +109,7 @@ httpClient.interceptors.response.use(
           if (errorMessage.toLowerCase().includes("duplicate")) {
             toast.info("Dữ liệu này đã tồn tại");
           } else {
-            alert("Internal server error.");
+            toast.error("Internal server error.");
           }
 
           break;

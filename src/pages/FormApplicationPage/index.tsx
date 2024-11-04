@@ -24,12 +24,13 @@ import { UserRole } from "../../enums/role.enum";
 import { getCookie } from "../../utils/utilMethod";
 import { ACCESS_TOKEN } from "../../utils/config";
 import NotFoundPage from "../NotFoundPage";
+import useLoading from "../../hooks/useLoading";
+import LoadingData from "../../components/loading-data/loadingData";
 
 export default function FormApplication() {
   const {
     control,
     handleSubmit,
-    watch,
     setValue,
     reset,
     formState: { errors },
@@ -53,7 +54,7 @@ export default function FormApplication() {
   const { role } = useRole();
   const token = getCookie(ACCESS_TOKEN);
   const isEmployer = role === UserRole.ROLE_EMPLOYER;
-
+  const isLoading = useLoading();
   const [resetTrigger, setResetTrigger] = useState(false); // Reset trigger state
   const { provinces, districts, setProvinceAndFetchDistricts } = useAddress();
   const { objJobType } = useSelector((state: RootState) => state.typeReducer);
@@ -104,17 +105,6 @@ export default function FormApplication() {
     });
   };
 
-  const startDate = watch("startDate");
-  const duration = watch("duration");
-
-  useEffect(() => {
-    if (startDate && duration) {
-      const calEndDate = dayjs(startDate)
-        .add(duration, "minute")
-        .format("YYYY-MM-DDTHH:mm:ss.SSSSSS");
-      setValue("endDate", calEndDate); // Cập nhật endDate vào form
-    }
-  }, [startDate, duration, setValue]);
 
   const handlePost = async (values: PostJobType) => {
     try {
@@ -189,7 +179,7 @@ export default function FormApplication() {
                 <Label htmlFor="startDate">Ngày bắt đầu</Label>
                 <Input
                   type="date"
-                  dateFormat="YYYY-MM-DDTHH:mm:ss.ssssss"
+                  dateFormat="YYYY-MM-DD"
                   name="startDate"
                   placeholder="YYYY-MM-DD"
                   control={control}
@@ -201,11 +191,10 @@ export default function FormApplication() {
                 <Label htmlFor="endDate">Ngày kết thúc ứng tuyển</Label>
                 <Input
                   type="date"
-                  dateFormat="YYYY-MM-DDTHH:mm:ss.ssssss"
+                  dateFormat="YYYY-MM-DD"
                   name="endDate"
                   placeholder="YYYY-MM-DD"
                   control={control}
-                  disabled={true}
                 />
               </Field>
             </div>
@@ -352,7 +341,16 @@ export default function FormApplication() {
               ></Textarea>
             </Field>
           </div>
-          <Button type="submit" title="Đăng Bài" className="w-full mt-10 h-16" />
+          <Button
+            type="submit"
+            title="Đăng Bài"
+            className="w-full mt-10 h-16"
+          />
+          {isLoading && (
+            <div className="mt-3 text-center">
+              <LoadingData />
+            </div>
+          )}
         </form>
       </div>
     </div>

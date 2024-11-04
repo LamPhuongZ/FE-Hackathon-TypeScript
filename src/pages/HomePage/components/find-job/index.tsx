@@ -26,6 +26,7 @@ export default function FindJob() {
     getDataJobList(page, size);
   }, []);
 
+
   if (!objJob || !objJob.content.length) {
     return <div className="px-[50%]">{showLoading && <LoadingData />}</div>;
   }

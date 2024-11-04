@@ -83,7 +83,12 @@ export default function JobCardDetail({ item }: Props) {
             {item.verified ? (
               <div className="flex gap-2 items-center">
                 <div className="w-8 h-8 small-tablet:w-4 small-tablet:h-4">
-                  <img src={checked} alt="" className="w-full h-full" />
+                  <img
+                    src={checked}
+                    alt=""
+                    className="w-full h-full"
+                    loading="lazy"
+                  />
                 </div>
                 <p className="font-medium">Đã xác thực</p>
               </div>
@@ -230,6 +235,7 @@ export default function JobCardDetail({ item }: Props) {
                       src={image.url || "https://via.placeholder.com/350"}
                       alt={`Image ${index + 1}`}
                       className="w-full h-full rounded-[20px] object-cover"
+                      loading="lazy"
                     />
                   </div>
                 </SwiperSlide>

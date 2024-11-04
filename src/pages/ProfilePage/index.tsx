@@ -27,15 +27,20 @@ import {
 import { Select } from "antd";
 import { District, Province, useAddress } from "../../hooks/useAddress";
 import dayjs from "dayjs";
+import { useRole } from "../../hooks/useRole";
+import { UserRole } from "../../enums/role.enum";
+import { JobSkill } from "../../redux/reducers/jobSkillReducer";
 
 export default function ProfilePage() {
+  const { role } = useRole();
+  const isEmployer = role === UserRole.ROLE_EMPLOYER;
   const [togglePassword, setTogglePassword] = useState(false);
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
-  // const { objJobSkill } = useSelector(
-  //   (state: RootState) => state.jobSkillReducer
-  // );
-  const dispatch: DispatchType = useDispatch();
+  const { objJobSkill } = useSelector(
+    (state: RootState) => state.jobSkillReducer
+  );
 
+  const dispatch: DispatchType = useDispatch();
   const { provinces, districts, setProvinceAndFetchDistricts, loading } =
     useAddress();
 
@@ -46,31 +51,53 @@ export default function ProfilePage() {
     null
   );
 
-  const [initialized, setInitialized] = useState(false); // Thêm trạng thái để theo dõi lần khởi tạo
+  const options = Array.isArray(objJobSkill)
+    ? objJobSkill.map((skill: JobSkill) => ({
+        label: skill.skill,
+        value: skill.id,
+      }))
+    : [];
 
+    console.log({objJobSkill});
+    
+
+  const [selectedJobSkill, setSelectedJobSkill] = useState([]);
+
+  // Hàm xử lý khi chọn kỹ năng
+  const handleChangeJobSkill = (value: any) => {
+    setSelectedJobSkill(value); // value là mảng các ID kỹ năng đã chọn
+  };
+  // Thiết lập selectedProvince và gọi API để lấy danh sách huyện theo userProfile
   useEffect(() => {
-    if (userProfile && !loading && provinces.length > 0 && !initialized) {
+    if (userProfile && !loading && provinces.length > 0) {
       const province = provinces.find((p) => ~~p.id === userProfile.provinceId);
-      const district = districts.find((d) => ~~d.id === userProfile.districtId);
 
       if (province) {
         setSelectedProvince(province);
         setValue("provinceId", province.id);
-        setProvinceAndFetchDistricts(province.id); // Gọi để lấy danh sách huyện
+        setProvinceAndFetchDistricts(province.id); // Gọi API để lấy danh sách huyện
       }
+    }
+  }, [userProfile, provinces, loading]);
 
+  // Theo dõi khi danh sách districts thay đổi và set lại selectedDistrict theo userProfile
+  useEffect(() => {
+    if (districts.length > 0 && selectedProvince) {
+      const district = districts.find(
+        (d) => ~~d.id === userProfile?.districtId
+      );
       if (district) {
         setSelectedDistrict(district);
         setValue("districtId", district.id);
       }
-
-      setInitialized(true);
     }
-  }, [userProfile, provinces, loading, initialized]);
+  }, [districts, selectedProvince, userProfile]);
 
   const handleSelectedProvince = (province: Province) => {
     setSelectedProvince(province);
+    setSelectedDistrict(null); // Reset selectedDistrict khi chọn tỉnh mới
     setValue("provinceId", province.id);
+    setValue("districtId", 0); // Reset districtId trong form
     setProvinceAndFetchDistricts(province.id); // Cập nhật danh sách huyện
   };
 
@@ -79,9 +106,10 @@ export default function ProfilePage() {
     setValue("districtId", district.id);
   };
 
-  // Theo dõi khi selectedProvince thay đổi để cập nhật danh sách huyện
+  // Theo dõi khi selectedProvince thay đổi để cập nhật danh sách huyện và reset district
   useEffect(() => {
     if (selectedProvince) {
+      setSelectedDistrict(null); // Reset selectedDistrict khi tỉnh mới được chọn
       setProvinceAndFetchDistricts(selectedProvince.id); // Gọi API để lấy huyện mới
     }
   }, [selectedProvince]);
@@ -315,49 +343,26 @@ export default function ProfilePage() {
                 />
               </Field>
             </div>
-            <div className="form-layout">
+          </div>
+
+          {!isEmployer && (
+            <div className="border border-solid border-[#D5D5D5] rounded-3xl py-14 px-8 mt-7">
               <Field>
-                <Label htmlFor="oldPassword">Mật khẩu hiện tại</Label>
-                <InputPassword
-                  name="oldPassword"
-                  placeholder="Nhập mật khẩu hiện tại"
-                  control={control}
-                  type={togglePassword ? "text" : "password"}
-                  togglePassword={togglePassword}
-                  setTogglePassword={setTogglePassword}
-                />
-              </Field>
-              <Field>
-                <Label htmlFor="newPassword">Mật khẩu mới</Label>
-                <InputPassword
-                  name="newPassword"
-                  placeholder="Nhập mật khẩu mới"
-                  control={control}
-                  type={togglePassword ? "text" : "password"}
-                  togglePassword={togglePassword}
-                  setTogglePassword={setTogglePassword}
+                <Label htmlFor="">Kỹ năng</Label>
+                <Select
+                  id="jobSkills"
+                  style={{
+                    width: "100%",
+                  }}
+                  mode="multiple"
+                  placeholder="Chọn kỹ năng"
+                  options={options}
+                  value={selectedJobSkill} // Lấy ID cho value
+                  onChange={handleChangeJobSkill}
                 />
               </Field>
             </div>
-          </div>
-
-          <div className="border border-solid border-[#D5D5D5] rounded-3xl py-14 px-8 mt-7">
-            <Field>
-              <Label htmlFor="">Kỹ năng</Label>
-              <Select
-                id="jobSkills"
-                style={{
-                  width: "100%",
-                }}
-                mode="multiple"
-                placeholder="Chọn kỹ năng"
-                // options={options}
-                // value={selectedJobSkill} // Lấy ID cho value
-                // onChange={handleChangeJobSkill}
-              />
-            </Field>
-          </div>
-
+          )}
           <div className="mt-24">
             <Label htmlFor="">Tải ảnh CCCD / CMND</Label>
             <div className="border border-solid border-[#D5D5D5] rounded-3xl p-4 mt-5">
@@ -399,6 +404,33 @@ export default function ProfilePage() {
                   }}
                 />
               </div>
+            </div>
+          </div>
+
+          <div className="border border-solid border-[#D5D5D5] rounded-3xl pt-14 px-8 mt-7">
+            <div className="form-layout">
+              <Field>
+                <Label htmlFor="oldPassword">Mật khẩu hiện tại</Label>
+                <InputPassword
+                  name="oldPassword"
+                  placeholder="Nhập mật khẩu hiện tại"
+                  control={control}
+                  type={togglePassword ? "text" : "password"}
+                  togglePassword={togglePassword}
+                  setTogglePassword={setTogglePassword}
+                />
+              </Field>
+              <Field>
+                <Label htmlFor="newPassword">Mật khẩu mới</Label>
+                <InputPassword
+                  name="newPassword"
+                  placeholder="Nhập mật khẩu mới"
+                  control={control}
+                  type={togglePassword ? "text" : "password"}
+                  togglePassword={togglePassword}
+                  setTogglePassword={setTogglePassword}
+                />
+              </Field>
             </div>
           </div>
 

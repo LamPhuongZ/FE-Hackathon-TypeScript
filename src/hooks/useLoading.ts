@@ -18,7 +18,9 @@ const useLoading = () => {
     (state: RootState) => state.userReducer
   );
 
-  return { jobLoading, jobSkillLoading, typeLoading, userLoading };
+  const isLoading = jobLoading || jobSkillLoading || typeLoading || userLoading;
+
+  return isLoading;
 };
 
 export default useLoading;

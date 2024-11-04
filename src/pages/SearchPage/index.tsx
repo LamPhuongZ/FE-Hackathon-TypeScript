@@ -17,8 +17,8 @@ const useQuery = () => {
 };
 
 export default function SearchPage() {
-  const query = useQuery();
   const navigate = useNavigate();
+  const query = useQuery();
 
   const queryValue: string | null = query.get("jobSkillId");
   const skillName: string | null = query.get("skillName");

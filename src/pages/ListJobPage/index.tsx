@@ -12,7 +12,6 @@ import {
 import { Pagination } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import Banner from "../HomePage/components/banner";
-import { UserRole } from "../../enums/role.enum";
 import { useRole } from "../../hooks/useRole";
 // import CandiCardDetail from "../../components/card-candidates/CandiCardDetail";
 // import CandiCard from "../../components/card-candidates/CandiCard";
@@ -25,7 +24,6 @@ import { useRole } from "../../hooks/useRole";
 export default function ListJobPage() {
 
   const { role } = useRole();
-  const isEmployer = role === UserRole.ROLE_EMPLOYER;
   console.log("🚀 ~ ListJobPage ~ role:", role)
 
   const navigate = useNavigate();

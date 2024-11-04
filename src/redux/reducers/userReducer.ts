@@ -5,7 +5,7 @@ import { UserLoginType } from "../../pages/AuthPage/Login";
 import { routeLink } from "../../main";
 import { UserRegisterType } from "../../pages/AuthPage/Register";
 import { notification } from "antd";
-import { JobSkill } from "./jobSkillReducer";
+// import { JobSkill } from "./jobSkillReducer";
 import { DispatchType } from "../configStore";
 
 export interface LoginState {

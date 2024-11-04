@@ -16,7 +16,7 @@
       @apply flex items-center;
 
       & > ul {
-        @apply flex gap-10 text-xl font-medium pr-[48px];
+        @apply flex gap-10 text-xl font-medium pr-[48px] items-center;
       }
       
       & > .btn__auth {

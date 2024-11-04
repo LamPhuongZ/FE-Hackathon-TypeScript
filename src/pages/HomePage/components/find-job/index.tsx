@@ -10,6 +10,7 @@ import useLoading from "../../../../hooks/useLoading";
 import LoadingData from "../../../../components/loading-data/loadingData";
 import { useRole } from "../../../../hooks/useRole";
 import { UserRole } from "../../../../enums/role.enum";
+import { toast } from "react-toastify";
 
 export default function FindJob() {
   const page = 0;
@@ -33,6 +34,15 @@ export default function FindJob() {
     getDataJobList(page, size);
   }, []);
 
+  const handleJobSelect = (jobId: number) => {
+    if (isEmployer) {
+      toast.info("Bạn không thể truy cập vào công việc này"); 
+    } else {
+      navigate(`/card-detail-job/${jobId}`); 
+    }
+  };
+
+
   if (!objJob || !objJob.content.length) {
     return <div className="px-[50%]">{showLoading && <LoadingData />}</div>;
   }
@@ -40,51 +50,45 @@ export default function FindJob() {
   return (
     <section className="findJob">
       <div className="findJob__top">
-        {!isEmployer && (
-          <>
-            <h1 className="title ">Tìm việc</h1>
-            <Link
-              to={`/list-job/jobId=${objJob.content[0].jobId}`}
-              className="findJob__link"
+        <h1 className="title ">Tìm việc</h1>
+        <Link
+          to={`/list-job/jobId=${objJob.content[0].jobId}`}
+          className="findJob__link"
+        >
+          <p className="see__more">Xem thêm</p>
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-6 h-6 small-phone:w-4 small-phone:h-4"
             >
-              <p className="see__more">Xem thêm</p>
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-6 h-6 small-phone:w-4 small-phone:h-4"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8.25 4.5l7.5 7.5-7.5 7.5"
-                  />
-                </svg>
-              </div>
-            </Link>
-          </>
-        )}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8.25 4.5l7.5 7.5-7.5 7.5"
+              />
+            </svg>
+          </div>
+        </Link>
       </div>
 
       {/* Job Item */}
-      {!isEmployer && (
-        <div className="findJob__content">
-          {objJob?.content.map((item: Content) => (
-            <div key={item.jobId}>
-              <JobCard
-                item={item}
-                onSelect={() => navigate(`/card-detail-job/${item.jobId}`)}
-                showImages={true}
-                width="w-[250px]"
-                widthAddress="w-auto max-w-[160px]"
-              />
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="findJob__content">
+        {objJob?.content.map((item: Content) => (
+          <div key={item.jobId}>
+            <JobCard
+              item={item}
+              onSelect={() => handleJobSelect(item.jobId)}
+              showImages={true}
+              width="w-[250px]"
+              widthAddress="w-auto max-w-[160px]"
+            />
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

@@ -17,12 +17,9 @@ import Dropdown from "../../components/dropdown/Dropdown";
 import DropdownSelect from "../../components/dropdown/DropdownSelect";
 import DropdownList from "../../components/dropdown/DropdownList";
 import DropdownOption from "../../components/dropdown/DropdownOption";
-import InputPassword from "../../components/input/InputPassword";
 import {
   updateProfileUserAPI,
   UserProfileType,
-  changePasswordAPI,
-  ChangePasswordType,
 } from "../../redux/reducers/userReducer";
 import { Select } from "antd";
 import { District, Province, useAddress } from "../../hooks/useAddress";
@@ -34,11 +31,19 @@ import { JobSkill } from "../../redux/reducers/jobSkillReducer";
 export default function ProfilePage() {
   const { role } = useRole();
   const isEmployer = role === UserRole.ROLE_EMPLOYER;
-  const [togglePassword, setTogglePassword] = useState(false);
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
   const { objJobSkill } = useSelector(
     (state: RootState) => state.jobSkillReducer
   );
+
+  const options = Array.isArray(objJobSkill)
+    ? objJobSkill.map((skill: JobSkill) => ({
+        label: skill.skill,
+        value: skill.id,
+      }))
+    : [];
+
+  console.log({ objJobSkill });
 
   const dispatch: DispatchType = useDispatch();
   const { provinces, districts, setProvinceAndFetchDistricts, loading } =
@@ -51,22 +56,13 @@ export default function ProfilePage() {
     null
   );
 
-  const options = Array.isArray(objJobSkill)
-    ? objJobSkill.map((skill: JobSkill) => ({
-        label: skill.skill,
-        value: skill.id,
-      }))
-    : [];
+  const [selectedJobSkill, setSelectedJobSkill] = useState<number[]>([]);
 
-    console.log({objJobSkill});
-    
-
-  const [selectedJobSkill, setSelectedJobSkill] = useState([]);
-
-  // Hàm xử lý khi chọn kỹ năng
-  const handleChangeJobSkill = (value: any) => {
-    setSelectedJobSkill(value); // value là mảng các ID kỹ năng đã chọn
+  const handleChangeJobSkill = (value: number[]) => {
+    console.log("Selected job skills:", value); // Thêm log để theo dõi giá trị
+    setSelectedJobSkill(value); // Cập nhật danh sách kỹ năng đã chọn
   };
+
   // Thiết lập selectedProvince và gọi API để lấy danh sách huyện theo userProfile
   useEffect(() => {
     if (userProfile && !loading && provinces.length > 0) {
@@ -149,11 +145,10 @@ export default function ProfilePage() {
     }
   }, [userProfile]);
 
-  const handleUpdateProfile = async (
-    values: UserProfileType & ChangePasswordType
-  ) => {
+  const handleUpdateProfile = async (values: UserProfileType) => {
     try {
       console.log("value trc: ", values);
+      console.log("value skill: ", selectedJobSkill);
 
       const profilePayload: UserProfileType = {
         fullname: values.fullname,
@@ -167,22 +162,8 @@ export default function ProfilePage() {
         createdDate: values.createdDate,
         imgFrontOfCard: values.imgFrontOfCard,
         imgBackOfCard: values.imgBackOfCard,
-        // jobSkills: selectedJobSkill, // Lấy id từ jobSkills
+        jobSkills: selectedJobSkill, // Giữ lại jobSkills từ userProfile
       };
-
-      const passwordPayload: ChangePasswordType | null =
-        values.oldPassword && values.newPassword
-          ? { oldPassword: values.oldPassword, newPassword: values.newPassword }
-          : null;
-
-      if (passwordPayload) {
-        try {
-          await dispatch(changePasswordAPI(passwordPayload));
-        } catch (error) {
-          console.error("Error in changePasswordAPI:", error);
-          toast.error("Đổi mật khẩu thất bại!");
-        }
-      }
 
       await dispatch(updateProfileUserAPI(profilePayload));
 
@@ -404,33 +385,6 @@ export default function ProfilePage() {
                   }}
                 />
               </div>
-            </div>
-          </div>
-
-          <div className="border border-solid border-[#D5D5D5] rounded-3xl pt-14 px-8 mt-7">
-            <div className="form-layout">
-              <Field>
-                <Label htmlFor="oldPassword">Mật khẩu hiện tại</Label>
-                <InputPassword
-                  name="oldPassword"
-                  placeholder="Nhập mật khẩu hiện tại"
-                  control={control}
-                  type={togglePassword ? "text" : "password"}
-                  togglePassword={togglePassword}
-                  setTogglePassword={setTogglePassword}
-                />
-              </Field>
-              <Field>
-                <Label htmlFor="newPassword">Mật khẩu mới</Label>
-                <InputPassword
-                  name="newPassword"
-                  placeholder="Nhập mật khẩu mới"
-                  control={control}
-                  type={togglePassword ? "text" : "password"}
-                  togglePassword={togglePassword}
-                  setTogglePassword={setTogglePassword}
-                />
-              </Field>
             </div>
           </div>
 

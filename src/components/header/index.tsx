@@ -11,11 +11,17 @@ import { DispatchType, RootState } from "../../redux/configStore";
 import { getCookie } from "../../utils/utilMethod";
 import { ACCESS_TOKEN } from "../../utils/config";
 import { LuUserCircle2 } from "react-icons/lu";
+import { useRole } from "../../hooks/useRole";
+import { UserRole } from "../../enums/role.enum";
 
 export default function Header() {
   const navigate = useNavigate();
+  const { role } = useRole();
   const dispatch: DispatchType = useDispatch();
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
+
+  const token = getCookie(ACCESS_TOKEN);
+  const isEmployer = role === UserRole.ROLE_EMPLOYER;
 
   const handleScrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
     if (ref.current) {
@@ -26,7 +32,7 @@ export default function Header() {
   const items: MenuProps["items"] = [
     {
       key: "1",
-      style:{background:'none'},
+      style: { background: "none" },
       label: (
         <button
           onClick={() => {
@@ -41,7 +47,7 @@ export default function Header() {
       ),
     },
     {
-      style:{background:'none'},
+      style: { background: "none" },
       key: "2",
       label: <LogOut />,
     },
@@ -54,8 +60,7 @@ export default function Header() {
 
   useEffect(() => {
     //reset Token
-    const Token = getCookie(ACCESS_TOKEN);
-    if (!Token) {
+    if (!token) {
       return;
     }
 
@@ -77,14 +82,25 @@ export default function Header() {
         </Link>
         <nav className="nav">
           <ul className="menu">
-            <li>
-              <Link
-                to="/list-job/:jobId?section=listJob"
-                onClick={() => handleScrollToSection}
-              >
-                Tìm việc
+            {token && isEmployer ? (
+              <Link to="/form-application">
+                <Button
+                  title="Đăng bài"
+                  color="custom"
+                  className="bg-[#2EE498] w-40"
+                  circle={false}
+                />
               </Link>
-            </li>
+            ) : (
+              <li>
+                <Link
+                  to="/list-job/:jobId?section=listJob"
+                  onClick={() => handleScrollToSection}
+                >
+                  Tìm việc
+                </Link>
+              </li>
+            )}
             <li>
               <Link
                 to="/policy-page?section=policy"
@@ -125,10 +141,11 @@ export default function Header() {
                   <a className="cursor-pointer max-w-[180px]">
                     <Space
                       className="font-bold leading-5 overflow-hidden "
-                      style={{ maxWidth: "180px"}}
+                      style={{ maxWidth: "180px" }}
                     >
-                      <p className="whitespace-nowrap !text-ellipsis">{userProfile.fullname}</p>
-                      
+                      <p className="whitespace-nowrap !text-ellipsis">
+                        {userProfile.fullname}
+                      </p>
                     </Space>
                   </a>
                 </div>

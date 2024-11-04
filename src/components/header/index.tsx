@@ -132,7 +132,7 @@ export default function Header() {
                 <div className="flex items-center gap-2">
                   <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
                     <img
-                      src={userProfile.avatar}
+                      src={userProfile.avatar ||"https://via.placeholder.com/150"}
                       alt="avatar"
                       className="w-full"
                       loading="lazy"

@@ -8,7 +8,6 @@ interface ImageUploadProps extends Partial<HTMLInputElement> {
   resetTrigger?: boolean;
   onRemove?: () => void; // Thêm prop để xử lý xóa ảnh
   fileList?: { url: string; name: string }[]; // Thêm prop fileList
-
 }
 
 export default function ImageUploadProps({
@@ -20,7 +19,6 @@ export default function ImageUploadProps({
   onRemove,
   fileList = [], // Mặc định là mảng rỗng
 }: ImageUploadProps) {
- 
   const [imageSelect, setImageSelect] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
 
@@ -39,7 +37,6 @@ export default function ImageUploadProps({
       setImageUrl(fileList[0].url);
     }
   }, [fileList]);
-
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
@@ -86,12 +83,14 @@ export default function ImageUploadProps({
         </div>
       ) : (
         <>
-          <img
-            src={imageUrl || ""}
-            className="w-full h-full object-cover"
-            alt=""
-            loading="lazy"
-          />
+          <div className="w-[250px] h-[250px]">
+            <img
+              src={imageUrl || ""}
+              className="w-full h-full object-cover rounded-full"
+              alt=""
+              loading="lazy"
+            />
+          </div>
           <button
             type="button"
             className="w-16 h-16 bg-white rounded-full flex items-center justify-center cursor-pointer absolute z-10 text-red-600 opacity-0 invisible transition-all group-hover:opacity-100 group-hover:visible "

@@ -8,6 +8,7 @@ interface ImageUploadProps extends Partial<HTMLInputElement> {
   resetTrigger?: boolean;
   onRemove?: () => void; // Thêm prop để xử lý xóa ảnh
   fileList?: { url: string; name: string }[]; // Thêm prop fileList
+  imageSize?: string;
 }
 
 export default function ImageUploadProps({
@@ -18,6 +19,7 @@ export default function ImageUploadProps({
   resetTrigger, // Prop để trigger reset
   onRemove,
   fileList = [], // Mặc định là mảng rỗng
+  imageSize = "w-full h-[300px]",
 }: ImageUploadProps) {
   const [imageSelect, setImageSelect] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
@@ -83,10 +85,10 @@ export default function ImageUploadProps({
         </div>
       ) : (
         <>
-          <div className="w-[250px] h-[250px]">
+          <div className={`${imageSize}`}>
             <img
               src={imageUrl || ""}
-              className="w-full h-full object-cover rounded-full"
+              className="w-full h-full object-cover"
               alt=""
               loading="lazy"
             />

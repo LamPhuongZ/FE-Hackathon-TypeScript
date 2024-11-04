@@ -188,6 +188,7 @@ export default function ProfilePage() {
             <ImageUploadProps
               listType="picture-circle"
               name="avatar"
+              imageSize="w-full h-[250px]"
               fileList={
                 userProfile?.avatar
                   ? [{ url: userProfile.avatar, name: "Avatar" }]

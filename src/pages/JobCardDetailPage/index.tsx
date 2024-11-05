@@ -59,11 +59,7 @@ export default function JobCardDetailPage() {
       ));
   };
 
-  // const renderCandiCards = (): JSX.Element[] => {
-  //   return Array.from({ length: 7 }, (_, index) => (
-  //     <CandiCard key={index} className="h-[200px]" textWidthName="text-2xl" />
-  //   ));
-  // };
+  
 
   return (
     <div className="grid  md:grid-cols-[80%_minmax(0,_1fr)] gap-x-7 py-20 px-[72px] 2xl:grid-cols-[80%_minmax(0,_1fr)] small-tablet:grid-cols-[minmax(0,_1fr)] small-tablet:px-2 small-tablet:py-5 ">

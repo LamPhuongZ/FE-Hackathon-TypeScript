@@ -54,22 +54,7 @@ export default function Header() {
     },
   ];
 
-  const getMe = async () => {
-    const actionAPI = await getProfileAPI();
-    dispatch(actionAPI);
-  };
-
-  useEffect(() => {
-    //reset Token
-    if (!token) {
-      return;
-    }
-
-    getMe();
-  }, []);
-
-  // Dropdown menu header button
-  const itemsHeader = [
+  const itemsHeader: MenuProps['items'] = [
     {
       label: (
         <>
@@ -124,7 +109,7 @@ export default function Header() {
           </Link>
         </>
       ),
-      key: "3",
+      key: "2",
     },
     {
       type: "divider",
@@ -168,9 +153,26 @@ export default function Header() {
           )}
         </>
       ),
-      key: "4",
+      key: "3",
     },
   ];
+
+  const getMe = async () => {
+    const actionAPI = await getProfileAPI();
+    dispatch(actionAPI);
+  };
+
+  useEffect(() => {
+    //reset Token
+    if (!token) {
+      return;
+    }
+
+    getMe();
+  }, []);
+
+  // Dropdown menu header button
+  
   return (
     <>
       <header className="header w-full !hidden sm:!block">

@@ -91,7 +91,7 @@ const Register: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
           className=" flex items-center"
           style={{ width: "50%" }}
           size="large"
-          onClick={() => handleClickGoogle("ROLE_EMPLOYER")}
+          onClick={() => handleClickGoogle("ROLE_APPLIER")}
         >
           <img src={logoGoogle} alt="google" />
           <span> ỨNG VIÊN</span>
@@ -100,7 +100,7 @@ const Register: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
           className=" flex items-center"
           style={{ width: "50%" }}
           size="large"
-          onClick={() => handleClickGoogle("ROLE_APPLIER")}
+          onClick={() => handleClickGoogle("ROLE_EMPLOYER")}
         >
           <img src={logoGoogle} alt="google" />
           <span>NHÀ TUYỂN DỤNG</span>

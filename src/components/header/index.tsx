@@ -53,6 +53,8 @@ export default function Header() {
     },
   ];
 
+  
+
   const getMe = async () => {
     const actionAPI = await getProfileAPI();
     dispatch(actionAPI);
@@ -67,8 +69,12 @@ export default function Header() {
     getMe();
   }, []);
 
+  // Dropdown menu header button
+  
+
   return (
-    <header className="header">
+    <>
+    <header className="header w-full">
       <div className="header__group">
         <Link to="/" className="link__logo">
           <img
@@ -155,5 +161,16 @@ export default function Header() {
         </nav>
       </div>
     </header>
+
+    {/* <Dropdown menu={{ itemsHeader }} trigger={['click']}>
+    <a onClick={(e) => e.preventDefault()}>
+      <Space>
+        Click me
+      </Space>
+    </a>
+  </Dropdown> */}
+
+    </>
+    
   );
 }

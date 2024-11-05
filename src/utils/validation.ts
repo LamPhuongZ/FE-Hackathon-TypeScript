@@ -15,9 +15,6 @@ export const ProfileSchema = yup.object({
   address: yup.string().required("Vui lòng nhập địa chỉ"),
   jobSkills: yup.array().min(1, "Vui lòng chọn ít nhất một kỹ năng").nullable(),
 
-  oldPassword: yup.string().nullable(),
-  newPassword: yup.string().nullable(),
-
   avatar: yup.mixed().nullable().required("Vui lòng tải ảnh khuôn mặt của bạn"),
 
   imgFrontOfCard: yup
@@ -29,6 +26,11 @@ export const ProfileSchema = yup.object({
     .mixed()
     .nullable()
     .required("Vui lòng tải CCCD/CMND mặt sau"),
+});
+
+export const ChangePasswordSchema = yup.object({
+  oldPassword: yup.string().nullable(),
+  newPassword: yup.string().nullable(),
 });
 
 export const JobProfileSchema = yup.object({

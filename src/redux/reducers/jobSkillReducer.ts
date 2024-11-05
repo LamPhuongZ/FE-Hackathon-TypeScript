@@ -44,7 +44,7 @@ export const getDataJobSkillAPI = () => {
     dispatch(setLoading(true));
 
     try {
-      const res = await httpClient.get(`api/v1/job-skill`);
+      const res = await httpClient.get(`/api/v1/job-skill`);
       const action: PayloadAction<JobSkill> = getJobsSkillAction(res.data.data);
       dispatch(action);
     } catch (error) {

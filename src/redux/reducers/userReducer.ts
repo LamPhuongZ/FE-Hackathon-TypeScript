@@ -5,7 +5,7 @@ import { UserLoginType } from "../../pages/AuthPage/Login";
 import { routeLink } from "../../main";
 import { UserRegisterType } from "../../pages/AuthPage/Register";
 import { notification } from "antd";
-import { JobSkill } from "./jobSkillReducer";
+// import { JobSkill } from "./jobSkillReducer";
 import { DispatchType } from "../configStore";
 
 export interface LoginState {
@@ -25,12 +25,12 @@ export interface UserProfileType {
   phone: string;
   fullname: string;
   dob: string; // day of birth
-  avatar: [] | any | null;
+  avatar: [] | any;
   createdDate: string | null;
   address: string;
   provinceId: number;
   districtId: number;
-  jobSkills?: JobSkill[] | null;
+  jobSkills?: number[] | null;
   imgFrontOfCard: [] | any;
   imgBackOfCard: [] | any;
 }
@@ -167,7 +167,12 @@ export const registerAPI = createAsyncThunk(
         userRegister
       );
       dispatch(setRegisterAction(response.data));
-      
+      setCookie(USER_LOGIN, JSON.stringify(response.data), 30);
+      setCookie(ACCESS_TOKEN, response.data.data["access-token"], 30);
+      const action: PayloadAction<LoginState> = setLoginAction(response.data);
+      dispatch(action);
+      dispatch(setLoginAction(response.data));
+      dispatch(setIsLoginAction(true));
       console.log("🚀 ~ file: userReducer.ts:184 ~ response:", response.data);
 
       notification.success({
@@ -263,12 +268,12 @@ export const updateProfileUserAPI = (userProfile: UserProfileType) => {
             formData.append(key, value.toString());
           }
 
-          if (key === "jobSkills" && Array.isArray(value)) {
-            // Thay đổi ở đây để truyền danh sách ID vào formData
-            value.forEach((skillId: number) => {
-              formData.append("jobSkills[]", skillId.toString());
-            });
-          }
+          // if (key === "jobSkills" && Array.isArray(value)) {
+          //   // Thay đổi ở đây để truyền danh sách ID vào formData
+          //   value.forEach((skillId: number) => {
+          //     formData.append("jobSkills[]", skillId.toString());
+          //   });
+          // }
         }
       }
 

@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { RootState } from "../../redux/configStore";
 import { useSelector } from "react-redux";
+import { VscLock } from "react-icons/vsc";
 
 export default function Sidebar() {
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
@@ -72,13 +73,28 @@ export default function Sidebar() {
     </NavLink>
   );
 
+  const ChangePasswordPage = () => (
+    <NavLink
+      to={`/change-password`}
+      className={({ isActive }) =>
+        `flex items-center justify-center gap-4 p-3 font-medium cursor-pointer hover:bg-blue-200 rounded-xl ${
+          isActive ? " bg-blue-200 rounded-xl font-semibold text-[#3F8CFF]" : ""
+        }`
+      }
+      end
+    >
+      <VscLock className="w-6 h-6" />
+      <span className="mt-1 text-xl">Thay đổi mật khẩu</span>
+    </NavLink>
+  );
+
   return (
     <div className="w-full">
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-8 justify-center">
           <div className="w-16 h-16 ">
             <img
-              src={userProfile?.avatar ||"https://via.placeholder.com/150" }
+              src={userProfile?.avatar || "https://via.placeholder.com/150"}
               alt="avatar"
               className="w-full h-full object-cover rounded-full bg-slate-300"
               loading="lazy"
@@ -89,6 +105,7 @@ export default function Sidebar() {
         <div className="border-2 border-solid"></div>
         <Profile />
         <WorkManager />
+        <ChangePasswordPage />
       </div>
     </div>
   );

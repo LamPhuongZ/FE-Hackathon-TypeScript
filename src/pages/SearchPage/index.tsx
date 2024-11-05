@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../redux/configStore";
 import {
   Content,
-  getSearchDataJobByJobSkillIdAPI,
+  getSearchDataJobByJobTypeIdAPI,
   getSearchJobByTitle,
 } from "../../redux/reducers/jobReducer";
 import { useEffect, useState } from "react";
@@ -20,8 +20,8 @@ export default function SearchPage() {
   const navigate = useNavigate();
   const query = useQuery();
 
-  const queryValue: string | null = query.get("jobSkillId");
-  const skillName: string | null = query.get("skillName");
+  const queryValue: string | null = query.get("jobTypeId");
+  const jobTypeName: string | null = query.get("jobTypeName");
 
   const [currentPage, setCurrentPage] = useState<number>(0);
   const pageSize = 10;
@@ -41,19 +41,19 @@ export default function SearchPage() {
     dispatch(actionAPI);
   };
 
-  const getDataJobListBySkillId = async (
+  const getDataJobListByTypeId = async (
     page: number,
     size: number,
-    jobSkillId: number | null
+    jobTypeId: number | null
   ) => {
-    const actionAPI = getSearchDataJobByJobSkillIdAPI(page, size, jobSkillId);
+    const actionAPI = getSearchDataJobByJobTypeIdAPI(page, size, jobTypeId);
     dispatch(actionAPI);
   };
 
   useEffect(() => {
     if (queryValue) {
       const jobSkillId = Number(queryValue);
-      getDataJobListBySkillId(currentPage - 1, pageSize, jobSkillId);
+      getDataJobListByTypeId(currentPage - 1, pageSize, jobSkillId);
     } else {
       getDataJobList(currentPage - 1, pageSize, objTitle, province);
     }
@@ -65,7 +65,7 @@ export default function SearchPage() {
       <div id="searchItems" className="search">
         <div className="search__top">
           <h1 className="title">Công việc: </h1>
-          <p>{queryValue ? `${skillName}` : `${objTitle}`} </p>
+          <p>{queryValue ? `${jobTypeName}` : `${objTitle}`} </p>
         </div>
 
         <div className="search__content">

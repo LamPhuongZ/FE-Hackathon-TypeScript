@@ -107,7 +107,7 @@ export default function Banner() {
           />
           <div className="line"></div>
           <select
-            className="select__area bg-[transparent] w-[20%] !text-xs md:w-[50%] md:!text-lg"
+            className="select__area bg-[transparent] w-[20%] !text-xs md:w-[30%] md:!text-lg"
             onChange={(e) => {
               setSearchProvince(~~e.target.value);
               console.log(e.target.value);

@@ -115,7 +115,7 @@ const jobReducer = createSlice({
     ) => {
       state.province = action.payload;
     },
-    setSearchInputSkill: (state: JobState, action: PayloadAction<number>) => {
+    setSearchInputType: (state: JobState, action: PayloadAction<number>) => {
       state.jobSkillId = action.payload;
     },
     postApplyAction: (state: JobState, action: PayloadAction<Job>) => {
@@ -151,7 +151,7 @@ export const {
   getJobTypeId,
   setSearchInputTitle,
   setSearchInputProvince,
-  setSearchInputSkill,
+  setSearchInputType,
   postApplyAction,
   setLoading,
   setHasApplied,
@@ -194,16 +194,16 @@ export const getDataJobDetailAPI = (id: number) => {
   };
 };
 
-export const getSearchDataJobByJobSkillIdAPI = (
+export const getSearchDataJobByJobTypeIdAPI = (
   page: number,
   size: number,
-  jobSkillId: number | null
+  jobTypeId: number | null
 ) => {
   return async (dispatch: DispatchType) => {
     dispatch(setLoading(true));
     try {
       const res = await httpClient.get(
-        `/api/v1/job?jobSkillId=${jobSkillId}&page=${page}&size=${size}&direction=desc`
+        `/api/v1/job?jobTypeId=${jobTypeId}&page=${page}&size=${size}&direction=desc`
       );
       const action: PayloadAction<Job> = getJobsAction(res.data.data);
       dispatch(action);

@@ -5,26 +5,23 @@ import Button from "../../../../components/button/Button";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootState } from "../../../../redux/configStore";
-import {
-  getDataJobSkillAPI,
-  JobSkill,
-} from "../../../../redux/reducers/jobSkillReducer";
 import { Province, useAddress } from "../../../../hooks/useAddress";
 import { useNavigate } from "react-router-dom";
 import useLoading from "../../../../hooks/useLoading";
 import LoadingData from "../../../../components/loading-data/loadingData";
 import {
   setSearchInputProvince,
-  setSearchInputSkill,
+  setSearchInputType,
   setSearchInputTitle,
 } from "../../../../redux/reducers/jobReducer";
+import { getJobTypeAPI, JobType } from "../../../../redux/reducers/typeReducer";
 
 export default function Banner() {
   const { provinces } = useAddress();
   const showLoading = useLoading();
 
-  const { objJobSkill } = useSelector(
-    (state: RootState) => state.jobSkillReducer
+  const { objJobType } = useSelector(
+    (state: RootState) => state.typeReducer
   );
   const dispatch: DispatchType = useDispatch();
   const navigate = useNavigate();
@@ -32,24 +29,24 @@ export default function Banner() {
   const [searchInput, setSearchInput] = useState("");
   const [searchProvince, setSearchProvince] = useState(0);
 
-  const getDataJobSkillList = async () => {
-    const actionAPI = getDataJobSkillAPI();
+  const getDataJobTypeList = async () => {
+    const actionAPI = getJobTypeAPI();
     dispatch(actionAPI);
   };
 
   useEffect(() => {
-    getDataJobSkillList();
+    getDataJobTypeList();
   }, []);
 
-  const handleSkillClick = (skillId: number, skillName: string) => {
+  const handleSkillClick = (jobTypeId: number, jobTypeName: string) => {
 
-    if (objJobSkill && objJobSkill.id) {
-      dispatch(setSearchInputSkill(objJobSkill.id));
+    if (objJobType && objJobType.id) {
+      dispatch(setSearchInputType(objJobType.id));
     }
     const params = new URLSearchParams();
-    params.append("jobSkillId", skillId.toString()); // Chuyển skillId thành chuỗi
+    params.append("jobTypeId", jobTypeId.toString()); // Chuyển skillId thành chuỗi
 
-    navigate(`/search?${params.toString()}&&skillName=${skillName}`);
+    navigate(`/search?${params.toString()}&&jobTypeName=${jobTypeName}`);
   };
 
   const handleSearchClick = () => {
@@ -74,7 +71,7 @@ export default function Banner() {
     navigate(`/search${params.toString() ? `?${params.toString()}` : ""}`);
   };
 
-  if (!Array.isArray(objJobSkill) || objJobSkill.length === 0) {
+  if (!Array.isArray(objJobType) || objJobType.length === 0) {
     return <div className="banner">{showLoading && <LoadingData />}</div>;
   }
 
@@ -135,20 +132,20 @@ export default function Banner() {
           <div className="popular__keywords__group">
             <span className="title">Từ khóa phổ biến:</span>
             <div className="skills">
-              {Array.isArray(objJobSkill) && objJobSkill.length > 0 ? (
-                objJobSkill
+              {Array.isArray(objJobType) && objJobType.length > 0 ? (
+                objJobType
                   .slice(0, 10)
-                  .map((keyword: JobSkill, index: number) => (
+                  .map((keyword: JobType, index: number) => (
                     
                     <Button
                       key={index}
                       title={<a href="#searchItems">
-                          {keyword.skill}
+                          {keyword.name}
                         </a> }
                       className="btn__jobSkill"
                       circle={false}
                       color="custom"
-                      onClick={() => handleSkillClick(keyword.id, keyword.skill)}
+                      onClick={() => handleSkillClick(keyword.id, keyword.name)}
                     />
                   ))
               ) : (

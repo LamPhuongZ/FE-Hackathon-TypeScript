@@ -11,6 +11,7 @@ import JobCard from "../../components/card-job/JobCard";
 import { Pagination } from "antd";
 import Banner from "../HomePage/components/banner";
 import { useLocation, useNavigate } from "react-router-dom";
+import { IoMdInformationCircleOutline } from "react-icons/io";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -69,63 +70,73 @@ export default function SearchPage() {
         </div>
 
         <div className="search__content">
-          {objJob?.content.map((item: Content) => (
-            <div key={item.jobId}>
-              <JobCard
-                item={item}
-                showImages={true}
-                onSelect={() => navigate(`/card-detail-job/${item.jobId}`)}
-              />
-            </div>
-          ))}
+          {objJob?.content && objJob.content.length > 0 ? (
+            <>
+              {objJob.content.map((item: Content) => (
+                <div key={item.jobId}>
+                  <JobCard
+                    item={item}
+                    showImages={true}
+                    onSelect={() => navigate(`/card-detail-job/${item.jobId}`)}
+                  />
+                </div>
+              ))}
 
-          <Pagination
-            style={{
-              padding: "30px 20px",
-              borderRadius: "5px",
-              fontSize: "20px",
-            }}
-            align="center"
-            current={currentPage}
-            pageSize={pageSize}
-            total={objJob?.totalElements}
-            onChange={(page) => setCurrentPage(page)}
-            itemRender={(page, type, originalElement) => {
-              if (type === "page") {
-                return (
+              {/* Chỉ hiển thị Pagination khi có dữ liệu */}
+              <Pagination
+                style={{
+                  padding: "30px 20px",
+                  borderRadius: "5px",
+                  fontSize: "20px",
+                }}
+                align="center"
+                current={currentPage}
+                pageSize={pageSize}
+                total={objJob?.totalElements}
+                onChange={(page) => setCurrentPage(page)}
+                itemRender={(page, type, originalElement) => {
+                  if (type === "page") {
+                    return (
+                      <span
+                        style={{
+                          fontSize: "20px",
+                          padding: "0 20px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => setCurrentPage(page)}
+                      >
+                        {page}
+                      </span>
+                    );
+                  }
+                  return originalElement;
+                }}
+                prevIcon={
                   <span
                     style={{
-                      fontSize: "20px",
-                      padding: "0 20px",
-                      cursor: "pointer",
+                      fontSize: "30px",
                     }}
-                    onClick={() => setCurrentPage(page)}
                   >
-                    {page}
+                    {"<"}
                   </span>
-                );
-              }
-              return originalElement;
-            }}
-            prevIcon={
-              <span
-                style={{
-                  fontSize: "30px",
-                }}
-              >
-                {"<"}
-              </span>
-            }
-            nextIcon={
-              <span
-                style={{
-                  fontSize: "30px",
-                }}
-              >
-                {">"}
-              </span>
-            }
-          />
+                }
+                nextIcon={
+                  <span
+                    style={{
+                      fontSize: "30px",
+                    }}
+                  >
+                    {">"}
+                  </span>
+                }
+              />
+            </>
+          ) : (
+            <p className="flex items-center gap-3 justify-center font-bold text-2xl">
+              <IoMdInformationCircleOutline />
+              Không có kết quả nào được tìm thấy
+            </p>
+          )}
         </div>
       </div>
     </>

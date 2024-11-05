@@ -23,6 +23,7 @@ const LogOut: React.FC = () => {
     delCookie("userLogin");
     delCookie("username");
     delCookie("password");
+    localStorage.removeItem("role");
     // Clear the user profile data from the Redux store
     dispatch(setProfileAction(null));
     // setIsLogin(false)

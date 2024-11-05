@@ -40,7 +40,7 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
   const dispatch: DispatchType = useDispatch();
   const { Link, Title, Text } = Typography;
   const [api, contextHolder] = notification.useNotification();
-  const [roleValue, setRoleValue] = useState("ROLE_EMPLOYER");
+  const [roleValue, setRoleValue] = useState("ROLE_APPLIER");
   console.log(api);
 
   const navigate = useNavigate();
@@ -94,14 +94,17 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
   }, []);
 
   const handleRoleChange = (key: string) => {
+    console.log('key',key);
+    
     // Update the role based on the selected tab
     if (key === "1") {
-      setRoleValue("ROLE_EMPLOYER");
-    } else if (key === "2") {
       setRoleValue("ROLE_APPLIER");
+    } else  {
+      setRoleValue("ROLE_EMPLOYER");
     }
+    
   };
-
+  console.log(roleValue);
   return (
     <>
       {contextHolder}

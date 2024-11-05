@@ -11,6 +11,7 @@ import JobCard from "../../components/card-job/JobCard";
 import { Pagination } from "antd";
 import Banner from "../HomePage/components/banner";
 import { useLocation, useNavigate } from "react-router-dom";
+import Loading from "../../components/loading";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -67,7 +68,7 @@ export default function SearchPage() {
           <h1 className="title">Công việc: </h1>
           <p>{queryValue ? `${jobTypeName}` : `${objTitle}`} </p>
         </div>
-
+        {objJob?.content ? 
         <div className="search__content">
           {objJob?.content.map((item: Content) => (
             <div key={item.jobId}>
@@ -126,7 +127,9 @@ export default function SearchPage() {
               </span>
             }
           />
-        </div>
+        </div> 
+        : <div className="search__content">Chưa có việc được đăng lên</div>
+}
       </div>
     </>
   );

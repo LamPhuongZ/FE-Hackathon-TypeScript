@@ -9,7 +9,7 @@ export interface JobSkill {
 }
 
 export interface JobSkillState {
-  objJobSkill: JobSkill | null;
+  objJobSkill: JobSkill[] | null;
   isLoading: boolean;
 }
 
@@ -24,7 +24,7 @@ const jobSkillReducer = createSlice({
   reducers: {
     getJobsSkillAction: (
       state: JobSkillState,
-      action: PayloadAction<JobSkill>
+      action: PayloadAction<JobSkill[]>
     ) => {
       state.objJobSkill = action.payload;
       state.isLoading = false;
@@ -45,7 +45,7 @@ export const getDataJobSkillAPI = () => {
 
     try {
       const res = await httpClient.get(`/api/v1/job-skill`);
-      const action: PayloadAction<JobSkill> = getJobsSkillAction(res.data.data);
+      const action: PayloadAction<JobSkill[]> = getJobsSkillAction(res.data.data);
       dispatch(action);
     } catch (error) {
       console.error(error);

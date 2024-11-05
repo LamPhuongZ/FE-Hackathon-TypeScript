@@ -26,7 +26,10 @@ import { District, Province, useAddress } from "../../hooks/useAddress";
 import dayjs from "dayjs";
 import { useRole } from "../../hooks/useRole";
 import { UserRole } from "../../enums/role.enum";
-import { JobSkill } from "../../redux/reducers/jobSkillReducer";
+import {
+  getDataJobSkillAPI,
+  JobSkill,
+} from "../../redux/reducers/jobSkillReducer";
 
 export default function ProfilePage() {
   const { role } = useRole();
@@ -35,6 +38,17 @@ export default function ProfilePage() {
   const { objJobSkill } = useSelector(
     (state: RootState) => state.jobSkillReducer
   );
+
+  const getDataJobSkill = async () => {
+    dispatch(getDataJobSkillAPI());
+  };
+
+  useEffect(() => {
+    if (!objJobSkill) {
+      getDataJobSkill();
+    }
+  }, [objJobSkill]);
+  
 
   const options = Array.isArray(objJobSkill)
     ? objJobSkill.map((skill: JobSkill) => ({

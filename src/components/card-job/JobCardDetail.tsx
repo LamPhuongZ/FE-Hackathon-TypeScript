@@ -87,7 +87,6 @@ export default function JobCardDetail({ item }: Props) {
         />
         <div className="border border-solid mt-4"></div>
       </div>
-      <div className="h-auto max-h-[1235px] overflow-y-auto px-2">
         <div className="flex flex-col gap-7 mt-7">
           <div className="flex justify-between">
             <div className="flex items-center gap-x-2 small-tablet:text-sm">
@@ -245,6 +244,5 @@ export default function JobCardDetail({ item }: Props) {
           </div>
         </div>
       </div>
-    </div>
   );
 }

@@ -121,8 +121,8 @@ export default function Banner() {
             ))}
           </select>
           <Button
-            title="Tìm kiếm"
-            className="btn__search !w-[20%]"
+            title={<p className="text-sm md:text-lg">Tìm kiếm</p>}
+            className="btn__search !w-[30%] md:!w-[10%]"
             circle={false}
             onClick={handleSearchClick}
           />

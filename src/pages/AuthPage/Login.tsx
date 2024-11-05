@@ -69,13 +69,13 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
     const callbackUrl = OAuthConfig.redirectUri;
     const authUrl = OAuthConfig.authUri;
     const googleClientId = OAuthConfig.clientId;
-
+    localStorage.setItem("role", roleValue);
     //Redirect to Google form auth
     const targetUrl = `${authUrl}?redirect_uri=${encodeURIComponent(
       callbackUrl
     )}&response_type=code&client_id=${googleClientId}&scope=openid%20email%20profile`;
 
-    localStorage.setItem("role", roleValue);
+    
     dispatch(setIsLoginAction(true));
     window.location.href = targetUrl;
   };

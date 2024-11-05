@@ -59,20 +59,16 @@ export default function JobCardDetailPage() {
       ));
   };
 
-  // const renderCandiCards = (): JSX.Element[] => {
-  //   return Array.from({ length: 7 }, (_, index) => (
-  //     <CandiCard key={index} className="h-[200px]" textWidthName="text-2xl" />
-  //   ));
-  // };
+  
 
   return (
-    <div className="grid grid-cols-[867px_minmax(0,_1fr)] gap-x-7 py-20 px-[72px] 2xl:grid-cols-[1300px_minmax(0,_1fr)] small-tablet:grid-cols-[minmax(0,_1fr)] small-tablet:px-2 small-tablet:py-5 ">
+    <div className="grid  md:grid-cols-[80%_minmax(0,_1fr)] gap-x-7 py-20 px-[72px] 2xl:grid-cols-[80%_minmax(0,_1fr)] small-tablet:grid-cols-[minmax(0,_1fr)] small-tablet:px-2 small-tablet:py-5 ">
       <div>{objJobDetails && <JobCardDetail item={objJobDetails} />}</div>
       {/* <div>{objCandiDetails && <CandiCardDetail item={objCandiDetails} />}</div> */}
       <div className="flex flex-col gap-6 small-tablet:hidden">
         <div className="flex flex-col items-end">
           <h1 className="text-2xl font-medium">Loại công việc liên quan</h1>
-          <div className="border-2 border-solid border-[#2EE498] w-[292px] "></div>
+          <div className="border-2 border-solid border-[#2EE498] w-full "></div>
         </div>
         <div className=" flex flex-col gap-8">
           {renderJobCards()}

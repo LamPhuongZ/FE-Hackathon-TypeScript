@@ -96,9 +96,9 @@ const Login: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
   const handleRoleChange = (key: string) => {
     // Update the role based on the selected tab
     if (key === "1") {
-      setRoleValue("ROLE_APPLIER");
-    } else if (key === "2") {
       setRoleValue("ROLE_EMPLOYER");
+    } else if (key === "2") {
+      setRoleValue("ROLE_APPLIER");
     }
   };
 

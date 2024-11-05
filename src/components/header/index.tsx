@@ -78,7 +78,7 @@ export default function Header() {
               <Button
                 title="Đăng bài"
                 color="custom"
-                className="bg-[#2EE498] w-40"
+                className="bg-[#2EE498] w-40 !text-xl"
                 circle={false}
               />
             </Link>
@@ -87,6 +87,7 @@ export default function Header() {
               <Link
                 to="/list-job/:jobId?section=listJob"
                 onClick={() => handleScrollToSection}
+                className="!text-xl"
               >
                 Tìm việc
               </Link>
@@ -102,6 +103,7 @@ export default function Header() {
           <Link
             to="/policy-page?section=policy"
             onClick={() => handleScrollToSection}
+            className="!text-xl"
           >
             Chính sách
           </Link>
@@ -116,6 +118,7 @@ export default function Header() {
           <Link
             to="/landing-page?section=about"
             onClick={() => handleScrollToSection}
+            className="!text-xl"
           >
             Về chúng tôi
           </Link>
@@ -260,7 +263,7 @@ export default function Header() {
           </nav>
         </div>
       </header>
-      <header className="header w-full !flex sm:!hidden  gap-3 flex-col items-center justify-center">
+      <header className="header w-full !flex sm:!hidden  gap-3  items-center justify-between">
         <div>
           <Link to="/" className="link__logo flex items-center gap-2">
             <img
@@ -273,8 +276,8 @@ export default function Header() {
             <h1 className="title font-bold text-2xl">Việc làm dễ</h1>
           </Link>
         </div>
-        <Dropdown className="self-start w-full" menu={{ items: itemsHeader }} trigger={["click"]}>
-          <a className="!bg-blue-400 p-3 rounded" onClick={(e) => e.preventDefault()}>
+        <Dropdown className="self-start p-3 text-center" menu={{ items: itemsHeader }} trigger={["click"]}>
+          <a className="!bg-[#6da2f139] p-3 rounded " onClick={(e) => e.preventDefault()}>
             <Space><UnorderedListOutlined /></Space>
           </a>
         </Dropdown>

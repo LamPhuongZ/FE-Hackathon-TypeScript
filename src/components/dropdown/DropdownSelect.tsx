@@ -8,7 +8,7 @@ export default function DropdownSelect({ value = "" }: Props) {
   const { toggle, show } = useDropdown();
   return (
     <div
-      className="flex items-center justify-between px-[20px] py-[16px] border border-solid border-[#DFDFDF] rounded-lg cursor-pointer font-medium"
+      className={`flex items-center justify-between px-[20px] py-[16px] border border-solid border-[#DFDFDF] rounded-lg cursor-pointer font-medium`}
       onClick={toggle}
     >
       <span>{value}</span>

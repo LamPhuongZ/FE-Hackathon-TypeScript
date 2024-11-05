@@ -62,7 +62,7 @@ export default function SearchPage() {
   return (
     <>
       <Banner />
-      <div className="search">
+      <div id="searchItems" className="search">
         <div className="search__top">
           <h1 className="title">Công việc: </h1>
           <p>{queryValue ? `${skillName}` : `${objTitle}`} </p>

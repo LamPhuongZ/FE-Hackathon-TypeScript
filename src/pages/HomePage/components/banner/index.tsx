@@ -80,20 +80,20 @@ export default function Banner() {
 
   return (
     <div className="banner">
-      <div className="banner__top">
-        <div className="banner__left">
-          <img src={banner1} alt="img-banner" className="w-full h-full" />
+      <div className="banner__top !hidden  md:!flex md:!items-center">
+        <div className="banner__left ">
+          <img src={banner1} alt="img-banner" className="w-full h-full " />
         </div>
-        <div className="banner__content cssanimation typing">
-          <h1 className="text">Kết nối việc làm, Cơ hội mới, cuộc sống mới</h1>
+        <div className="banner__content cssanimation typing ">
+          <h1 className="text xl:!text-[50px] md:!text-[20px] ">Kết nối việc làm, Cơ hội mới, cuộc sống mới</h1>
         </div>
-        <div className="banner__right">
-          <img src={banner2} alt="img-banner" className="w-full h-full mb-2" />
+        <div className="banner__right  ">
+          <img src={banner2} alt="img-banner" className="text-right w-full h-full mb-2 " />
         </div>
       </div>
 
-      <div className="banner__group">
-        <div className="banner__search">
+      <div className="banner__group xl:!w-full !p-0">
+        <div className="banner__search w-full">
           <SearchOutlined
             className="icon__search"
             style={{ fontSize: "24px" }}
@@ -101,19 +101,22 @@ export default function Banner() {
           <input
             type="text"
             placeholder="Tìm kiếm"
-            className="input__search"
+            className="input__search !w-[50%] "
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
           />
           <div className="line"></div>
           <select
-            className="select__area"
+            className="select__area bg-[transparent] w-[20%] !text-xs md:w-[30%] md:!text-lg"
             onChange={(e) => {
               setSearchProvince(~~e.target.value);
               console.log(e.target.value);
             }}
           >
-            <option value="0">Tất cả địa điểm</option>
+            <option  value="0">
+              Tất cả địa điểm
+              
+            </option>
             {provinces?.map((province: Province, index: number) => (
               <option value={province.id} key={`${province.id}_${index}`}>
                 {province.name}
@@ -122,7 +125,7 @@ export default function Banner() {
           </select>
           <Button
             title="Tìm kiếm"
-            className="btn__search"
+            className="btn__search !w-[20%]"
             circle={false}
             onClick={handleSearchClick}
           />
@@ -136,9 +139,12 @@ export default function Banner() {
                 objJobSkill
                   .slice(0, 10)
                   .map((keyword: JobSkill, index: number) => (
+                    
                     <Button
                       key={index}
-                      title={keyword.skill}
+                      title={<a href="#searchItems">
+                          {keyword.skill}
+                        </a> }
                       className="btn__jobSkill"
                       circle={false}
                       color="custom"

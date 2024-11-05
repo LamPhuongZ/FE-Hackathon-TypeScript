@@ -68,7 +68,6 @@ export default function SearchPage() {
           <h1 className="title">Công việc: </h1>
           <p>{queryValue ? `${jobTypeName}` : `${objTitle}`} </p>
         </div>
-        {objJob?.content ? 
         <div className="search__content">
           {objJob?.content && objJob.content.length > 0 ? (
             <>

@@ -1,3 +1,7 @@
+- Link Deploy: 
+  + Client: https://easyjob.io.vn/
+  + Admin: https://admin.easyjob.io.vn/
+
 # Project Structure
 Folder PATH listing for volume New Volume
 Volume serial number is 00000046 54E1:1CA6

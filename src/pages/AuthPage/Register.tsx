@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { DispatchType } from "../../redux/configStore";
 import logoGoogle from "../../assets/icons/Google.svg";
 import { OAuthConfig } from "../../configs/configuration";
-import { HomeTwoTone } from "@ant-design/icons";
+import { AiOutlineHome } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
 type LoginProps = {
@@ -61,7 +61,7 @@ const Register: React.FC<LoginProps> = ({ handleTabChange, activeKey }) => {
       <div className="flex flex-col items-center gap-3">
       <Button color="primary" variant="text" className="w-[50px] h-[50px]" onClick={()=>{
               navigate('/', { replace: true });
-            }}><HomeTwoTone style={{fontSize:'30px'}} /></Button>
+            }}><AiOutlineHome style={{fontSize:'30px'}} /></Button>
         <div>
           <Title level={1} className="text-[20px] !mb-0">
             Tạo tài khoản

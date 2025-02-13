@@ -12,7 +12,6 @@ import {
 import { Pagination } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import Banner from "../HomePage/components/banner";
-import { useRole } from "../../hooks/useRole";
 // import CandiCardDetail from "../../components/card-candidates/CandiCardDetail";
 // import CandiCard from "../../components/card-candidates/CandiCard";
 // import {
@@ -22,8 +21,7 @@ import { useRole } from "../../hooks/useRole";
 // } from "../../redux/reducers/candidateReducer";
 
 export default function ListJobPage() {
-
-  const { role } = useRole();
+  const role = useSelector((state: RootState) => state.userReducer.userProfile?.role);
   console.log("🚀 ~ ListJobPage ~ role:", role)
 
   const navigate = useNavigate();

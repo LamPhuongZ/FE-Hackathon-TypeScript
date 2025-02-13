@@ -16,7 +16,8 @@ export const ForgotPass: React.FC<ForgotPasswordProps> = ({
       setLoading(true);
       // Call the API to send reset password email
       const response = await axios.post(
-        `https://api.easyjob.io.vn/api/v1/auth/forget-password?email=${values.email}`,
+        // `https://api.easyjob.io.vn/api/v1/auth/forget-password?email=${values.email}`,
+        `http://192.168.1.181:8080/api/v1/auth/forget-password?email=${values.email}`,
         values,
         {
           headers: {

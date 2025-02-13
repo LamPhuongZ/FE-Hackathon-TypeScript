@@ -1,4 +1,5 @@
 import { ReactNode, useState } from "react";
+import LoadingData from "../loading-data/loadingData";
 
 interface ButtonProps {
   title?: string | ReactNode;
@@ -89,6 +90,11 @@ export default function Button({
             <span className="mr-2">{icon}</span>
           )}
           {title}
+          {loading && (
+            <span className="ml-2">
+              <LoadingData /> {/* Thay thế bằng biểu tượng loading của bạn */}
+            </span>
+          )}
           {icon && iconPosition === "right" && (
             <span className="ml-2">{icon}</span>
           )}

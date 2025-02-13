@@ -94,7 +94,7 @@ export default function Sidebar() {
         <div className="flex items-center gap-8 justify-center">
           <div className="w-16 h-16 ">
             <img
-              src={userProfile?.avatar || "https://via.placeholder.com/150"}
+              src={userProfile?.avatar || "/src/assets/images/avatar_default.png"}
               alt="avatar"
               className="w-full h-full object-cover rounded-full bg-slate-300"
               loading="lazy"

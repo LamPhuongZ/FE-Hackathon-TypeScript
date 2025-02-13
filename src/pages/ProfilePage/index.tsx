@@ -24,7 +24,6 @@ import {
 import { Select } from "antd";
 import { District, Province, useAddress } from "../../hooks/useAddress";
 import dayjs from "dayjs";
-import { useRole } from "../../hooks/useRole";
 import { UserRole } from "../../enums/role.enum";
 import {
   getDataJobSkillAPI,
@@ -32,9 +31,10 @@ import {
 } from "../../redux/reducers/jobSkillReducer";
 
 export default function ProfilePage() {
-  const { role } = useRole();
-  const isEmployer = role === UserRole.ROLE_EMPLOYER;
-  const { userProfile } = useSelector((state: RootState) => state.userReducer);
+  const { userProfile, isLoading } = useSelector(
+    (state: RootState) => state.userReducer
+  );
+  const isEmployer = userProfile?.role === UserRole.ROLE_EMPLOYER;
   const { objJobSkill } = useSelector(
     (state: RootState) => state.jobSkillReducer
   );
@@ -48,7 +48,6 @@ export default function ProfilePage() {
       getDataJobSkill();
     }
   }, [objJobSkill]);
-  
 
   const options = Array.isArray(objJobSkill)
     ? objJobSkill.map((skill: JobSkill) => ({
@@ -56,8 +55,6 @@ export default function ProfilePage() {
         value: skill.id,
       }))
     : [];
-
-  console.log({ objJobSkill });
 
   const dispatch: DispatchType = useDispatch();
   const { provinces, districts, setProvinceAndFetchDistricts, loading } =
@@ -73,8 +70,8 @@ export default function ProfilePage() {
   const [selectedJobSkill, setSelectedJobSkill] = useState<number[]>([]);
 
   const handleChangeJobSkill = (value: number[]) => {
-    console.log("Selected job skills:", value); // Thêm log để theo dõi giá trị
     setSelectedJobSkill(value); // Cập nhật danh sách kỹ năng đã chọn
+    setValue("jobSkills", value);
   };
 
   // Thiết lập selectedProvince và gọi API để lấy danh sách huyện theo userProfile
@@ -135,7 +132,6 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
-    console.log("useEffect: ", userProfile);
 
     //reset Token
     const Token = getCookie(ACCESS_TOKEN);
@@ -156,14 +152,19 @@ export default function ProfilePage() {
       );
       setValue("imgFrontOfCard", userProfile?.imgFrontOfCard);
       setValue("imgBackOfCard", userProfile?.imgBackOfCard);
+
+      if (userProfile?.jobSkills) {
+        const jobSkillIds = userProfile.jobSkills.map((skill) => skill.id); // Chỉ lấy ID
+        setValue("jobSkills", jobSkillIds);
+        setSelectedJobSkill(jobSkillIds);
+      } else {
+        setSelectedJobSkill([]);
+      }
     }
   }, [userProfile]);
 
   const handleUpdateProfile = async (values: UserProfileType) => {
     try {
-      console.log("value trc: ", values);
-      console.log("value skill: ", selectedJobSkill);
-
       const profilePayload: UserProfileType = {
         fullname: values.fullname,
         email: values.email,
@@ -219,7 +220,8 @@ export default function ProfilePage() {
               }
               onFileSelect={(file: File | null) => {
                 if (file) {
-                  setValue("avatar", file);
+                  const imageUrl = URL.createObjectURL(file); // Tạo URL từ file
+                  setValue("avatar", imageUrl); // Cập nhật thành URL
                 }
               }}
             />
@@ -376,7 +378,8 @@ export default function ProfilePage() {
                   }
                   onFileSelect={(file: File | null) => {
                     if (file) {
-                      setValue("imgFrontOfCard", file);
+                      const imageUrl = URL.createObjectURL(file); // Tạo URL từ file
+                      setValue("imgFrontOfCard", imageUrl); // Cập nhật thành URL
                     }
                   }}
                 />
@@ -394,7 +397,8 @@ export default function ProfilePage() {
                   }
                   onFileSelect={(file: File | null) => {
                     if (file) {
-                      setValue("imgBackOfCard", file);
+                      const imageUrl = URL.createObjectURL(file); // Tạo URL từ file
+                      setValue("imgBackOfCard", imageUrl); // Cập nhật thành URL
                     }
                   }}
                 />
@@ -406,6 +410,7 @@ export default function ProfilePage() {
             type="submit"
             title="Cập Nhật"
             className="w-full mt-20 h-16"
+            loading={isLoading}
           />
         </form>
       </div>

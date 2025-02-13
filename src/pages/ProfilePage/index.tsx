@@ -31,7 +31,9 @@ import {
 } from "../../redux/reducers/jobSkillReducer";
 
 export default function ProfilePage() {
-  const { userProfile, isLoading } = useSelector((state: RootState) => state.userReducer);
+  const { userProfile, isLoading } = useSelector(
+    (state: RootState) => state.userReducer
+  );
   const isEmployer = userProfile?.role === UserRole.ROLE_EMPLOYER;
   const { objJobSkill } = useSelector(
     (state: RootState) => state.jobSkillReducer
@@ -54,8 +56,6 @@ export default function ProfilePage() {
       }))
     : [];
 
-  console.log("objJobSkill >> ", objJobSkill);
-
   const dispatch: DispatchType = useDispatch();
   const { provinces, districts, setProvinceAndFetchDistricts, loading } =
     useAddress();
@@ -70,9 +70,8 @@ export default function ProfilePage() {
   const [selectedJobSkill, setSelectedJobSkill] = useState<number[]>([]);
 
   const handleChangeJobSkill = (value: number[]) => {
-    console.log("Selected job skills:", value); // Thêm log để theo dõi giá trị
     setSelectedJobSkill(value); // Cập nhật danh sách kỹ năng đã chọn
-    setValue("jobSkills", value); 
+    setValue("jobSkills", value);
   };
 
   // Thiết lập selectedProvince và gọi API để lấy danh sách huyện theo userProfile
@@ -133,7 +132,6 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
-    console.log("useEffect: ", userProfile);
 
     //reset Token
     const Token = getCookie(ACCESS_TOKEN);
@@ -154,16 +152,19 @@ export default function ProfilePage() {
       );
       setValue("imgFrontOfCard", userProfile?.imgFrontOfCard);
       setValue("imgBackOfCard", userProfile?.imgBackOfCard);
-      setValue("jobSkills", userProfile?.jobSkills || []);
-      setSelectedJobSkill(userProfile?.jobSkills || []);
+
+      if (userProfile?.jobSkills) {
+        const jobSkillIds = userProfile.jobSkills.map((skill) => skill.id); // Chỉ lấy ID
+        setValue("jobSkills", jobSkillIds);
+        setSelectedJobSkill(jobSkillIds);
+      } else {
+        setSelectedJobSkill([]);
+      }
     }
   }, [userProfile]);
 
   const handleUpdateProfile = async (values: UserProfileType) => {
     try {
-      console.log("value trc: ", values);
-      console.log("value skill: ", selectedJobSkill);
-
       const profilePayload: UserProfileType = {
         fullname: values.fullname,
         email: values.email,
@@ -221,7 +222,7 @@ export default function ProfilePage() {
                 if (file) {
                   const imageUrl = URL.createObjectURL(file); // Tạo URL từ file
                   setValue("avatar", imageUrl); // Cập nhật thành URL
-                }              
+                }
               }}
             />
           </div>
@@ -380,7 +381,6 @@ export default function ProfilePage() {
                       const imageUrl = URL.createObjectURL(file); // Tạo URL từ file
                       setValue("imgFrontOfCard", imageUrl); // Cập nhật thành URL
                     }
-                  
                   }}
                 />
                 <ImageUploadProps

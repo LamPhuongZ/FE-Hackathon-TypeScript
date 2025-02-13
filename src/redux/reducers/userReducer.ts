@@ -17,7 +17,6 @@ export interface RegisterState {
   fullname: string;
   email: string;
   password: string;
-  role: string;
 }
 
 export interface UserProfileType {
@@ -25,14 +24,15 @@ export interface UserProfileType {
   phone: string;
   fullname: string;
   dob: string; // day of birth
-  avatar: [] | any;
+  avatar: string;
   createdDate: string | null;
   address: string;
   provinceId: number;
   districtId: number;
-  jobSkills?: number[] | null;
-  imgFrontOfCard: [] | any;
-  imgBackOfCard: [] | any;
+  jobSkills?: any[] | null;
+  imgFrontOfCard: string;
+  imgBackOfCard: string;
+  role?: string;
 }
 
 export interface ChangePasswordType {
@@ -120,14 +120,14 @@ export const loginAPI = createAsyncThunk(
   "user/login",
   async (userLogin: UserLoginType, { dispatch }) => {
     dispatch(setLoading(true));
-     // your code to check if the user is logged in
+    // your code to check if the user is logged in
 
     // If the user is not logged in, delete the cookies
     if (!initialState.isLogin) {
-      delCookie('access_token');
-      delCookie('userLogin');
-      delCookie('username');
-      delCookie('password');
+      delCookie("access_token");
+      delCookie("userLogin");
+      delCookie("username");
+      delCookie("password");
     }
     try {
       const response = await httpClient.post("/api/v1/auth/sign-in", userLogin);
@@ -248,49 +248,61 @@ export const updateProfileUserAPI = (userProfile: UserProfileType) => {
   return async (dispatch: DispatchType) => {
     dispatch(setLoading(true));
 
+    // try {
+    //   const formData = new FormData();
+
+    //   for (const key in userProfile) {
+    //     const value = userProfile[key as keyof UserProfileType];
+
+    //     // Kiểm tra và thêm file
+    //     if (value) {
+    //       if (key === "avatar" && value instanceof File) {
+    //         formData.append("avatar", value);
+    //       } else if (key === "imgFrontOfCard" && value instanceof File) {
+    //         formData.append("imgFrontOfCard", value);
+    //       } else if (key === "imgBackOfCard" && value instanceof File) {
+    //         formData.append("imgBackOfCard", value);
+    //       } else if (value instanceof File) {
+    //         formData.append(key, value); // Thêm tệp trực tiếp
+    //       } else if (typeof value === "number" || typeof value === "string") {
+    //         formData.append(key, value.toString());
+    //       }
+
+    //       // if (key === "jobSkills" && Array.isArray(value)) {
+    //       //   // Thay đổi ở đây để truyền danh sách ID vào formData
+    //       //   value.forEach((skillId: number) => {
+    //       //     formData.append("jobSkills[]", skillId.toString());
+    //       //   });
+    //       // }
+    //     }
+    //   }
+
+    //   const response = await httpClient.patch("/api/v1/self", formData);
+
+    //   const action: PayloadAction<UserProfileType | null> =
+    //     setUpdateProfileUser(response.data.data);
+    //   dispatch(action);
+    // } catch (error) {
+    //   notification.error({
+    //     message: "Xử lý thất bại!!",
+    //     placement: "topRight",
+    //     duration: 1.5,
+    //   });
+    //   throw error;
+    // } finally {
+    //   dispatch(setLoading(false));
+    // }
     try {
-      const formData = new FormData();
-
-      for (const key in userProfile) {
-        const value = userProfile[key as keyof UserProfileType];
-
-        // Kiểm tra và thêm file
-        if (value) {
-          if (key === "avatar" && value instanceof File) {
-            formData.append("avatar", value);
-          } else if (key === "imgFrontOfCard" && value instanceof File) {
-            formData.append("imgFrontOfCard", value);
-          } else if (key === "imgBackOfCard" && value instanceof File) {
-            formData.append("imgBackOfCard", value);
-          } else if (value instanceof File) {
-            formData.append(key, value); // Thêm tệp trực tiếp
-          } else if (typeof value === "number" || typeof value === "string") {
-            formData.append(key, value.toString());
-          }
-
-          // if (key === "jobSkills" && Array.isArray(value)) {
-          //   // Thay đổi ở đây để truyền danh sách ID vào formData
-          //   value.forEach((skillId: number) => {
-          //     formData.append("jobSkills[]", skillId.toString());
-          //   });
-          // }
-        }
-      }
-
-      const response = await httpClient.patch("/api/v1/self", formData);
-
+      const response = await httpClient.patch(`/api/v1/self`, userProfile);
       const action: PayloadAction<UserProfileType | null> =
         setUpdateProfileUser(response.data.data);
       dispatch(action);
-    } catch (error) {
-      notification.error({
-        message: "Xử lý thất bại!!",
-        placement: "topRight",
-        duration: 1.5,
-      });
-      throw error;
-    } finally {
-      dispatch(setLoading(false));
+    } catch (err) {
+      console.log(
+        "🚀 ~ file: userReducer.ts:81 ~ changeProfileAsyncAction ~ err:",
+        err
+      );
+      throw err;
     }
   };
 };

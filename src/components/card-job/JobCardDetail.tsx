@@ -25,11 +25,13 @@ type Props = {
 
 export default function JobCardDetail({ item }: Props) {
   const { jobId } = useParams();
-  const { sub, role } = useRole();
+  const { sub } = useRole();
   const navigate = useNavigate();
   const location = useLocation(); // Lấy thông tin vị trí hiện tại
   const dispatch: DispatchType = useDispatch();
   const token = getCookie(ACCESS_TOKEN);
+  const role = useSelector((state: RootState) => state.userReducer.userProfile?.role);
+
 
   // Kiểm tra phân quyền
   const isApplier = role === UserRole.ROLE_APPLIER;
@@ -218,7 +220,7 @@ export default function JobCardDetail({ item }: Props) {
                 <SwiperSlide key={index}>
                   <div className="min-w-[80%] h-[400px] 2xl:w-full small-tablet:min-w-[300px] small-tablet:h-[200px] mb-10">
                     <img
-                      src={image.url || "https://via.placeholder.com/350"}
+                      src={image.url || "/src/assets/images/image_default.png"}
                       alt={`Image ${index + 1}`}
                       className="w-full h-full rounded-[20px] object-cover"
                       loading="lazy"

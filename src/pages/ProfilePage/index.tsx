@@ -24,7 +24,6 @@ import {
 import { Select } from "antd";
 import { District, Province, useAddress } from "../../hooks/useAddress";
 import dayjs from "dayjs";
-import { useRole } from "../../hooks/useRole";
 import { UserRole } from "../../enums/role.enum";
 import {
   getDataJobSkillAPI,
@@ -32,9 +31,8 @@ import {
 } from "../../redux/reducers/jobSkillReducer";
 
 export default function ProfilePage() {
-  const { role } = useRole();
-  const isEmployer = role === UserRole.ROLE_EMPLOYER;
-  const { userProfile } = useSelector((state: RootState) => state.userReducer);
+  const { userProfile, isLoading } = useSelector((state: RootState) => state.userReducer);
+  const isEmployer = userProfile?.role === UserRole.ROLE_EMPLOYER;
   const { objJobSkill } = useSelector(
     (state: RootState) => state.jobSkillReducer
   );
@@ -48,7 +46,6 @@ export default function ProfilePage() {
       getDataJobSkill();
     }
   }, [objJobSkill]);
-  
 
   const options = Array.isArray(objJobSkill)
     ? objJobSkill.map((skill: JobSkill) => ({
@@ -57,7 +54,7 @@ export default function ProfilePage() {
       }))
     : [];
 
-  console.log({ objJobSkill });
+  console.log("objJobSkill >> ", objJobSkill);
 
   const dispatch: DispatchType = useDispatch();
   const { provinces, districts, setProvinceAndFetchDistricts, loading } =
@@ -75,6 +72,7 @@ export default function ProfilePage() {
   const handleChangeJobSkill = (value: number[]) => {
     console.log("Selected job skills:", value); // Thêm log để theo dõi giá trị
     setSelectedJobSkill(value); // Cập nhật danh sách kỹ năng đã chọn
+    setValue("jobSkills", value); 
   };
 
   // Thiết lập selectedProvince và gọi API để lấy danh sách huyện theo userProfile
@@ -156,6 +154,8 @@ export default function ProfilePage() {
       );
       setValue("imgFrontOfCard", userProfile?.imgFrontOfCard);
       setValue("imgBackOfCard", userProfile?.imgBackOfCard);
+      setValue("jobSkills", userProfile?.jobSkills || []);
+      setSelectedJobSkill(userProfile?.jobSkills || []);
     }
   }, [userProfile]);
 
@@ -219,8 +219,9 @@ export default function ProfilePage() {
               }
               onFileSelect={(file: File | null) => {
                 if (file) {
-                  setValue("avatar", file);
-                }
+                  const imageUrl = URL.createObjectURL(file); // Tạo URL từ file
+                  setValue("avatar", imageUrl); // Cập nhật thành URL
+                }              
               }}
             />
           </div>
@@ -376,8 +377,10 @@ export default function ProfilePage() {
                   }
                   onFileSelect={(file: File | null) => {
                     if (file) {
-                      setValue("imgFrontOfCard", file);
+                      const imageUrl = URL.createObjectURL(file); // Tạo URL từ file
+                      setValue("imgFrontOfCard", imageUrl); // Cập nhật thành URL
                     }
+                  
                   }}
                 />
                 <ImageUploadProps
@@ -394,7 +397,8 @@ export default function ProfilePage() {
                   }
                   onFileSelect={(file: File | null) => {
                     if (file) {
-                      setValue("imgBackOfCard", file);
+                      const imageUrl = URL.createObjectURL(file); // Tạo URL từ file
+                      setValue("imgBackOfCard", imageUrl); // Cập nhật thành URL
                     }
                   }}
                 />
@@ -406,6 +410,7 @@ export default function ProfilePage() {
             type="submit"
             title="Cập Nhật"
             className="w-full mt-20 h-16"
+            loading={isLoading}
           />
         </form>
       </div>

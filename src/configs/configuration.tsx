@@ -1,5 +1,6 @@
 const urlR = import.meta.env.DEV
-  ? "http://localhost:3000/authenticate"
+  ? // ? "http://localhost:3000/authenticate"
+    "http://192.168.1.181:8080"
   : "https://easyjob.io.vn/authenticate";
 export const OAuthConfig = {
   clientId:
@@ -8,4 +9,3 @@ export const OAuthConfig = {
   // redirectUri: "https://api.easyjob.io.vn/authenticate",
   authUri: "https://accounts.google.com/o/oauth2/auth",
 };
- 

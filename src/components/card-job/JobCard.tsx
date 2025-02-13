@@ -46,7 +46,7 @@ export default function JobCard({
             />
           ) : (
             <img     
-              src={"https://via.placeholder.com/250x250"}
+              src="/src/assets/images/image_default.png"
               alt={`Job Image 1`}
               className="w-[150px] h-[135px] rounded-3xl small-tablet:hidden"
               loading="lazy"

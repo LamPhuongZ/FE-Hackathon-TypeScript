@@ -12,10 +12,14 @@ import { toast } from "react-toastify";
 //setup hằng số
 export const ACCESS_TOKEN: string = "access_token";
 export const USER_LOGIN: string = "userLogin";
-export const DOMAIN: string = "https://api.easyjob.io.vn";
+// export const DOMAIN: string = "https://api.easyjob.io.vn";
+export const DOMAIN: string = "http://192.168.1.181:8080";
 
 //interceptor
 export const httpClient: AxiosInstance = axios.create({
+  headers: {
+    "Content-Type": "application/json; multipart/form-data; charset= utf-8",
+  },
   baseURL: DOMAIN,
   timeout: 30000,
 });

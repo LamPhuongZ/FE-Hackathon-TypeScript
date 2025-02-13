@@ -19,13 +19,11 @@ import { JobProfileSchema } from "../../utils/validation";
 import { District, Province, useAddress } from "../../hooks/useAddress";
 import { postDataJobAPI, PostJobType } from "../../redux/reducers/jobReducer";
 import dayjs from "dayjs";
-import { useRole } from "../../hooks/useRole";
 import { UserRole } from "../../enums/role.enum";
 import { getCookie } from "../../utils/utilMethod";
 import { ACCESS_TOKEN } from "../../utils/config";
 import NotFoundPage from "../NotFoundPage";
 import useLoading from "../../hooks/useLoading";
-import LoadingData from "../../components/loading-data/loadingData";
 
 export default function FormApplication() {
   const {
@@ -51,7 +49,7 @@ export default function FormApplication() {
       imageJobDetails: undefined,
     },
   });
-  const { role } = useRole();
+  const role = useSelector((state: RootState) => state.userReducer.userProfile?.role);
   const token = getCookie(ACCESS_TOKEN);
   const isEmployer = role === UserRole.ROLE_EMPLOYER;
   const isLoading = useLoading();
@@ -349,12 +347,8 @@ export default function FormApplication() {
             type="submit"
             title="Đăng Bài"
             className="w-full mt-10 h-16"
+            loading={isLoading}
           />
-          {isLoading && (
-            <div className="mt-3 text-center">
-              <LoadingData />
-            </div>
-          )}
         </form>
       </div>
     </div>

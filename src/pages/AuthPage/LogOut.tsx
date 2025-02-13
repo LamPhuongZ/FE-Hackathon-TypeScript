@@ -38,7 +38,8 @@ const LogOut: React.FC = () => {
     const token = getCookie("access_token"); 
     try {
       await axios.post(
-        "https://api.easyjob.io.vn/api/v1/auth/sign-out",
+        // "https://api.easyjob.io.vn/api/v1/auth/sign-out",
+        "http://192.168.1.181:8080/api/v1/auth/sign-out",
         {},
         {
           headers: {

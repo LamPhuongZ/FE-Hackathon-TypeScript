@@ -21,7 +21,8 @@ export default function Authenticate() {
     if (isMatch) {
       const authCode = isMatch ? isMatch[1] : null;
       fetch(
-        `https://api.easyjob.io.vn/api/v1/auth/outbound?code=${authCode}&role=${role}`,
+        // `https://api.easyjob.io.vn/api/v1/auth/outbound?code=${authCode}&role=${role}`,
+        `http://192.168.1.181:8080/api/v1/auth/outbound?code=${authCode}&role=${role}`,
         {
           method: "POST",
         }

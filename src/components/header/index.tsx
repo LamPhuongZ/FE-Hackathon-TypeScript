@@ -11,24 +11,23 @@ import { DispatchType, RootState } from "../../redux/configStore";
 import { getCookie } from "../../utils/utilMethod";
 import { ACCESS_TOKEN } from "../../utils/config";
 import { LuUserCircle2 } from "react-icons/lu";
-import { useRole } from "../../hooks/useRole";
 import { UserRole } from "../../enums/role.enum";
 import { UnorderedListOutlined } from "@ant-design/icons";
 
 export default function Header() {
   const navigate = useNavigate();
-  const { role } = useRole();
   const dispatch: DispatchType = useDispatch();
   const { userProfile } = useSelector((state: RootState) => state.userReducer);
 
   const token = getCookie(ACCESS_TOKEN);
-  const isEmployer = role === UserRole.ROLE_EMPLOYER;
+  const isEmployer = userProfile?.role === UserRole.ROLE_EMPLOYER;
 
   const handleScrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
     if (ref.current) {
       ref.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+
 
   const itemsProfile = [
     {
@@ -54,7 +53,7 @@ export default function Header() {
     },
   ];
 
-  const itemsHeader: MenuProps['items'] = [
+  const itemsHeader: MenuProps["items"] = [
     {
       label: (
         <>
@@ -96,7 +95,7 @@ export default function Header() {
       ),
       key: "1",
     },
-    
+
     {
       label: (
         <>
@@ -129,14 +128,24 @@ export default function Header() {
             <Dropdown menu={{ items: itemsProfile }}>
               <div className="flex items-center gap-2">
                 <div className="w-[50px] h-[50px] rounded-full overflow-hidden">
-                  <img
-                    src={
-                      userProfile.avatar || "https://via.placeholder.com/150"
-                    }
-                    alt="avatar"
-                    className="w-full"
-                    loading="lazy"
-                  />
+                  {userProfile.avatar ? (
+                    <img
+                      src={
+                        userProfile.avatar ||
+                        "/src/assets/images/avatar_default.png"
+                      }
+                      alt="avatar"
+                      className="w-full"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <img
+                      src="/src/assets/images/avatar_default.png"
+                      alt="avatar"
+                      className="w-full"
+                      loading="lazy"
+                    />
+                  )}
                 </div>
                 <a className="cursor-pointer max-w-[180px]">
                   <Space
@@ -162,17 +171,19 @@ export default function Header() {
     dispatch(actionAPI);
   };
 
+  
+  
   useEffect(() => {
     //reset Token
     if (!token) {
       return;
     }
-
+    
     getMe();
   }, []);
 
   // Dropdown menu header button
-  
+
   return (
     <>
       <header className="header w-full !hidden sm:!block">
@@ -241,7 +252,7 @@ export default function Header() {
                       <img
                         src={
                           userProfile.avatar ||
-                          "https://via.placeholder.com/150"
+                          "/src/assets/images/avatar_default.png"
                         }
                         alt="avatar"
                         className="w-full"
@@ -278,9 +289,18 @@ export default function Header() {
             <h1 className="title font-bold text-2xl">Việc làm dễ</h1>
           </Link>
         </div>
-        <Dropdown className="self-start p-3 text-center" menu={{ items: itemsHeader }} trigger={["click"]}>
-          <a className="!bg-[#6da2f139] p-3 rounded " onClick={(e) => e.preventDefault()}>
-            <Space><UnorderedListOutlined /></Space>
+        <Dropdown
+          className="self-start p-3 text-center"
+          menu={{ items: itemsHeader }}
+          trigger={["click"]}
+        >
+          <a
+            className="!bg-[#6da2f139] p-3 rounded "
+            onClick={(e) => e.preventDefault()}
+          >
+            <Space>
+              <UnorderedListOutlined />
+            </Space>
           </a>
         </Dropdown>
       </header>

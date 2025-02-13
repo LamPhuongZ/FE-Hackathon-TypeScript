@@ -16,11 +16,13 @@ import checked from "../../assets/images/checked.png";
 import location from "../../assets/images/location.png";
 import star from "../../assets/icons/star.svg";
 
-
 export default function WorkManagerPage() {
   const [selectedStatus, setSelectedStatus] = useState<JobApprovalStatusEnum>();
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const { role, isTokenExp } = useRole();
+  const { isTokenExp } = useRole();
+  const role = useSelector(
+    (state: RootState) => state.userReducer.userProfile?.role
+  );
 
   // Kiểm tra phân quyền
   const isEmployer = role === UserRole.ROLE_EMPLOYER;
@@ -44,7 +46,7 @@ export default function WorkManagerPage() {
         pageSize,
         selectedStatus ?? JobApprovalStatusEnum.APPROVED
       );
-    } 
+    }
   }, [isEmployer, currentPage, selectedStatus]);
 
   if (isTokenExp) {
@@ -164,66 +166,64 @@ export default function WorkManagerPage() {
             </div>
           </div>
           <div className="flex flex-col gap-11 mt-10">
-          <div
-      className={`cursor-pointer w-full px-6 py-10 bg-white rounded-2xl shadow-md hover:shadow-xl flex flex-col gap-6 small-tablet:h-[137px] small-tablet:min-w-[330px] small-tablet:px-[15px] small-tablet:py-[10px]`}
-    >
-      <div className="flex justify-center items-center gap-5">
-            <img     
-              src={"https://via.placeholder.com/250x250"}
-              alt={`Job Image 1`}
-              className="w-[150px] h-[135px] rounded-3xl small-tablet:hidden"
-            />
-        <div className="w-full flex flex-col justify-between gap-5">
-          <div className="flex justify-between">
-            <div className="flex items-center gap-1">
-              <p
-                className={`text-lg font-semibold truncate small-tablet:text-base small-tablet:w-[130px]`}
-              >
-                Giao hàng
-              </p>
-              
-                <div className="w-6 h-6 small-tablet:w-4 small-tablet:h-4">
-                  <img
-                    src={checked}
-                    alt="checked"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
-            </div>
-            <div className={`flex items-center justify-end text-end gap-1`}>
-              <div className="w-5 h-5 small-tablet:w-4 small-tablet:h-4 flex items-center justify-end">
+            <div
+              className={`cursor-pointer w-full px-6 py-10 bg-white rounded-2xl shadow-md hover:shadow-xl flex flex-col gap-6 small-tablet:h-[137px] small-tablet:min-w-[330px] small-tablet:px-[15px] small-tablet:py-[10px]`}
+            >
+              <div className="flex justify-center items-center gap-5">
                 <img
-                  src={location}
-                  alt="location"
-                  className="w-full h-full object-cover"
+                  src={"/src/assets/images/image_default.png"}
+                  alt={`Job Image 1`}
+                  className="w-[150px] h-[135px] rounded-3xl small-tablet:hidden"
                 />
+                <div className="w-full flex flex-col justify-between gap-5">
+                  <div className="flex justify-between">
+                    <div className="flex items-center gap-1">
+                      <p
+                        className={`text-lg font-semibold truncate small-tablet:text-base small-tablet:w-[130px]`}
+                      >
+                        Giao hàng
+                      </p>
+
+                      <div className="w-6 h-6 small-tablet:w-4 small-tablet:h-4">
+                        <img
+                          src={checked}
+                          alt="checked"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      className={`flex items-center justify-end text-end gap-1`}
+                    >
+                      <div className="w-5 h-5 small-tablet:w-4 small-tablet:h-4 flex items-center justify-end">
+                        <img
+                          src={location}
+                          alt="location"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <p className={`pt-1 text-sm truncate`}>
+                        số 5, phường 5, quận 5
+                      </p>
+                    </div>
+                  </div>
+                  <div className="border border-solid border-[#E4E6E8] w-full"></div>
+                  <div className="flex justify-between">
+                    <div className="bg-[#E8E8E8] rounded-[20px] flex items-center">
+                      <p className="text-xs font-medium px-[10px] py-[5px] small-tablet:text-sm small-tablet:px-[5px] small-tablet:py-[3px]">
+                        Giao hàng
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6">
+                        <img src={star} alt="" className="w-full h-full" />
+                      </div>
+                      <p className="text-2xl font-medium pt-1">4.0</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <p
-                className={`pt-1 text-sm truncate`}
-                
-              >
-                số 5, phường 5, quận 5
-              </p>
             </div>
-          </div>
-          <div className="border border-solid border-[#E4E6E8] w-full"></div>
-          <div className="flex justify-between">
-            <div className="bg-[#E8E8E8] rounded-[20px] flex items-center">
-              <p className="text-xs font-medium px-[10px] py-[5px] small-tablet:text-sm small-tablet:px-[5px] small-tablet:py-[3px]">
-                Giao hàng
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-            <div className="w-6 h-6">
-              <img src={star} alt="" className="w-full h-full" />
-            </div>
-            <p className="text-2xl font-medium pt-1">4.0</p>
-          </div>
-          </div>
-        </div>
-      </div>
-    </div>
           </div>
           <Pagination
             style={{
